@@ -6,6 +6,7 @@
     "start": "node ./bin/www",
     "start:dev": "nodemon ./bin/www",
     "lint": "eslint .",
+    "test": "jest",
     "lint:fix": "eslint --fix",
     "prepare": "husky install",
     "tailwind:css": "postcss public/stylesheets/tailwind.css -o public/stylesheets/style.css"
@@ -32,7 +33,9 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.0",
+    "jest": "^29.4.2",
     "nodemon": "^2.0.20",
-    "prettier": "^2.8.3"
+    "prettier": "^2.8.3",
+    "supertest": "^6.3.3"
   }
 }

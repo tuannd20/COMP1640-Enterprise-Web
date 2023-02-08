@@ -1,10 +1,9 @@
-const express = require("express");
+const HomeRouter = require("./home");
+const RoleRouter = require("./role");
 
-const router = express.Router();
+function route(app) {
+  app.use("/", HomeRouter);
+  app.use("/roles", RoleRouter);
+}
 
-/* GET home page. */
-router.get("/", (req, res) => {
-  res.render("home", { title: "Express" });
-});
-
-module.exports = router;
+module.exports = route;

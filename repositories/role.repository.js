@@ -1,8 +1,8 @@
-const RoleRepository = require("../repositories/role.repository");
+const RoleModel = require("../database/models/Role");
 
 const createRole = async (data) => {
   try {
-    const role = await RoleRepository.createRole(data);
+    const role = await RoleModel.create(data);
 
     return role;
   } catch (err) {
