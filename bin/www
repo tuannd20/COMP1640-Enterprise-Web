@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+/* eslint-disable no-shadow */
+/* eslint-disable no-restricted-globals */
 
 /**
  * Module dependencies.
@@ -19,7 +21,7 @@ app.set("port", port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+const server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -34,7 +36,7 @@ server.on("listening", onListening);
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+  const port = parseInt(val, 10);
 
   if (isNaN(port)) {
     // named pipe
