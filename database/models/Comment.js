@@ -4,10 +4,10 @@ const { Schema } = mongoose;
 
 const CommentSchema = new Schema(
   {
-    idStaffComment: String,
-    idIdeal: String,
+    idStaffComment: { type: mongoose.Types.ObjectId, ref: "Staff" },
+    idIdea: { type: mongoose.Types.ObjectId, ref: "Idea" },
     contentComment: String,
-    public: Boolean,
+    isPublic: Boolean,
   },
   { timestamps: true },
 );

@@ -3,17 +3,21 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const IdeaSchema = new Schema({
-  IDStaffIdea: {
+  idStaffIdea: {
     type: mongoose.Schema.Types.ObjectId,
+    ref: "Staff",
   },
   idPoll: {
     type: mongoose.Schema.Types.ObjectId,
+    ref: "Poll",
   },
   idDepartment: {
     type: mongoose.Schema.Types.ObjectId,
+    ref: "Department",
   },
   idCategory: {
     type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
   },
   contentIdea: String,
   urlFile: String,
@@ -21,7 +25,7 @@ const IdeaSchema = new Schema({
   likeCount: Number,
   disLikeCount: Number,
   viewCount: Number,
-  public: Boolean,
+  status: String,
 });
 
 const Idea = mongoose.model("Idea", IdeaSchema);
