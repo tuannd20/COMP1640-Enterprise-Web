@@ -4,11 +4,11 @@ const database = require("../connection");
 
 const roles = [
   new RoleModel({
-    roleName: "admin",
+    nameRole: "admin",
     description: "can do every thing with role",
   }),
   new RoleModel({
-    roleName: "QA",
+    nameRole: "QA",
     description: "this description for role",
   }),
 ];
