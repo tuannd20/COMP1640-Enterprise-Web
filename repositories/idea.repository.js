@@ -12,7 +12,7 @@ const createIdea = async (data) => {
 
 const readIdea = async (id) => {
   try {
-    const Idea = await ideaModel.find(id);
+    const Idea = await ideaModel.findById(id);
     return Idea;
   } catch (err) {
     console.error("🚀 ~ file: idea.repository.js:18 ~ readIdea ~ err", err);
@@ -32,7 +32,7 @@ const updateIdea = async (id, data) => {
 
 const deleteIdea = async (id) => {
   try {
-    const Idea = await ideaModel.findByIdAndUpdate(id);
+    const Idea = await ideaModel.findByIdAndDelete(id);
     return Idea;
   } catch (err) {
     console.error("🚀 ~ file: idea.repository.js:38 ~ deleteIdea ~ err", err);
