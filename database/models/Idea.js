@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { DRAFT, PRIVATE, PUBLIC } = require("../../constants/status");
 
 const { Schema } = mongoose;
 
@@ -25,7 +26,11 @@ const IdeaSchema = new Schema({
   likeCount: Number,
   disLikeCount: Number,
   viewCount: Number,
-  status: String,
+  status: {
+    type: String,
+    enum: [DRAFT, PRIVATE, PUBLIC],
+    default: DRAFT,
+  },
 });
 
 const Idea = mongoose.model("Idea", IdeaSchema);
