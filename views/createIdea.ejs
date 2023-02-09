@@ -1,84 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="./stylesheets/style.css" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-    <title>Document</title>
+    <%- include("./partials/head"); %>
+    <title>Create idea</title>
   </head>
   <body>
-    <Header
-      class="fixed w-full top-0 flex flex-row justify-between items-center bg-green-500 h-[50px] z-10 select-none"
-    >
-      <div class="ml-10 logo w-44">
-        <img src="./image/LOGO.png" alt="logo" />
-      </div>
-      <div class="mr-16 home_right">
-        <div class="flex flex-row items-center gap-6">
-          <div
-            class="flex flex-row items-center text-slate-100 hover:text-sky-900"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-10 h-10"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-            <p class="text-lg italic select-none">Nhan phan</p>
-          </div>
+    <%- include("./partials/header"); %>
 
-          <div class="drop_down_menu">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-10 h-10 text-sky-900"
-              id="menu_icon"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
-            <div
-              class="absolute z-10 hidden py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg right-16 w-30 ring-1 ring-black ring-opacity-5 focus:outline-none"
-              id="dropdown"
-            >
-              <!-- Active: "bg-gray-100", Not Active: "" -->
-              <a
-                href="#"
-                class="block px-4 py-2 text-sm text-gray-700 hover:text-gray-400"
-                >Your idea</a
-              >
-              <a
-                href="#"
-                class="block px-4 py-2 text-sm text-gray-700 hover:text-gray-400"
-                >Admin</a
-              >
-              <a
-                href="#"
-                class="block px-4 py-2 text-sm text-gray-700 hover:text-gray-400"
-                >Log out</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </Header>
     <Main class="pt-[100px] w-3/5 m-auto h-screen">
       <div
         class="relative p-3 border-2 idea border-stone-700 rounded-2xl h-[70%] min-h-[70%] opacity-80"
@@ -179,7 +107,7 @@
         <div class="content-idea">
           <textarea
             name="content-idea"
-            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm h-72 max-h-[300px] focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            class="block w-full mt-1 overflow-hidden border-gray-300 rounded-md shadow-sm min-h-[150px] max-h-[300px] focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             placeholder="Your idea..."
           ></textarea>
         </div>
@@ -206,5 +134,5 @@
       </div>
     </Main>
   </body>
-  <script src="./javascript/homeStaff.js"></script>
+  <script src="<%= process.env.BASE_URL %>javascript/homeStaff.js"></script>
 </html>
