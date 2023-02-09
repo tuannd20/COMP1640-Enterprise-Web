@@ -6,6 +6,7 @@ const DepartmentSchema = new Schema(
   {
     nameDepartment: String,
     description: String,
+    isUsed: Boolean,
   },
   { timestamps: true },
 );
