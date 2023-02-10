@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("./partials/head"); %>
+    <title>Edit idea</title>
+  </head>
+  <body>
+    <%- include("./partials/header"); %>
+
+    <Main class="pt-[100px] w-3/5 m-auto h-screen">
+      <div
+        class="relative p-3 border-2 idea border-stone-700 rounded-2xl h-[70%] min-h-[70%] opacity-80"
+      >
+        <div
+          class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="font-extrabold w-7 h-7 text-sky-900 hover:text-sky-400"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+            />
+          </svg>
+
+          <div class="m-auto">Edit idea</div>
+        </div>
+        <div class="flex flex-row justify-between header-idea">
+          <div class="flex flex-row items-center justify-center gap-2 mb-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-20 h-20 text-sky-900"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+            <div>
+              <p class="mb-1 text-lg font-medium">nhan phan</p>
+              <div class="flex flex-row items-center gap-5">
+                <div class="sort">
+                  <div
+                    class="flex flex-row items-center justify-between gap-2 sort_button"
+                  >
+                    <label for="product-type">
+                      Status
+                      <select
+                        name="status"
+                        id="product-type"
+                        class="py-[2px] border rounded-lg border-slate-400"
+                        form="create-form"
+                      >
+                        <option value="Draff">Draff</option>
+                        <option value="Public">Public</option>
+                        <option value="Private">Incognito</option>
+                      </select>
+                    </label>
+                  </div>
+                </div>
+                <div class="Department">
+                  <label for="product-type">
+                    Department
+                    <select
+                      name="department-type"
+                      form="create-form"
+                      id="product-type"
+                      class="border rounded-lg py-[2px] border-slate-400"
+                    >
+                      <option value="0">0</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="Category">
+                  <label for="type">
+                    Category
+                    <select
+                      name="Category"
+                      id="type"
+                      class="border rounded-lg py-[2px] border-slate-400"
+                    >
+                      <option value="0">All</option>
+                      <option value="1">Without comment</option>
+                      <option value="2">Anonimous</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content-idea">
+          <textarea
+            name="content-idea"
+            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm min-h-[150px] max-h-[300px] focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            placeholder="Your idea..."
+          ></textarea>
+        </div>
+        <div class="absolute bottom-3 right-5 w-[95%] m-auto">
+          <form action="/action" id="create-form">
+            <div class="flex flex-row justify-between footer-idea">
+              <div class="px-3 py-2 border-2 rounded-lg upload-btn">
+                <input type="file" name="filename" value="Upload" multiple />
+              </div>
+              <div class="flex flex-row items-center justify-between gap-5">
+                <div class="italic terms">
+                  <input type="checkbox" id="myCheck" />
+                  <a href="#">Agree to terms?</a>
+                </div>
+                <div
+                  class="px-3 py-2 text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
+                >
+                  <input type="submit" />
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </Main>
+  </body>
+  <script src="<%= process.env.BASE_URL %>javascript/homeStaff.js"></script>
+</html>

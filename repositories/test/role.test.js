@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const request = require("supertest");
+const app = require("../../app");
 const RoleRepository = require("../role.repository");
 
 beforeEach(async () => {

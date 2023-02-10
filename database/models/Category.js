@@ -4,9 +4,9 @@ const { Schema } = mongoose;
 
 const CategorySchema = new Schema(
   {
-    idDepartment: String,
-    nameDepartment: String,
-    uesd: Boolean,
+    idDepartment: { type: mongoose.Types.ObjectId, ref: "Department" },
+    nameCategory: String,
+    isUsed: Boolean,
   },
   { timestamps: true },
 );

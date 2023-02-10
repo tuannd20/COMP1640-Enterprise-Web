@@ -4,11 +4,11 @@ const database = require("../connection");
 
 const roles = [
   new RoleModel({
-    roleName: "admin",
+    nameRole: "admin",
     description: "can do every thing with role",
   }),
   new RoleModel({
-    roleName: "QA",
+    nameRole: "QA",
     description: "this description for role",
   }),
 ];
@@ -18,8 +18,10 @@ const roles = [
 })();
 
 roles.map(async (data, index) => {
-  await data.save((err, result) => {
+  // eslint-disable-next-line no-unused-vars
+  data.save((_err, result) => {
     if (index === roles.length - 1) {
+      // eslint-disable-next-line no-console
       console.log("SEED DATA DONE!");
       mongoose.disconnect();
     }
