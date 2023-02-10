@@ -1,13 +1,16 @@
+const { isLoggedIn } = require("../middlerwares/auth.middleware");
 const HomeRouter = require("./home");
 const RoleRouter = require("./role");
 const IdeaRouter = require("./idea");
 const ProfileRouter = require("./profile");
+const AuthRouter = require("./auth");
 
 function route(app) {
   app.use("/", HomeRouter);
   app.use("/roles", RoleRouter);
-  app.use("/idea", IdeaRouter);
+  app.use("/idea", isLoggedIn, IdeaRouter);
   app.use("/profiles", ProfileRouter);
+  app.use("/auth", AuthRouter);
 }
 
 module.exports = route;

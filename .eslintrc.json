@@ -17,7 +17,7 @@
     "curly": "error",
     "quotes": ["error", "double"],
     "linebreak-style": 0,
-    "eslint linebreak-style": [0,"error", "windows"],
+    "eslint linebreak-style": [0, "error", "windows"],
     "no-unused-vars": "warn",
     "import/prefer-default-export": 0,
     "import/no-named-as-default": 0,

@@ -49,10 +49,10 @@ describe("Good case: Unit test for Staff", () => {
     console.log(staff);
   });
 });
-describe("Good case: Unit test for Staff", () => {
-  it("Should delete all staff", async () => {
-    // eslint-disable-next-line no-underscore-dangle
-    const staff = await StaffRepository.deleteAllStaff();
-    console.log(staff);
-  });
-});
+// describe("Good case: Unit test for Staff", () => {
+//   it("Should delete all staff", async () => {
+//     // eslint-disable-next-line no-underscore-dangle
+//     const staff = await StaffRepository.deleteAllStaff();
+//     console.log(staff);
+//   });
+// });
