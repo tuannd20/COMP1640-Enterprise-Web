@@ -7,7 +7,7 @@ function route(app) {
   app.use("/", HomeRouter);
   app.use("/roles", RoleRouter);
   app.use("/idea", IdeaRouter);
-  app.use("/profile", ProfileRouter);
+  app.use("/profiles", ProfileRouter);
 }
 
 module.exports = route;
