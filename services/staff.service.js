@@ -60,10 +60,44 @@ const deleteAllStaff = async () => {
   }
 };
 
+const checkPassword = async (data) => {
+  try {
+    const staff = await StaffRepository.findStaff(data);
+
+    return staff;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+const findStaff = async (data) => {
+  try {
+    const staff = await StaffRepository.findStaff(data);
+    return staff;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+// eslint-disable-next-line consistent-return
+const createToken = async (data) => {
+  try {
+    const token = await StaffRepository.createToken(data);
+    return token;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   createStaff,
   updateStaff,
   deleteOneStaff,
   deleteAllStaff,
   displayStaffById,
+  findStaff,
+  checkPassword,
+  createToken,
 };

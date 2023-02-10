@@ -1,9 +1,31 @@
 const StaffModel = require("../database/models/Staff");
+const { createTokenjwt } = require("../utilities/jwt");
 
 const createStaff = async (data) => {
   try {
     const staff = await StaffModel.create(data);
 
+    return staff;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+const getAllStaff = async () => {
+  try {
+    const staffs = await StaffModel.find();
+
+    return staffs;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+const findStaff = async (data) => {
+  try {
+    const staff = await StaffModel.findOne({ email: data });
     return staff;
   } catch (err) {
     console.log(err);
@@ -72,6 +94,18 @@ const deleteAllStaff = async () => {
   }
 };
 
+// eslint-disable-next-line consistent-return
+const createToken = async (data) => {
+  try {
+    const { email } = data;
+    const payload = { email };
+    const token = createTokenjwt(payload);
+    return token;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   createStaff,
   updateStaff,
@@ -79,4 +113,7 @@ module.exports = {
   displayAllStaff,
   deleteOneStaff,
   deleteAllStaff,
+  getAllStaff,
+  findStaff,
+  createToken,
 };

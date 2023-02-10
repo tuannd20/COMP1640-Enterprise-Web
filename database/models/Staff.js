@@ -7,7 +7,7 @@ const StaffSchema = new Schema(
     idRole: { type: mongoose.Types.ObjectId, ref: "Role" },
     idDepartment: { type: mongoose.Types.ObjectId, ref: "Department" },
     fullName: String,
-    gmail: {
+    email: {
       type: String,
       unique: true,
       required: true,
