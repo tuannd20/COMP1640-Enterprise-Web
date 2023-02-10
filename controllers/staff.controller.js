@@ -15,7 +15,7 @@ const displayStaffById = async (req, res) => {
   try {
     const staff = await StaffService.displayStaffById(req.body);
 
-    return res.render("profileStaff", {
+    return res.render("profile/profileStaff", {
       staff,
     });
   } catch (err) {
