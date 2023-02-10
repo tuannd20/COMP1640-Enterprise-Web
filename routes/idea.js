@@ -12,7 +12,7 @@ router.get("/profile", (req, res) => {
   res.render("profileStaff", { title: "Express" });
 });
 router.get("/create", (req, res) => {
-  res.render("createIdea");
+  res.render("idea/createIdea");
 });
 router.get("/login", (req, res) => {
   res.render("login");

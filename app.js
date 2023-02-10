@@ -42,6 +42,8 @@ app.use((err, req, res) => {
   res.render("error");
 });
 
+console.log(`Server run on: ${process.env.BASE_URL}`);
+
 (async () => {
   await database.connectionDatabase();
 })();

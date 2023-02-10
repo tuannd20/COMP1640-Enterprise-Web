@@ -1,7 +1,7 @@
 const StaffService = require("../services/staff.service");
 
 const index = async (req, res) => {
-  res.render("login");
+  res.render("home/login");
 };
 
 const createStaff = async (req, res) => {
@@ -108,6 +108,19 @@ const deleteAllStaff = async (req, res) => {
   }
 };
 
+const getStaffByEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const findStaff = await StaffService.findStaffByEmail(email);
+    console.log("Get Staff:", findStaff);
+
+    return res.json(findStaff);
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -122,7 +135,7 @@ const login = async (req, res) => {
     const token = await StaffService.createToken(email);
     res.cookie("token", token, { httpOnly: true });
 
-    return res.render("homeStaff");
+    return res.render("home/homeStaff");
   } catch (err) {
     console.log(err);
     return err;
@@ -133,7 +146,7 @@ const login = async (req, res) => {
 const logout = async (req, res) => {
   try {
     res.clearCookie("token");
-    return res.render("login");
+    return res.render("home/login");
   } catch (err) {
     console.log(err);
     return err;
@@ -149,4 +162,5 @@ module.exports = {
   displayStaffById,
   login,
   logout,
+  getStaffByEmail,
 };

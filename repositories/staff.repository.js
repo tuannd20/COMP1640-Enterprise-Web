@@ -1,4 +1,6 @@
 const StaffModel = require("../database/models/Staff");
+const RoleModel = require("../database/models/Role");
+const DepartmentModel = require("../database/models/Department");
 const { createTokenjwt } = require("../utilities/jwt");
 
 const createStaff = async (data) => {
@@ -25,7 +27,10 @@ const getAllStaff = async () => {
 
 const findStaff = async (data) => {
   try {
-    const staff = await StaffModel.findOne({ email: data });
+    const staff = await StaffModel.findOne({ email: data }).populate([
+      "idRole",
+      "idDepartment",
+    ]);
     return staff;
   } catch (err) {
     console.log(err);
@@ -97,9 +102,7 @@ const deleteAllStaff = async () => {
 // eslint-disable-next-line consistent-return
 const createToken = async (data) => {
   try {
-    const { email } = data;
-    const payload = { email };
-    const token = createTokenjwt(payload);
+    const token = createTokenjwt(data);
     return token;
   } catch (error) {
     console.log(error);
