@@ -8,7 +8,15 @@ const roles = [
     description: "can do every thing with role",
   }),
   new RoleModel({
+    nameRole: "Staff",
+    description: "this description for role",
+  }),
+  new RoleModel({
     nameRole: "QA",
+    description: "this description for role",
+  }),
+  new RoleModel({
+    nameRole: "QAM",
     description: "this description for role",
   }),
 ];

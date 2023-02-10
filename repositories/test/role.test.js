@@ -20,8 +20,8 @@ const mockRole = {
 describe("Good case: Unit test for Role", () => {
   it("Should create a new role", async () => {
     const data = {
-      nameRole: "test",
-      description: "test add new role",
+      nameRole: "Staff",
+      description: "For the staff role",
     };
     const role = await RoleRepository.createRole(data);
     console.log(role);
