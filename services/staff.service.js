@@ -11,6 +11,17 @@ const createStaff = async (data) => {
   }
 };
 
+const displayStaffById = async (id) => {
+  try {
+    const staff = await StaffRepository.displayStaffById(id);
+
+    return staff;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 const updateStaff = async (_id, body) => {
   try {
     // eslint-disable-next-line no-underscore-dangle
@@ -26,6 +37,7 @@ const updateStaff = async (_id, body) => {
     return err;
   }
 };
+
 const deleteOneStaff = async (_id) => {
   try {
     // eslint-disable-next-line no-underscore-dangle
@@ -37,6 +49,7 @@ const deleteOneStaff = async (_id) => {
     return err;
   }
 };
+
 const deleteAllStaff = async () => {
   try {
     const staff = await StaffRepository.deleteMany();
@@ -46,9 +59,11 @@ const deleteAllStaff = async () => {
     return err;
   }
 };
+
 module.exports = {
   createStaff,
   updateStaff,
   deleteOneStaff,
   deleteAllStaff,
+  displayStaffById,
 };

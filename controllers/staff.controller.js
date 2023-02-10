@@ -10,13 +10,30 @@ const createStaff = async (req, res) => {
     return err;
   }
 };
+
+const displayStaffById = async (req, res) => {
+  try {
+    const staff = await StaffService.displayStaffById(req.body);
+
+    return res.render("profileStaff", {
+      staff,
+    });
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 const updateStaff = async (req, res) => {
   try {
     // eslint-disable-next-line no-underscore-dangle
     const id = req.params._id;
     const updateObject = req.body;
     // eslint-disable-next-line max-len
-    const staff = await StaffService.updateMany({ _id: id }, { $set: updateObject })
+    const staff = await StaffService.updateMany(
+      { _id: id },
+      { $set: updateObject },
+    )
       .exec()
       .then(() => {
         res.status(200).json({
@@ -37,6 +54,7 @@ const updateStaff = async (req, res) => {
     return err;
   }
 };
+
 const deleteOneStaff = async (req, res) => {
   try {
     // eslint-disable-next-line no-underscore-dangle
@@ -61,6 +79,7 @@ const deleteOneStaff = async (req, res) => {
     return err;
   }
 };
+
 const deleteAllStaff = async (req, res) => {
   try {
     // eslint-disable-next-line no-underscore-dangle
@@ -90,4 +109,5 @@ module.exports = {
   updateStaff,
   deleteOneStaff,
   deleteAllStaff,
+  displayStaffById,
 };

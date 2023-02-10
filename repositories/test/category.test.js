@@ -1,27 +1,54 @@
 const mongoose = require("mongoose");
+const DB = require("../../database/connection");
+
 const CategoryRepository = require("../category.repository");
 
 beforeEach(async () => {
-  await mongoose.connect(process.env.MONGODB_URI);
+  await DB.connectionDatabase();
 });
 
 afterEach(async () => {
   await mongoose.connection.close();
 });
 
-const mockRole = {
-  _id: "62afd6301880d15172727cc8",
-  nameRole: "Category",
-  description: "testing",
+const mockCategory = {
+  idDepartment: "15172727cc8",
+  nameCategory: "Categoryabc",
+  isUsed: "123",
 };
 
-describe("Good case: Unit test for Role", () => {
-  it("Should create a new role", async () => {
-    const data = {
-      nameRole: "test",
-      description: "test add new role",
-    };
-    const role = await CategoryRepository.createCategory(data);
-    console.log(role);
+describe("Good case: Unit test for Category", () => {
+  it("Should create a new category", async () => {
+    const category = await CategoryRepository.creareCategory("15172727cc8");
+    expect(category.idDepartment).toEqual(mockCategory.idDepartment);
+    expect(category.nameCategory).toEqual(mockCategory.nameCategory);
+    expect(category.isUsed).toEqual(mockCategory.isUsed);
+  });
+
+  it("Should read a category", async () => {
+    const category = await CategoryRepository.readCategory("15172727cc8");
+    expect(category.idDepartment).toEqual(mockCategory.idDepartment);
+    expect(category.nameCategory).toEqual(mockCategory.nameCategory);
+    expect(category.isUsed).toEqual(mockCategory.isUsed);
+  });
+
+  it("Should update a category", async () => {
+    const category = await CategoryRepository.updateCategory(
+      "15172727cc8",
+      mockCategory,
+    );
+    expect(category.idDepartment).toEqual(mockCategory.idDepartment);
+    expect(category.nameCategory).toEqual(mockCategory.nameCategory);
+    expect(category.isUsed).toEqual(mockCategory.isUsed);
+  });
+
+  it("Should delete a category", async () => {
+    const category = await CategoryRepository.deleteCategory(
+      "15172727cc8",
+      mockCategory,
+    );
+    expect(category.idDepartment).toEqual(mockCategory.idDepartment);
+    expect(category.nameCategory).toEqual(mockCategory.nameCategory);
+    expect(category.isUsed).toEqual(mockCategory.isUsed);
   });
 });
