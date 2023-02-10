@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include head %>
+    <title>Home</title>
+  </head>
+  <body>
+    <% include header %>
+
+    <div>
+      <%- include(content) %>
+    </div>
+
+    <% include footer %>
+
+    <script src="<%= process.env.BASE_URL %>javascript/homeStaff.js"></script>
+  </body>
+</html>
