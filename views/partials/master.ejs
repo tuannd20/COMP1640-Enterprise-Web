@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <% include head %>
-    <title>Home</title>
+    <%- include('head') -%>
+    <title><%= title %></title>
   </head>
   <body>
-    <% include header %>
+    <%- include('header') -%>
 
     <div>
-      <%- include(content) %>
+      
+    <%- include(content) -%>
     </div>
 
-    <% include footer %>
+    <%- include('footer') -%>
 
     <script src="<%= process.env.BASE_URL %>javascript/homeStaff.js"></script>
   </body>
