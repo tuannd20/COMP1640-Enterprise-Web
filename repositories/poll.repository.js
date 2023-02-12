@@ -24,28 +24,28 @@ const getAllPoll = async () => {
 
 const updatePoll = async (id, data) => {
   try {
-    const department = await PollModel.findOneAndUpdate(id, data);
-    console.log(department);
+    const department = await PollModel.updateMany(id, data);
+    return department;
   } catch (err) {
-    console.error(err);
+    return err;
   }
 };
 
 const deleteOnePoll = async (id) => {
   try {
     const result = await PollModel.findOneAndRemove(id);
-    console.log(result);
+    return result;
   } catch (err) {
-    console.error(err);
+    return err;
   }
 };
 
 const deleteAllPoll = async () => {
   try {
     const result = await PollModel.deleteMany({});
-    console.log(result);
+    return result;
   } catch (err) {
-    console.error(err);
+    return err;
   }
 };
 

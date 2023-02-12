@@ -1,70 +1,72 @@
 const PollService = require("../services/poll.service");
 
-const createPoll = async (req, res) => {
-  try {
-    const result = await PollService.createPoll(req.body);
+const getCreatePoll = async (req, res, next) => {
+  res.render("Poll/create");
+};
 
-    return res.json("Poll page");
+const createPoll = async (req, res, next) => {
+  try {
+    const Poll = await PollService.createPoll(req.body);
+    return res.json(Poll);
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
 
 const getAllPoll = async (req, res, next) => {
   try {
-    const result = await PollService.getAllPoll();
-    console.log(
-      "🚀 ~ file: poll.controller.js:17 ~ getAllPoll ~ result",
-      result,
-    );
-    return res.json("Poll page");
+    const Polls = await PollService.getAllPoll();
+    return res.json(Polls);
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
 
-const updatePoll = async (req, res, next) => {
-  try {
-    const result = await PollService.updatePoll(req.params.id, req.body);
+const getEditPoll = async (req, res, next) => {
+  res.render("Poll/edit");
+};
 
-    // eslint-disable-next-line no-undef
-    return result;
+const updatePoll = async (req, res, next) => {
+  const { id } = req.params;
+  const updateObject = req.body;
+  try {
+    const Polls = await PollService.updatePoll(
+      { _id: id },
+      { $set: updateObject },
+    );
+    return res.json(Polls);
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
 
 const deleteOnePoll = async (req, res, next) => {
+  const { id } = req.params;
   try {
-    const result = await PollService.deleteOnePoll(req.params.id);
-
-    // eslint-disable-next-line no-undef
-    return result;
+    const Polls = await PollService.deleteOnePoll({
+      _id: id,
+    });
+    return res.json(Polls);
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
 
 const deleteAllPoll = async (req, res, next) => {
   try {
-    const result = await PollService.deleteAllPoll();
-
-    // eslint-disable-next-line no-undef
-    return result;
+    const Polls = await PollService.deleteAllPoll();
+    return res.json(Polls);
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
 
 module.exports = {
+  getCreatePoll,
   createPoll,
   deleteAllPoll,
   deleteOnePoll,
+  getEditPoll,
   updatePoll,
   getAllPoll,
 };
