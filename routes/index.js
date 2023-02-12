@@ -13,8 +13,6 @@ function route(app) {
   app.use("/idea", isLoggedIn, IdeaRouter);
   app.use("/profiles", ProfileRouter);
   app.use("/auth", AuthRouter);
-  app.use("/QAM/department", DepartmentRouter);
-  app.use("/QAM/poll", PollRouter);
 }
 
 module.exports = route;
