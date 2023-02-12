@@ -3,10 +3,8 @@ const DepartmentModel = require("../database/models/Department");
 const createDepartment = async (data) => {
   try {
     const department = await DepartmentModel.create(data);
-
     return department;
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
@@ -17,35 +15,34 @@ const getAllDepartment = async () => {
 
     return departments;
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
 
 const updateDepartment = async (id, data) => {
   try {
-    const department = await DepartmentModel.findOneAndUpdate(id, data);
-    console.log(department);
+    const department = await DepartmentModel.updateMany(id, data);
+    return department;
   } catch (err) {
-    console.error(err);
+    return err;
   }
 };
 
 const deleteOneDepartment = async (id) => {
   try {
     const result = await DepartmentModel.findOneAndRemove(id);
-    console.log(result);
+    return result;
   } catch (err) {
-    console.error(err);
+    return err;
   }
 };
 
 const deleteAllDepartment = async () => {
   try {
     const result = await DepartmentModel.deleteMany({});
-    console.log(result);
+    return result;
   } catch (err) {
-    console.error(err);
+    return err;
   }
 };
 

@@ -6,7 +6,10 @@ const DepartmentSchema = new Schema(
   {
     nameDepartment: String,
     description: String,
-    isUsed: Boolean,
+    isUsed: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 );

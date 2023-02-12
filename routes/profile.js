@@ -1,9 +1,15 @@
 const express = require("express");
 
 const router = express.Router();
-const StaffController = require("../controllers/staff.controller");
+const AccountController = require("../controllers/account.controller");
+const IdeaController = require("../controllers/idea.controller");
 
-router.get("/", StaffController.displayStaffById);
-router.post("/staff", StaffController.getStaffByEmail);
+router.get("/", AccountController.displayStaffById);
+router.post("/staff", AccountController.getStaffByEmail);
+// router.get("/:idAccount", AccountController.displayAccountById);
+// router.get("/idea", IdeaController.createIdea);
+// router.post("/idea", IdeaController.createIdea);
+// router.put("/:idIdea", IdeaController.updateIdea);
+// router.delete("/:idIdea", IdeaController.deleteIdea);
 
 module.exports = router;
