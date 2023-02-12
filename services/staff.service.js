@@ -22,12 +22,23 @@ const displayStaffById = async (id) => {
   }
 };
 
+const getAllStaff = async () => {
+  try {
+    const staffs = await StaffRepository.getAllStaff();
+
+    return staffs;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 const updateStaff = async (_id, body) => {
   try {
     // eslint-disable-next-line no-underscore-dangle
     const id = _id;
     const updateObject = body;
-    const staff = await StaffRepository.updateMany(
+    const staff = await StaffRepository.updateStaff(
       { _id: id },
       { $set: updateObject },
     );
@@ -42,7 +53,7 @@ const deleteOneStaff = async (_id) => {
   try {
     // eslint-disable-next-line no-underscore-dangle
     const id = _id;
-    const staff = await StaffRepository.findByIdAndRemove(id);
+    const staff = await StaffRepository.deleteOneStaff(id);
     return staff;
   } catch (err) {
     console.log(err);
@@ -52,7 +63,7 @@ const deleteOneStaff = async (_id) => {
 
 const deleteAllStaff = async () => {
   try {
-    const staff = await StaffRepository.deleteMany();
+    const staff = await StaffRepository.deleteAllStaff();
     return staff;
   } catch (err) {
     console.log(err);
@@ -97,6 +108,7 @@ module.exports = {
   deleteOneStaff,
   deleteAllStaff,
   displayStaffById,
+  getAllStaff,
   findStaff,
   checkPassword,
   createToken,

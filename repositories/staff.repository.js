@@ -33,17 +33,6 @@ const findStaff = async (data) => {
   }
 };
 
-const displayAllStaff = async () => {
-  try {
-    const staff = await StaffModel.find();
-
-    return staff;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
-
 const displayStaffById = async (id) => {
   try {
     const staff = await StaffModel.findById(id);
@@ -110,7 +99,6 @@ module.exports = {
   createStaff,
   updateStaff,
   displayStaffById,
-  displayAllStaff,
   deleteOneStaff,
   deleteAllStaff,
   getAllStaff,

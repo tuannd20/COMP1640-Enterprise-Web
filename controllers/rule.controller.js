@@ -12,28 +12,8 @@ const createRule = async (req, res) => {
 };
 const updateRule = async (req, res) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = req.params._id;
-    const updateObject = req.body;
-    // eslint-disable-next-line max-len
-    const rule = await RuleService.updateMany(
-      { _id: id },
-      { $set: updateObject },
-    )
-      .exec()
-      .then(() => {
-        res.status(200).json({
-          success: true,
-          message: "Rule is updated",
-          updateRule: updateObject,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          success: false,
-          message: "Server error. Please try again.",
-        });
-      });
+    const rule = await RuleService.updateRule(req.params.id, req.body);
+
     return res.json("Rule page");
   } catch (err) {
     console.log(err);
@@ -42,22 +22,8 @@ const updateRule = async (req, res) => {
 };
 const deleteOneRule = async (req, res) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = req.params._id;
-    const rule = await RuleService.findByIdAndRemove(id)
-      .exec()
-      .then(() => {
-        res.status(200).json({
-          success: true,
-          message: "Rule is deleted successfully",
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          success: false,
-          message: "Server error. Please try again.",
-        });
-      });
+    const rule = await RuleService.deleteOneRule(req.params.id);
+
     return res.json("Rule page");
   } catch (err) {
     console.log(err);
@@ -66,21 +32,8 @@ const deleteOneRule = async (req, res) => {
 };
 const deleteAllRule = async (req, res) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
-    const rule = await RuleService.deleteMany()
-      .exec()
-      .then(() => {
-        res.status(200).json({
-          success: true,
-          message: "Delete all rule successfully",
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          success: false,
-          message: "Server error. Please try again.",
-        });
-      });
+    const rule = await RuleService.deleteAllRule();
+
     return res.json("Rule page");
   } catch (err) {
     console.log(err);
