@@ -8,6 +8,10 @@ const PollSchema = new Schema(
     dateStart: Date,
     dateEnd: Date,
     dateTotal: Date,
+    isUsed: {
+      Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 );
