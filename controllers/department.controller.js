@@ -1,10 +1,13 @@
 const DepartmentService = require("../services/department.service");
 
-const createDepartment = async (req, res) => {
+const getCreateDepartment = async (req, res, next) => {
+  res.render("department/create");
+};
+
+const createDepartment = async (req, res, next) => {
   try {
     const department = await DepartmentService.createDepartment(req.body);
-
-    return department;
+    return res.json(department);
   } catch (err) {
     console.log(err);
     return err;
@@ -14,57 +17,59 @@ const createDepartment = async (req, res) => {
 const getAllDepartment = async (req, res, next) => {
   try {
     const departments = await DepartmentService.getAllDepartment();
-    return res.json("Department page");
+    // return res.render("department/index", departments);
+    return res.json(departments);
   } catch (err) {
     console.log(err);
     return err;
   }
 };
 
-const updateDepartment = async (req, res) => {
+const getEditDepartment = async (req, res, next) => {
+  res.render("department/edit");
+};
+
+const updateDepartment = async (req, res, next) => {
+  const { id } = req.params;
+  const updateObject = req.body;
   try {
     const departments = await DepartmentService.updateDepartment(
-      req.params.id,
-      req.body,
+      { _id: id },
+      { $set: updateObject },
     );
 
-    // eslint-disable-next-line no-undef
-    return departments;
+    return res.json(departments);
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
 
-const deleteOneDepartment = async (req, res) => {
+const deleteOneDepartment = async (req, res, next) => {
+  const { id } = req.params;
   try {
-    const departments = await DepartmentService.deleteOneDepartment(
-      req.params.id,
-    );
-
-    // eslint-disable-next-line no-undef
-    return departments;
+    const departments = await DepartmentService.deleteOneDepartment({
+      _id: id,
+    });
+    return res.json(departments);
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
 
-const deleteAllDepartment = async () => {
+const deleteAllDepartment = async (req, res, next) => {
   try {
     const departments = await DepartmentService.deleteAllDepartment();
-
-    // eslint-disable-next-line no-undef
-    return departments;
+    return res.json(departments);
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
 
 module.exports = {
+  getCreateDepartment,
   createDepartment,
   getAllDepartment,
+  getEditDepartment,
   updateDepartment,
   deleteAllDepartment,
   deleteOneDepartment,
