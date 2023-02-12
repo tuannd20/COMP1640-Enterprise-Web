@@ -1,12 +1,12 @@
 const express = require("express");
 
 const router = express.Router();
-const StaffController = require("../controllers/staff.controller");
+const AccountController = require("../controllers/account.controller");
 
-router.get("/login", StaffController.index);
+router.get("/login", AccountController.index);
 
-router.post("/login", StaffController.login);
+router.post("/login", AccountController.login);
 
-router.get("/logout", StaffController.logout);
+router.get("/logout", AccountController.logout);
 
 module.exports = router;
