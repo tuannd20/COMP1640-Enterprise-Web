@@ -4,8 +4,6 @@ const RoleRouter = require("./role");
 const IdeaRouter = require("./idea");
 const ProfileRouter = require("./profile");
 const AuthRouter = require("./auth");
-const DepartmentRouter = require("./department");
-const PollRouter = require("./poll");
 
 function route(app) {
   app.use("/", HomeRouter);
