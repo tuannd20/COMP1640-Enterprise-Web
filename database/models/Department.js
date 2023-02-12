@@ -7,7 +7,7 @@ const DepartmentSchema = new Schema(
     nameDepartment: String,
     description: String,
     isUsed: {
-      Boolean,
+      type: Boolean,
       default: false,
     },
   },

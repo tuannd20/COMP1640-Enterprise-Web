@@ -9,7 +9,7 @@ const PollSchema = new Schema(
     dateEnd: Date,
     dateTotal: Date,
     isUsed: {
-      Boolean,
+      type: Boolean,
       default: false,
     },
   },
