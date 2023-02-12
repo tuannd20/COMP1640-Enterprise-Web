@@ -27,7 +27,6 @@
     "import/no-extraneous-dependencies": "off",
     "operator-linebreak": ["error", "after"],
     "global-require": 0,
-    "max-len": ["error", { "code": 80, "ignoreUrls": true }],
     "import/order": [
       "error",
       {
