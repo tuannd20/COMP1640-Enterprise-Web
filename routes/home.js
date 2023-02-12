@@ -6,7 +6,7 @@ const CommentController = require("../controllers/comment.controller");
 
 router.get("/", (req, res) => {
   // eslint-disable-next-line max-len, max-len, max-len
-  res.render("partials/master", { title: "Express", content: "../qam/department/listDepartmentPage" });
+  res.render("partials/master", { title: "Express", content: "../qa/category/listCategoryPage" });
 });
 
 // router.get("/", IdeaController.displayAllIdea);
