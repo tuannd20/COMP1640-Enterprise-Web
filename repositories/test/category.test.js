@@ -14,19 +14,19 @@ afterEach(async () => {
 const mockCategory = {
   idDepartment: "15172727cc8",
   nameCategory: "Categoryabc",
-  isUsed: "123",
+  isUsed: false,
 };
 
 describe("Good case: Unit test for Category", () => {
   it("Should create a new category", async () => {
-    const category = await CategoryRepository.creareCategory("15172727cc8");
+    const category = await CategoryRepository.createCategory("15172727cc8");
     expect(category.idDepartment).toEqual(mockCategory.idDepartment);
     expect(category.nameCategory).toEqual(mockCategory.nameCategory);
     expect(category.isUsed).toEqual(mockCategory.isUsed);
   });
 
   it("Should read a category", async () => {
-    const category = await CategoryRepository.readCategory("15172727cc8");
+    const category = await CategoryRepository.readCategoryById("15172727cc8");
     expect(category.idDepartment).toEqual(mockCategory.idDepartment);
     expect(category.nameCategory).toEqual(mockCategory.nameCategory);
     expect(category.isUsed).toEqual(mockCategory.isUsed);
