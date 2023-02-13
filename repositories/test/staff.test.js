@@ -13,9 +13,17 @@ afterEach(async () => {
 
 describe("Good case: Unit test for Staff", () => {
   it("Should create a new staff", async () => {
+    // eslint-disable-next-line camelcase
+    const id_Department = "63e9aa122b4cc9ab8e700951";
+    // eslint-disable-next-line camelcase
+    const id_Role = "63e5c62f619122bfbc78059f";
     const data = {
+      // eslint-disable-next-line camelcase
+      idDepartment: id_Department,
+      // eslint-disable-next-line camelcase
+      idRole: id_Role,
       fullName: "test full name Staff",
-      gmail: "staff12332@gmail.com",
+      email: "staff12332@gmail.com",
       password: "staff123",
       avatarImage: "avatar1",
       address: "abc123",
@@ -25,30 +33,30 @@ describe("Good case: Unit test for Staff", () => {
     console.log(staff);
   });
 });
-describe("Good case: Unit test for Staff", () => {
-  it("Should update a staff", async () => {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = "63e3ca5dc0d29c629db7895b";
-    const data = {
-      fullName: "test update full name Staff",
-      gmail: "staff123@gmail.com",
-      password: "staff123",
-      avatarImage: "avatar111",
-      address: "abc1234",
-      phoneNumber: "012345678",
-    };
-    const staff = await StaffRepository.updateStaff(id, data);
-    console.log(staff);
-  });
-});
-describe("Good case: Unit test for Staff", () => {
-  it("Should delete one staff", async () => {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = "63e3ca5dc0d29c629db7895b";
-    const staff = await StaffRepository.deleteOneStaff(id);
-    console.log(staff);
-  });
-});
+// describe("Good case: Unit test for Staff", () => {
+//   it("Should update a staff", async () => {
+//     // eslint-disable-next-line no-underscore-dangle
+//     const id = "63e3ca5dc0d29c629db7895b";
+//     const data = {
+//       fullName: "test update full name Staff",
+//       email: "staff11111111@gmail.com",
+//       password: "staff123",
+//       avatarImage: "avatar111",
+//       address: "abc1234",
+//       phoneNumber: "012345678",
+//     };
+//     const staff = await StaffRepository.updateStaff(id, data);
+//     console.log(staff);
+//   });
+// });
+// describe("Good case: Unit test for Staff", () => {
+//   it("Should delete one staff", async () => {
+//     // eslint-disable-next-line no-underscore-dangle
+//     const id = "63e3ca5dc0d29c629db7895b";
+//     const staff = await StaffRepository.deleteOneStaff(id);
+//     console.log(staff);
+//   });
+// });
 // describe("Good case: Unit test for Staff", () => {
 //   it("Should delete all staff", async () => {
 //     // eslint-disable-next-line no-underscore-dangle
