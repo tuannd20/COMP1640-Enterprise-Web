@@ -7,8 +7,9 @@ const getCreateCategory = async (req, res, next) => {
 
 const createCategory = async (req, res, next) => {
   try {
-    const department = await CategoryService.createCategory(req.body);
-    return res.json(department);
+    const data = req.body;
+    const category = await CategoryService.createCategory(data);
+    return res.json(category);
   } catch (err) {
     console.log(err);
     return err;
@@ -17,9 +18,9 @@ const createCategory = async (req, res, next) => {
 
 const getAllCategory = async (req, res, next) => {
   try {
-    const departments = await CategoryService.getAllCategory();
+    const categories = await CategoryService.getAllCategory();
     // return res.render("department/index", departments);
-    return res.json(departments);
+    return res.json(categories);
   } catch (err) {
     console.log(err);
     return err;
@@ -34,12 +35,12 @@ const updateCategory = async (req, res, next) => {
   const { id } = req.params;
   const updateObject = req.body;
   try {
-    const departments = await CategoryService.updateCategory(
+    const categories = await CategoryService.updateCategory(
       { _id: id },
       { $set: updateObject },
     );
 
-    return res.json(departments);
+    return res.json(categories);
   } catch (err) {
     return err;
   }
@@ -51,23 +52,35 @@ const deleteOneCategory = async (req, res, next) => {
     const checkCategory = await CategoryService.getCategory({
       _id: id,
     });
-    if (checkCategory.isUsed == false) {
-      const checkDepartment = await DepartmentService.deleteOneCategory({
-        _id: checkCategory.idDepartment,
+
+    const checkDepartment = await DepartmentService.getDepartment({
+      _id: checkCategory.idDepartment,
+    });
+
+    if (checkCategory.isUsed == false && checkDepartment.isUsed == false) {
+      const category = await CategoryService.deleteOneCategory({
+        _id: id,
       });
-      if (checkDepartment.isUsed == false) {
-        const category = await CategoryService.deleteOneCategory({
-          _id: id,
-        });
-        return res.json(category);
-      }
-      return res.send("This department is used");
+      return res.json(category);
     }
+
     return res.send("This category is used");
   } catch (err) {
     return err;
   }
 };
+
+// const deleteOneCategory = async (req, res, next) => {
+//   const { id } = req.params;
+//   try {
+//     const category = await CategoryService.deleteOneCategory({
+//       _id: id,
+//     });
+//     return res.json(category);
+//   } catch (err) {
+//     return err;
+//   }
+// };
 
 const deleteAllCategory = async (req, res, next) => {
   try {

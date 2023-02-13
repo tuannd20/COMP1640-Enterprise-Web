@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
 // router.get("/category/create", CategoryController.createCategory);
 
 // [POST] create department
-router.post("/category/post", CategoryController.createCategory);
+router.post("/category/create", CategoryController.createCategory);
 
 // [GET] edit department
 // router.get("/category/edit/:id", CategoryController.updateCategory);
@@ -22,6 +22,6 @@ router.put("/category/edit/:id", CategoryController.updateCategory);
 // [DELETE] delete department
 router.delete("/category/delete/:id", CategoryController.deleteOneCategory);
 
-// router.get("/category/", CategoryController.getAllDepartment);
+router.get("/category/", CategoryController.getAllCategory);
 
 module.exports = router;

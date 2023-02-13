@@ -1,8 +1,8 @@
 const CategoryRepository = require("../repositories/category.repository");
 
-const createCategory = async (req, res) => {
+const createCategory = async (data) => {
   try {
-    const result = await CategoryRepository.createCategory(req.body);
+    const result = await CategoryRepository.createCategory(data);
     return result;
   } catch (err) {
     console.log(err);
@@ -12,7 +12,7 @@ const createCategory = async (req, res) => {
 
 const getAllCategory = async () => {
   try {
-    const result = await CategoryRepository.getAllCategory();
+    const result = await CategoryRepository.readCategories();
     return result;
   } catch (err) {
     console.log(err);
@@ -20,12 +20,9 @@ const getAllCategory = async () => {
   }
 };
 
-const updateCategory = async (req, res) => {
+const updateCategory = async (id, data) => {
   try {
-    const result = await CategoryRepository.updateCategory(
-      req.params.id,
-      req.body,
-    );
+    const result = await CategoryRepository.updateCategory(id, data);
     return result;
   } catch (err) {
     console.log(err);
@@ -45,7 +42,7 @@ const deleteAllCategory = async () => {
 
 const deleteOneCategory = async (id) => {
   try {
-    const result = await CategoryRepository.deleteOneCategory(id);
+    const result = await CategoryRepository.deleteCategory(id);
     return result;
   } catch (err) {
     console.log(err);
