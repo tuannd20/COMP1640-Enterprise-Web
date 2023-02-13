@@ -50,10 +50,20 @@ const deleteOneDepartment = async (id) => {
   }
 };
 
+const getDepartment = async (id) => {
+  try {
+    const result = await DepartmentRepository.getDepartment(id);
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createDepartment,
   getAllDepartment,
   updateDepartment,
   deleteAllDepartment,
   deleteOneDepartment,
+  getDepartment,
 };

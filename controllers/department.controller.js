@@ -1,35 +1,58 @@
 const DepartmentService = require("../services/department.service");
 
-const getCreateDepartment = async (req, res, next) => {
-  res.render("department/create");
+const getCreateDepartment = async (req, res) => {
+  res.render("partials/master", {
+    title: "Department Create",
+    content: "../qam/department/createDepartmentpage",
+  });
 };
 
-const createDepartment = async (req, res, next) => {
+const createDepartment = async (req, res) => {
   try {
     const department = await DepartmentService.createDepartment(req.body);
     return res.json(department);
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
 
-const getAllDepartment = async (req, res, next) => {
+const getAllDepartment = async (req, res) => {
   try {
     const departments = await DepartmentService.getAllDepartment();
-    // return res.render("department/index", departments);
-    return res.json(departments);
+
+    // return res.render("qam/department/listDepartmentPage", {
+    //   departments,
+    // });
+    return res.render("partials/master", {
+      title: "Department List",
+      content: "../qam/department/listDepartmentpage",
+      Department: departments,
+    });
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
 
-const getEditDepartment = async (req, res, next) => {
-  res.render("department/edit");
+const getEditDepartment = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const department = await DepartmentService.getDepartment({ _id: id });
+    // return res.render("partials/master", {
+    //   title: "Department Edit",
+    //   content: "../qam/department/editDepartmentpage",
+    //   Department: department,
+    // });
+    return res.render("partials/master", {
+      title: "Department Edit",
+      content: "../qam/department/editDepartmentpage",
+      Department: department,
+    });
+  } catch (err) {
+    return err;
+  }
 };
 
-const updateDepartment = async (req, res, next) => {
+const updateDepartment = async (req, res) => {
   const { id } = req.params;
   const updateObject = req.body;
   try {
@@ -44,19 +67,25 @@ const updateDepartment = async (req, res, next) => {
   }
 };
 
-const deleteOneDepartment = async (req, res, next) => {
+const deleteOneDepartment = async (req, res) => {
   const { id } = req.params;
   try {
-    const departments = await DepartmentService.deleteOneDepartment({
+    const checkDepartment = await DepartmentService.getDepartment({
       _id: id,
     });
-    return res.json(departments);
+    if (checkDepartment.isUsed == false) {
+      const departments = await DepartmentService.deleteOneDepartment({
+        _id: id,
+      });
+      return res.redirect("/qam/department");
+    }
+    return res.redirect("/qam/department");
   } catch (err) {
     return err;
   }
 };
 
-const deleteAllDepartment = async (req, res, next) => {
+const deleteAllDepartment = async (req, res) => {
   try {
     const departments = await DepartmentService.deleteAllDepartment();
     return res.json(departments);
