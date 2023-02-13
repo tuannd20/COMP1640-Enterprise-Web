@@ -1,13 +1,14 @@
 const express = require("express");
 
 const AccountController = require("../controllers/account.controller");
+const RuleController = require("../controllers/rule.controller");
 
 const router = express.Router();
 
-// router.get("/account", AccountController.displayListAccount);
+router.get("/account", AccountController.getAllStaff);
+// router.post("/account/create", AccountController.createStaff);
 // router.put("/account/edit", AccountController.displayListAccount);
-// router.post("/account/create", AccountController.displayListAccount);
 
-// router.get("/terms", TermsController.displayListTerms);
+router.get("/terms", RuleController.getAllRule);
 
 module.exports = router;

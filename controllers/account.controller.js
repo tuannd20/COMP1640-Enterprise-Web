@@ -8,7 +8,11 @@ const createStaff = async (req, res) => {
   try {
     const staff = await StaffService.createStaff(req.body);
 
-    return res.json("Staff page");
+    return res.render("partials/master", {
+      title: "Create new account",
+      content: "../admin/account/createAccountPage",
+      staff,
+    });
   } catch (err) {
     console.log(err);
     return err;
@@ -32,7 +36,12 @@ const getAllStaff = async (req, res) => {
   try {
     const staffs = await StaffService.getAllStaff();
 
-    return res.json(staffs);
+    // return res.json(staffs);
+    return res.render("partials/master", {
+      title: "List of accounts",
+      content: "../admin/account/listAccountPage",
+      staffs,
+    });
   } catch (err) {
     console.log(err);
     return err;
