@@ -9,6 +9,15 @@ const createPoll = async (data) => {
   }
 };
 
+const getPoll = async (id) => {
+  try {
+    const result = await PollRepository.getPoll(id);
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 const getAllPoll = async () => {
   try {
     const result = await PollRepository.getAllPoll();
@@ -55,4 +64,5 @@ module.exports = {
   updatePoll,
   deleteAllPoll,
   deleteOnePoll,
+  getPoll,
 };

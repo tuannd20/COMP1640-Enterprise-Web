@@ -1,7 +1,10 @@
 const PollService = require("../services/poll.service");
 
 const getCreatePoll = async (req, res, next) => {
-  res.render("Poll/create");
+  res.render("partials/master", {
+    title: "Poll Create",
+    content: "../qam/poll/createpollpage",
+  });
 };
 
 const createPoll = async (req, res, next) => {
@@ -16,14 +19,21 @@ const createPoll = async (req, res, next) => {
 const getAllPoll = async (req, res, next) => {
   try {
     const Polls = await PollService.getAllPoll();
-    return res.json(Polls);
+    return res.render("partials/master", {
+      title: "Poll List",
+      content: "../qam/poll/listpollpage",
+      Polls,
+    });
   } catch (err) {
     return err;
   }
 };
 
 const getEditPoll = async (req, res, next) => {
-  res.render("Poll/edit");
+  res.render("partials/master", {
+    title: "Poll Edit",
+    content: "../qam/poll/editpollpage",
+  });
 };
 
 const updatePoll = async (req, res, next) => {
@@ -43,10 +53,16 @@ const updatePoll = async (req, res, next) => {
 const deleteOnePoll = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const Polls = await PollService.deleteOnePoll({
+    const checkPoll = await PollService.getPoll({
       _id: id,
     });
-    return res.json(Polls);
+    if (checkPoll.isUsed == false) {
+      const Polls = await PollService.deleteOnePoll({
+        _id: id,
+      });
+      return res.redirect("/qam/poll");
+    }
+    return res.redirect("/qam/poll");
   } catch (err) {
     return err;
   }

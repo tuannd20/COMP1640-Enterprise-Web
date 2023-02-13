@@ -22,6 +22,17 @@ const getAllPoll = async () => {
   }
 };
 
+const getPoll = async (id) => {
+  try {
+    const result = await PollModel.findById(id);
+
+    return result;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 const updatePoll = async (id, data) => {
   try {
     const department = await PollModel.updateMany(id, data);
@@ -42,7 +53,7 @@ const deleteOnePoll = async (id) => {
 
 const deleteAllPoll = async () => {
   try {
-    const result = await PollModel.deleteMany({});
+    const result = await PollModel.deleteMany({ isUsed: false });
     return result;
   } catch (err) {
     return err;
@@ -55,4 +66,5 @@ module.exports = {
   updatePoll,
   deleteAllPoll,
   deleteOnePoll,
+  getPoll,
 };

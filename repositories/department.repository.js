@@ -39,7 +39,17 @@ const deleteOneDepartment = async (id) => {
 
 const deleteAllDepartment = async () => {
   try {
-    const result = await DepartmentModel.deleteMany({});
+    const result = await DepartmentModel.deleteMany({ isUsed: false });
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
+const getDepartment = async (id) => {
+  try {
+    const result = await DepartmentModel.findById(id);
+
     return result;
   } catch (err) {
     return err;
@@ -52,4 +62,5 @@ module.exports = {
   updateDepartment,
   deleteAllDepartment,
   deleteOneDepartment,
+  getDepartment,
 };
