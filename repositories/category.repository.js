@@ -14,7 +14,7 @@ const createCategory = async (data) => {
   }
 };
 
-const readCategory = async (id) => {
+const readCategoryById = async (id) => {
   try {
     const category = await CategoryModel.findById(id);
     return category;
@@ -47,7 +47,6 @@ const deleteCategory = async (id) => {
       console.log("you can't delete a category");
       return reasult;
     }
-
     const category = await CategoryModel.findByIdAndDelete(id);
     return category;
   } catch (err) {
@@ -61,7 +60,7 @@ const deleteCategory = async (id) => {
 
 module.exports = {
   createCategory,
-  readCategory,
+  readCategoryById,
   updateCategory,
   deleteCategory,
 };
