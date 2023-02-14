@@ -39,7 +39,17 @@
                 <span class="font-medium"><%= department.nameDepartment%></span>
               </td>
               <td class="py-3 px-6 text-center">
-                <span class="font-medium"><%= department.isUsed%></span>
+                <% if (department.isUsed === false) { %>
+                <span
+                  class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs"
+                  >Block</span
+                >
+                <% } else { %>
+                <span
+                  class="bg-red-200 text-purple-600 py-1 px-3 rounded-full text-xs"
+                  >Activated</span
+                >
+                <% } %>
               </td>
               <td class="py-3 px-6 text-center">
                 <div class="flex item-center justify-center">
