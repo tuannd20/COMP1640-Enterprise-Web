@@ -8,20 +8,15 @@ router.get("/", (req, res) => {
 });
 
 router.get("/categories", CategoryController.getAllCategory);
+// get
+router.get("/category/create", CategoryController.createCategory);
 
-// [GET] create department
-// router.get("/category/create", CategoryController.createCategory);
-
-// [POST] create department
 router.post("/category/create", CategoryController.createCategory);
 
-// [GET] edit department
-// router.get("/category/edit/:id", CategoryController.updateCategory);
-
-// [PUT] update department
 router.put("/category/edit/:id", CategoryController.updateCategory);
 
-// [DELETE] delete department
+router.put("/category/edit/:id", CategoryController.updateCategory);
+
 router.delete("/category/delete/:id", CategoryController.deleteOneCategory);
 
 router.get("/category/", CategoryController.getAllCategory);

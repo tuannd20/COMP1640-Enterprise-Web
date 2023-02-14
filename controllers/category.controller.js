@@ -12,15 +12,41 @@ const renderListCategoryPage = async (req, res, next) => {
   }
 };
 
+const rederCreateCategoryPage = async (req, res, next) => {
+  try {
+    res.render("partials/master", {
+      title: "Category",
+      content: "../qa/category/createCategoryPage",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const redereditCategoryPage = async (req, res, next) => {
+  try {
+    res.render("partials/master", {
+      title: "Category",
+      content: "../qa/category/editCategoryPage",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getCreateCategory = async (req, res, next) => {
   res.render("department/create");
 };
 
 const createCategory = async (req, res, next) => {
   try {
-    const data = req.body;
-    const category = await CategoryService.createCategory(data);
-    return res.json(category);
+    const categories = await CategoryService.createCategory();
+
+    return res.render("partials/master", {
+      title: "Category",
+      content: "../qa/category/createCategoryPage",
+      categories,
+    });
   } catch (err) {
     console.log(err);
     return err;
@@ -31,12 +57,12 @@ const getAllCategory = async (req, res, next) => {
   try {
     const categories = await CategoryService.getAllCategory();
 
-    // return res.render("partials/master", {
-    //   title: "Category",
-    //   content: "../qa/category/listCategoryPage",
-    //   categories,
-    // });
-    return res.json(categories);
+    return res.render("partials/master", {
+      title: "Category",
+      content: "../qa/category/listCategoryPage",
+      categories,
+    });
+    // return res.json(categories);
   } catch (err) {
     console.log(err);
     return err;
@@ -55,8 +81,11 @@ const updateCategory = async (req, res, next) => {
       { _id: id },
       { $set: updateObject },
     );
-
-    return res.json(categories);
+    return res.render("partials/master", {
+      title: "Category",
+      content: "../qa/category/editCategoryPage",
+      categories,
+    });
   } catch (err) {
     return err;
   }
@@ -116,4 +145,6 @@ module.exports = {
   deleteAllCategory,
   deleteOneCategory,
   renderListCategoryPage,
+  rederCreateCategoryPage,
+  redereditCategoryPage,
 };
