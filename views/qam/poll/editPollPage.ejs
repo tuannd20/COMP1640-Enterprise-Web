@@ -37,6 +37,7 @@
                 type="text"
                 name="namePoll"
                 id="namePoll"
+                required
                 value="<%= poll.namePoll %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
@@ -52,7 +53,8 @@
                 type="text"
                 name="dateStart"
                 id="dateStart"
-                value="<%= poll.dateStart %>"
+                required
+                value="<%= poll.dateStart.toLocaleString() %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
@@ -67,7 +69,8 @@
                 type="text"
                 name="dateSubEnd"
                 id="dateSubEnd"
-                value="<%= poll.dateSubEnd %>"
+                required
+                value="<%= poll.dateSubEnd.toLocaleString() %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
@@ -82,7 +85,8 @@
                 type="text"
                 name="dateEnd"
                 id="dateEnd"
-                value="<%= poll.dateEnd %>"
+                required
+                value="<%= poll.dateEnd.toLocaleString() %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
 

@@ -9,7 +9,17 @@ const getCreatePoll = async (req, res, next) => {
 
 const createPoll = async (req, res, next) => {
   try {
-    const Poll = await PollService.createPoll(req.body);
+    const formData = req.body;
+    // Validation logic
+    if (
+      !formData.namePoll ||
+      !formData.dateStart ||
+      !formData.dateSubEnd ||
+      !formData.dateEnd
+    ) {
+      return res.redirect("/qam/poll/create");
+    }
+    const Poll = await PollService.createPoll(formData);
     return res.redirect("/qam/poll");
   } catch (err) {
     return err;
@@ -48,6 +58,14 @@ const updatePoll = async (req, res, next) => {
   const { id } = req.params;
   const updateObject = req.body;
   try {
+    if (
+      !updateObject.namePoll ||
+      !updateObject.dateStart ||
+      !updateObject.dateSubEnd ||
+      !updateObject.dateEnd
+    ) {
+      return res.redirect(`/qam/poll/edit/${id}`);
+    }
     const Polls = await PollService.updatePoll(
       { _id: id },
       { $set: updateObject },

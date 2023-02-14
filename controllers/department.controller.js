@@ -9,6 +9,11 @@ const getCreateDepartment = async (req, res) => {
 
 const createDepartment = async (req, res) => {
   try {
+    const formData = req.body;
+    // Validation logic
+    if (!formData.nameDepartment) {
+      return res.redirect("/qam/department/create");
+    }
     const department = await DepartmentService.createDepartment(req.body);
     return res.redirect("/qam/department");
   } catch (err) {
@@ -56,6 +61,10 @@ const updateDepartment = async (req, res) => {
   const { id } = req.params;
   const updateObject = req.body;
   try {
+    // Validation logic
+    if (!updateObject.nameDepartment) {
+      return res.redirect(`/qam/department/edit/${id}`);
+    }
     const departments = await DepartmentService.updateDepartment(
       { _id: id },
       { $set: updateObject },
