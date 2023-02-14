@@ -33,6 +33,7 @@ const getEditPoll = async (req, res, next) => {
   const { id } = req.params;
   try {
     const poll = await PollService.getPoll({ _id: id });
+
     return res.render("partials/master", {
       title: "Poll Edit",
       content: "../qam/poll/editPollPage",

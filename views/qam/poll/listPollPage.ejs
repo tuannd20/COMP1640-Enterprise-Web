@@ -27,6 +27,7 @@
               <th class="py-3 px-6 text-left">Start date</th>
               <th class="py-3 px-6 text-left">Sub-end date</th>
               <th class="py-3 px-6 text-left">Main end date</th>
+              <th class="py-3 px-6 text-left">Active</th>
               <th class="py-3 px-6 text-center">Actions</th>
             </tr>
           </thead>
@@ -48,10 +49,13 @@
               <td class="py-3 px-6 text-left">
                 <span class="font-medium"><%= poll.dateEnd%></span>
               </td>
+              <td class="py-3 px-6 text-left">
+                <span class="font-medium"><%= poll.isUsed%></span>
+              </td>
 
               <td class="py-3 px-6 text-center">
                 <div class="flex item-center justify-center">
-                  <div
+                  <!-- <div
                     class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                   >
                     <svg
@@ -73,7 +77,7 @@
                         d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                       />
                     </svg>
-                  </div>
+                  </div> -->
                   <div
                     class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
                   >
