@@ -13,8 +13,8 @@ router.get("/account/edit", AccountController.renderEditAccountPage);
 
 // Router for Terms
 router.get("/terms", RuleController.getAllRule);
-router.get("/account/create", RuleController.renderCreateTermsPage);
-router.post("/account/create", RuleController.createRule);
-router.get("/account/edit", RuleController.renderEditTermsPage);
+router.get("/terms/create", RuleController.renderCreateTermsPage);
+router.post("/terms/create", RuleController.createRule);
+router.get("/terms/edit", RuleController.renderEditTermsPage);
 
 module.exports = router;

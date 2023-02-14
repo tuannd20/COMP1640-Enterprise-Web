@@ -4,7 +4,11 @@ const createRule = async (req, res) => {
   try {
     const rule = await RuleService.createRule(req.body);
 
-    return res.json("Rule page");
+    return res.render("partials/master", {
+      title: "Create new account",
+      content: "../admin/terms/createTermsPage",
+      rule,
+    });
   } catch (err) {
     console.log(err);
     return err;
@@ -13,15 +17,15 @@ const createRule = async (req, res) => {
 
 const renderCreateTermsPage = async (req, res) => {
   res.render("partials/master", {
-    title: "Create new account",
-    content: "../admin/account/createAccountPage",
+    title: "Create new terms",
+    content: "../admin/terms/createTermsPage",
   });
 };
 
 const renderEditTermsPage = async (req, res) => {
   res.render("partials/master", {
-    title: "Create new account",
-    content: "../admin/account/editAccountPage",
+    title: "Create new terms",
+    content: "../admin/terms/editTermsPage",
   });
 };
 

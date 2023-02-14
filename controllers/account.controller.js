@@ -25,15 +25,15 @@ const createStaff = async (req, res) => {
   try {
     const account = req.body;
     const staff = await StaffService.createStaff(account);
+    const department = await DepartmentService.getAllDepartment();
 
     // const findStaff = await StaffService.findStaff(req.params.email);
     // if (!findStaff) return res.status(400).send("Email has been used before");
-    // return res.render("partials/master", {
-    //   title: "Create new account",
-    //   content: "../admin/account/createAccountPage",
-    //   staff,
-    // });
-    return res.json(staff);
+    return res.render("partials/master", {
+      title: "Create new account",
+      content: "../admin/account/createAccountPage",
+      staff,
+    });
   } catch (err) {
     console.log(err);
     return err;
