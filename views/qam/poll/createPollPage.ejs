@@ -3,52 +3,54 @@
     class="relative p-3 border-2 idea border-stone-700 rounded-2xl h-[70%] min-h-[70%] opacity-80 overflow-y-auto"
   >
     <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="font-extrabold w-7 h-7 text-sky-900 hover:text-sky-400"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
-        />
-      </svg>
+      <a href="/qam/poll">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="font-extrabold w-7 h-7 text-sky-900 hover:text-sky-400"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+          />
+        </svg>
+      </a>
 
       <div class="m-auto">Create a new poll</div>
     </div>
     <div class="content-idea">
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px]">
-          <form action="/createpoll" method="POST">
+          <form action="/qam/poll/create" method="POST">
             <div class="mb-4">
               <label
                 for="name"
                 class="mb-3 block text-base font-medium text-[#07074D] select-none"
               >
-                Name
+                Title
               </label>
               <input
                 type="text"
-                name="name"
-                id="name"
+                name="namePoll"
+                id="namePoll"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
             <div class="mb-4">
               <label
-                for="startDate"
+                for="dateStart"
                 class="mb-3 block text-base font-medium text-[#07074D] select-none"
               >
                 Start date
               </label>
               <input
                 type="date"
-                name="startDate"
-                id="startDate"
+                name="dateStart"
+                id="dateStart"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
@@ -61,8 +63,8 @@
               </label>
               <input
                 type="date"
-                name="subEndDate"
-                id="subEndDate"
+                name="dateSubEnd"
+                id="dateSubEnd"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
@@ -75,8 +77,8 @@
               </label>
               <input
                 type="date"
-                name="finalEndDate"
-                id="finalEndDate"
+                name="dateEnd"
+                id="dateEnd"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>

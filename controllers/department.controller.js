@@ -10,7 +10,7 @@ const getCreateDepartment = async (req, res) => {
 const createDepartment = async (req, res) => {
   try {
     const department = await DepartmentService.createDepartment(req.body);
-    return res.json(department);
+    return res.redirect("/qam/department");
   } catch (err) {
     return err;
   }
@@ -45,7 +45,7 @@ const getEditDepartment = async (req, res) => {
     return res.render("partials/master", {
       title: "Department Edit",
       content: "../qam/department/editDepartmentpage",
-      Department: department,
+      department,
     });
   } catch (err) {
     return err;
@@ -61,7 +61,7 @@ const updateDepartment = async (req, res) => {
       { $set: updateObject },
     );
 
-    return res.json(departments);
+    return res.redirect("/qam/department");
   } catch (err) {
     return err;
   }
