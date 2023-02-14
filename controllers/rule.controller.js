@@ -11,6 +11,20 @@ const createRule = async (req, res) => {
   }
 };
 
+const renderCreateTermsPage = async (req, res) => {
+  res.render("partials/master", {
+    title: "Create new account",
+    content: "../admin/account/createAccountPage",
+  });
+};
+
+const renderEditTermsPage = async (req, res) => {
+  res.render("partials/master", {
+    title: "Create new account",
+    content: "../admin/account/editAccountPage",
+  });
+};
+
 const updateRule = async (req, res) => {
   try {
     const rule = await RuleService.updateRule(req.params.id, req.body);
@@ -62,6 +76,8 @@ const getAllRule = async (req, res) => {
 module.exports = {
   createRule,
   updateRule,
+  renderCreateTermsPage,
+  renderEditTermsPage,
   deleteOneRule,
   getAllRule,
   deleteAllRule,

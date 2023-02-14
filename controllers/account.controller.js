@@ -1,13 +1,16 @@
 const StaffService = require("../services/staff.service");
+const DepartmentService = require("../services/department.service");
 
 const index = async (req, res) => {
   res.render("login");
 };
 
 const renderCreateAccountPage = async (req, res) => {
+  const departments = await DepartmentService.getAllDepartment();
   res.render("partials/master", {
     title: "Create new account",
     content: "../admin/account/createAccountPage",
+    departments,
   });
 };
 
@@ -20,13 +23,17 @@ const renderEditAccountPage = async (req, res) => {
 
 const createStaff = async (req, res) => {
   try {
-    const staff = await StaffService.createStaff(req.body);
+    const account = req.body;
+    const staff = await StaffService.createStaff(account);
 
-    return res.render("partials/master", {
-      title: "Create new account",
-      content: "../admin/account/createAccountPage",
-      staff,
-    });
+    // const findStaff = await StaffService.findStaff(req.params.email);
+    // if (!findStaff) return res.status(400).send("Email has been used before");
+    // return res.render("partials/master", {
+    //   title: "Create new account",
+    //   content: "../admin/account/createAccountPage",
+    //   staff,
+    // });
+    return res.json(staff);
   } catch (err) {
     console.log(err);
     return err;

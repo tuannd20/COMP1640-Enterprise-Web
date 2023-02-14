@@ -20,7 +20,7 @@
 
       <div class="m-auto">Create a new account</div>
     </div>
-    <div class="flex flex-row justify-center gap-4 header-account">
+    <!-- <div class="flex flex-row justify-center gap-4 header-account">
       <div class="Department">
         <label for="product-type">
           Department
@@ -30,11 +30,11 @@
             id="product-type"
             class="border rounded-lg py-[2px] border-slate-400"
           >
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">nhanhyeucau</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
+            <% departments.forEach(function(department) { %>
+            <option value="<%= department._id %>">
+              <%= department.nameDepartment %>
+            </option>
+            <% }) %>
           </select>
         </label>
       </div>
@@ -47,9 +47,59 @@
             form="create-form-account"
             class="border rounded-lg py-[2px] border-slate-400"
           >
-            <option value="0">All</option>
-            <option value="1">Without comment</option>
-            <option value="2">Anonimous</option>
+            <option value="All">All</option>
+            <option value="Without comment">Without comment</option>
+            <option value="Anonymous">Anonymous</option>
+          </select>
+        </label>
+      </div>
+      <div class="italic terms">
+        <label for="myCheck"> Active</label>
+        <input
+          type="checkbox"
+          id="myCheck"
+          name="active"
+          form="create-form-account"
+          class="border rounded-full"
+        />
+      </div>
+    </div> -->
+    <div class="mx-auto w-full max-w-[550px] mt-5">
+      <form
+        action="/admin/account/create"
+        method="POST"
+        id="create-form-account"
+      >
+      <div class="flex flex-row justify-center gap-4 header-account">
+      <div class="Department">
+        <label for="product-type">
+          Department
+          <select
+            name="department-type"
+            form="create-form-account"
+            id="product-type"
+            class="border rounded-lg py-[2px] border-slate-400"
+          >
+            <% departments.forEach(function(department) { %>
+            <option value="<%= department._id %>">
+              <%= department.nameDepartment %>
+            </option>
+            <% }) %>
+          </select>
+        </label>
+      </div>
+      <div class="role">
+        <label for="type">
+          Role
+          <select
+            name="role"
+            id="type"
+            form="create-form-account"
+            class="border rounded-lg py-[2px] border-slate-400"
+          >
+            <option value="All">All</option>
+            <option value="Without comment">Without comment</option>
+            <option value="Anonymous">Anonymous</option>
           </select>
         </label>
       </div>
@@ -64,8 +114,6 @@
         />
       </div>
     </div>
-    <div class="mx-auto w-full max-w-[550px] mt-5">
-      <form action="/createpoll" method="GET" id="create-form-account">
         <div class="mb-4">
           <label
             for="name"
@@ -119,7 +167,7 @@
             Phone number
           </label>
           <input
-            type="text"
+            type="number"
             name="phoneNumber"
             id="phone"
             required
