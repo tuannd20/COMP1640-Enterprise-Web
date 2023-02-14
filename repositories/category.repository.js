@@ -16,7 +16,7 @@ const createCategory = async (data) => {
 
 const readCategories = async (id) => {
   try {
-    const category = await CategoryModel.find();
+    const category = await CategoryModel.find().populate("idDepartment");
     return category;
   } catch (err) {
     console.error(

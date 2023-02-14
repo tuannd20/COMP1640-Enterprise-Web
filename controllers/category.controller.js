@@ -1,6 +1,17 @@
 const CategoryService = require("../services/category.service");
 const DepartmentService = require("../services/department.service");
 
+const renderListCategoryPage = async (req, res, next) => {
+  try {
+    res.render("partials/master", {
+      title: "Category",
+      content: "../qa/category/listCategoryPage",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getCreateCategory = async (req, res, next) => {
   res.render("department/create");
 };
@@ -19,7 +30,12 @@ const createCategory = async (req, res, next) => {
 const getAllCategory = async (req, res, next) => {
   try {
     const categories = await CategoryService.getAllCategory();
-    // return res.render("department/index", departments);
+
+    // return res.render("partials/master", {
+    //   title: "Category",
+    //   content: "../qa/category/listCategoryPage",
+    //   categories,
+    // });
     return res.json(categories);
   } catch (err) {
     console.log(err);
@@ -99,4 +115,5 @@ module.exports = {
   updateCategory,
   deleteAllCategory,
   deleteOneCategory,
+  renderListCategoryPage,
 };

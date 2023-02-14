@@ -4,6 +4,20 @@ const index = async (req, res) => {
   res.render("login");
 };
 
+const renderCreateAccountPage = async (req, res) => {
+  res.render("partials/master", {
+    title: "Create new account",
+    content: "../admin/account/createAccountPage",
+  });
+};
+
+const renderEditAccountPage = async (req, res) => {
+  res.render("partials/master", {
+    title: "Create new account",
+    content: "../admin/account/editAccountPage",
+  });
+};
+
 const createStaff = async (req, res) => {
   try {
     const staff = await StaffService.createStaff(req.body);
@@ -115,6 +129,8 @@ const logout = async (req, res) => {
 
 module.exports = {
   index,
+  renderCreateAccountPage,
+  renderEditAccountPage,
   createStaff,
   updateStaff,
   deleteOneStaff,

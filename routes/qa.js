@@ -7,6 +7,8 @@ router.get("/", (req, res) => {
   res.render("homeStaff", { title: "Express" });
 });
 
+router.get("/categories", CategoryController.getAllCategory);
+
 // [GET] create department
 // router.get("/category/create", CategoryController.createCategory);
 
