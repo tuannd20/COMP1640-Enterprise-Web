@@ -65,19 +65,18 @@
                 class="text-base font-medium text-[#07074D] pr-3"
               >
                 Active</label
-              >
-              <% if (department.isUsed === false) { %>
-              <input
-                type="checkbox"
-                id="myCheck"
+              ><input
+                type="hidden"
                 name="isUsed"
-                class="border rounded-full"
+                id="isUsedInput"
+                value="<%= department.isUsed %>"
               />
+              <% if (department.isUsed === false) { %>
+              <input type="checkbox" id="myCheck" class="border rounded-full" />
               <% } else { %>
               <input
                 type="checkbox"
                 id="myCheck"
-                name="isUsed"
                 class="border rounded-full"
                 checked
               />
@@ -94,4 +93,12 @@
       </div>
     </div>
   </div>
+  <script>
+    const checkbox = document.getElementById("myCheck");
+    const isUsedInput = document.getElementById("isUsedInput");
+
+    checkbox.addEventListener("change", () => {
+      isUsedInput.value = checkbox.checked ? "true" : "false";
+    });
+  </script>
 </Main>

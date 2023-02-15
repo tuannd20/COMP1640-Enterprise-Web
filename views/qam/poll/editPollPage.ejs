@@ -54,7 +54,7 @@
                 name="dateStart"
                 id="dateStart"
                 required
-                value="<%= poll.dateStart.toLocaleString() %>"
+                value="<%= poll.dateStart.toLocaleDateString() %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
@@ -70,7 +70,7 @@
                 name="dateSubEnd"
                 id="dateSubEnd"
                 required
-                value="<%= poll.dateSubEnd.toLocaleString() %>"
+                value="<%= poll.dateSubEnd.toLocaleDateString() %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
@@ -86,7 +86,7 @@
                 name="dateEnd"
                 id="dateEnd"
                 required
-                value="<%= poll.dateEnd.toLocaleString() %>"
+                value="<%= poll.dateEnd.toLocaleDateString() %>"
                 class="w-full rounded-md border mb-3 border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
 
@@ -96,18 +96,18 @@
               >
                 Active</label
               >
-              <% if (poll.isUsed === false) { %>
               <input
-                type="checkbox"
-                id="myCheck"
+                type="hidden"
                 name="isUsed"
-                class="border rounded-full"
+                id="isUsedInput"
+                value="<%= poll.isUsed %>"
               />
+              <% if (poll.isUsed === false) { %>
+              <input type="checkbox" id="myCheck" class="border rounded-full" />
               <% } else { %>
               <input
                 type="checkbox"
                 id="myCheck"
-                name="isUsed"
                 class="border rounded-full"
                 checked
               />
@@ -123,4 +123,12 @@
       </div>
     </div>
   </div>
+  <script>
+    const checkbox = document.getElementById("myCheck");
+    const isUsedInput = document.getElementById("isUsedInput");
+
+    checkbox.addEventListener("change", () => {
+      isUsedInput.value = checkbox.checked ? "true" : "false";
+    });
+  </script>
 </Main>

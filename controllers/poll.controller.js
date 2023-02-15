@@ -88,6 +88,7 @@ const updatePoll = async (req, res, next) => {
       { $set: updateObject },
     );
     return res.redirect("/qam/poll");
+    // return res.json(Polls);
   } catch (err) {
     return err;
   }
