@@ -3,20 +3,22 @@
     class="relative p-3 border-2 border-stone-700 rounded-2xl h-[70%] min-h-[70%] opacity-80 mb-10"
   >
     <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="font-extrabold w-7 h-7 text-sky-900 hover:text-sky-400"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
-        />
-      </svg>
+      <a href="/admin/account">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="font-extrabold w-7 h-7 text-sky-900 hover:text-sky-400"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+          />
+        </svg>
+      </a>
 
       <div class="m-auto">Edit account</div>
     </div>
@@ -28,16 +30,16 @@
         >
           Department
           <select
-            name="department-type"
+            name="idDepartment"
             form="create-form-account"
-            id="product-type"
+            id="idDepartment"
             class="border rounded-lg py-[2px] border-slate-400"
           >
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2" selected>nhanhyeucau</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
+            <% departments.forEach(function(department) { %>
+            <option value="<%= department.id %>">
+              <%= department.nameDepartment %>
+            </option>
+            <% }) %>
           </select>
         </label>
       </div>
@@ -48,14 +50,14 @@
         >
           Role
           <select
-            name="role"
-            id="type"
+            name="idRole"
+            id="idRole"
             form="create-form-account"
             class="border rounded-lg py-[2px] border-slate-400"
           >
-            <option value="0">All</option>
-            <option value="1">Without comment</option>
-            <option value="2">Anonimous</option>
+            <% roles.forEach(function(role) { %>
+            <option value="<%= role.id %>"><%= role.nameRole %></option>
+            <% }) %>
           </select>
         </label>
       </div>
@@ -68,7 +70,8 @@
         >
         <input
           type="checkbox"
-          id="myCheck"
+          id="lockAccount"
+          value="true"
           name="active"
           form="create-form-account"
           class="border rounded-full"
@@ -76,7 +79,7 @@
       </div>
     </div>
     <div class="mx-auto w-full max-w-[550px] mt-5">
-      <form action="/createpoll" method="GET" id="create-form-account">
+      <form action="/admin/account/edit" method="POST" id="create-form-account">
         <div class="mb-4">
           <label
             for="name"
@@ -86,8 +89,8 @@
           </label>
           <input
             type="text"
-            name="fullname"
-            id="name"
+            name="fullName"
+            id="fullName"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />

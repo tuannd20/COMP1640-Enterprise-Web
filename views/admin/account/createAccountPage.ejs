@@ -98,9 +98,7 @@
                 class="border rounded-lg py-[2px] border-slate-400"
               >
                 <% roles.forEach(function(role) { %>
-                <option value="<%= role.nameRole %>">
-                  <%= role.nameRole %>
-                </option>
+                <option value="<%= role.id %>"><%= role.nameRole %></option>
                 <% }) %>
               </select>
             </label>
@@ -109,8 +107,9 @@
             <label for="myCheck"> Active</label>
             <input
               type="checkbox"
-              id="myCheck"
-              name="active"
+              id="lockAccount"
+              value="true"
+              name="lockAccount"
               form="create-form-account"
               class="border rounded-full"
             />
@@ -125,8 +124,8 @@
           </label>
           <input
             type="text"
-            name="fullname"
-            id="name"
+            name="fullName"
+            id="fullName"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -171,7 +170,7 @@
           <input
             type="number"
             name="phoneNumber"
-            id="phone"
+            id="phoneNumber"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />

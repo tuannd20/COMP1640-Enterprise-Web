@@ -16,7 +16,10 @@ const StaffSchema = new Schema(
     avatarImage: String,
     address: String,
     phoneNumber: String,
-    lockAccount: Boolean,
+    lockAccount: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 );

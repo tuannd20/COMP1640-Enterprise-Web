@@ -14,7 +14,8 @@ const createStaff = async (data) => {
 
 const getAllStaff = async () => {
   try {
-    const staffs = await StaffModel.find().populate("idDepartment");
+    const staffs = await StaffModel.find().populate(["idDepartment", "idRole"]);
+    console.log(staffs);
     return staffs;
   } catch (err) {
     console.log(err);

@@ -10,6 +10,7 @@ router.get("/account", AccountController.getAllStaff);
 router.get("/account/create", AccountController.renderCreateAccountPage);
 router.post("/account/create", AccountController.createStaff);
 router.get("/account/edit", AccountController.renderEditAccountPage);
+router.post("/account/edit", AccountController.updateStaff);
 
 // Router for Terms
 router.get("/terms", RuleController.getAllRule);
