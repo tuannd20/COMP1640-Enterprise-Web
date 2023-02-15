@@ -9,8 +9,13 @@ const getCreateDepartment = async (req, res) => {
 
 const createDepartment = async (req, res) => {
   try {
+    const formData = req.body;
+    // Validation logic
+    if (!formData.nameDepartment) {
+      return res.redirect("/qam/department/create");
+    }
     const department = await DepartmentService.createDepartment(req.body);
-    return res.json(department);
+    return res.redirect("/qam/department");
   } catch (err) {
     return err;
   }
@@ -45,7 +50,7 @@ const getEditDepartment = async (req, res) => {
     return res.render("partials/master", {
       title: "Department Edit",
       content: "../qam/department/editDepartmentpage",
-      Department: department,
+      department,
     });
   } catch (err) {
     return err;
@@ -56,12 +61,16 @@ const updateDepartment = async (req, res) => {
   const { id } = req.params;
   const updateObject = req.body;
   try {
+    // Validation logic
+    if (!updateObject.nameDepartment) {
+      return res.redirect(`/qam/department/edit/${id}`);
+    }
     const departments = await DepartmentService.updateDepartment(
       { _id: id },
       { $set: updateObject },
     );
 
-    return res.json(departments);
+    return res.redirect("/qam/department");
   } catch (err) {
     return err;
   }

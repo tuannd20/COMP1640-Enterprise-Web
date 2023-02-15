@@ -7,7 +7,7 @@ const PollSchema = new Schema(
     namePoll: String,
     dateStart: Date,
     dateEnd: Date,
-    dateTotal: Date,
+    dateSubEnd: Date,
     isUsed: {
       type: Boolean,
       default: false,
