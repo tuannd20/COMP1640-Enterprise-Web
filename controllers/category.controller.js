@@ -14,28 +14,15 @@ const renderListCategoryPage = async (req, res, next) => {
 
 const rederCreateCategoryPage = async (req, res, next) => {
   try {
+    const Departments = await DepartmentService.getAllDepartment();
     res.render("partials/master", {
       title: "Category",
       content: "../qa/category/createCategoryPage",
+      Departments,
     });
   } catch (error) {
     console.log(error);
   }
-};
-
-const redereditCategoryPage = async (req, res, next) => {
-  try {
-    res.render("partials/master", {
-      title: "Category",
-      content: "../qa/category/editCategoryPage",
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const getCreateCategory = async (req, res, next) => {
-  res.render("department/create");
 };
 
 const createCategory = async (req, res, next) => {
@@ -137,7 +124,6 @@ const deleteAllCategory = async (req, res, next) => {
 };
 
 module.exports = {
-  getCreateCategory,
   createCategory,
   getAllCategory,
   getEditCategory,
@@ -146,5 +132,4 @@ module.exports = {
   deleteOneCategory,
   renderListCategoryPage,
   rederCreateCategoryPage,
-  redereditCategoryPage,
 };
