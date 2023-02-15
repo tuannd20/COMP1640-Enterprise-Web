@@ -18,16 +18,18 @@ const renderCreateAccountPage = async (req, res) => {
 };
 
 const renderEditAccountPage = async (req, res) => {
-  const staff = await StaffService.displayStaffById(req.id);
+  const { id } = req.params;
+  const staff = await StaffService.displayStaffById({ _id: id });
   const departments = await DepartmentService.getAllDepartment();
   const roles = await RoleService.getAllRole();
-  res.render("partials/master", {
+  return res.render("partials/master", {
     title: "Edit account",
     content: "../admin/account/editAccountPage",
     staff,
     departments,
     roles,
   });
+  // return res.json(staff);
 };
 
 const createStaff = async (req, res) => {
@@ -38,6 +40,7 @@ const createStaff = async (req, res) => {
     // const findStaff = await StaffService.findStaff(req.params.email);
     // if (!findStaff) return res.status(400).send("Email has been used before");
     return res.redirect("/admin/account");
+    // return res.json(staff);
   } catch (err) {
     console.log(err);
     return err;
@@ -45,10 +48,13 @@ const createStaff = async (req, res) => {
 };
 
 const displayStaffById = async (req, res) => {
+  const { id } = req.params;
   try {
-    const staff = await StaffService.displayStaffById(req.body);
+    const staff = await StaffService.displayStaffById({ _id: id });
 
-    return res.render("profile/profileStaff", {
+    return res.render("partials/master", {
+      title: "Edit Account",
+      content: "../admin/account/editAccountPage",
       staff,
     });
   } catch (err) {
@@ -74,12 +80,16 @@ const getAllStaff = async (req, res) => {
 };
 
 const updateStaff = async (req, res) => {
+  const { id } = req.params;
+  const updateObject = req.body;
   try {
-    const staff = await StaffService.updateStaff(req.params.id, req.body);
-
-    return res.json("Staff page");
+    const staff = await StaffService.updateStaff(
+      { _id: id },
+      { $set: updateObject },
+    );
+    return res.redirect("/admin/account");
+    // return .jresson(staff);
   } catch (err) {
-    console.log(err);
     return err;
   }
 };

@@ -11,22 +11,25 @@ const createRule = async (data) => {
   }
 };
 
-const updateRule = async (_id, body) => {
+const updateRule = async (id, data) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = _id;
-    const updateObject = body;
-    const rule = await RuleRepository.updateRule(
-      { _id: id },
-      { $set: updateObject },
-    );
+    const rule = await RuleRepository.updateRule(id, data);
     return rule;
   } catch (err) {
     console.log(err);
     return err;
   }
 };
+const displayRuleById = async (id) => {
+  try {
+    const rule = await RuleRepository.displayRuleById(id);
 
+    return rule;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
 const deleteOneRule = async (_id) => {
   try {
     // eslint-disable-next-line no-underscore-dangle
@@ -65,4 +68,5 @@ module.exports = {
   getAllRule,
   deleteOneRule,
   deleteAllRule,
+  displayRuleById,
 };

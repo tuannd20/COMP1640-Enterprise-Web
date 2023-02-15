@@ -34,6 +34,7 @@
             form="create-form-account"
             id="idDepartment"
             class="border rounded-lg py-[2px] border-slate-400"
+            value="<%= staff.idDepartment.nameDepartment %>"
           >
             <% departments.forEach(function(department) { %>
             <option value="<%= department.id %>">
@@ -52,6 +53,7 @@
           <select
             name="idRole"
             id="idRole"
+            value="<%= staff.idRole.nameRole %>"
             form="create-form-account"
             class="border rounded-lg py-[2px] border-slate-400"
           >
@@ -71,15 +73,15 @@
         <input
           type="checkbox"
           id="lockAccount"
-          value="true"
-          name="active"
+          name="lockAccount"
+          value="<%= staff.lockAccount %>"
           form="create-form-account"
           class="border rounded-full"
         />
       </div>
     </div>
     <div class="mx-auto w-full max-w-[550px] mt-5">
-      <form action="/admin/account/edit" method="POST" id="create-form-account">
+      <form action="/admin/account/edit/<%= staff.id %>" method="POST">
         <div class="mb-4">
           <label
             for="name"
@@ -91,6 +93,7 @@
             type="text"
             name="fullName"
             id="fullName"
+            value="<%= staff.fullName %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -106,6 +109,7 @@
             type="email"
             name="email"
             id="email"
+            value="<%= staff.email %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -121,6 +125,7 @@
             type="text"
             name="address"
             id="address"
+            value="<%= staff.address %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -135,7 +140,8 @@
           <input
             type="text"
             name="phoneNumber"
-            id="phone"
+            id="phoneNumber"
+            value="<%= staff.phoneNumber %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />

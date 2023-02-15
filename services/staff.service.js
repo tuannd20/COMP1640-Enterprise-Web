@@ -33,15 +33,9 @@ const displayStaffById = async (id) => {
   }
 };
 
-const updateStaff = async (_id, body) => {
+const updateStaff = async (id, data) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = _id;
-    const updateObject = body;
-    const staff = await StaffRepository.updateMany(
-      { _id: id },
-      { $set: updateObject },
-    );
+    const staff = await StaffRepository.updateStaff(id, data);
     return staff;
   } catch (err) {
     console.log(err);

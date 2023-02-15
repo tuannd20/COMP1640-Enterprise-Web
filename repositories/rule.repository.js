@@ -10,17 +10,19 @@ const createRule = async (data) => {
     return err;
   }
 };
-
-const updateRule = async (_id, body) => {
+const displayRuleById = async (id) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = _id;
-    const updateObject = body;
-    // eslint-disable-next-line no-underscore-dangle, max-len
-    const rule = await RuleModel.updateMany(
-      { _id: id },
-      { $set: updateObject },
-    );
+    const rule = await RuleModel.findById(id);
+
+    return rule;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+const updateRule = async (id, data) => {
+  try {
+    const rule = await RuleModel.updateMany(id, data);
     return rule;
   } catch (err) {
     console.log(err);
@@ -66,4 +68,5 @@ module.exports = {
   getAllRule,
   deleteOneRule,
   deleteAllRule,
+  displayRuleById,
 };
