@@ -22,66 +22,75 @@
 
       <div class="m-auto">Edit account</div>
     </div>
-    <div class="flex flex-row justify-center gap-4 header-account">
-      <div class="Department">
-        <label
-          for="product-type"
-          class="block text-base font-medium text-black select-none"
-        >
-          Department
-          <select
-            name="idDepartment"
-            form="create-form-account"
-            id="idDepartment"
-            class="border rounded-lg py-[2px] border-slate-400"
-            value="<%= staff.idDepartment.nameDepartment %>"
-          >
-            <% departments.forEach(function(department) { %>
-            <option value="<%= department.id %>">
-              <%= department.nameDepartment %>
-            </option>
-            <% }) %>
-          </select>
-        </label>
-      </div>
-      <div class="role">
-        <label
-          for="type"
-          class="block text-base font-medium text-black select-none"
-        >
-          Role
-          <select
-            name="idRole"
-            id="idRole"
-            value="<%= staff.idRole.nameRole %>"
-            form="create-form-account"
-            class="border rounded-lg py-[2px] border-slate-400"
-          >
-            <% roles.forEach(function(role) { %>
-            <option value="<%= role.id %>"><%= role.nameRole %></option>
-            <% }) %>
-          </select>
-        </label>
-      </div>
-      <div class="italic terms">
-        <label
-          for="myCheck"
-          class="text-base font-medium text-black select-none"
-        >
-          Active</label
-        >
-        <input
-          type="checkbox"
-          id="lockAccount"
-          name="lockAccount"
-          value="<%= staff.lockAccount %>"
-          form="create-form-account"
-          class="border rounded-full"
-        />
-      </div>
-    </div>
     <div class="mx-auto w-full max-w-[550px] mt-5">
-      <form action="/admin/account/edit/<%= staff.id %>" method="POST">
+      <form
+        action="/admin/account/edit/<%= staff.id %>"
+        method="POST"
+        id="edit-form-account"
+      >
+        <div class="flex flex-row justify-center gap-4 header-account">
+          <div class="Department">
+            <label for="product-type">
+              Department
+              <select
+                name="idDepartment"
+                form="edit-form-account"
+                id="idDepartment"
+                class="border rounded-lg py-[2px] border-slate-400"
+              >
+                <option value="<%= staff.idDepartment._id %>">
+                  <%= staff.idDepartment.nameDepartment %>
+                </option>
+                <% departments.forEach(function(department) { %>
+                <option value="<%= department.id %>">
+                  <%= department.nameDepartment %>
+                </option>
+                <% }) %>
+              </select>
+            </label>
+          </div>
+          <div class="role">
+            <label for="type">
+              Role
+              <select
+                name="idRole"
+                id="idRole"
+                form="edit-form-account"
+                class="border rounded-lg py-[2px] border-slate-400"
+              >
+                <option value="<%= staff.idRole._id %>">
+                  <%= staff.idRole.nameRole %>
+                </option>
+                <% roles.forEach(function(role) { %>
+                <option value="<%= role.id %>"><%= role.nameRole %></option>
+                <% }) %>
+              </select>
+            </label>
+          </div>
+          <div class="italic terms">
+            <label for="myCheck"> Active</label>
+            <% if (staff.lockAccount === true) { %>
+            <input
+              type="checkbox"
+              id="lockAccount"
+              value="0"
+              name="lockAccount"
+              form="edit-form-account"
+              class="border rounded-full"
+              checked
+            />
+            <%}else { %>
+            <input
+              type="checkbox"
+              id="lockAccount"
+              name="lockAccount"
+              form="edit-form-account"
+              class="border rounded-full"
+              value="1"
+            />
+            <% } %>
+          </div>
+        </div>
         <div class="mb-4">
           <label
             for="name"
@@ -101,7 +110,7 @@
         <div class="mb-4">
           <label
             for="email"
-            class="block mb-3 text-base font-medium text-black select-none"
+            class="block mb-3 text-base font-medium text-black"
           >
             Email
           </label>
@@ -117,7 +126,7 @@
         <div class="mb-4">
           <label
             for="address"
-            class="block mb-3 text-base font-medium text-black select-none"
+            class="block mb-3 text-base font-medium text-black"
           >
             Address
           </label>
@@ -133,12 +142,12 @@
         <div class="mb-4">
           <label
             for="phone"
-            class="block mb-3 text-base font-medium text-black select-none"
+            class="block mb-3 text-base font-medium text-black"
           >
             Phone number
           </label>
           <input
-            type="text"
+            type="number"
             name="phoneNumber"
             id="phoneNumber"
             value="<%= staff.phoneNumber %>"
@@ -155,3 +164,7 @@
     </div>
   </div>
 </Main>
+<!-- <script>
+  let selectElement = document.getElementById("idDepartment");
+  selectElement.value = "<%= staff.idDepartment %>";
+</script> -->

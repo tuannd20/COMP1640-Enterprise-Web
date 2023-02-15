@@ -15,7 +15,6 @@ const createStaff = async (data) => {
 const getAllStaff = async () => {
   try {
     const staffs = await StaffModel.find().populate(["idDepartment", "idRole"]);
-    console.log(staffs);
     return staffs;
   } catch (err) {
     console.log(err);
@@ -46,7 +45,10 @@ const findStaff = async (data) => {
 
 const displayStaffById = async (id) => {
   try {
-    const staff = await StaffModel.findById(id);
+    const staff = await StaffModel.findById(id).populate([
+      "idDepartment",
+      "idRole",
+    ]);
 
     return staff;
   } catch (err) {

@@ -80,15 +80,16 @@ const getAllStaff = async (req, res) => {
 };
 
 const updateStaff = async (req, res) => {
-  const { id } = req.params;
-  const updateObject = req.body;
   try {
+    const { id } = req.params;
+    const updateObject = req.body;
+    console.log(updateObject);
     const staff = await StaffService.updateStaff(
       { _id: id },
-      { $set: updateObject },
+      { $set: req.body },
     );
     return res.redirect("/admin/account");
-    // return .jresson(staff);
+    // return res.json(staff);
   } catch (err) {
     return err;
   }
@@ -96,9 +97,9 @@ const updateStaff = async (req, res) => {
 
 const deleteOneStaff = async (req, res) => {
   try {
-    const staff = await StaffService.deleteOneStaff(req.params.id, req.body);
+    const staff = await StaffService.deleteOneStaff(req.params.id);
 
-    return res.json("Staff page");
+    return res.redirect("/admin/account");
   } catch (err) {
     console.log(err);
     return err;
