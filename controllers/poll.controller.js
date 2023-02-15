@@ -121,6 +121,15 @@ const deleteAllPoll = async (req, res, next) => {
   }
 };
 
+const getPollActivated = async (req, res) => {
+  try {
+    const Poll = await PollService.getPollActivated({});
+    return res.json(Poll);
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   getCreatePoll,
   createPoll,
@@ -129,4 +138,5 @@ module.exports = {
   getEditPoll,
   updatePoll,
   getAllPoll,
+  getPollActivated,
 };

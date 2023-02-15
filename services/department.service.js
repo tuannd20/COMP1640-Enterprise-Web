@@ -59,6 +59,15 @@ const getDepartment = async (id) => {
   }
 };
 
+const getDepartmentActivated = async () => {
+  try {
+    const result = await DepartmentRepository.getDepartmentActivated();
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createDepartment,
   getAllDepartment,
@@ -66,4 +75,5 @@ module.exports = {
   deleteAllDepartment,
   deleteOneDepartment,
   getDepartment,
+  getDepartmentActivated,
 };

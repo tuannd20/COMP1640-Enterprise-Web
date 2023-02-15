@@ -2,9 +2,9 @@ const PollModel = require("../database/models/Poll");
 
 const createPoll = async (data) => {
   try {
-    const department = await PollModel.create(data);
+    const Poll = await PollModel.create(data);
 
-    return department;
+    return Poll;
   } catch (err) {
     console.log(err);
     return err;
@@ -35,8 +35,8 @@ const getPoll = async (id) => {
 
 const updatePoll = async (id, data) => {
   try {
-    const department = await PollModel.updateMany(id, data);
-    return department;
+    const Poll = await PollModel.updateMany(id, data);
+    return Poll;
   } catch (err) {
     return err;
   }
@@ -60,6 +60,15 @@ const deleteAllPoll = async () => {
   }
 };
 
+const getPollActivated = async () => {
+  try {
+    const result = await PollModel.find({ isUsed: true });
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createPoll,
   getAllPoll,
@@ -67,4 +76,5 @@ module.exports = {
   deleteAllPoll,
   deleteOnePoll,
   getPoll,
+  getPollActivated,
 };

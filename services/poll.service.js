@@ -58,6 +58,15 @@ const deleteOnePoll = async (id) => {
   }
 };
 
+const getPollActivated = async () => {
+  try {
+    const result = await PollRepository.getPollActivated();
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createPoll,
   getAllPoll,
@@ -65,4 +74,5 @@ module.exports = {
   deleteAllPoll,
   deleteOnePoll,
   getPoll,
+  getPollActivated,
 };

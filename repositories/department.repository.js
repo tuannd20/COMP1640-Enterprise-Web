@@ -56,6 +56,15 @@ const getDepartment = async (id) => {
   }
 };
 
+const getDepartmentActivated = async () => {
+  try {
+    const result = await DepartmentModel.find({ isUsed: true });
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createDepartment,
   getAllDepartment,
@@ -63,4 +72,5 @@ module.exports = {
   deleteAllDepartment,
   deleteOneDepartment,
   getDepartment,
+  getDepartmentActivated,
 };

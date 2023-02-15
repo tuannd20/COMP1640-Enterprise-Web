@@ -38,6 +38,15 @@ const getAllDepartment = async (req, res) => {
   }
 };
 
+const getDepartmentActivated = async (req, res) => {
+  try {
+    const department = await DepartmentService.getDepartmentActivated({});
+    return res.json(department);
+  } catch (err) {
+    return err;
+  }
+};
+
 const getEditDepartment = async (req, res) => {
   const { id } = req.params;
   try {
@@ -111,4 +120,5 @@ module.exports = {
   updateDepartment,
   deleteAllDepartment,
   deleteOneDepartment,
+  getDepartmentActivated,
 };
