@@ -11,7 +11,7 @@ router.get("/account/create", AccountController.renderCreateAccountPage);
 router.post("/account/create", AccountController.createStaff);
 router.get("/account/edit/:id", AccountController.renderEditAccountPage);
 router.post("/account/edit/:id", AccountController.updateStaff);
-router.delete("/account/delete/:id", AccountController.deleteOneStaff);
+router.get("/account/delete/:id", AccountController.deleteOneStaff);
 
 // Router for Terms
 router.get("/terms", RuleController.getAllRule);

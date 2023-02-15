@@ -47,7 +47,7 @@ const deleteOneStaff = async (_id) => {
   try {
     // eslint-disable-next-line no-underscore-dangle
     const id = _id;
-    const staff = await StaffRepository.findByIdAndRemove(id);
+    const staff = await StaffRepository.deleteOneStaff(id);
     return staff;
   } catch (err) {
     console.log(err);
@@ -57,7 +57,7 @@ const deleteOneStaff = async (_id) => {
 
 const deleteAllStaff = async () => {
   try {
-    const staff = await StaffRepository.deleteMany();
+    const staff = await StaffRepository.deleteAllStaff();
     return staff;
   } catch (err) {
     console.log(err);

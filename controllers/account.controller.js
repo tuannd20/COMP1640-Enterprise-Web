@@ -97,8 +97,8 @@ const updateStaff = async (req, res) => {
 
 const deleteOneStaff = async (req, res) => {
   try {
-    const staff = await StaffService.deleteOneStaff(req.params.id);
-
+    const { id } = req.params;
+    const staff = await StaffService.deleteOneStaff(id);
     return res.redirect("/admin/account");
   } catch (err) {
     console.log(err);
