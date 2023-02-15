@@ -70,6 +70,7 @@ const updateCategory = async (req, res, next) => {
       { $set: updateObject },
     );
     return res.redirect("/qa/categories");
+    // return res.json(categories);
   } catch (err) {
     return err;
   }
