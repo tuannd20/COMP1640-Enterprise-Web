@@ -67,9 +67,10 @@ const displayTermById = async (req, res) => {
 };
 const deleteOneRule = async (req, res) => {
   try {
-    const rule = await RuleService.deleteOneRule(req.params.id);
+    const { id } = req.params;
+    const rule = await RuleService.deleteOneRule(id);
 
-    return res.json("Rule page");
+    return res.redirect("/admin/terms");
   } catch (err) {
     console.log(err);
     return err;

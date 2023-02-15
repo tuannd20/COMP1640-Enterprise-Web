@@ -19,5 +19,6 @@ router.get("/terms/create", RuleController.renderCreateTermsPage);
 router.post("/terms/create", RuleController.createRule);
 router.get("/terms/edit/:id", RuleController.renderEditTermsPage);
 router.post("/terms/edit/:id", RuleController.updateRule);
+router.get("/terms/delete/:id", RuleController.deleteOneRule);
 
 module.exports = router;
