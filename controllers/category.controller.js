@@ -3,12 +3,17 @@ const DepartmentService = require("../services/department.service");
 
 const renderListCategoryPage = async (req, res, next) => {
   try {
-    res.render("partials/master", {
+    const categories = await CategoryService.getAllCategory();
+
+    return res.render("partials/master", {
       title: "Category",
       content: "../qa/category/listCategoryPage",
+      categories,
     });
-  } catch (error) {
-    console.log(error);
+    // return res.json(categories);
+  } catch (err) {
+    console.log(err);
+    return err;
   }
 };
 
@@ -27,37 +32,33 @@ const rederCreateCategoryPage = async (req, res, next) => {
 
 const createCategory = async (req, res, next) => {
   try {
-    const categories = await CategoryService.createCategory();
-
-    return res.render("partials/master", {
-      title: "Category",
-      content: "../qa/category/createCategoryPage",
-      categories,
-    });
+    const formData = req.body;
+    // Validation logic
+    if (!formData.nameCategory || !formData.idDepartment) {
+      return res.redirect("/qa/category/create");
+    }
+    const category = await CategoryService.createCategory(formData);
+    return res.redirect("/qa/categories");
   } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
-
-const getAllCategory = async (req, res, next) => {
-  try {
-    const categories = await CategoryService.getAllCategory();
-
-    return res.render("partials/master", {
-      title: "Category",
-      content: "../qa/category/listCategoryPage",
-      categories,
-    });
-    // return res.json(categories);
-  } catch (err) {
-    console.log(err);
     return err;
   }
 };
 
 const getEditCategory = async (req, res, next) => {
-  res.render("department/edit");
+  const { id } = req.params;
+
+  try {
+    const category = await CategoryService.readCategoryById({ _id: id });
+    const department = await DepartmentService.getAllDepartment();
+    return res.render("partials/master", {
+      title: "Category",
+      content: "../qa/category/editCategoryPage",
+      category,
+      department,
+    });
+  } catch (err) {
+    return err;
+  }
 };
 
 const updateCategory = async (req, res, next) => {
@@ -68,35 +69,7 @@ const updateCategory = async (req, res, next) => {
       { _id: id },
       { $set: updateObject },
     );
-    return res.render("partials/master", {
-      title: "Category",
-      content: "../qa/category/editCategoryPage",
-      categories,
-    });
-  } catch (err) {
-    return err;
-  }
-};
-
-const deleteOneCategory = async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const checkCategory = await CategoryService.getCategory({
-      _id: id,
-    });
-
-    const checkDepartment = await DepartmentService.getDepartment({
-      _id: checkCategory.idDepartment,
-    });
-
-    if (checkCategory.isUsed == false && checkDepartment.isUsed == false) {
-      const category = await CategoryService.deleteOneCategory({
-        _id: id,
-      });
-      return res.json(category);
-    }
-
-    return res.send("This category is used");
+    return res.redirect("/qa/categories");
   } catch (err) {
     return err;
   }
@@ -105,19 +78,57 @@ const deleteOneCategory = async (req, res, next) => {
 // const deleteOneCategory = async (req, res, next) => {
 //   const { id } = req.params;
 //   try {
-//     const category = await CategoryService.deleteOneCategory({
+//     const checkCategory = await CategoryService.getCategory({
 //       _id: id,
 //     });
-//     return res.json(category);
+
+//     const checkDepartment = await DepartmentService.getDepartment({
+//       _id: checkCategory.idDepartment,
+//     });
+
+//     if (checkCategory.isUsed == false && checkDepartment.isUsed == false) {
+//       const category = await CategoryService.deleteOneCategory({
+//         _id: id,
+//       });
+//       return res.json(category);
+//     }
+
+//     return res.send("This category is used");
 //   } catch (err) {
 //     return err;
 //   }
 // };
 
+const deleteOneCategory = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const checkCategoryActive = await CategoryService.readCategoryById({
+      _id: id,
+    });
+
+    const checkDepartmentActive = await DepartmentService.getDepartment({
+      _id: checkCategoryActive.idDepartment,
+    });
+
+    if (
+      checkCategoryActive.isUsed === false &&
+      checkDepartmentActive.isUsed === false
+    ) {
+      const category = await CategoryService.deleteOneCategory({
+        _id: id,
+      });
+      return res.redirect("/qa/categories");
+    }
+    return res.redirect("/qa/categories");
+  } catch (err) {
+    return err;
+  }
+};
+
 const deleteAllCategory = async (req, res, next) => {
   try {
     const departments = await CategoryService.deleteAllCategory();
-    return res.json(departments);
+    return res.redirect("/qa/categories");
   } catch (err) {
     return err;
   }
@@ -125,7 +136,6 @@ const deleteAllCategory = async (req, res, next) => {
 
 module.exports = {
   createCategory,
-  getAllCategory,
   getEditCategory,
   updateCategory,
   deleteAllCategory,

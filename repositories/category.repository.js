@@ -3,13 +3,8 @@ const CategoryModel = require("../database/models/Category");
 const createCategory = async (data) => {
   try {
     const category = await CategoryModel.create(data);
-
     return category;
   } catch (err) {
-    console.error(
-      "🚀 ~ file: category.repository.js:18 ~ createCategory ~ err",
-      err,
-    );
     return err;
   }
 };
@@ -60,7 +55,20 @@ const deleteCategory = async (id) => {
     //   console.log("you can't delete a category");
     //   return reasult;
     // }
-    const category = await CategoryModel.findByIdAndDelete(id);
+    const category = await CategoryModel.findOneAndRemove(id);
+    return category;
+  } catch (err) {
+    console.error(
+      "🚀 ~ file: category.repository.js:38 ~ deleteCategory ~ err",
+      err,
+    );
+    return err;
+  }
+};
+
+const deleteAllCategory = async () => {
+  try {
+    const category = await CategoryModel.deleteMany();
     return category;
   } catch (err) {
     console.error(
@@ -77,4 +85,5 @@ module.exports = {
   readCategoryById,
   updateCategory,
   deleteCategory,
+  deleteAllCategory,
 };
