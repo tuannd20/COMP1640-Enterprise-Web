@@ -87,28 +87,31 @@
                 id="dateEnd"
                 required
                 value="<%= poll.dateEnd.toLocaleString() %>"
-                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                class="w-full rounded-md border mb-3 border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
 
               <label
-                for="finalEndDate"
-                class="mb-3 block text-base font-medium text-[#07074D]"
+                for="myCheck"
+                class="text-base font-medium text-[#07074D] pr-3"
               >
-                Active
-              </label>
-
-              <select
+                Active</label
+              >
+              <% if (poll.isUsed === false) { %>
+              <input
+                type="checkbox"
+                id="myCheck"
                 name="isUsed"
-                id="isUsed"
-                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-              >
-                <option value="<%= poll.isUsed %>"><%= poll.isUsed %></option>
-                <% if (poll.isUsed === false) { %>
-                <option value="true">true</option>
-                <% } else { %>
-                <option value="false">false</option>
-                <% } %>
-              </select>
+                class="border rounded-full"
+              />
+              <% } else { %>
+              <input
+                type="checkbox"
+                id="myCheck"
+                name="isUsed"
+                class="border rounded-full"
+                checked
+              />
+              <% } %>
             </div>
             <div
               class="w-1/6 px-3 py-2 m-auto text-center text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"

@@ -10,6 +10,16 @@ const getCreatePoll = async (req, res, next) => {
 const createPoll = async (req, res, next) => {
   try {
     const formData = req.body;
+    console.log(
+      "🚀 ------------------------------------------------------------------🚀",
+    );
+    console.log(
+      "🚀 ~ file: poll.controller.js:13 ~ createPoll ~ formData",
+      formData.dateStart,
+    );
+    console.log(
+      "🚀 ------------------------------------------------------------------🚀",
+    );
     // Validation logic
     if (
       !formData.namePoll ||
@@ -29,6 +39,13 @@ const createPoll = async (req, res, next) => {
 const getAllPoll = async (req, res, next) => {
   try {
     const Polls = await PollService.getAllPoll();
+    console.log(
+      "🚀 ------------------------------------------------------------🚀",
+    );
+    console.log("🚀 ~ file: poll.controller.js:42 ~ getAllPoll ~ Polls", Polls);
+    console.log(
+      "🚀 ------------------------------------------------------------🚀",
+    );
     return res.render("partials/master", {
       title: "Poll List",
       content: "../qam/poll/listpollpage",
