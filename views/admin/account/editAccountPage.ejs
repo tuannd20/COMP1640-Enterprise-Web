@@ -38,9 +38,6 @@
                 id="idDepartment"
                 class="border rounded-lg py-[2px] border-slate-400"
               >
-                <option value="<%= staff.idDepartment._id %>">
-                  <%= staff.idDepartment.nameDepartment %>
-                </option>
                 <% departments.forEach(function(department) { %>
                 <option value="<%= department.id %>">
                   <%= department.nameDepartment %>
@@ -58,9 +55,6 @@
                 form="edit-form-account"
                 class="border rounded-lg py-[2px] border-slate-400"
               >
-                <option value="<%= staff.idRole._id %>">
-                  <%= staff.idRole.nameRole %>
-                </option>
                 <% roles.forEach(function(role) { %>
                 <option value="<%= role.id %>"><%= role.nameRole %></option>
                 <% }) %>
@@ -164,7 +158,9 @@
     </div>
   </div>
 </Main>
-<!-- <script>
-  let selectElement = document.getElementById("idDepartment");
-  selectElement.value = "<%= staff.idDepartment %>";
-</script> -->
+<script>
+  let selectDepartment = document.getElementById("idDepartment");
+  let selectRole = document.getElementById("idRole");
+  selectDepartment.value = "<%= staff.idDepartment.id %>";
+  selectRole.value = "<%= staff.idRole.id %>";
+</script>
