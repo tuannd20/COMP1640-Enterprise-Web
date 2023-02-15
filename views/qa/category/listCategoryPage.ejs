@@ -23,8 +23,7 @@
               class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal"
             >
               <th class="py-3 px-6 text-center">ID</th>
-              <th class="py-3 px-6 text-center">Name</th>
-              <th class="py-3 px-6 text-center">Name Department</th>
+              <th class="py-3 px-6 text-center">Name Category</th>
               <th class="py-3 px-6 text-center">Active</th>
               <th class="py-3 px-6 text-center">Actions</th>
             </tr>
@@ -35,17 +34,9 @@
               <td class="py-3 px-6 text-center">
                 <span class="font-medium"><%= index + 1 %></span>
               </td>
-              <!-- <td class="py-3 px-6 text-center">
-                <span class="font-medium"><%= category._id%></span>
-              </td> -->
               <td class="py-3 px-6 text-center">
                 <span class="font-medium"><%= category.nameCategory%></span>
-              </td>
-              <td class="py-3 px-6 text-center">
-                <span class="font-medium"
-                  ><%= category.idDepartment.nameDepartment%></span
-                >
-              </td>
+              </td> 
               <td class="py-3 px-6 text-center">
                 <% if (category.isUsed === false) { %>
                 <span
