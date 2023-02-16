@@ -1,6 +1,6 @@
-<Main class="pt-[100px] w-3/5 m-auto h-screen">
+<Main class="pt-[100px] w-3/5 m-auto min-h-screen mb-5">
   <div
-    class="relative p-3 border-2 idea border-stone-700 rounded-2xl h-[70%] min-h-[70%] opacity-80"
+    class="relative h-auto p-3 pb-32 border-2 idea border-stone-700 rounded-2xl opacity-80"
   >
     <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
       <a href="/qa/categories">
@@ -41,26 +41,6 @@
                 value="<%= category.nameCategory %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
-              <label
-                for="name"
-                class="mb-3 block text-base font-medium text-[#07074D]"
-              >
-                Active
-              </label>
-              <select
-                name="isUsed"
-                id="isUsed"
-                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-              >
-                <option value="<%= category.isUsed %>">
-                  <%= category.isUsed %>
-                </option>
-                <% if (category.isUsed === false) { %>
-                <option value="true">true</option>
-                <% } else { %>
-                <option value="false">false</option>
-                <% } %>
-              </select>
             </div>
             <div
               class="absolute w-[90px] px-3 py-2 text-center text-white border-2 rounded-lg bottom-5 right-5 submit-btn bg-sky-900 hover:bg-sky-400"
