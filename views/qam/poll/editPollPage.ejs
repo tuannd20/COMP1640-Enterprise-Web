@@ -25,7 +25,11 @@
     <div class="content-idea">
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px]">
-          <form action="/qam/poll/edit/<%= poll.id %>" method="POST">
+          <form
+            action="/qam/poll/edit/<%= poll.id %>"
+            onsubmit="return validateForm()"
+            method="POST"
+          >
             <div class="mb-4">
               <label
                 for="name"
@@ -131,4 +135,58 @@
       isUsedInput.value = checkbox.checked ? "true" : "false";
     });
   </script> -->
+  <script>
+    function validateForm() {
+      const startDateInput = document.getElementById("dateStart");
+      const endSubDateInput = document.getElementById("dateSubEnd");
+      const endDateInput = document.getElementById("dateEnd");
+      const startDate = new Date(startDateInput.value);
+      // alert(startDate);
+      const endSubDate = new Date(endSubDateInput.value);
+      // alert(endSubDate);
+      const endDate = new Date(endDateInput.value);
+      // alert(endDate);
+      // Lấy ngày hiện tại
+      const currentDate = new Date();
+      // alert(currentDate);
+      // Check if start date is empty or not a valid date
+      if (startDateInput.value === "" || isNaN(startDate)) {
+        alert("Please enter a valid start date");
+        return false;
+      }
+
+      // Check if end date is empty or not a valid date
+      if (endSubDateInput.value === "" || isNaN(endSubDate)) {
+        alert("Please enter a valid end sub date");
+        return false;
+      }
+
+      // Check if end date is empty or not a valid date
+      if (endDateInput.value === "" || isNaN(endDate)) {
+        alert("Please enter a valid end date");
+        return false;
+      }
+
+      // Check if start date is earlier than start date
+      if (startDate < currentDate) {
+        alert("Start date must be later than or equal start current day");
+        return false;
+      }
+
+      // Check if end sub date is earlier than start date
+      if (endSubDate < startDate) {
+        alert("End sub date must be later than start date");
+        return false;
+      }
+
+      // Check if end date is earlier than start date
+      if (endDate < endSubDate) {
+        alert("End date must be later than end sub date");
+        return false;
+      }
+
+      // Validation passed
+      return true;
+    }
+  </script>
 </Main>

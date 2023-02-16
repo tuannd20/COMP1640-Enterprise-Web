@@ -10,12 +10,18 @@ const getCreateDepartment = async (req, res) => {
 const createDepartment = async (req, res) => {
   try {
     const formData = req.body;
+    const name = req.body.nameDepartment;
     // Validation logic
     if (!formData.nameDepartment) {
       return res.redirect("/qam/department/create");
     }
-    const department = await DepartmentService.createDepartment(req.body);
-    return res.redirect("/qam/department");
+    const checkDepartmentResit = await DepartmentService.findByName(name);
+    if (!checkDepartmentResit) {
+      const department = await DepartmentService.createDepartment(formData);
+      // return res.redirect("/qam/department");
+      return res.json(department);
+    }
+    return res.json(checkDepartmentResit);
   } catch (err) {
     return err;
   }
