@@ -99,6 +99,9 @@
                       id="idDepartment"
                       class="border rounded-lg py-[2px] border-slate-400"
                     >
+                    <option>
+                      Choose
+                    </option>
                       <% departments.forEach(function(department) { %>
                       <option value="<%= department.id %>">
                         <%= department.nameDepartment %>
@@ -116,6 +119,9 @@
                       form="create-form-account"
                       class="border rounded-lg py-[2px] border-slate-400"
                     >
+                    <option>
+                      Choose
+                    </option>
                       <% roles.forEach(function(role) { %>
                       <option value="<%= role.id %>">
                         <%= role.nameRole %>
