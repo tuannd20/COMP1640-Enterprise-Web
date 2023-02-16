@@ -50,11 +50,11 @@
                 Start date
               </label>
               <input
-                type="text"
+                type="date"
                 name="dateStart"
                 id="dateStart"
                 required
-                value="<%= poll.dateStart.toLocaleDateString() %>"
+                value="<%= poll.dateEnd.toISOString().slice(0,10) %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
@@ -66,11 +66,11 @@
                 Sub-end date
               </label>
               <input
-                type="text"
+                type="date"
                 name="dateSubEnd"
                 id="dateSubEnd"
                 required
-                value="<%= poll.dateSubEnd.toLocaleDateString() %>"
+                value="<%= poll.dateEnd.toISOString().slice(0,10) %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
@@ -82,11 +82,11 @@
                 Final end date
               </label>
               <input
-                type="text"
+                type="date"
                 name="dateEnd"
                 id="dateEnd"
                 required
-                value="<%= poll.dateEnd.toLocaleDateString() %>"
+                value="<%= poll.dateEnd.toISOString().slice(0,10) %>"
                 class="w-full rounded-md border mb-3 border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
 
