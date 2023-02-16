@@ -8,7 +8,7 @@ router.get("/", (req, res) => {
   // eslint-disable-next-line max-len, max-len, max-len
   res.render("partials/master", {
     title: "Express",
-    content: "../admin/account/createAccountPage",
+    content: "../staff/homePage",
   });
 });
 
