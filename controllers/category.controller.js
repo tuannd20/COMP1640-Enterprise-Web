@@ -34,7 +34,7 @@ const createCategory = async (req, res, next) => {
   try {
     const formData = req.body;
     // Validation logic
-    if (!formData.nameCategory || !formData.idDepartment) {
+    if (!formData.nameCategory) {
       return res.redirect("/qa/category/create");
     }
     const category = await CategoryService.createCategory(formData);
