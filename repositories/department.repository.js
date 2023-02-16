@@ -11,7 +11,7 @@ const createDepartment = async (data) => {
 
 const getAllDepartment = async () => {
   try {
-    const departments = await DepartmentModel.find();
+    const departments = await DepartmentModel.find().sort({ createdAt: -1 });
 
     return departments;
   } catch (err) {

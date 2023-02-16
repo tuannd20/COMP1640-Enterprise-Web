@@ -18,10 +18,9 @@ const createDepartment = async (req, res) => {
     const checkDepartmentResit = await DepartmentService.findByName(name);
     if (!checkDepartmentResit) {
       const department = await DepartmentService.createDepartment(formData);
-      // return res.redirect("/qam/department");
-      return res.json(department);
+      return res.redirect("/qam/department");
     }
-    return res.json(checkDepartmentResit);
+    return res.redirect("/qam/department/create");
   } catch (err) {
     return err;
   }

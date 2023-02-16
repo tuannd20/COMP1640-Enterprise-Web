@@ -58,6 +58,8 @@ const getAllPoll = async (req, res, next) => {
 
 const getEditPoll = async (req, res, next) => {
   const { id } = req.params;
+  const now = new Date();
+
   try {
     const poll = await PollService.getPoll({ _id: id });
 
@@ -65,6 +67,7 @@ const getEditPoll = async (req, res, next) => {
       title: "Poll Edit",
       content: "../qam/poll/editPollPage",
       poll,
+      now,
     });
   } catch (err) {
     return err;

@@ -13,7 +13,7 @@ const createPoll = async (data) => {
 
 const getAllPoll = async () => {
   try {
-    const result = await PollModel.find();
+    const result = await PollModel.find().sort({ createdAt: -1 });
 
     return result;
   } catch (err) {

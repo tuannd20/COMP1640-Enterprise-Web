@@ -53,6 +53,17 @@
               >
                 Start date
               </label>
+
+              <% if (poll.dateStart <= new Date()) { %>
+              <input
+                type="date"
+                name="dateStart"
+                id="dateStart"
+                readonly
+                value="<%= poll.dateEnd.toISOString().slice(0,10) %>"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              />
+              <% } else { %>
               <input
                 type="date"
                 name="dateStart"
@@ -61,6 +72,8 @@
                 value="<%= poll.dateEnd.toISOString().slice(0,10) %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
+
+              <% } %>
             </div>
             <div class="mb-4">
               <label
