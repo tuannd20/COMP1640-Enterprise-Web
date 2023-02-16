@@ -112,6 +112,23 @@ const deleteAllDepartment = async (req, res) => {
   }
 };
 
+const updateDepartmentActivated = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const checkDepartment = await DepartmentService.getDepartment({ _id: id });
+    if (checkDepartment.isUsed === false) {
+      const departments = await DepartmentService.updateDepartment(
+        { _id: id },
+        { isUsed: true },
+      );
+    }
+
+    return res.redirect("/qam/department");
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   getCreateDepartment,
   createDepartment,
@@ -121,4 +138,5 @@ module.exports = {
   deleteAllDepartment,
   deleteOneDepartment,
   getDepartmentActivated,
+  updateDepartmentActivated,
 };
