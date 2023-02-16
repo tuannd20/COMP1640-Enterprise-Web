@@ -107,13 +107,8 @@ const deleteOneCategory = async (req, res, next) => {
       _id: id,
     });
 
-    const checkDepartmentActive = await DepartmentService.getDepartment({
-      _id: checkCategoryActive.idDepartment,
-    });
-
     if (
-      checkCategoryActive.isUsed === false &&
-      checkDepartmentActive.isUsed === false
+      checkCategoryActive.isUsed === false
     ) {
       const category = await CategoryService.deleteOneCategory({
         _id: id,
