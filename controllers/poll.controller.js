@@ -10,16 +10,7 @@ const getCreatePoll = async (req, res, next) => {
 const createPoll = async (req, res, next) => {
   try {
     const formData = req.body;
-    console.log(
-      "🚀 ------------------------------------------------------------------🚀",
-    );
-    console.log(
-      "🚀 ~ file: poll.controller.js:13 ~ createPoll ~ formData",
-      formData.dateStart,
-    );
-    console.log(
-      "🚀 ------------------------------------------------------------------🚀",
-    );
+    const name = req.body.namePoll;
     // Validation logic
     if (
       !formData.namePoll ||
@@ -29,8 +20,14 @@ const createPoll = async (req, res, next) => {
     ) {
       return res.redirect("/qam/poll/create");
     }
-    const Poll = await PollService.createPoll(formData);
-    return res.redirect("/qam/poll");
+    const checkDepartmentResit = await PollService.findByName(name);
+    if (!checkDepartmentResit) {
+      const Poll = await PollService.createPoll(formData);
+      return res.redirect("/qam/poll");
+    }
+    return res.send(
+      "<script>alert('Poll name is existed'); window.location.href='/qam/poll/create';</script>",
+    );
   } catch (err) {
     return err;
   }
@@ -77,21 +74,33 @@ const getEditPoll = async (req, res, next) => {
 const updatePoll = async (req, res, next) => {
   const { id } = req.params;
   const updateObject = req.body;
+  const name = req.body.namePoll;
   try {
+    const checkPoll = await PollService.getPoll({ _id: id });
+    const checkPollNameExist = await PollService.findByNameExist(id, name);
+
     if (
-      !updateObject.namePoll ||
-      !updateObject.dateStart ||
-      !updateObject.dateSubEnd ||
-      !updateObject.dateEnd
+      checkPoll.namePoll === updateObject.namePoll &&
+      checkPoll.dateStart === updateObject.dateStart &&
+      checkPoll.dateSubEnd === updateObject.dateSubEnd &&
+      checkPoll.dateEnd === updateObject.dateEnd
     ) {
-      return res.redirect(`/qam/poll/edit/${id}`);
+      return res.send(
+        "<script>alert('No change'); window.location.href='/qam/department';</script>",
+      );
     }
-    const Polls = await PollService.updatePoll(
-      { _id: id },
-      { $set: updateObject },
+
+    if (checkPollNameExist.length === 0) {
+      const result = await PollService.updatePoll(
+        { _id: id },
+        { $set: updateObject },
+      );
+      // return res.redirect("/qam/poll");
+      return res.json(result);
+    }
+    return res.send(
+      "<script>alert('Tên đã tồn tại'); window.location.href='/qam/poll';</script>",
     );
-    return res.redirect("/qam/poll");
-    // return res.json(Polls);
   } catch (err) {
     return err;
   }

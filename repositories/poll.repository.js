@@ -69,6 +69,28 @@ const getPollActivated = async () => {
   }
 };
 
+const findByName = async (name) => {
+  try {
+    const result = await PollModel.findOne({ namePoll: name });
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
+const findByNameExist = async (id, name) => {
+  try {
+    const result = await PollModel.find()
+      .where("namePoll")
+      .equals(name)
+      .where("_id")
+      .ne(id);
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createPoll,
   getAllPoll,
@@ -77,4 +99,6 @@ module.exports = {
   deleteOnePoll,
   getPoll,
   getPollActivated,
+  findByName,
+  findByNameExist,
 };

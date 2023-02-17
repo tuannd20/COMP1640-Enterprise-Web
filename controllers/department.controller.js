@@ -79,13 +79,14 @@ const getEditDepartment = async (req, res) => {
 const updateDepartment = async (req, res) => {
   const { id } = req.params;
   const updateObject = req.body;
+  const name = req.body.nameDepartment;
   try {
     const checkDepartment = await DepartmentService.getDepartment({ _id: id });
-    const checkDepartmentName = await DepartmentModel.find()
-      .where("nameDepartment")
-      .equals(updateObject.nameDepartment)
-      .where("_id")
-      .ne(id);
+    const checkDepartmentName = await DepartmentService.findByNameExist(
+      id,
+      name,
+    );
+
     if (
       checkDepartment.nameDepartment === updateObject.nameDepartment &&
       checkDepartment.description === updateObject.description
@@ -102,6 +103,7 @@ const updateDepartment = async (req, res) => {
       );
       return res.redirect("/qam/department");
     }
+
     return res.send(
       "<script>alert('Tên đã tồn tại'); window.location.href='/qam/department';</script>",
     );

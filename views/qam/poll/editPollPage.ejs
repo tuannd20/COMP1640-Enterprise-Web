@@ -57,10 +57,10 @@
               <% if (poll.dateStart <= new Date()) { %>
               <input
                 type="date"
+                id="dateStartHide"
                 name="dateStart"
-                id="dateStart"
                 readonly
-                value="<%= poll.dateEnd.toISOString().slice(0,10) %>"
+                value="<%= poll.dateStart.toISOString().slice(0,10) %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
               <% } else { %>
@@ -69,7 +69,7 @@
                 name="dateStart"
                 id="dateStart"
                 required
-                value="<%= poll.dateEnd.toISOString().slice(0,10) %>"
+                value="<%= poll.dateStart.toISOString().slice(0,10) %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
 
@@ -87,7 +87,7 @@
                 name="dateSubEnd"
                 id="dateSubEnd"
                 required
-                value="<%= poll.dateEnd.toISOString().slice(0,10) %>"
+                value="<%= poll.dateSubEnd.toISOString().slice(0,10) %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
@@ -151,8 +151,12 @@
   <script>
     function validateForm() {
       const startDateInput = document.getElementById("dateStart");
+      const startDateHideInput = document.getElementById("dateStartHide");
       const endSubDateInput = document.getElementById("dateSubEnd");
       const endDateInput = document.getElementById("dateEnd");
+
+      const startDateHide = new Date(startDateInput.value);
+
       const startDate = new Date(startDateInput.value);
       // alert(startDate);
       const endSubDate = new Date(endSubDateInput.value);
@@ -187,13 +191,13 @@
       }
 
       // Check if end sub date is earlier than start date
-      if (endSubDate < startDate) {
+      if (endSubDate < startDate && endSubDate < currentDate) {
         alert("End sub date must be later than start date");
         return false;
       }
 
       // Check if end date is earlier than start date
-      if (endDate < endSubDate) {
+      if (endDate < endSubDate && endDate < currentDate) {
         alert("End date must be later than end sub date");
         return false;
       }
