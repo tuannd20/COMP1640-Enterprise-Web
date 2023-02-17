@@ -36,7 +36,6 @@ const createStaff = async (req, res) => {
   try {
     const account = req.body;
     const staff = await StaffService.createStaff(account);
-
     // const findStaff = await StaffService.findStaff(req.params.email);
     // if (!findStaff) return res.status(400).send("Email has been used before");
     return res.redirect("/admin/account");
@@ -95,27 +94,27 @@ const updateStaff = async (req, res) => {
   }
 };
 
-const deleteOneStaff = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const staff = await StaffService.deleteOneStaff(id);
-    return res.redirect("/admin/account");
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
+// const deleteOneStaff = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const staff = await StaffService.deleteOneStaff(id);
+//     return res.redirect("/admin/account");
+//   } catch (err) {
+//     console.log(err);
+//     return err;
+//   }
+// };
 
-const deleteAllStaff = async (req, res) => {
-  try {
-    const staff = await StaffService.deleteAllStaff();
+// const deleteAllStaff = async (req, res) => {
+//   try {
+//     const staff = await StaffService.deleteAllStaff();
 
-    return res.json("Staff page");
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
+//     return res.json("Staff page");
+//   } catch (err) {
+//     console.log(err);
+//     return err;
+//   }
+// };
 
 const login = async (req, res) => {
   try {
@@ -155,8 +154,6 @@ module.exports = {
   renderEditAccountPage,
   createStaff,
   updateStaff,
-  deleteOneStaff,
-  deleteAllStaff,
   displayStaffById,
   getAllStaff,
   login,

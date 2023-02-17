@@ -68,27 +68,27 @@ const updateStaff = async (id, data) => {
   }
 };
 
-const deleteOneStaff = async (_id) => {
-  try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = _id;
-    const staff = await StaffModel.findByIdAndRemove(id);
-    return staff;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
+// const deleteOneStaff = async (_id) => {
+//   try {
+//     // eslint-disable-next-line no-underscore-dangle
+//     const id = _id;
+//     const staff = await StaffModel.findByIdAndRemove(id);
+//     return staff;
+//   } catch (err) {
+//     console.log(err);
+//     return err;
+//   }
+// };
 
-const deleteAllStaff = async () => {
-  try {
-    const staff = await StaffModel.deleteMany();
-    return staff;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
+// const deleteAllStaff = async () => {
+//   try {
+//     const staff = await StaffModel.deleteMany();
+//     return staff;
+//   } catch (err) {
+//     console.log(err);
+//     return err;
+//   }
+// };
 
 // eslint-disable-next-line consistent-return
 const createToken = async (data) => {
@@ -106,9 +106,6 @@ module.exports = {
   createStaff,
   updateStaff,
   displayStaffById,
-  // displayAllStaff,
-  deleteOneStaff,
-  deleteAllStaff,
   getAllStaff,
   findStaff,
   createToken,

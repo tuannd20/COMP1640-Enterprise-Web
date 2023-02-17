@@ -99,9 +99,7 @@
                       id="idDepartment"
                       class="border rounded-lg py-[2px] border-slate-400"
                     >
-                    <option>
-                      Choose
-                    </option>
+                      <option>Choose</option>
                       <% departments.forEach(function(department) { %>
                       <option value="<%= department.id %>">
                         <%= department.nameDepartment %>
@@ -119,9 +117,7 @@
                       form="create-form-account"
                       class="border rounded-lg py-[2px] border-slate-400"
                     >
-                    <option>
-                      Choose
-                    </option>
+                      <option>Choose</option>
                       <% roles.forEach(function(role) { %>
                       <option value="<%= role.id %>">
                         <%= role.nameRole %>
@@ -174,6 +170,22 @@
               </div>
               <div class="mb-4">
                 <label
+                  for="password"
+                  class="block mb-3 text-base font-medium text-black"
+                >
+                  Password
+                </label>
+                <input
+                  type="text"
+                  id="password"
+                  name="password"
+                  onclick="generatePassword()"
+                  readonly
+                  class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                />
+              </div>
+              <div class="mb-4">
+                <label
                   for="address"
                   class="block mb-3 text-base font-medium text-black"
                 >
@@ -195,8 +207,9 @@
                   Phone number
                 </label>
                 <input
+                  type="tel"
+                  pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
                   class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  type="number"
                   name="phoneNumber"
                   id="phoneNumber"
                   required
@@ -214,3 +227,20 @@
     </div>
   </div>
 </div>
+<script>
+  function generatePassword() {
+    // const length = 6;
+    let password = "";
+    const charText = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for (let i = 0; i < 3; i++) {
+      password += charText.charAt(Math.floor(Math.random() * charText.length));
+    }
+    const charNumber = "0123456789";
+    for (let i = 0; i < 3; i++) {
+      password += charNumber.charAt(
+        Math.floor(Math.random() * charNumber.length),
+      );
+    }
+    document.getElementById("password").value = password;
+  }
+</script>

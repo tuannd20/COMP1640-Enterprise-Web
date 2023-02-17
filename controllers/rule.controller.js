@@ -1,9 +1,9 @@
+const { title } = require("process");
 const RuleService = require("../services/rule.service");
 
 const createRule = async (req, res) => {
   try {
     const rule = await RuleService.createRule(req.body);
-
     return res.render("partials/master", {
       title: "Create new account",
       content: "../admin/terms/createTermsPage",
