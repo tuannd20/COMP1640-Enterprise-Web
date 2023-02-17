@@ -30,15 +30,39 @@ const rederCreateCategoryPage = async (req, res, next) => {
   }
 };
 
-const createCategory = async (req, res, next) => {
+// const createCategory = async (req, res, next) => {
+//   try {
+//     const formData = req.body;
+//     const name = req.body.nameCategory;
+//     // Validation logic
+//     if (!formData.nameCategory) {
+//       return res.redirect("/qa/category/create");
+//     }
+//     const category = await CategoryService.createCategory(formData);
+//     return res.redirect("/qa/categories");
+//   } catch (err) {
+//     return err;
+//   }
+// };
+
+const createCategory = async (req, res) => {
   try {
     const formData = req.body;
+    const name = req.body.nameCategory;
     // Validation logic
     if (!formData.nameCategory) {
-      return res.redirect("/qa/category/create");
+      return res.send(
+        "<script>alert('Category name is valided'); window.location.href='/qa/category/create';</script>",
+      );
     }
-    const category = await CategoryService.createCategory(formData);
-    return res.redirect("/qa/categories");
+    const checkCategoryResit = await CategoryService.findByName(name);
+    if (!checkCategoryResit) {
+      const category = await CategoryService.createCategory(formData);
+      return res.redirect("/qa/categories");
+    }
+    return res.send(
+      "<script>alert('Category name is existed'); window.location.href='/qa/category/create';</script>",
+    );
   } catch (err) {
     return err;
   }
@@ -130,6 +154,15 @@ const deleteAllCategory = async (req, res, next) => {
   }
 };
 
+const getCategoryActivated = async (req, res) => {
+  try {
+    const department = await DepartmentService.getCategoryActivated({});
+    return res.json(department);
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createCategory,
   getEditCategory,
@@ -138,4 +171,5 @@ module.exports = {
   deleteOneCategory,
   renderListCategoryPage,
   rederCreateCategoryPage,
+  getCategoryActivated,
 };
