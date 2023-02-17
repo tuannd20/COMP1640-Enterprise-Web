@@ -1,4 +1,5 @@
 const DepartmentService = require("../services/department.service");
+const DepartmentModel = require("../database/models/Department");
 
 const getCreateDepartment = async (req, res) => {
   res.render("partials/master", {
@@ -79,17 +80,31 @@ const updateDepartment = async (req, res) => {
   const { id } = req.params;
   const updateObject = req.body;
   try {
-    // Validation logic
-    if (!updateObject.nameDepartment) {
-      return res.redirect(`/qam/department/edit/${id}`);
+    const checkDepartment = await DepartmentService.getDepartment({ _id: id });
+    const checkDepartmentName = await DepartmentModel.find()
+      .where("nameDepartment")
+      .equals(updateObject.nameDepartment)
+      .where("_id")
+      .ne(id);
+    if (
+      checkDepartment.nameDepartment === updateObject.nameDepartment &&
+      checkDepartment.description === updateObject.description
+    ) {
+      return res.send(
+        "<script>alert('No change'); window.location.href='/qam/department';</script>",
+      );
     }
-    const departments = await DepartmentService.updateDepartment(
-      { _id: id },
-      { $set: updateObject },
-    );
 
-    return res.redirect("/qam/department");
-    // return res.send(departments);
+    if (checkDepartmentName.length === 0) {
+      const departments = await DepartmentService.updateDepartment(
+        { _id: id },
+        { $set: updateObject },
+      );
+      return res.redirect("/qam/department");
+    }
+    return res.send(
+      "<script>alert('Tên đã tồn tại'); window.location.href='/qam/department';</script>",
+    );
   } catch (err) {
     return err;
   }
