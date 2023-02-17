@@ -59,6 +59,24 @@ const getDepartment = async (id) => {
   }
 };
 
+const findByName = async (name) => {
+  try {
+    const result = await DepartmentRepository.findByName(name);
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
+const getDepartmentActivated = async () => {
+  try {
+    const result = await DepartmentRepository.getDepartmentActivated();
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createDepartment,
   getAllDepartment,
@@ -66,4 +84,6 @@ module.exports = {
   deleteAllDepartment,
   deleteOneDepartment,
   getDepartment,
+  getDepartmentActivated,
+  findByName,
 };
