@@ -15,7 +15,6 @@ const createStaff = async (data) => {
 const getAllStaff = async () => {
   try {
     const staffs = await StaffModel.find();
-
     return staffs;
   } catch (err) {
     console.log(err);
@@ -33,16 +32,16 @@ const findStaff = async (data) => {
   }
 };
 
-const displayAllStaff = async () => {
-  try {
-    const staff = await StaffModel.find();
+// const displayAllStaff = async () => {
+//   try {
+//     const staff = await StaffModel.find();
 
-    return staff;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
+//     return staff;
+//   } catch (err) {
+//     console.log(err);
+//     return err;
+//   }
+// };
 
 const displayStaffById = async (id) => {
   try {
@@ -110,7 +109,7 @@ module.exports = {
   createStaff,
   updateStaff,
   displayStaffById,
-  displayAllStaff,
+  // displayAllStaff,
   deleteOneStaff,
   deleteAllStaff,
   getAllStaff,

@@ -2,16 +2,16 @@
   <div
     class="flex justify-center min-h-screen overflow-hidden font-sans bg-gray-100 min-w-screen"
   >
-    <div class="w-full select-none lg:w-5/6">
+    <div class="w-full lg:w-5/6">
       <div class="relative mt-20 mb-10 create-btn">
-        <a href="/qam/department/create">
+        <a href="/qam/poll/create">
           <button
             class="relative left-[69%] 2xl:left-[73%] inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-500 to-sky-900 group-hover:from-green-400 group-hover:to-sky-900 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
           >
             <span
               class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0"
             >
-              New Department +
+              New Poll +
             </span>
           </button>
         </a>
@@ -22,23 +22,41 @@
             <tr
               class="text-sm leading-normal text-gray-600 uppercase bg-gray-200"
             >
-              <th class="px-4 py-2">No</th>
-              <th class="px-4 py-2">Name Department</th>
-              <th class="px-4 py-2">Active</th>
-              <th class="px-4 py-2">Action</th>
+              <th class="px-6 py-3 text-left">ID</th>
+              <th class="px-6 py-3 text-left">Title</th>
+              <th class="px-6 py-3 text-center">Start date</th>
+              <th class="px-6 py-3 text-center">Sub-end date</th>
+              <th class="px-6 py-3 text-center">Main end date</th>
+              <th class="px-6 py-3 text-center">Active</th>
+              <th class="px-6 py-3 text-center">Actions</th>
             </tr>
           </thead>
           <tbody class="text-sm font-light text-gray-600">
-            <% Department.forEach(function(department, index) { %>
+            <% Polls.forEach(function(poll, index) { %>
             <tr class="border-b border-gray-200 hover:bg-gray-100">
-              <td class="px-6 py-3 text-center">
+              <td class="px-6 py-3 text-left">
                 <span class="font-medium"><%= index + 1 %></span>
-                <!-- <span class="font-medium"><%= department._id%></span> -->
+              </td>
+              <td class="px-6 py-3 text-left">
+                <span class="font-medium"><%= poll.namePoll%></span>
               </td>
               <td class="px-6 py-3 text-center">
-                <span class="font-medium"><%= department.nameDepartment%></span>
+                <span class="font-medium">
+                  <%= poll.dateStart.toLocaleDateString() %>
+                </span>
               </td>
-              <% if (department.isUsed === true) { %>
+              <td class="px-6 py-3 text-center">
+                <span class="font-medium">
+                  <%= poll.dateSubEnd.toLocaleDateString()%>
+                </span>
+              </td>
+              <td class="px-6 py-3 text-center">
+                <span class="font-medium">
+                  <%= poll.dateEnd.toLocaleDateString()%>
+                </span>
+              </td>
+
+              <% if (poll.isUsed === true) { %>
               <td class="px-6 py-3 text-center">
                 <span
                   class="px-3 py-1 text-xs text-white bg-green-600 rounded-full"
@@ -53,6 +71,7 @@
                 >
               </td>
               <% } %>
+
               <td class="px-6 py-3 text-center">
                 <div class="flex justify-center item-center">
                   <!-- <div
@@ -81,7 +100,7 @@
                   <div
                     class="w-6 mr-2 transform hover:text-purple-500 hover:scale-110"
                   >
-                    <a href="/qam/department/edit/<%= department.id %>">
+                    <a href="/qam/poll/edit/<%= poll.id %>">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -97,11 +116,9 @@
                       </svg>
                     </a>
                   </div>
-                  <% if (department.isUsed === true) { %>
-                  <div
-                    class="w-6 mr-2 transform opacity-50"
-                  >
-                    <a>
+                  <% if (poll.isUsed === true) { %>
+                  <div class="w-6 mr-2 transform opacity-50">
+                    <a href="/qam/poll/delete/<%= poll.id %>">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -121,7 +138,7 @@
                   <div
                     class="w-6 mr-2 transform hover:text-purple-500 hover:scale-110"
                   >
-                    <a href="/qam/department/delete/<%= department.id %>">
+                    <a href="/qam/poll/delete/<%= poll.id %>">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -138,7 +155,6 @@
                     </a>
                   </div>
                   <% } %>
-                
                 </div>
               </td>
             </tr>

@@ -11,6 +11,17 @@ const createStaff = async (data) => {
   }
 };
 
+const getAllStaff = async () => {
+  try {
+    const staffs = await StaffRepository.getAllStaff();
+
+    return staffs;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 const displayStaffById = async (id) => {
   try {
     const staff = await StaffRepository.displayStaffById(id);
@@ -96,6 +107,7 @@ module.exports = {
   updateStaff,
   deleteOneStaff,
   deleteAllStaff,
+  getAllStaff,
   displayStaffById,
   findStaff,
   checkPassword,

@@ -4,11 +4,29 @@ const index = async (req, res) => {
   res.render("login");
 };
 
+const renderCreateAccountPage = async (req, res) => {
+  res.render("partials/master", {
+    title: "Create new account",
+    content: "../admin/account/createAccountPage",
+  });
+};
+
+const renderEditAccountPage = async (req, res) => {
+  res.render("partials/master", {
+    title: "Create new account",
+    content: "../admin/account/editAccountPage",
+  });
+};
+
 const createStaff = async (req, res) => {
   try {
     const staff = await StaffService.createStaff(req.body);
 
-    return res.json("Staff page");
+    return res.render("partials/master", {
+      title: "Create new account",
+      content: "../admin/account/createAccountPage",
+      staff,
+    });
   } catch (err) {
     console.log(err);
     return err;
@@ -28,30 +46,26 @@ const displayStaffById = async (req, res) => {
   }
 };
 
+const getAllStaff = async (req, res) => {
+  try {
+    const staffs = await StaffService.getAllStaff();
+
+    // return res.json(staffs);
+    return res.render("partials/master", {
+      title: "List of accounts",
+      content: "../admin/account/listAccountPage",
+      staffs,
+    });
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 const updateStaff = async (req, res) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = req.params._id;
-    const updateObject = req.body;
-    // eslint-disable-next-line max-len
-    const staff = await StaffService.updateMany(
-      { _id: id },
-      { $set: updateObject },
-    )
-      .exec()
-      .then(() => {
-        res.status(200).json({
-          success: true,
-          message: "Staff is updated",
-          updateStaff: updateObject,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          success: false,
-          message: "Server error. Please try again.",
-        });
-      });
+    const staff = await StaffService.updateStaff(req.params.id, req.body);
+
     return res.json("Staff page");
   } catch (err) {
     console.log(err);
@@ -61,22 +75,8 @@ const updateStaff = async (req, res) => {
 
 const deleteOneStaff = async (req, res) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = req.params._id;
-    const staff = await StaffService.findByIdAndRemove(id)
-      .exec()
-      .then(() => {
-        res.status(200).json({
-          success: true,
-          message: "Staff is deleted successfully",
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          success: false,
-          message: "Server error. Please try again.",
-        });
-      });
+    const staff = await StaffService.deleteOneStaff(req.params.id, req.body);
+
     return res.json("Staff page");
   } catch (err) {
     console.log(err);
@@ -86,21 +86,8 @@ const deleteOneStaff = async (req, res) => {
 
 const deleteAllStaff = async (req, res) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
-    const staff = await StaffService.deleteMany()
-      .exec()
-      .then(() => {
-        res.status(200).json({
-          success: true,
-          message: "Delete all staff successfully",
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          success: false,
-          message: "Server error. Please try again.",
-        });
-      });
+    const staff = await StaffService.deleteAllStaff();
+
     return res.json("Staff page");
   } catch (err) {
     console.log(err);
@@ -142,11 +129,14 @@ const logout = async (req, res) => {
 
 module.exports = {
   index,
+  renderCreateAccountPage,
+  renderEditAccountPage,
   createStaff,
   updateStaff,
   deleteOneStaff,
   deleteAllStaff,
   displayStaffById,
+  getAllStaff,
   login,
   logout,
 };

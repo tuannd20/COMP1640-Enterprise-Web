@@ -10,6 +10,7 @@ const createRule = async (data) => {
     return err;
   }
 };
+
 const updateRule = async (_id, body) => {
   try {
     // eslint-disable-next-line no-underscore-dangle
@@ -26,6 +27,7 @@ const updateRule = async (_id, body) => {
     return err;
   }
 };
+
 const deleteOneRule = async (_id, body) => {
   try {
     // eslint-disable-next-line no-underscore-dangle
@@ -37,6 +39,7 @@ const deleteOneRule = async (_id, body) => {
     return err;
   }
 };
+
 const deleteAllRule = async () => {
   try {
     const rule = await RuleModel.deleteMany();
@@ -47,9 +50,20 @@ const deleteAllRule = async () => {
   }
 };
 
+const getAllRule = async () => {
+  try {
+    const rules = await RuleModel.find();
+    return rules;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 module.exports = {
   createRule,
   updateRule,
+  getAllRule,
   deleteOneRule,
   deleteAllRule,
 };

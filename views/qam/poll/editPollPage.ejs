@@ -1,0 +1,205 @@
+<Main class="pt-[100px] w-3/5 m-auto min-h-screen mb-5">
+  <div
+    class="relative h-auto p-3 overflow-y-auto border-2 idea border-stone-700 rounded-2xl opacity-80"
+  >
+    <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
+      <a href="/qam/poll">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="font-extrabold w-7 h-7 text-sky-900 hover:text-sky-400"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+          />
+        </svg>
+      </a>
+
+      <div class="m-auto">Edit poll</div>
+    </div>
+    <div class="content-idea">
+      <div class="flex items-center justify-center">
+        <div class="mx-auto w-full max-w-[550px]">
+          <form
+            action="/qam/poll/edit/<%= poll.id %>"
+            onsubmit="return validateForm()"
+            method="POST"
+          >
+            <div class="mb-4">
+              <label
+                for="name"
+                class="mb-3 block text-base font-medium text-[#07074D]"
+              >
+                Title
+              </label>
+              <input
+                type="text"
+                name="namePoll"
+                id="namePoll"
+                required
+                value="<%= poll.namePoll %>"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              />
+            </div>
+            <div class="mb-4">
+              <label
+                for="startDate"
+                class="mb-3 block text-base font-medium text-[#07074D]"
+              >
+                Start date
+              </label>
+
+              <% if (poll.dateStart <= new Date()) { %>
+              <input
+                type="date"
+                name="dateStart"
+                id="dateStart"
+                readonly
+                value="<%= poll.dateEnd.toISOString().slice(0,10) %>"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              />
+              <% } else { %>
+              <input
+                type="date"
+                name="dateStart"
+                id="dateStart"
+                required
+                value="<%= poll.dateEnd.toISOString().slice(0,10) %>"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              />
+
+              <% } %>
+            </div>
+            <div class="mb-4">
+              <label
+                for="subEndDate"
+                class="mb-3 block text-base font-medium text-[#07074D]"
+              >
+                Sub-end date
+              </label>
+              <input
+                type="date"
+                name="dateSubEnd"
+                id="dateSubEnd"
+                required
+                value="<%= poll.dateEnd.toISOString().slice(0,10) %>"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              />
+            </div>
+            <div class="mb-4">
+              <label
+                for="finalEndDate"
+                class="mb-3 block text-base font-medium text-[#07074D]"
+              >
+                Final end date
+              </label>
+              <input
+                type="date"
+                name="dateEnd"
+                id="dateEnd"
+                required
+                value="<%= poll.dateEnd.toISOString().slice(0,10) %>"
+                class="w-full rounded-md border mb-3 border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              />
+
+              <!-- <label
+                for="myCheck"
+                class="text-base font-medium text-[#07074D] pr-3"
+              >
+                Active</label
+              >
+              <input
+                type="hidden"
+                name="isUsed"
+                id="isUsedInput"
+                value="<%= poll.isUsed %>"
+              />
+              <% if (poll.isUsed === false) { %>
+              <input type="checkbox" id="myCheck" class="border rounded-full" />
+              <% } else { %>
+              <input
+                type="checkbox"
+                id="myCheck"
+                class="border rounded-full"
+                checked
+              />
+              <% } %> -->
+            </div>
+            <div
+              class="w-1/6 px-3 py-2 m-auto text-center text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
+            >
+              <input type="submit" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <script>
+    const checkbox = document.getElementById("myCheck");
+    const isUsedInput = document.getElementById("isUsedInput");
+
+    checkbox.addEventListener("change", () => {
+      isUsedInput.value = checkbox.checked ? "true" : "false";
+    });
+  </script> -->
+  <script>
+    function validateForm() {
+      const startDateInput = document.getElementById("dateStart");
+      const endSubDateInput = document.getElementById("dateSubEnd");
+      const endDateInput = document.getElementById("dateEnd");
+      const startDate = new Date(startDateInput.value);
+      // alert(startDate);
+      const endSubDate = new Date(endSubDateInput.value);
+      // alert(endSubDate);
+      const endDate = new Date(endDateInput.value);
+      // alert(endDate);
+      // Lấy ngày hiện tại
+      const currentDate = new Date();
+      // alert(currentDate);
+      // Check if start date is empty or not a valid date
+      if (startDateInput.value === "" || isNaN(startDate)) {
+        alert("Please enter a valid start date");
+        return false;
+      }
+
+      // Check if end date is empty or not a valid date
+      if (endSubDateInput.value === "" || isNaN(endSubDate)) {
+        alert("Please enter a valid end sub date");
+        return false;
+      }
+
+      // Check if end date is empty or not a valid date
+      if (endDateInput.value === "" || isNaN(endDate)) {
+        alert("Please enter a valid end date");
+        return false;
+      }
+
+      // Check if start date is earlier than start date
+      if (startDate < currentDate) {
+        alert("Start date must be later than or equal start current day");
+        return false;
+      }
+
+      // Check if end sub date is earlier than start date
+      if (endSubDate < startDate) {
+        alert("End sub date must be later than start date");
+        return false;
+      }
+
+      // Check if end date is earlier than start date
+      if (endDate < endSubDate) {
+        alert("End date must be later than end sub date");
+        return false;
+      }
+
+      // Validation passed
+      return true;
+    }
+  </script>
+</Main>

@@ -1,11 +1,19 @@
 const PollRepository = require("../repositories/poll.repository");
 
-const createPoll = async (req, res) => {
+const createPoll = async (data) => {
   try {
-    const result = await PollRepository.createPoll(req.body);
+    const result = await PollRepository.createPoll(data);
     return result;
   } catch (err) {
-    console.log(err);
+    return err;
+  }
+};
+
+const getPoll = async (id) => {
+  try {
+    const result = await PollRepository.getPoll(id);
+    return result;
+  } catch (err) {
     return err;
   }
 };
@@ -20,9 +28,9 @@ const getAllPoll = async () => {
   }
 };
 
-const updatePoll = async (req, res) => {
+const updatePoll = async (id, data) => {
   try {
-    const result = await PollRepository.updatePoll(req.params.id, req.body);
+    const result = await PollRepository.updatePoll(id, data);
     return result;
   } catch (err) {
     console.log(err);
@@ -50,10 +58,21 @@ const deleteOnePoll = async (id) => {
   }
 };
 
+const getPollActivated = async () => {
+  try {
+    const result = await PollRepository.getPollActivated();
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createPoll,
   getAllPoll,
   updatePoll,
   deleteAllPoll,
   deleteOnePoll,
+  getPoll,
+  getPollActivated,
 };
