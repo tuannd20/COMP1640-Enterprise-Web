@@ -1,0 +1,7 @@
+trong file env thêm các biến sau:
+EmailSend: <tên mail của mi>
+PASSWORD: <mật khẩu mail của mi>
+subjectEmail: tiêu đề
+content: đoạn này làm bằng html thuần
+Ví dụ:
+`<h1>kiểu ri đây</h1>`
