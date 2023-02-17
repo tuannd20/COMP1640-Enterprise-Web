@@ -13,14 +13,18 @@ const createDepartment = async (req, res) => {
     const name = req.body.nameDepartment;
     // Validation logic
     if (!formData.nameDepartment) {
-      return res.redirect("/qam/department/create");
+      return res.send(
+        "<script>alert('Department name is valided'); window.location.href='/qam/department/create';</script>",
+      );
     }
     const checkDepartmentResit = await DepartmentService.findByName(name);
     if (!checkDepartmentResit) {
       const department = await DepartmentService.createDepartment(formData);
       return res.redirect("/qam/department");
     }
-    return res.redirect("/qam/department/create");
+    return res.send(
+      "<script>alert('Department name is existed'); window.location.href='/qam/department/create';</script>",
+    );
   } catch (err) {
     return err;
   }
@@ -85,6 +89,7 @@ const updateDepartment = async (req, res) => {
     );
 
     return res.redirect("/qam/department");
+    // return res.send(departments);
   } catch (err) {
     return err;
   }
