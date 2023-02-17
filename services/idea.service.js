@@ -40,9 +40,20 @@ const deleteIdea = async (id) => {
   }
 };
 
+const getALl = async (options) => {
+  try {
+    const result = await IdeaRepository.getAll(options);
+    return result;
+  } catch (err) {
+    console.error("🚀 ~ file: idea.service.js:47 ~ getIdea ~ err", err);
+    return err;
+  }
+};
+
 module.exports = {
   createIdea,
   getIdea,
   updateIdea,
   deleteIdea,
+  getALl,
 };
