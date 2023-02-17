@@ -1,7 +1,7 @@
 const express = require("express");
 
 const router = express.Router();
-const IdeaController = require("../controllers/idea.controller");
+// const IdeaController = require("../controllers/idea.controller");
 const CommentController = require("../controllers/comment.controller");
 
 router.get("/", (req, res) => {

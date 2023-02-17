@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 const AccountController = require("../controllers/account.controller");
-const IdeaController = require("../controllers/idea.controller");
+// const IdeaController = require("../controllers/idea.controller");
 
 // router.get("/:idAccount", AccountController.displayAccountById);
 // router.get("/idea", IdeaController.createIdea);
