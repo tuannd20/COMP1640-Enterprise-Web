@@ -10,6 +10,16 @@ const getCreatePoll = async (req, res, next) => {
 const createPoll = async (req, res, next) => {
   try {
     const formData = req.body;
+    console.log(
+      "🚀 ------------------------------------------------------------------🚀",
+    );
+    console.log(
+      "🚀 ~ file: poll.controller.js:13 ~ createPoll ~ formData",
+      formData.dateStart,
+    );
+    console.log(
+      "🚀 ------------------------------------------------------------------🚀",
+    );
     // Validation logic
     if (
       !formData.namePoll ||
@@ -29,6 +39,13 @@ const createPoll = async (req, res, next) => {
 const getAllPoll = async (req, res, next) => {
   try {
     const Polls = await PollService.getAllPoll();
+    console.log(
+      "🚀 ------------------------------------------------------------🚀",
+    );
+    console.log("🚀 ~ file: poll.controller.js:42 ~ getAllPoll ~ Polls", Polls);
+    console.log(
+      "🚀 ------------------------------------------------------------🚀",
+    );
     return res.render("partials/master", {
       title: "Poll List",
       content: "../qam/poll/listpollpage",
@@ -41,6 +58,8 @@ const getAllPoll = async (req, res, next) => {
 
 const getEditPoll = async (req, res, next) => {
   const { id } = req.params;
+  const now = new Date();
+
   try {
     const poll = await PollService.getPoll({ _id: id });
 
@@ -48,6 +67,7 @@ const getEditPoll = async (req, res, next) => {
       title: "Poll Edit",
       content: "../qam/poll/editPollPage",
       poll,
+      now,
     });
   } catch (err) {
     return err;
@@ -71,6 +91,7 @@ const updatePoll = async (req, res, next) => {
       { $set: updateObject },
     );
     return res.redirect("/qam/poll");
+    // return res.json(Polls);
   } catch (err) {
     return err;
   }
@@ -103,6 +124,29 @@ const deleteAllPoll = async (req, res, next) => {
   }
 };
 
+const getPollActivated = async (req, res) => {
+  try {
+    const Poll = await PollService.getPollActivated({});
+    return res.json(Poll);
+  } catch (err) {
+    return err;
+  }
+};
+
+const updatePollActivated = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const checkPoll = await PollService.getPoll({ _id: id });
+    if (checkPoll.isUsed === false) {
+      const Polls = await PollService.updatePoll({ _id: id }, { isUsed: true });
+    }
+
+    return res.redirect("/qam/poll");
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   getCreatePoll,
   createPoll,
@@ -111,4 +155,6 @@ module.exports = {
   getEditPoll,
   updatePoll,
   getAllPoll,
+  getPollActivated,
+  updatePollActivated,
 };

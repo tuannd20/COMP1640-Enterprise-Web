@@ -29,6 +29,12 @@ router.get("/department/delete-all", DepartmentController.deleteAllDepartment);
 // [GET] all department
 router.get("/department/", DepartmentController.getAllDepartment);
 
+// [GET] all Department Activated
+router.get(
+  "/department/activated",
+  DepartmentController.getDepartmentActivated,
+);
+
 // [GET] create Poll
 router.get("/poll/create", PollController.getCreatePoll);
 
@@ -49,5 +55,8 @@ router.get("/poll/delete-all", PollController.deleteAllPoll);
 
 // [GET] all Poll
 router.get("/poll/", PollController.getAllPoll);
+
+// [GET] all Poll Activated
+router.get("/poll/activated", PollController.getPollActivated);
 
 module.exports = router;
