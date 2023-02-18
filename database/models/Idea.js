@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const paginate = require("mongoose-paginate-v2");
+
 const { DRAFT, PRIVATE, PUBLIC } = require("../../constants/status");
 
 const { Schema } = mongoose;
@@ -33,6 +35,7 @@ const IdeaSchema = new Schema({
   },
 });
 
+IdeaSchema.plugin(paginate);
 const Idea = mongoose.model("Idea", IdeaSchema);
 
 module.exports = Idea;
