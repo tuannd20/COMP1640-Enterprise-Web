@@ -1,0 +1,121 @@
+<Main class="pt-[70px] w-3/5 m-auto h-screen overflow-auto">
+  <div class="border-2 idea border-stone-700 rounded-2xl h-[94%] opacity-80">
+    <div class="w-full border-b-2 border-gray-300 my-2"></div>
+    <div class="h-48 overflow-auto">
+      <% comments.forEach(function(comment, target) { %>
+      <div class="comment">
+        <div class="flex right-5 w-[95%] m-auto mt-2 h-18">
+          <div class="my-auto">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-12 h-12 text-sky-600"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+          </div>
+
+          <div class="detail comment">
+            <div class="ml-4 w-full my-auto">
+              <div class=""><%= comment.name %></div>
+              <div class="bg-zinc-300 rounded-lg w-[300px] pl-2 py-1">
+                <%= comment.Comment %>
+              </div>
+            </div>
+          </div>
+          <button
+            class="BTN ml-2 text-align-center text-4xl"
+            onclick="toggleVisibility('section-<%= comment.id %>')"
+          >
+            ...
+          </button>
+          <div
+            id="section-<%= comment.id %>"
+            class="hidden flex items-center justify-center my-auto ml-2 mt-6"
+          >
+            <button
+              class="hover:bg-green-400 border-2 border-slate-900 text-black rounded-l-full w-12 h-8 flex items-center justify-center"
+              onclick="edit( '<%= comment.id %>', '<%= comment.Comment %>' )"
+            >
+              Edit
+            </button>
+            <button
+              class="remove-button hover:bg-red-400 border-2 border-slate-900 text-black rounded-r-full w-16 h-8 flex items-center justify-center"
+              onclick="removeComment( '<%= comment.id %>' )"
+            >
+              Delete
+            </button>
+          </div>
+          <script>
+            function toggleVisibility(id) {
+              var element = document.getElementById(id);
+              if (element.classList.contains("hidden")) {
+                element.classList.remove("hidden");
+              } else {
+                element.classList.add("hidden");
+              }
+            }
+            function edit(id, Comment) {
+              document.getElementById("text-input").value = Comment;
+            }
+            function removeComment(id) {
+              const xhr = new XMLHttpRequest();
+              xhr.open("DELETE", `/idea/deleteComment/${id}`, true);
+              xhr.setRequestHeader("Content-Type", "application/json");
+              xhr.send(JSON.stringify({ id }));
+              xhr.onload = function () {
+                if (xhr.status === 200) {
+                  location.reload();
+                }
+              };
+            }
+          </script>
+        </div>
+      </div>
+
+      <% }); %>
+    </div>
+    <div class="form-input-comment">
+      <div class="flex mt-4">
+        <input
+          id="text-input"
+          class="ml-4 mr-2 bg-gray-50 border-2 border-gray-900 text-gray-900 sm:text-sm rounded-full focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="comment"
+        />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-8 h-8 text-sky-600 hover:text-sky-900 my-auto justify-items-end"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</Main>
+
+<script>
+  document.getElementById("close").addEventListener("click", function () {
+    window.location.href = "/";
+  });
+  document.getElementById("editIdea").addEventListener("click", function () {
+    window.location.href = "/idea/Edit";
+  });
+  document.getElementById("delIdea").addEventListener("click", function () {
+    window.location.href = "/idea/del";
+  });
+</script>

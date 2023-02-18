@@ -11,7 +11,7 @@ const createDepartment = async (data) => {
 
 const getAllDepartment = async () => {
   try {
-    const departments = await DepartmentModel.find();
+    const departments = await DepartmentModel.find().sort({ createdAt: -1 });
 
     return departments;
   } catch (err) {
@@ -56,6 +56,24 @@ const getDepartment = async (id) => {
   }
 };
 
+const findByName = async (name) => {
+  try {
+    const result = await DepartmentModel.findOne({ nameDepartment: name });
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
+const getDepartmentActivated = async () => {
+  try {
+    const result = await DepartmentModel.find({ isUsed: true });
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createDepartment,
   getAllDepartment,
@@ -63,4 +81,6 @@ module.exports = {
   deleteAllDepartment,
   deleteOneDepartment,
   getDepartment,
+  getDepartmentActivated,
+  findByName,
 };

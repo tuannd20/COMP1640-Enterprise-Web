@@ -1,4 +1,5 @@
 const DepartmentService = require("../services/department.service");
+const DepartmentModel = require("../database/models/Department");
 
 const getCreateDepartment = async (req, res) => {
   res.render("partials/master", {
@@ -10,12 +11,21 @@ const getCreateDepartment = async (req, res) => {
 const createDepartment = async (req, res) => {
   try {
     const formData = req.body;
+    const name = req.body.nameDepartment;
     // Validation logic
     if (!formData.nameDepartment) {
-      return res.redirect("/qam/department/create");
+      return res.send(
+        "<script>alert('Department name is valided'); window.location.href='/qam/department/create';</script>",
+      );
     }
-    const department = await DepartmentService.createDepartment(req.body);
-    return res.redirect("/qam/department");
+    const checkDepartmentResit = await DepartmentService.findByName(name);
+    if (!checkDepartmentResit) {
+      const department = await DepartmentService.createDepartment(formData);
+      return res.redirect("/qam/department");
+    }
+    return res.send(
+      "<script>alert('Department name is existed'); window.location.href='/qam/department/create';</script>",
+    );
   } catch (err) {
     return err;
   }
@@ -33,6 +43,15 @@ const getAllDepartment = async (req, res) => {
       content: "../qam/department/listDepartmentpage",
       Department: departments,
     });
+  } catch (err) {
+    return err;
+  }
+};
+
+const getDepartmentActivated = async (req, res) => {
+  try {
+    const department = await DepartmentService.getDepartmentActivated({});
+    return res.json(department);
   } catch (err) {
     return err;
   }
@@ -61,16 +80,31 @@ const updateDepartment = async (req, res) => {
   const { id } = req.params;
   const updateObject = req.body;
   try {
-    // Validation logic
-    if (!updateObject.nameDepartment) {
-      return res.redirect(`/qam/department/edit/${id}`);
+    const checkDepartment = await DepartmentService.getDepartment({ _id: id });
+    const checkDepartmentName = await DepartmentModel.find()
+      .where("nameDepartment")
+      .equals(updateObject.nameDepartment)
+      .where("_id")
+      .ne(id);
+    if (
+      checkDepartment.nameDepartment === updateObject.nameDepartment &&
+      checkDepartment.description === updateObject.description
+    ) {
+      return res.send(
+        "<script>alert('No change'); window.location.href='/qam/department';</script>",
+      );
     }
-    const departments = await DepartmentService.updateDepartment(
-      { _id: id },
-      { $set: updateObject },
-    );
 
-    return res.redirect("/qam/department");
+    if (checkDepartmentName.length === 0) {
+      const departments = await DepartmentService.updateDepartment(
+        { _id: id },
+        { $set: updateObject },
+      );
+      return res.redirect("/qam/department");
+    }
+    return res.send(
+      "<script>alert('Tên đã tồn tại'); window.location.href='/qam/department';</script>",
+    );
   } catch (err) {
     return err;
   }
@@ -103,6 +137,23 @@ const deleteAllDepartment = async (req, res) => {
   }
 };
 
+const updateDepartmentActivated = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const checkDepartment = await DepartmentService.getDepartment({ _id: id });
+    if (checkDepartment.isUsed === false) {
+      const departments = await DepartmentService.updateDepartment(
+        { _id: id },
+        { isUsed: true },
+      );
+    }
+
+    return res.redirect("/qam/department");
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   getCreateDepartment,
   createDepartment,
@@ -111,4 +162,6 @@ module.exports = {
   updateDepartment,
   deleteAllDepartment,
   deleteOneDepartment,
+  getDepartmentActivated,
+  updateDepartmentActivated,
 };
