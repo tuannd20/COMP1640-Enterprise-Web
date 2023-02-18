@@ -1,4 +1,6 @@
 const ideaService = require("../services/idea.service");
+const staffService = require("../services/staff.service");
+const Staff = require("../database/models/Staff");
 
 const createIdea = async (req, res) => {
   try {
@@ -44,15 +46,21 @@ const createIdea = async (req, res) => {
 
 const displayDetailIdea = async (req, res) => {
   try {
+    const comments = [];
     if (!req.params.idIdea) return res.redirect("/404");
-    const Idea = await ideaService.getIdea(req.params.idIdea);
-    if (!Idea) return res.redirect("/404");
-    return res.status(200).send(Idea);
-    // return res.render("partials/master", {
-    //   title: "Idea",
-    //   content: "../staff/idea/detailIdea",
-    //   Department: Idea,
-    // });
+    const idea = await ideaService.getIdea(req.params.idIdea);
+    console.log(
+      "🚀 ~ file: idea.controller.js:50 ~ displayDetailIdea ~ idea",
+      idea,
+    );
+    if (!idea) return res.redirect("/404");
+    // return res.status(200).send(Idea);
+    return res.render("partials/master", {
+      title: "Idea",
+      content: "../staff/idea/ideaDetailPage",
+      idea,
+      comments,
+    });
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
     return err;
@@ -61,9 +69,21 @@ const displayDetailIdea = async (req, res) => {
 
 const displayAllIdea = async (req, res) => {
   try {
-    const allIdea = await ideaService.getALl();
+    const { page = 1 } = req.params;
+    const limit = 5;
+    const options = {
+      page,
+      limit,
+      populate: { path: "idStaffIdea", model: Staff },
+    };
+    const allIdea = await ideaService.getALl(options);
     if (!allIdea) return res.redirect("/404");
-    return res.status(200).send(allIdea);
+    return res.render("partials/master", {
+      title: "Idea",
+      content: "../staff/homePage",
+      allIdea,
+    });
+    // return res.status(200).send(allIdea);
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
     return err;
