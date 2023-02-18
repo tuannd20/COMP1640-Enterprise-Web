@@ -6,6 +6,8 @@ const download = document.getElementById("download-button");
 const downloadModel = document.getElementById("modal");
 const no = document.getElementById("no");
 const yes = document.getElementById("yes");
+const like = document.getElementById("like-icon");
+const dislike = document.getElementById("dislike-icon");
 
 function dropdown() {
   drop.classList.toggle("hidden");
@@ -24,7 +26,6 @@ drop.addEventListener("mouseleave", () => {
 });
 
 download.addEventListener("click", () => {
-  console.log("123");
   downloadModel.style.display = "flex";
 });
 
@@ -33,4 +34,18 @@ no.addEventListener("click", () => {
 });
 yes.addEventListener("click", () => {
   downloadModel.style.display = "none";
+});
+
+like.addEventListener("click", () => {
+  if (dislike.classList.contains("text-sky-500")) {
+    dislike.classList.remove("text-sky-500");
+  }
+  like.classList.toggle("text-sky-500");
+});
+
+dislike.addEventListener("click", () => {
+  if (like.classList.contains("text-sky-500")) {
+    like.classList.remove("text-sky-500");
+  }
+  dislike.classList.toggle("text-sky-500");
 });
