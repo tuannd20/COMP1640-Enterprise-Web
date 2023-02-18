@@ -76,12 +76,7 @@ const displayDetailIdea = async (req, res) => {
 
 const displayAllIdea = async (req, res) => {
   try {
-    let page;
-    if (!req.body.page) {
-      page = 1;
-    } else {
-      page = req.body.page;
-    }
+    const { page } = req.params;
     const limit = 5;
     const options = {
       page,
@@ -92,6 +87,13 @@ const displayAllIdea = async (req, res) => {
 
     const allIdea = await ideaService.getALl(options);
     if (!allIdea) return res.redirect("/404");
+
+    allIdea.docs.forEach((element) => {
+      if (typeof element.urlFile === "undefined") {
+        // eslint-disable-next-line no-param-reassign
+        element.urlFile = null;
+      }
+    });
     return res.render("partials/master", {
       title: "Idea",
       content: "../staff/homePage",
@@ -103,8 +105,63 @@ const displayAllIdea = async (req, res) => {
     return err;
   }
 };
+
+const getIdeaForStaff = async (req, res) => {
+  try {
+    const { page, id } = req.params;
+    const limit = 5;
+    const options = {
+      page,
+      limit,
+      query: { idStaffIdea: id },
+      sort: { createdAt: -1 },
+    };
+    const staff = await staffService.displayStaffById(id);
+
+    if (!staff) return res.redirect("/404");
+    if (typeof staff.avatarImage === "undefined") {
+      staff.avatarImage = null;
+    }
+    const allIdea = await ideaService.getALl(options);
+
+    allIdea.docs.forEach((element) => {
+      if (typeof element.urlFile === "undefined") {
+        // eslint-disable-next-line no-param-reassign
+        element.urlFile = null;
+      }
+    });
+    const data = { allIdea, staff };
+    return res.render("partials/master", {
+      title: "Idea",
+      content: "../staff/profilePage",
+      data,
+    });
+    // return res.status(200).send(data);
+  } catch (err) {
+    console.log(
+      "🚀 ~ file: idea.controller.js:136 ~ displayAllIdea ~ err",
+      err,
+    );
+    return err;
+  }
+};
+
+const updateStatus = async (req, res) => {
+  try {
+    if (!req.body.idIdea || !req.body.idStaff || !req.body.action) {
+      return res.status(404).send("Missing required information");
+    }
+
+    return res.status(200).send("newIdea");
+  } catch (err) {
+    console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
+    return err;
+  }
+};
 module.exports = {
   createIdea,
   displayDetailIdea,
   displayAllIdea,
+  getIdeaForStaff,
+  updateStatus,
 };

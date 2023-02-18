@@ -10,16 +10,7 @@ const getCreatePoll = async (req, res, next) => {
 const createPoll = async (req, res, next) => {
   try {
     const formData = req.body;
-    console.log(
-      "🚀 ------------------------------------------------------------------🚀",
-    );
-    console.log(
-      "🚀 ~ file: poll.controller.js:13 ~ createPoll ~ formData",
-      formData.dateStart,
-    );
-    console.log(
-      "🚀 ------------------------------------------------------------------🚀",
-    );
+    const name = req.body.namePoll;
     // Validation logic
     if (
       !formData.namePoll ||
@@ -29,8 +20,14 @@ const createPoll = async (req, res, next) => {
     ) {
       return res.redirect("/qam/poll/create");
     }
-    const Poll = await PollService.createPoll(formData);
-    return res.redirect("/qam/poll");
+    const checkDepartmentResit = await PollService.findByName(name);
+    if (!checkDepartmentResit) {
+      const Poll = await PollService.createPoll(formData);
+      return res.redirect("/qam/poll");
+    }
+    return res.send(
+      "<script>alert('Poll name is existed'); window.location.href='/qam/poll/create';</script>",
+    );
   } catch (err) {
     return err;
   }
@@ -39,13 +36,6 @@ const createPoll = async (req, res, next) => {
 const getAllPoll = async (req, res, next) => {
   try {
     const Polls = await PollService.getAllPoll();
-    console.log(
-      "🚀 ------------------------------------------------------------🚀",
-    );
-    console.log("🚀 ~ file: poll.controller.js:42 ~ getAllPoll ~ Polls", Polls);
-    console.log(
-      "🚀 ------------------------------------------------------------🚀",
-    );
     return res.render("partials/master", {
       title: "Poll List",
       content: "../qam/poll/listpollpage",
@@ -58,16 +48,21 @@ const getAllPoll = async (req, res, next) => {
 
 const getEditPoll = async (req, res, next) => {
   const { id } = req.params;
-  const now = new Date();
 
   try {
     const poll = await PollService.getPoll({ _id: id });
+    const namePollCurrent = poll.namePoll;
+    const namePolls = await PollService.findByNameExist(namePollCurrent);
+    console.log(
+      "🚀 ~ file: poll.controller.js:55 ~ getEditPoll ~ Polls",
+      namePolls,
+    );
 
     return res.render("partials/master", {
       title: "Poll Edit",
       content: "../qam/poll/editPollPage",
       poll,
-      now,
+      namePolls,
     });
   } catch (err) {
     return err;
@@ -77,21 +72,13 @@ const getEditPoll = async (req, res, next) => {
 const updatePoll = async (req, res, next) => {
   const { id } = req.params;
   const updateObject = req.body;
+  // const name = req.body.namePoll;
   try {
-    if (
-      !updateObject.namePoll ||
-      !updateObject.dateStart ||
-      !updateObject.dateSubEnd ||
-      !updateObject.dateEnd
-    ) {
-      return res.redirect(`/qam/poll/edit/${id}`);
-    }
-    const Polls = await PollService.updatePoll(
+    const result = await PollService.updatePoll(
       { _id: id },
       { $set: updateObject },
     );
     return res.redirect("/qam/poll");
-    // return res.json(Polls);
   } catch (err) {
     return err;
   }
