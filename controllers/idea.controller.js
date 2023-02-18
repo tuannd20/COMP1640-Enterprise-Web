@@ -92,12 +92,12 @@ const displayAllIdea = async (req, res) => {
 
     const allIdea = await ideaService.getALl(options);
     if (!allIdea) return res.redirect("/404");
-    // return res.render("partials/master", {
-    //   title: "Idea",
-    //   content: "../staff/homePage",
-    //   allIdea,
-    // });
-    return res.status(200).send(allIdea);
+    return res.render("partials/master", {
+      title: "Idea",
+      content: "../staff/homePage",
+      allIdea,
+    });
+    // return res.status(200).send(allIdea);
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
     return err;

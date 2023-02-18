@@ -41,7 +41,7 @@
       </div>
       <div class="Exception">
         <label for="type">
-          Filter
+          Exception
           <select
             name="type"
             id="type"
@@ -82,65 +82,61 @@
   </div>
 
   <div class="flex flex-col w-1/2 m-auto mt-4 select-none gap-9">
+    <% allIdea.docs.forEach(function(idea) { %>
     <div
       class="relative p-3 border-2 idea border-stone-700 rounded-2xl h-96 opacity-80"
     >
       <div class="flex flex-row justify-between header-idea">
         <div class="flex flex-row items-center justify-center gap-2 ml-3">
-          <!-- <img
+          <% if(idea.idStaffIdea.avatarImage === null) { %>
+          <img
             src="<%= process.env.BASE_URL %>image/avatar.png"
             alt=""
             class="w-12 h-12 border rounded-full"
-          /> -->
+          />
+          <%}else { %>
           <img
-            src="https://image-us.24h.com.vn/upload/1-2021/images/2021-02-02/x13-1612243080-319-width650height433.jpg"
+            src="<%= idea.idStaffIdea.avatarImage %>"
             alt=""
             class="w-12 h-12 border rounded-full"
           />
-          <p class="text-base font-medium">nhan phan</p>
+          <% } %>
+
+          <p class="text-base font-medium"><%= idea.idStaffIdea.fullName %></p>
         </div>
       </div>
 
       <div class="content-idea">
-        <div
-          class="w-full px-5 pt-2 mt-1 border border-gray-300 rounded-md shadow-sm text-clip h-60 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-        >
-          <p
-            class="leading-6 overflow-hidden indent-0.5 text-justify max-h-52"
-            style="
-              -webkit-line-clamp: 7;
-              -webkit-box-orient: vertical;
-              overflow: hidden;
-              display: -webkit-box;
-            "
+        <a href="/idea/<%= idea._id %>">
+          <div
+            class="w-full px-5 pt-2 mt-1 border border-gray-300 rounded-md shadow-sm text-clip h-60 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           >
-            nhanh và tuấn là 2 đưa bạn thân. thân ai nấy lo. vào 1 đêm đẹp trời
-            tuấn chở bồ đi chơi và bỏ nhanh ở nhà 1 mình. nhanh bùn và nhanh tis
-            repellat eos iste voluptatem in veritatis omnis inventore quod!
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-            est quo, omnis autem temporibus quisquam minus fugiat tempore et
-            libero, laudantium esse magni harum aliquam optio officia molestias
-            ullam praesentium veritatis. Rerum perferendis provident laborum
-            aliquid, error sequi repudiandae! Rerum animi optio minima similique
-            suscipit aperiam possimus, voluptate ducimus voluptatibus, sunt
-            placeat veniam harum. Tempora eum rem provident perspiciatis
-            tenetur? Iure atque possimus dolore quas velit doloribus officiis
-            sit veniam perferendis rerum architecto labore molestias facilis ea,
-            temporibus distinctio tempore id consectetur.
-          </p>
-        </div>
+            <p
+              class="leading-6 overflow-hidden indent-0.5 text-justify max-h-52"
+              style="
+                -webkit-line-clamp: 7;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                display: -webkit-box;
+              "
+            >
+              <%= idea.contentIdea %>
+            </p>
+          </div>
+        </a>
       </div>
 
       <div class="absolute bottom-3 right-5 w-[95%] m-auto">
         <div class="flex flex-row justify-between footer-idea">
           <div class="file-icon">
+            <% if(idea.urlFile == null) { %>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-10 h-10 text-sky-600 hover:text-sky-900"
+              class="w-10 h-10 text-slate-700"
             >
               <path
                 stroke-linecap="round"
@@ -148,6 +144,22 @@
                 d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
               />
             </svg>
+            <%}else { %>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-10 h-10 text-sky-500"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
+              />
+            </svg>
+            <% } %>
           </div>
 
           <div
@@ -158,14 +170,13 @@
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                class="w-10 h-10 text-slate-700"
-                id="like-icon"
+                class="w-10 h-10 like-icon text-slate-700"
               >
                 <path
                   d="M7.493 18.75c-.425 0-.82-.236-.975-.632A7.48 7.48 0 016 15.375c0-1.75.599-3.358 1.602-4.634.151-.192.373-.309.6-.397.473-.183.89-.514 1.212-.924a9.042 9.042 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75 2.25 2.25 0 012.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H14.23c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23h-.777zM2.331 10.977a11.969 11.969 0 00-.831 4.398 12 12 0 00.52 3.507c.26.85 1.084 1.368 1.973 1.368H4.9c.445 0 .72-.498.523-.898a8.963 8.963 0 01-.924-3.977c0-1.708.476-3.305 1.302-4.666.245-.403-.028-.959-.5-.959H4.25c-.832 0-1.612.453-1.918 1.227z"
                 />
               </svg>
-              <p class="text-base font-medium">1000</p>
+              <p class="text-base font-medium"><%= idea.likeCount %></p>
             </div>
 
             <div class="flex flex-row items-center justify-center gap-1">
@@ -173,15 +184,14 @@
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                class="w-10 h-10 text-slate-700"
-                id="dislike-icon"
+                class="w-10 h-10 dislike-icon text-slate-700"
               >
                 <path
                   d="M15.73 5.25h1.035A7.465 7.465 0 0118 9.375a7.465 7.465 0 01-1.235 4.125h-.148c-.806 0-1.534.446-2.031 1.08a9.04 9.04 0 01-2.861 2.4c-.723.384-1.35.956-1.653 1.715a4.498 4.498 0 00-.322 1.672V21a.75.75 0 01-.75.75 2.25 2.25 0 01-2.25-2.25c0-1.152.26-2.243.723-3.218C7.74 15.724 7.366 15 6.748 15H3.622c-1.026 0-1.945-.694-2.054-1.715A12.134 12.134 0 011.5 12c0-2.848.992-5.464 2.649-7.521.388-.482.987-.729 1.605-.729H9.77a4.5 4.5 0 011.423.23l3.114 1.04a4.5 4.5 0 001.423.23zM21.669 13.773c.536-1.362.831-2.845.831-4.398 0-1.22-.182-2.398-.52-3.507-.26-.85-1.084-1.368-1.973-1.368H19.1c-.445 0-.72.498-.523.898.591 1.2.924 2.55.924 3.977a8.959 8.959 0 01-1.302 4.666c-.245.403.028.959.5.959h1.053c.832 0 1.612-.453 1.918-1.227z"
                 />
               </svg>
 
-              <p class="text-base font-medium">900</p>
+              <p class="text-base font-medium"><%= idea.disLikeCount %></p>
             </div>
             <div class="flex flex-row items-center justify-center gap-1 view">
               <svg
@@ -203,28 +213,31 @@
                   d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                 />
               </svg>
-              <p class="text-base font-medium">3000</p>
+              <p class="text-base font-medium"><%= idea.viewCount %></p>
             </div>
           </div>
           <div class="comment-icon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-10 h-10 text-sky-600 hover:text-sky-900"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 011.037-.443 48.282 48.282 0 005.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
-              />
-            </svg>
+            <a href="/idea/<%= idea._id %>">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-10 h-10 text-sky-600 hover:text-sky-900"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 011.037-.443 48.282 48.282 0 005.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
+                />
+              </svg>
+            </a>
           </div>
         </div>
       </div>
     </div>
+    <% }); %>
   </div>
 </div>
 
