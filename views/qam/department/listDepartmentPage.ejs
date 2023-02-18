@@ -24,6 +24,7 @@
             >
               <th class="px-4 py-2">No</th>
               <th class="px-4 py-2">Name Department</th>
+              <th class="px-4 py-2">Description</th>
               <th class="px-4 py-2">Active</th>
               <th class="px-4 py-2">Action</th>
             </tr>
@@ -37,6 +38,9 @@
               </td>
               <td class="px-6 py-3 text-center">
                 <span class="font-medium"><%= department.nameDepartment%></span>
+              </td>
+              <td class="px-6 py-3 text-center">
+                <span class="font-medium"><%= department.description%></span>
               </td>
               <% if (department.isUsed === true) { %>
               <td class="px-6 py-3 text-center">
@@ -98,9 +102,7 @@
                     </a>
                   </div>
                   <% if (department.isUsed === true) { %>
-                  <div
-                    class="w-6 mr-2 transform opacity-50"
-                  >
+                  <div class="w-6 mr-2 transform opacity-50">
                     <a>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -138,7 +140,6 @@
                     </a>
                   </div>
                   <% } %>
-                
                 </div>
               </td>
             </tr>

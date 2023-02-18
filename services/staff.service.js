@@ -33,15 +33,9 @@ const displayStaffById = async (id) => {
   }
 };
 
-const updateStaff = async (_id, body) => {
+const updateStaff = async (id, data) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = _id;
-    const updateObject = body;
-    const staff = await StaffRepository.updateMany(
-      { _id: id },
-      { $set: updateObject },
-    );
+    const staff = await StaffRepository.updateStaff(id, data);
     return staff;
   } catch (err) {
     console.log(err);
@@ -49,27 +43,27 @@ const updateStaff = async (_id, body) => {
   }
 };
 
-const deleteOneStaff = async (_id) => {
-  try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = _id;
-    const staff = await StaffRepository.findByIdAndRemove(id);
-    return staff;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
+// const deleteOneStaff = async (_id) => {
+//   try {
+//     // eslint-disable-next-line no-underscore-dangle
+//     const id = _id;
+//     const staff = await StaffRepository.deleteOneStaff(id);
+//     return staff;
+//   } catch (err) {
+//     console.log(err);
+//     return err;
+//   }
+// };
 
-const deleteAllStaff = async () => {
-  try {
-    const staff = await StaffRepository.deleteMany();
-    return staff;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
+// const deleteAllStaff = async () => {
+//   try {
+//     const staff = await StaffRepository.deleteAllStaff();
+//     return staff;
+//   } catch (err) {
+//     console.log(err);
+//     return err;
+//   }
+// };
 
 const checkPassword = async (data) => {
   try {
@@ -105,8 +99,6 @@ const createToken = async (data) => {
 module.exports = {
   createStaff,
   updateStaff,
-  deleteOneStaff,
-  deleteAllStaff,
   getAllStaff,
   displayStaffById,
   findStaff,
