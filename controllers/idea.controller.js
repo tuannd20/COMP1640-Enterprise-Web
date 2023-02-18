@@ -90,6 +90,7 @@ const displayAllIdea = async (req, res) => {
 
     allIdea.docs.forEach((element) => {
       if (typeof element.urlFile === "undefined") {
+        // eslint-disable-next-line no-param-reassign
         element.urlFile = null;
       }
     });
@@ -104,8 +105,49 @@ const displayAllIdea = async (req, res) => {
     return err;
   }
 };
+
+const getIdeaForStaff = async (req, res) => {
+  try {
+    const { page, id } = req.params;
+    const limit = 5;
+    const options = {
+      page,
+      limit,
+      query: { idStaffIdea: id },
+      sort: { createdAt: -1 },
+    };
+    const staff = await staffService.displayStaffById(id);
+
+    if (!staff) return res.redirect("/404");
+    if (typeof staff.avatarImage === "undefined") {
+      staff.avatarImage = null;
+    }
+    const allIdea = await ideaService.getALl(options);
+
+    allIdea.docs.forEach((element) => {
+      if (typeof element.urlFile === "undefined") {
+        // eslint-disable-next-line no-param-reassign
+        element.urlFile = null;
+      }
+    });
+    const data = { allIdea, staff };
+    return res.render("partials/master", {
+      title: "Idea",
+      content: "../staff/profilePage",
+      data,
+    });
+    // return res.status(200).send(data);
+  } catch (err) {
+    console.log(
+      "🚀 ~ file: idea.controller.js:136 ~ displayAllIdea ~ err",
+      err,
+    );
+    return err;
+  }
+};
 module.exports = {
   createIdea,
   displayDetailIdea,
   displayAllIdea,
+  getIdeaForStaff,
 };
