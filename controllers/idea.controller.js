@@ -76,12 +76,7 @@ const displayDetailIdea = async (req, res) => {
 
 const displayAllIdea = async (req, res) => {
   try {
-    let page;
-    if (!req.body.page) {
-      page = 1;
-    } else {
-      page = req.body.page;
-    }
+    const { page } = req.params;
     const limit = 5;
     const options = {
       page,
@@ -92,12 +87,18 @@ const displayAllIdea = async (req, res) => {
 
     const allIdea = await ideaService.getALl(options);
     if (!allIdea) return res.redirect("/404");
-    // return res.render("partials/master", {
-    //   title: "Idea",
-    //   content: "../staff/homePage",
-    //   allIdea,
-    // });
-    return res.status(200).send(allIdea);
+
+    allIdea.docs.forEach((element) => {
+      if (typeof element.urlFile === "undefined") {
+        element.urlFile = null;
+      }
+    });
+    return res.render("partials/master", {
+      title: "Idea",
+      content: "../staff/homePage",
+      allIdea,
+    });
+    // return res.status(200).send(allIdea);
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
     return err;
