@@ -36,13 +36,6 @@ const createPoll = async (req, res, next) => {
 const getAllPoll = async (req, res, next) => {
   try {
     const Polls = await PollService.getAllPoll();
-    console.log(
-      "🚀 ------------------------------------------------------------🚀",
-    );
-    console.log("🚀 ~ file: poll.controller.js:42 ~ getAllPoll ~ Polls", Polls);
-    console.log(
-      "🚀 ------------------------------------------------------------🚀",
-    );
     return res.render("partials/master", {
       title: "Poll List",
       content: "../qam/poll/listpollpage",
@@ -55,16 +48,21 @@ const getAllPoll = async (req, res, next) => {
 
 const getEditPoll = async (req, res, next) => {
   const { id } = req.params;
-  const now = new Date();
 
   try {
     const poll = await PollService.getPoll({ _id: id });
+    const namePollCurrent = poll.namePoll;
+    const namePolls = await PollService.findByNameExist(namePollCurrent);
+    console.log(
+      "🚀 ~ file: poll.controller.js:55 ~ getEditPoll ~ Polls",
+      namePolls,
+    );
 
     return res.render("partials/master", {
       title: "Poll Edit",
       content: "../qam/poll/editPollPage",
       poll,
-      now,
+      namePolls,
     });
   } catch (err) {
     return err;
@@ -74,33 +72,13 @@ const getEditPoll = async (req, res, next) => {
 const updatePoll = async (req, res, next) => {
   const { id } = req.params;
   const updateObject = req.body;
-  const name = req.body.namePoll;
+  // const name = req.body.namePoll;
   try {
-    const checkPoll = await PollService.getPoll({ _id: id });
-    const checkPollNameExist = await PollService.findByNameExist(id, name);
-
-    if (
-      checkPoll.namePoll === updateObject.namePoll &&
-      checkPoll.dateStart === updateObject.dateStart &&
-      checkPoll.dateSubEnd === updateObject.dateSubEnd &&
-      checkPoll.dateEnd === updateObject.dateEnd
-    ) {
-      return res.send(
-        "<script>alert('No change'); window.location.href='/qam/department';</script>",
-      );
-    }
-
-    if (checkPollNameExist.length === 0) {
-      const result = await PollService.updatePoll(
-        { _id: id },
-        { $set: updateObject },
-      );
-      // return res.redirect("/qam/poll");
-      return res.json(result);
-    }
-    return res.send(
-      "<script>alert('Tên đã tồn tại'); window.location.href='/qam/poll';</script>",
+    const result = await PollService.updatePoll(
+      { _id: id },
+      { $set: updateObject },
     );
+    return res.redirect("/qam/poll");
   } catch (err) {
     return err;
   }

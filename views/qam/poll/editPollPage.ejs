@@ -26,6 +26,7 @@
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px]">
           <form
+            id="my-form"
             action="/qam/poll/edit/<%= poll.id %>"
             onsubmit="return validateForm()"
             method="POST"
@@ -45,6 +46,7 @@
                 value="<%= poll.namePoll %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
+              <div id="name-error" class="error-message"></div>
             </div>
             <div class="mb-4">
               <label
@@ -57,8 +59,6 @@
               <% if (poll.dateStart <= new Date()) { %>
               <input
                 type="date"
-                id="dateStartHide"
-                name="dateStart"
                 readonly
                 value="<%= poll.dateStart.toISOString().slice(0,10) %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -107,6 +107,9 @@
                 class="w-full rounded-md border mb-3 border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
 
+              <!-- <input type="tel" name="phoneNumber" id="phoneNumber" required />
+              <div id="phone-error" class="error-message"></div> -->
+
               <!-- <label
                 for="myCheck"
                 class="text-base font-medium text-[#07074D] pr-3"
@@ -140,70 +143,26 @@
       </div>
     </div>
   </div>
-  <!-- <script>
-    const checkbox = document.getElementById("myCheck");
-    const isUsedInput = document.getElementById("isUsedInput");
-
-    checkbox.addEventListener("change", () => {
-      isUsedInput.value = checkbox.checked ? "true" : "false";
-    });
-  </script> -->
   <script>
-    function validateForm() {
-      const startDateInput = document.getElementById("dateStart");
-      const startDateHideInput = document.getElementById("dateStartHide");
-      const endSubDateInput = document.getElementById("dateSubEnd");
-      const endDateInput = document.getElementById("dateEnd");
+    const namesExist = JSON.parse("<%- JSON.stringify(namePolls) %>");
+    console.log("🚀 ~ file: editPollPage.ejs:148 ~ namesExist", namesExist);
+    const form = document.getElementById("my-form");
+    const inputField = document.getElementById("namePoll");
+    const errorMessage = document.getElementById("name-error");
 
-      const startDateHide = new Date(startDateInput.value);
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
 
-      const startDate = new Date(startDateInput.value);
-      // alert(startDate);
-      const endSubDate = new Date(endSubDateInput.value);
-      // alert(endSubDate);
-      const endDate = new Date(endDateInput.value);
-      // alert(endDate);
-      // Lấy ngày hiện tại
-      const currentDate = new Date();
-      // alert(currentDate);
-      // Check if start date is empty or not a valid date
-      if (startDateInput.value === "" || isNaN(startDate)) {
-        alert("Please enter a valid start date");
-        return false;
+      const nameIsValid = namesExist.some(
+        (item) => item.namePoll === inputField.value,
+      );
+
+      if (nameIsValid) {
+        errorMessage.textContent = "Tên không hợp lệ";
+      } else {
+        errorMessage.textContent = "";
+        form.submit();
       }
-
-      // Check if end date is empty or not a valid date
-      if (endSubDateInput.value === "" || isNaN(endSubDate)) {
-        alert("Please enter a valid end sub date");
-        return false;
-      }
-
-      // Check if end date is empty or not a valid date
-      if (endDateInput.value === "" || isNaN(endDate)) {
-        alert("Please enter a valid end date");
-        return false;
-      }
-
-      // Check if start date is earlier than start date
-      if (startDate < currentDate) {
-        alert("Start date must be later than or equal start current day");
-        return false;
-      }
-
-      // Check if end sub date is earlier than start date
-      if (endSubDate < startDate && endSubDate < currentDate) {
-        alert("End sub date must be later than start date");
-        return false;
-      }
-
-      // Check if end date is earlier than start date
-      if (endDate < endSubDate && endDate < currentDate) {
-        alert("End date must be later than end sub date");
-        return false;
-      }
-
-      // Validation passed
-      return true;
-    }
+    });
   </script>
 </Main>

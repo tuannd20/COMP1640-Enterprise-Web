@@ -78,13 +78,11 @@ const findByName = async (name) => {
   }
 };
 
-const findByNameExist = async (id, name) => {
+const findByNameExist = async (name) => {
   try {
-    const result = await PollModel.find()
+    const result = await PollModel.distinct("namePoll")
       .where("namePoll")
-      .equals(name)
-      .where("_id")
-      .ne(id);
+      .ne(name);
     return result;
   } catch (err) {
     return err;
