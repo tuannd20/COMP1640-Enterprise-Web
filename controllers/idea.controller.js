@@ -76,21 +76,28 @@ const displayDetailIdea = async (req, res) => {
 
 const displayAllIdea = async (req, res) => {
   try {
-    const { page = 1 } = req.params;
+    let page;
+    if (!req.body.page) {
+      page = 1;
+    } else {
+      page = req.body.page;
+    }
     const limit = 5;
     const options = {
       page,
       limit,
       populate: { path: "idStaffIdea", model: Staff },
+      sort: { createdAt: -1 },
     };
+
     const allIdea = await ideaService.getALl(options);
     if (!allIdea) return res.redirect("/404");
-    return res.render("partials/master", {
-      title: "Idea",
-      content: "../staff/homePage",
-      allIdea,
-    });
-    // return res.status(200).send(allIdea);
+    // return res.render("partials/master", {
+    //   title: "Idea",
+    //   content: "../staff/homePage",
+    //   allIdea,
+    // });
+    return res.status(200).send(allIdea);
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
     return err;
