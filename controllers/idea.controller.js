@@ -145,9 +145,23 @@ const getIdeaForStaff = async (req, res) => {
     return err;
   }
 };
+
+const updateStatus = async (req, res) => {
+  try {
+    if (!req.body.idIdea || !req.body.idStaff || !req.body.action) {
+      return res.status(404).send("Missing required information");
+    }
+
+    return res.status(200).send("newIdea");
+  } catch (err) {
+    console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
+    return err;
+  }
+};
 module.exports = {
   createIdea,
   displayDetailIdea,
   displayAllIdea,
   getIdeaForStaff,
+  updateStatus,
 };

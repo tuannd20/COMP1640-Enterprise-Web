@@ -16,6 +16,8 @@ router.get("/:page/", IdeaController.displayAllIdea);
 
 router.get("/idea/:idIdea", IdeaController.displayDetailIdea);
 
+router.post("/idea/Status", IdeaController.updateStatus);
+
 // router.post("/idea/:idIdea", CommentController.createComment);
 
 // router.put("/idea/:idIdea&:idComment", CommentController.updateComment);
