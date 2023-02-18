@@ -6,8 +6,8 @@ const download = document.getElementById("download-button");
 const downloadModel = document.getElementById("modal");
 const no = document.getElementById("no");
 const yes = document.getElementById("yes");
-const like = document.getElementById("like-icon");
-const dislike = document.getElementById("dislike-icon");
+const like = document.getElementsByClassName("like-icon");
+const dislike = document.getElementsByClassName("dislike-icon");
 
 function dropdown() {
   drop.classList.toggle("hidden");
@@ -36,16 +36,24 @@ yes.addEventListener("click", () => {
   downloadModel.style.display = "none";
 });
 
-like.addEventListener("click", () => {
-  if (dislike.classList.contains("text-sky-500")) {
-    dislike.classList.remove("text-sky-500");
-  }
-  like.classList.toggle("text-sky-500");
-});
+for (let i = 0; i < like.length; i++) {
+  like[i].addEventListener("click", () => {
+    if (dislike[i].classList.contains("text-sky-500")) {
+      dislike[i].classList.remove("text-sky-500");
+      dislike[i].classList.add("text-slate-700");
+    }
+    like[i].classList.toggle("text-sky-500");
+    like[i].classList.toggle("text-slate-700");
+  });
+}
 
-dislike.addEventListener("click", () => {
-  if (like.classList.contains("text-sky-500")) {
-    like.classList.remove("text-sky-500");
-  }
-  dislike.classList.toggle("text-sky-500");
-});
+for (let i = 0; i < dislike.length; i++) {
+  dislike[i].addEventListener("click", () => {
+    if (like[i].classList.contains("text-sky-500")) {
+      like[i].classList.remove("text-sky-500");
+      like[i].classList.add("text-slate-700");
+    }
+    dislike[i].classList.toggle("text-sky-500");
+    dislike[i].classList.toggle("text-slate-700");
+  });
+}
