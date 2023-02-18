@@ -46,21 +46,28 @@ const createIdea = async (req, res) => {
 
 const displayDetailIdea = async (req, res) => {
   try {
-    const comments = [];
+    const data = { ideas: "John", comments: [] };
+
     if (!req.params.idIdea) return res.redirect("/404");
     const idea = await ideaService.getIdea(req.params.idIdea);
-    console.log(
-      "🚀 ~ file: idea.controller.js:50 ~ displayDetailIdea ~ idea",
-      idea,
-    );
     if (!idea) return res.redirect("/404");
     // return res.status(200).send(Idea);
-    return res.render("partials/master", {
-      title: "Idea",
-      content: "../staff/idea/ideaDetailPage",
-      idea,
-      comments,
-    });
+    // return res.render("partials/master", {
+    //   title: "Idea",
+    //   content: "../staff/idea/ideaDetailPage",
+    // idea,
+    // comments,
+    // });
+    data.ideas = idea;
+    data.comments.push("cooking");
+
+    return res.status(200).send(data);
+    // return res.render("partials/master", {
+    //   title: "Department Create",
+    //   content: "../staff/idea/ideaDetailPage",
+    //   idea,
+    //   comments,
+    // });
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
     return err;
