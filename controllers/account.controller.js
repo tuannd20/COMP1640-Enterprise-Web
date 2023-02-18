@@ -35,12 +35,16 @@ const renderEditAccountPage = async (req, res) => {
 const createStaff = async (req, res) => {
   try {
     const account = req.body;
-    // eslint-disable-next-line no-undef
     const staff = await StaffService.createStaff(account);
+    // const staffs = await StaffService.getAllStaff();
     // const findStaff = await StaffService.findStaff(req.params.email);
     // if (!findStaff) return res.status(400).send("Email has been used before");
     return res.redirect("/admin/account");
-    // return res.json(staff);
+    // return res.render("partials/master", {
+    //   title: "Create New Account",
+    //   content: "../admin/account/create",
+    //   staffs,
+    // });
   } catch (err) {
     console.log(err);
     res.json(err);
