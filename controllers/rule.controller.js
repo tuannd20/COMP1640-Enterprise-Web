@@ -3,12 +3,16 @@ const RuleService = require("../services/rule.service");
 
 const createRule = async (req, res) => {
   try {
-    const rule = await RuleService.createRule(req.body);
-    return res.render("partials/master", {
-      title: "Create new account",
-      content: "../admin/terms/createTermsPage",
-      rule,
-    });
+    const titleTerms = req.body.title;
+    const formData = req.body;
+    const checkTitle = await RuleService.findByTitle(titleTerms);
+    if (!checkTitle) {
+      const rule = await RuleService.createRule(formData);
+      return res.redirect("/admin/terms");
+    }
+    return res.send(
+      "<script>alert('Title is existed'); window.location.href='/admin/terms/create';</script>",
+    );
   } catch (err) {
     console.log(err);
     return err;

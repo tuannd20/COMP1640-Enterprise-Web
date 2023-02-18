@@ -62,6 +62,15 @@ const getAllRule = async () => {
   }
 };
 
+const findByTitle = async (titleTerm) => {
+  try {
+    const rule = await RuleRepository.findByName(titleTerm);
+    return rule;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createRule,
   updateRule,
@@ -69,4 +78,5 @@ module.exports = {
   deleteOneRule,
   deleteAllRule,
   displayRuleById,
+  findByTitle,
 };

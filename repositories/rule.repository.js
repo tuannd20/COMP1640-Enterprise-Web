@@ -54,8 +54,17 @@ const deleteAllRule = async () => {
 
 const getAllRule = async () => {
   try {
-    const rules = await RuleModel.find();
+    const rules = await RuleModel.find().sort({ createdAt: -1 });
     return rules;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+const findByTitle = async (titleTerm) => {
+  try {
+    const title = await RuleModel.findOne({ title: titleTerm });
+    return title;
   } catch (err) {
     console.log(err);
     return err;
@@ -69,4 +78,5 @@ module.exports = {
   deleteOneRule,
   deleteAllRule,
   displayRuleById,
+  findByTitle,
 };

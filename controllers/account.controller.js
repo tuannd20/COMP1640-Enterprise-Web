@@ -35,6 +35,7 @@ const renderEditAccountPage = async (req, res) => {
 const createStaff = async (req, res) => {
   try {
     const account = req.body;
+    // eslint-disable-next-line no-undef
     const staff = await StaffService.createStaff(account);
     // const findStaff = await StaffService.findStaff(req.params.email);
     // if (!findStaff) return res.status(400).send("Email has been used before");
@@ -42,6 +43,7 @@ const createStaff = async (req, res) => {
     // return res.json(staff);
   } catch (err) {
     console.log(err);
+    res.json(err);
     return err;
   }
 };
