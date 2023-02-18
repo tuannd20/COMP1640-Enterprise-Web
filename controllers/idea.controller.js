@@ -46,21 +46,28 @@ const createIdea = async (req, res) => {
 
 const displayDetailIdea = async (req, res) => {
   try {
-    const comments = [];
+    const data = { ideas: "John", comments: [] };
+
     if (!req.params.idIdea) return res.redirect("/404");
     const idea = await ideaService.getIdea(req.params.idIdea);
-    console.log(
-      "🚀 ~ file: idea.controller.js:50 ~ displayDetailIdea ~ idea",
-      idea,
-    );
     if (!idea) return res.redirect("/404");
     // return res.status(200).send(Idea);
-    return res.render("partials/master", {
-      title: "Idea",
-      content: "../staff/idea/ideaDetailPage",
-      idea,
-      comments,
-    });
+    // return res.render("partials/master", {
+    //   title: "Idea",
+    //   content: "../staff/idea/ideaDetailPage",
+    // idea,
+    // comments,
+    // });
+    data.ideas = idea;
+    data.comments.push("cooking");
+
+    return res.status(200).send(data);
+    // return res.render("partials/master", {
+    //   title: "Department Create",
+    //   content: "../staff/idea/ideaDetailPage",
+    //   idea,
+    //   comments,
+    // });
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
     return err;
@@ -69,15 +76,24 @@ const displayDetailIdea = async (req, res) => {
 
 const displayAllIdea = async (req, res) => {
   try {
-    const { page = 1 } = req.params;
+    const { page } = req.params;
     const limit = 5;
     const options = {
       page,
       limit,
       populate: { path: "idStaffIdea", model: Staff },
+      sort: { createdAt: -1 },
     };
+
     const allIdea = await ideaService.getALl(options);
     if (!allIdea) return res.redirect("/404");
+
+    allIdea.docs.forEach((element) => {
+      if (typeof element.urlFile === "undefined") {
+        // eslint-disable-next-line no-param-reassign
+        element.urlFile = null;
+      }
+    });
     return res.render("partials/master", {
       title: "Idea",
       content: "../staff/homePage",
@@ -89,8 +105,63 @@ const displayAllIdea = async (req, res) => {
     return err;
   }
 };
+
+const getIdeaForStaff = async (req, res) => {
+  try {
+    const { page, id } = req.params;
+    const limit = 5;
+    const options = {
+      page,
+      limit,
+      query: { idStaffIdea: id },
+      sort: { createdAt: -1 },
+    };
+    const staff = await staffService.displayStaffById(id);
+
+    if (!staff) return res.redirect("/404");
+    if (typeof staff.avatarImage === "undefined") {
+      staff.avatarImage = null;
+    }
+    const allIdea = await ideaService.getALl(options);
+
+    allIdea.docs.forEach((element) => {
+      if (typeof element.urlFile === "undefined") {
+        // eslint-disable-next-line no-param-reassign
+        element.urlFile = null;
+      }
+    });
+    const data = { allIdea, staff };
+    return res.render("partials/master", {
+      title: "Idea",
+      content: "../staff/profilePage",
+      data,
+    });
+    // return res.status(200).send(data);
+  } catch (err) {
+    console.log(
+      "🚀 ~ file: idea.controller.js:136 ~ displayAllIdea ~ err",
+      err,
+    );
+    return err;
+  }
+};
+
+const updateStatus = async (req, res) => {
+  try {
+    if (!req.body.idIdea || !req.body.idStaff || !req.body.action) {
+      return res.status(404).send("Missing required information");
+    }
+
+    return res.status(200).send("newIdea");
+  } catch (err) {
+    console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
+    return err;
+  }
+};
 module.exports = {
   createIdea,
   displayDetailIdea,
   displayAllIdea,
+  getIdeaForStaff,
+  updateStatus,
 };
