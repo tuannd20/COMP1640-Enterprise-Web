@@ -1,8 +1,8 @@
 const express = require("express");
 
 const router = express.Router();
-// const IdeaController = require("../controllers/idea.controller");
 const CommentController = require("../controllers/comment.controller");
+const IdeaController = require("../controllers/idea.controller");
 
 router.get("/", (req, res) => {
   // eslint-disable-next-line max-len, max-len, max-len
@@ -12,9 +12,9 @@ router.get("/", (req, res) => {
   });
 });
 
-// router.get("/", IdeaController.displayAllIdea);
+router.get("/:page/", IdeaController.displayAllIdea);
 
-// router.get("/idea/:idIdea", IdeaController.displayDetailIdea);
+router.get("/idea/:idIdea", IdeaController.displayDetailIdea);
 
 // router.post("/idea/:idIdea", CommentController.createComment);
 
