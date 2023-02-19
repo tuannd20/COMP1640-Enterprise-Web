@@ -18,6 +18,13 @@ const renderEditAccountPage = async (req, res) => {
   });
 };
 
+const renderProfilePage = async (req, res) => {
+  res.render("partials/master", {
+    title: "My profile",
+    content: "../staff/profilePage",
+  });
+};
+
 const createStaff = async (req, res) => {
   try {
     const staff = await StaffService.createStaff(req.body);
@@ -139,4 +146,5 @@ module.exports = {
   getAllStaff,
   login,
   logout,
+  renderProfilePage,
 };
