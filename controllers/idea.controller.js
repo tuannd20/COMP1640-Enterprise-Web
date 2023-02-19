@@ -100,7 +100,7 @@ const displayAllIdea = async (req, res) => {
     return res.render("partials/master", {
       title: "Idea",
       content: "../staff/homePage",
-      ideas: allIdea.docs,
+      ideas: allIdea,
     });
     // return res.status(200).send(allIdea);
   } catch (err) {
