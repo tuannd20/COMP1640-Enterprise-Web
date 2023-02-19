@@ -64,7 +64,7 @@ const getAllRule = async () => {
 
 const findByTitle = async (titleTerm) => {
   try {
-    const rule = await RuleRepository.findByName(titleTerm);
+    const rule = await RuleRepository.findByTitle(titleTerm);
     return rule;
   } catch (err) {
     return err;
