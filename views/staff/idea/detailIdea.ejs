@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%- include("../partials/head"); %>
+    <%- include("../../partials/head"); %>
     <title>Edit idea</title>
   </head>
   <body>
-    <%- include("../partials/header"); %>
+    <%- include("../../partials/header"); %>
 
     <Main class="pt-[70px] w-3/5 m-auto h-screen overflow-auto">
       <div
@@ -28,7 +28,7 @@
                   d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
                 />
               </svg>
-              <p class="text-base font-medium"><%= idea.staffName %></p>
+              <p class="text-base font-medium"><%= data.ideas.staffName %></p>
             </div>
             <div class="flex flex-row items-center justify-center gap-3">
               <svg
@@ -106,7 +106,7 @@
                 display: -webkit-box;
               "
             >
-              <%= idea.contentIdea %>
+              <%= data.ideas.contentIdea %>
             </p>
           </div>
         </div>
@@ -212,7 +212,7 @@
         </div>
         <div class="w-full border-b-2 border-gray-300 my-2"></div>
         <div class="h-48 overflow-auto">
-          <% comments.forEach(function(comment, target) { %>
+          <% data.comments.forEach(function(comment, target) { %>
           <div class="comment">
             <div class="flex right-5 w-[95%] m-auto mt-2 h-18">
               <div class="my-auto">
@@ -231,7 +231,6 @@
                   />
                 </svg>
               </div>
-
               <div class="detail comment">
                 <div class="ml-4 w-full my-auto">
                   <div class=""><%= comment.name %></div>
@@ -289,7 +288,6 @@
               </script>
             </div>
           </div>
-
           <% }); %>
         </div>
         <div class="form-input-comment">
@@ -317,7 +315,7 @@
         </div>
       </div>
     </Main>
-    <%- include("../partials/footer"); %>
+    <%- include("../../partials/footer"); %>
   </body>
   <script src="<%= process.env.BASE_URL %>javascript/homeStaff.js"></script>
   <script>

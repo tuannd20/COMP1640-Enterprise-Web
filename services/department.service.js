@@ -68,6 +68,19 @@ const findByName = async (name) => {
   }
 };
 
+const findByNameExist = async (id, name) => {
+  try {
+    const checkDepartmentName = await DepartmentRepository.findByNameExist(
+      id,
+      name,
+    );
+
+    return checkDepartmentName;
+  } catch (err) {
+    return err;
+  }
+};
+
 const getDepartmentActivated = async () => {
   try {
     const result = await DepartmentRepository.getDepartmentActivated();
@@ -86,4 +99,5 @@ module.exports = {
   getDepartment,
   getDepartmentActivated,
   findByName,
+  findByNameExist,
 };
