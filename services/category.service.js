@@ -60,6 +60,15 @@ const readCategoryById = async (id) => {
   }
 };
 
+const findByName = async (name) => {
+  try {
+    const result = await CategoryRepository.findByName(name);
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createCategory,
   getAllCategory,
@@ -67,4 +76,5 @@ module.exports = {
   deleteAllCategory,
   deleteOneCategory,
   readCategoryById,
+  findByName,
 };

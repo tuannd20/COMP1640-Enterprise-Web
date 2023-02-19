@@ -65,6 +65,19 @@ const findByName = async (name) => {
   }
 };
 
+const findByNameExist = async (id, name) => {
+  try {
+    const checkDepartmentName = await DepartmentModel.find()
+      .where("nameDepartment")
+      .equals(name)
+      .where("_id")
+      .ne(id);
+    return checkDepartmentName;
+  } catch (err) {
+    return err;
+  }
+};
+
 const getDepartmentActivated = async () => {
   try {
     const result = await DepartmentModel.find({ isUsed: true });
@@ -83,4 +96,5 @@ module.exports = {
   getDepartment,
   getDepartmentActivated,
   findByName,
+  findByNameExist,
 };

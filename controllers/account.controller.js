@@ -32,6 +32,13 @@ const renderEditAccountPage = async (req, res) => {
   // return res.json(staff);
 };
 
+const renderProfilePage = async (req, res) => {
+  res.render("partials/master", {
+    title: "My profile",
+    content: "../staff/profilePage",
+  });
+};
+
 const createStaff = async (req, res) => {
   try {
     const account = req.body;
@@ -164,4 +171,5 @@ module.exports = {
   getAllStaff,
   login,
   logout,
+  renderProfilePage,
 };
