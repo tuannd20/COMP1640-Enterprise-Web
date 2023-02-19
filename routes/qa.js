@@ -17,7 +17,7 @@ router.get("/category/edit/:id", CategoryController.getEditCategory);
 
 router.post("/category/edit/:id", CategoryController.updateCategory);
 
-router.get("/category/delete/:id", CategoryController.deleteOneCategory);
+router.delete("/categories/:id", CategoryController.deleteOneCategory);
 
 router.get("/category/delete-all", CategoryController.deleteAllCategory);
 

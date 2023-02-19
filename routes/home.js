@@ -20,6 +20,8 @@ router.get("/idea/:idIdea", IdeaController.displayDetailIdea);
 
 router.post("/idea/Status", IdeaController.updateStatus);
 
+router.get("/comments", CommentController.displayAllComment);
+
 // router.post("/idea/:idIdea", CommentController.createComment);
 
 // router.put("/idea/:idIdea&:idComment", CommentController.updateComment);

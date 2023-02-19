@@ -4,20 +4,25 @@ const database = require("../connection");
 
 const category = [
   new CategoryModel({
-    idDepartment: "63f069d3ebc00d7c6f011edd",
-    nameCategory: "Website development",
-    isUsed: true,
-  }),
-  new CategoryModel({
-    idDepartment: "63f069d3ebc00d7c6f011edd",
-    nameCategory: "Database Design",
+    idDepartment: "63f069d3ebc00d7c6f011ede",
+    nameCategory: "Level 02",
     isUsed: false,
   }),
   new CategoryModel({
-    idDepartment: "63f069d3ebc00d7c6f011edd",
-    nameCategory: "Cloud Server",
+    idDepartment: "63f069d3ebc00d7c6f011ede",
+    nameCategory: "Level 03",
     isUsed: false,
   }),
+  // new CategoryModel({
+  //   idDepartment: "63f069d3ebc00d7c6f011edd",
+  //   nameCategory: "Database Design",
+  //   isUsed: false,
+  // }),
+  // new CategoryModel({
+  //   idDepartment: "63f069d3ebc00d7c6f011edd",
+  //   nameCategory: "Cloud Server",
+  //   isUsed: false,
+  // }),
 ];
 
 (async () => {

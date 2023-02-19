@@ -131,12 +131,11 @@ const deleteOneCategory = async (req, res, next) => {
       _id: id,
     });
 
-    if (
-      checkCategoryActive.isUsed === false
-    ) {
+    if (checkCategoryActive.isUsed === false) {
       const category = await CategoryService.deleteOneCategory({
         _id: id,
       });
+      // return res.json(category);
       return res.redirect("/qa/categories");
     }
     return res.redirect("/qa/categories");
