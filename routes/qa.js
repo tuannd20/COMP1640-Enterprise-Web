@@ -7,23 +7,18 @@ router.get("/", (req, res) => {
   res.render("homeStaff", { title: "Express" });
 });
 
-router.get("/categories", CategoryController.getAllCategory);
+router.get("/categories", CategoryController.renderListCategoryPage);
+// get
+router.get("/category/create", CategoryController.rederCreateCategoryPage);
 
-// [GET] create department
-// router.get("/category/create", CategoryController.createCategory);
-
-// [POST] create department
 router.post("/category/create", CategoryController.createCategory);
 
-// [GET] edit department
-// router.get("/category/edit/:id", CategoryController.updateCategory);
+router.get("/category/edit/:id", CategoryController.getEditCategory);
 
-// [PUT] update department
-router.put("/category/edit/:id", CategoryController.updateCategory);
+router.post("/category/edit/:id", CategoryController.updateCategory);
 
-// [DELETE] delete department
-router.delete("/category/delete/:id", CategoryController.deleteOneCategory);
+router.get("/category/delete/:id", CategoryController.deleteOneCategory);
 
-router.get("/category/", CategoryController.getAllCategory);
+router.get("/category/delete-all", CategoryController.deleteAllCategory);
 
 module.exports = router;
