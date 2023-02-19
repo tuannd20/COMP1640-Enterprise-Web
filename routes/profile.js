@@ -4,6 +4,8 @@ const router = express.Router();
 const AccountController = require("../controllers/account.controller");
 const IdeaController = require("../controllers/idea.controller");
 
+router.get("/", AccountController.renderProfilePage);
+
 // router.get("/:idAccount", AccountController.displayAccountById);
 router.get("/:page/:id", IdeaController.getIdeaForStaff);
 // router.post("/idea", IdeaController.createIdea);
