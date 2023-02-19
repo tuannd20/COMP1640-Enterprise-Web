@@ -94,10 +94,13 @@ const displayAllIdea = async (req, res) => {
         element.urlFile = null;
       }
     });
+
+    console.log("Helololo", allIdea.docs);
+    // return res.json(allIdea);
     return res.render("partials/master", {
       title: "Idea",
       content: "../staff/homePage",
-      allIdea,
+      ideas: allIdea.docs,
     });
     // return res.status(200).send(allIdea);
   } catch (err) {
