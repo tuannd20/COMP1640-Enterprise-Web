@@ -38,7 +38,7 @@
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-8 h-8 text-sky-600 hover:text-sky-900 my-auto"
+                class="w-8 h-8 my-auto text-sky-600 hover:text-sky-900"
               >
                 <path
                   stroke-linecap="round"
@@ -53,7 +53,7 @@
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-8 h-8 mr-4 text-sky-600 hover:text-sky-900 my-auto"
+                class="w-8 h-8 my-auto mr-4 text-sky-600 hover:text-sky-900"
               >
                 <path
                   stroke-linecap="round"
@@ -95,7 +95,7 @@
 
         <div class="content-idea">
           <div
-            class="w-full px-5 pt-2 mt-1 text-clip bg-zinc-300 h-60 sm:text-sm overflow-auto"
+            class="w-full px-5 pt-2 mt-1 overflow-auto text-clip bg-zinc-300 h-60 sm:text-sm"
           >
             <p
               class="leading-6 overflow-hidden indent-0.5 text-justify max-h-52"
@@ -210,7 +210,7 @@
             </div>
           </div>
         </div>
-        <div class="w-full border-b-2 border-gray-300 my-2"></div>
+        <div class="w-full my-2 border-b-2 border-gray-300"></div>
         <div class="h-48 overflow-auto">
           <% data.comments.forEach(function(comment, target) { %>
           <div class="comment">
@@ -232,7 +232,7 @@
                 </svg>
               </div>
               <div class="detail comment">
-                <div class="ml-4 w-full my-auto">
+                <div class="w-full my-auto ml-4">
                   <div class=""><%= comment.name %></div>
                   <div class="bg-zinc-300 rounded-lg w-[300px] pl-2 py-1">
                     <%= comment.Comment %>
@@ -240,23 +240,23 @@
                 </div>
               </div>
               <button
-                class="BTN ml-2 text-align-center text-4xl"
+                class="ml-2 text-4xl BTN text-align-center"
                 onclick="toggleVisibility('section-<%= comment.id %>')"
               >
                 ...
               </button>
               <div
                 id="section-<%= comment.id %>"
-                class="hidden flex items-center justify-center my-auto ml-2 mt-6"
+                class="flex items-center justify-center hidden my-auto mt-6 ml-2"
               >
                 <button
-                  class="hover:bg-green-400 border-2 border-slate-900 text-black rounded-l-full w-12 h-8 flex items-center justify-center"
+                  class="flex items-center justify-center w-12 h-8 text-black border-2 rounded-l-full hover:bg-green-400 border-slate-900"
                   onclick="edit( '<%= comment.id %>', '<%= comment.Comment %>' )"
                 >
                   Edit
                 </button>
                 <button
-                  class="remove-button hover:bg-red-400 border-2 border-slate-900 text-black rounded-r-full w-16 h-8 flex items-center justify-center"
+                  class="flex items-center justify-center w-16 h-8 text-black border-2 rounded-r-full remove-button hover:bg-red-400 border-slate-900"
                   onclick="removeComment( '<%= comment.id %>' )"
                 >
                   Delete
@@ -303,7 +303,7 @@
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-8 h-8 text-sky-600 hover:text-sky-900 my-auto justify-items-end"
+              class="w-8 h-8 my-auto text-sky-600 hover:text-sky-900 justify-items-end"
             >
               <path
                 stroke-linecap="round"
@@ -315,8 +315,7 @@
         </div>
       </div>
     </Main>
-    <%- include("../../partials/footer"); %>
-  </body>
+zz
   <script src="<%= process.env.BASE_URL %>javascript/homeStaff.js"></script>
   <script>
     document.getElementById("close").addEventListener("click", function () {

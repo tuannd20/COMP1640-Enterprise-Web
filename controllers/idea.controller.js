@@ -77,7 +77,7 @@ const displayDetailIdea = async (req, res) => {
 const displayAllIdea = async (req, res) => {
   try {
     const { page } = req.params;
-    const limit = 5;
+    const limit = 1;
     const options = {
       page,
       limit,
@@ -95,7 +95,7 @@ const displayAllIdea = async (req, res) => {
       }
     });
 
-    console.log("Helololo", allIdea.docs);
+    console.log("Helololo", allIdea);
     // return res.json(allIdea);
     return res.render("partials/master", {
       title: "Idea",
