@@ -59,15 +59,13 @@ const displayDetailIdea = async (req, res) => {
     // comments,
     // });
     data.ideas = idea;
-    data.comments.push("cooking");
 
-    return res.status(200).send(data);
-    // return res.render("partials/master", {
-    //   title: "Department Create",
-    //   content: "../staff/idea/ideaDetailPage",
-    //   idea,
-    //   comments,
-    // });
+    // return res.status(200).send(data);
+    return res.render("partials/master", {
+      title: "Department Create",
+      content: "../staff/idea/detailIdea",
+      data,
+    });
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
     return err;
