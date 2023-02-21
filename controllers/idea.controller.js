@@ -8,35 +8,33 @@ const createIdea = async (req, res) => {
       !req.body.idPoll ||
       !req.body.idDepartment ||
       !req.body.idCategory ||
-      !req.body.contentIdea
+      !req.body.contentIdea ||
+      !req.body.idStaffIdea
     ) {
       return res.status(404).send("Missing required information");
     }
 
-    const date = new Date();
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    const time = ` ${day}/ ${month}/ ${year}`;
-
-    let data = {
+    const data = {
       idPoll: req.body.idPoll,
       idDepartment: req.body.idDepartment,
       idCategory: req.body.idCategory,
       contentIdea: req.body.contentIdea,
-      timeUpload: time,
+      urlFile: null,
+      status: "Draft",
+      idStaffIdea: req.body.idStaffIdea,
     };
-
+    if (req.body.urlFile) {
+      data.urlFile = req.body.urlFile;
+    }
     if (req.body.status) {
-      const status = { status: req.body.status };
-      data = Object.assign(data, status);
+      data.status = req.body.status;
     }
 
     const newIdea = await ideaService.createIdea(data);
     if (!newIdea) {
       return res.status(500).send("Internal Server Error");
     }
-
+    res.redirect("http://localhost:3000/1/req.body.idStaffIdea");
     return res.status(200).send(newIdea);
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
