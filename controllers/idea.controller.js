@@ -59,15 +59,13 @@ const displayDetailIdea = async (req, res) => {
     // comments,
     // });
     data.ideas = idea;
-    data.comments.push("cooking");
 
-    return res.status(200).send(data);
-    // return res.render("partials/master", {
-    //   title: "Department Create",
-    //   content: "../staff/idea/ideaDetailPage",
-    //   idea,
-    //   comments,
-    // });
+    // return res.status(200).send(data);
+    return res.render("partials/master", {
+      title: "Department Create",
+      content: "../staff/idea/detailIdea",
+      data,
+    });
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
     return err;
@@ -76,7 +74,7 @@ const displayDetailIdea = async (req, res) => {
 
 const displayAllIdea = async (req, res) => {
   try {
-    const { page } = req.params;
+    const { page = 1 } = req.query;
     const limit = 5;
     const options = {
       page,
@@ -95,7 +93,7 @@ const displayAllIdea = async (req, res) => {
       }
     });
 
-    console.log("Helololo", allIdea.docs);
+    console.log("Helololo", allIdea);
     // return res.json(allIdea);
     return res.render("partials/master", {
       title: "Idea",
