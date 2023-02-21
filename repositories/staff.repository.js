@@ -14,7 +14,9 @@ const createStaff = async (data) => {
 
 const getAllStaff = async () => {
   try {
-    const staffs = await StaffModel.find();
+    const staffs = await StaffModel.find()
+      .sort({ createdAt: -1 })
+      .populate(["idDepartment", "idRole"]);
     return staffs;
   } catch (err) {
     console.log(err);
@@ -45,7 +47,10 @@ const findStaff = async (data) => {
 
 const displayStaffById = async (id) => {
   try {
-    const staff = await StaffModel.findById(id);
+    const staff = await StaffModel.findById(id).populate([
+      "idDepartment",
+      "idRole",
+    ]);
 
     return staff;
   } catch (err) {
@@ -54,16 +59,10 @@ const displayStaffById = async (id) => {
   }
 };
 
-const updateStaff = async (_id, body) => {
+const updateStaff = async (id, data) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = _id;
-    const updateObject = body;
     // eslint-disable-next-line no-underscore-dangle, max-len
-    const staff = await StaffModel.updateMany(
-      { _id: id },
-      { $set: updateObject },
-    );
+    const staff = await StaffModel.updateMany(id, data);
     return staff;
   } catch (err) {
     console.log(err);
@@ -71,27 +70,27 @@ const updateStaff = async (_id, body) => {
   }
 };
 
-const deleteOneStaff = async (_id) => {
-  try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = _id;
-    const staff = await StaffModel.findByIdAndRemove(id);
-    return staff;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
+// const deleteOneStaff = async (_id) => {
+//   try {
+//     // eslint-disable-next-line no-underscore-dangle
+//     const id = _id;
+//     const staff = await StaffModel.findByIdAndRemove(id);
+//     return staff;
+//   } catch (err) {
+//     console.log(err);
+//     return err;
+//   }
+// };
 
-const deleteAllStaff = async () => {
-  try {
-    const staff = await StaffModel.deleteMany();
-    return staff;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
+// const deleteAllStaff = async () => {
+//   try {
+//     const staff = await StaffModel.deleteMany();
+//     return staff;
+//   } catch (err) {
+//     console.log(err);
+//     return err;
+//   }
+// };
 
 // eslint-disable-next-line consistent-return
 const createToken = async (data) => {
@@ -109,9 +108,6 @@ module.exports = {
   createStaff,
   updateStaff,
   displayStaffById,
-  // displayAllStaff,
-  deleteOneStaff,
-  deleteAllStaff,
   getAllStaff,
   findStaff,
   createToken,
