@@ -34,7 +34,7 @@ const createIdea = async (req, res) => {
     if (!newIdea) {
       return res.status(500).send("Internal Server Error");
     }
-    res.redirect("http://localhost:3000/1/req.body.idStaffIdea");
+    res.redirect(`http://localhost:3000/1/${req.body.idStaffIdea}`);
     return res.status(200).send(newIdea);
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
