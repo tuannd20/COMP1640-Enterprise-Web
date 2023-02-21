@@ -24,10 +24,11 @@
               </tr>
             </thead>
             <tbody class="text-sm font-light text-gray-600">
+              <% let count = Polls.length %>
               <% Polls.forEach(function(poll, index) { %>
               <tr class="border-b border-gray-200 hover:bg-gray-100">
                 <td class="px-6 py-3 text-left">
-                  <span class="font-medium"><%= index + 1 %></span>
+                  <span class="font-medium"><%= ++index %></span>
                 </td>
                 <td class="px-6 py-3 text-left">
                   <span class="font-medium"><%= poll.namePoll%></span>

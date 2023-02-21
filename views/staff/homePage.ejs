@@ -250,88 +250,99 @@
 </div>
 
 <div class="flex justify-center my-10 pagination">
-  <nav
-    class="inline-flex -space-x-px rounded-md shadow-sm isolate"
-    aria-label="Pagination"
-  >
-    <a
-      href="#"
-      class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50 focus:z-20"
-    >
-      <span class="sr-only">Previous</span>
-      <!-- Heroicon name: mini/chevron-left -->
-      <svg
-        class="w-5 h-5"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        aria-hidden="true"
+  <!-- pagination -->
+  <!-- hiển thị phân trang nếu có trang -->
+  <% if( ideas.totalPages > 0) { %>
+  <nav aria-label="Page navigation example">
+    <ul class="inline-flex items-center -space-x-px">
+      <!-- FIRST ITEM -->
+      <% if( ideas.page == 1) { %>
+      <!-- // Nếu thông số http://localhost:3333/news/1/ là 1 thì First sẽ bị disabled -->
+
+      <li>
+        <a
+          class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          href="/"
+          >First</a
+        >
+      </li>
+      <% } else { %>
+      <!-- // Nếu thông số http://localhost:3333/news/2/ từ 2 trở lên thì First sẽ bỏ disabled -->
+
+      <li>
+        <a
+          class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          href="/"
+          >First</a
+        >
+      </li>
+      <% } %>
+      <!-- ITEMS -->
+      <% var i = (Number(ideas.page) > 3 ? Number(ideas.page) - 2 : 1) %><!-- // Toán tử điều kiện 3 ngôi syntax: < điều_kiện ? giá_trị_1 : giá_trị_2 > --><!-- // Nếu điều_kiện trả về true, toán tử có giá trị giá_trị_1. Ngược lại toán tử có giá trị giá_trị_2. -->
+      <% if(i !== 1) { %>
+      <li>
+        <a
+          class="px-4 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          href="#"
+          >...</a
+        >
+      </li>
+      <% } %> <% for(; i <= (Number(ideas.page) + 2) && i <= ideas.totalPages;
+      i++) { %>
+      <!-- // Sử dụng vòng lặp để lặp qua từng trang và tăng số trang -->
+
+      <!-- // Trong vòng lặp for có ba biểu thức tùy chọn nên chỉ cần các bạn tách mỗi biểu thức bằng dấu `;` là oke rồi -->
+      <% if(i == ideas.page) { %>
+      <li>
+        <a
+          class="px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+          href="/?page=<%= i %>"
+        >
+          <%= i %>
+        </a>
+      </li>
+      <% } else { %>
+      <li class="">
+        <a
+          class="px-4 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          href="/?page=<%= i %>"
+        >
+          <%= i %>
+        </a>
+      </li>
+      <% } %> <% if (i == Number(ideas.page) + 2 && i < ideas.totalPages) { %>
+
+      <li class="">
+        <a
+          class="px-4 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          href="#"
+          >...</a
+        >
+      </li>
+      <% } %> <% } %>
+      <!-- LAST ITEM -->
+      <% if(ideas.page == ideas.totalPages) { %>
+      <!-- // Nếu số current( chỉ số phân trang ) là 6 và tổng số page là 6 thì Last bị disabled -->
+
+      <li
+        class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
       >
-        <path
-          fill-rule="evenodd"
-          d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-          clip-rule="evenodd"
-        />
-      </svg>
-    </a>
-    <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
-    <a
-      href="#"
-      aria-current="page"
-      class="relative z-10 inline-flex items-center px-4 py-2 text-sm font-medium text-indigo-600 border border-indigo-500 bg-indigo-50 focus:z-20"
-      >1</a
-    >
-    <a
-      href="#"
-      class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 focus:z-20"
-      >2</a
-    >
-    <a
-      href="#"
-      class="relative items-center hidden px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 focus:z-20 md:inline-flex"
-      >3</a
-    >
-    <span
-      class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300"
-      >...</span
-    >
-    <a
-      href="#"
-      class="relative items-center hidden px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 focus:z-20 md:inline-flex"
-      >8</a
-    >
-    <a
-      href="#"
-      class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 focus:z-20"
-      >9</a
-    >
-    <a
-      href="#"
-      class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 focus:z-20"
-      >10</a
-    >
-    <a
-      href="#"
-      class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50 focus:z-20"
-    >
-      <span class="sr-only">Next</span>
-      <!-- Heroicon name: mini/chevron-right -->
-      <svg
-        class="w-5 h-5"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        aria-hidden="true"
+        <a class="" href="#"> Last </a>
+      </li>
+      <% } else { %>
+      <!-- // Ngược lại, thì Last là trang cuối cùng pages ở đây là 6 đồng nghĩa với Last là trang số 6 -->
+
+      <li
+        class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
       >
-        <path
-          fill-rule="evenodd"
-          d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-          clip-rule="evenodd"
-        />
-      </svg>
-    </a>
+        <a class="" href="?page<%= ideas.totalPages %>"> Last </a>
+      </li>
+      <% } %>
+    </ul>
   </nav>
+  <% } %>
 </div>
+
 <div
   id="modal"
   class="fixed top-0 z-50 items-center justify-center hidden w-screen h-screen bg-black bg-opacity-60"
