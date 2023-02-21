@@ -92,12 +92,24 @@ const displayAllIdea = async (req, res) => {
         element.urlFile = null;
       }
     });
+<<<<<<< HEAD
     // return res.render("partials/master", {
     //   title: "Idea",
     //   content: "../staff/homePage",
     //   allIdea,
     // });
     return res.status(200).send(allIdea);
+=======
+
+    console.log("Helololo", allIdea);
+    // return res.json(allIdea);
+    return res.render("partials/master", {
+      title: "Idea",
+      content: "../staff/homePage",
+      ideas: allIdea,
+    });
+    // return res.status(200).send(allIdea);
+>>>>>>> a45e514e1ccb95855c9fe7165e5b4ea0dac93669
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
     return err;

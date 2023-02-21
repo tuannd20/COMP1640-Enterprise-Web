@@ -12,11 +12,15 @@ const IdeaController = require("../controllers/idea.controller");
 //   });
 // });
 
-router.get("/", IdeaController.displayAllIdea);
+// router.get("/", IdeaController.displayAllIdea);
+
+router.get("/?page=", IdeaController.displayAllIdea);
 
 router.get("/idea/:idIdea", IdeaController.displayDetailIdea);
 
 router.post("/idea/Status", IdeaController.updateStatus);
+
+router.get("/comments", CommentController.displayAllComment);
 
 // router.post("/idea/:idIdea", CommentController.createComment);
 

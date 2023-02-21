@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable func-names */
 /* eslint-disable no-plusplus */
 const dropMenu = document.getElementById("menu_icon");
@@ -37,7 +38,19 @@ yes.addEventListener("click", () => {
 });
 
 for (let i = 0; i < like.length; i++) {
+  // eslint-disable-next-line no-loop-func
   like[i].addEventListener("click", () => {
+    const ideaId = $(".id-idea").val();
+
+    // $.ajax({
+    //   type: "GET",
+    //   url: "https://jsonplaceholder.typicode.com/posts/1",
+    //   data: { ideaId },
+    // }).then((response) => {
+    //   $(".like-moule").eq(i).empty();
+    //   $(".like-moule")[i].append(response.id);
+    // });
+
     if (dislike[i].classList.contains("text-sky-500")) {
       dislike[i].classList.remove("text-sky-500");
       dislike[i].classList.add("text-slate-700");
