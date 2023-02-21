@@ -25,7 +25,7 @@
               <% categories.forEach(function(category, index) { %>
               <tr class="border-b border-gray-200 hover:bg-gray-100">
                 <td class="px-6 py-3 text-center">
-                  <span class="font-medium"><%= count-- %></span>
+                  <span class="font-medium"><%= ++index %></span>
                 </td>
                 <td class="px-6 py-3 text-left">
                   <span class="font-medium"><%= category.nameCategory%></span>
