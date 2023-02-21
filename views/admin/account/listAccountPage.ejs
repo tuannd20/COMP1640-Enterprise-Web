@@ -26,11 +26,10 @@
               </tr>
             </thead>
             <tbody class="text-gray-600 text-sm font-light">
-              <% let count = staffs.length %>
-              <% staffs.forEach(function(staff) { %>
+              <% staffs.forEach(function(staff, index) { %>
               <tr class="border-b border-gray-200 hover:bg-gray-100">
                 <td class="py-3 px-6 text-left">
-                  <span class="font-medium"><%= count-- %></span>
+                  <span class="font-medium"><%= index + 1 %></span>
                 </td>
                 <td class="py-3 px-6 text-left">
                   <span class="font-medium"><%= staff.fullName %></span>
