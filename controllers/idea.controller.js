@@ -59,15 +59,13 @@ const displayDetailIdea = async (req, res) => {
     // comments,
     // });
     data.ideas = idea;
-    data.comments.push("cooking");
 
-    return res.status(200).send(data);
-    // return res.render("partials/master", {
-    //   title: "Department Create",
-    //   content: "../staff/idea/ideaDetailPage",
-    //   idea,
-    //   comments,
-    // });
+    // return res.status(200).send(data);
+    return res.render("partials/master", {
+      title: "Department Create",
+      content: "../staff/idea/detailIdea",
+      data,
+    });
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
     return err;
@@ -76,8 +74,8 @@ const displayDetailIdea = async (req, res) => {
 
 const displayAllIdea = async (req, res) => {
   try {
-    const { page } = req.params;
-    const limit = 1;
+    const { page = 1 } = req.query;
+    const limit = 5;
     const options = {
       page,
       limit,
@@ -94,6 +92,14 @@ const displayAllIdea = async (req, res) => {
         element.urlFile = null;
       }
     });
+<<<<<<< HEAD
+    // return res.render("partials/master", {
+    //   title: "Idea",
+    //   content: "../staff/homePage",
+    //   allIdea,
+    // });
+    return res.status(200).send(allIdea);
+=======
 
     console.log("Helololo", allIdea);
     // return res.json(allIdea);
@@ -103,6 +109,7 @@ const displayAllIdea = async (req, res) => {
       ideas: allIdea,
     });
     // return res.status(200).send(allIdea);
+>>>>>>> a45e514e1ccb95855c9fe7165e5b4ea0dac93669
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
     return err;
