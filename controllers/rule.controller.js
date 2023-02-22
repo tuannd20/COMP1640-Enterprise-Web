@@ -1,29 +1,50 @@
-const { title } = require("process");
 const RuleService = require("../services/rule.service");
-
-const createRule = async (req, res) => {
-  try {
-    const titleTerms = req.body.title;
-    const formData = req.body;
-    const checkTitle = await RuleService.findByTitle(titleTerms);
-    if (!checkTitle) {
-      const rule = await RuleService.createRule(formData);
-      return res.redirect("/admin/terms");
-    }
-    return res.send(
-      "<script>alert('Title is existed'); window.location.href='/admin/terms/create';</script>",
-    );
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
 
 const renderCreateTermsPage = async (req, res) => {
   res.render("partials/master", {
     title: "Create new terms",
     content: "../admin/terms/createTermsPage",
+    errorMessage: null,
+    isFailed: false,
   });
+};
+
+const createRule = async (req, res) => {
+  try {
+    const titleTerms = req.body.title;
+    const contentTerms = req.body.contentRule;
+    // const { titleRule, contentRule } = req.body;
+    // localStorage.setItem("title", titleRule);
+
+    const checkTitle = await RuleService.findByTitle(titleTerms);
+
+    if (!checkTitle) {
+      const formData = req.body;
+      const rule = await RuleService.createRule(formData);
+      console.log("Create term: ", rule);
+      return res.redirect("/admin/terms");
+    }
+
+    const errorTerm = "Title is already exists";
+    const errorCode = 400;
+
+    return res.status(errorCode).render("partials/master", {
+      title: "Create new terms",
+      content: "../admin/terms/createTermsPage",
+      errorMessage: errorTerm,
+      code: errorCode,
+      isFailed: true,
+      titleRule: titleTerms,
+      contentRule: contentTerms,
+    });
+
+    // return res.send(
+    //   "<script>alert('Title is existed'); window.location.href='/admin/terms/create';</script>",
+    // );
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };
 
 const renderEditTermsPage = async (req, res) => {

@@ -1,6 +1,7 @@
 const path = require("path");
 const createError = require("http-errors");
 const express = require("express");
+const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const methodOverride = require("method-override");
@@ -21,6 +22,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(
+  session({
+    secret: "comp1640-key-session",
+    resave: false,
+    saveUninitialized: true,
+  }),
+);
 
 // app.use("/", indexRouter);
 // app.use("/users", usersRouter);
