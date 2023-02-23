@@ -1,9 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 // const fs = require("fs");
 // const multer = require("multer");
 
 const ideaService = require("../services/idea.service");
 const staffService = require("../services/staff.service");
 const categoryService = require("../services/category.service");
+const StaffIdeaModel = require("../database/models/StaffIdea");
 const sendMail = require("../utilities/sendMail");
 const Staff = require("../database/models/Staff");
 
@@ -188,13 +190,95 @@ const getIdeaForStaff = async (req, res) => {
 
 const updateStatus = async (req, res) => {
   try {
-    if (!req.body.idIdea || !req.body.idStaff || !req.body.action) {
+    if (
+      !req.body.idIdea ||
+      !req.body.idStaff ||
+      typeof req.body.isLike === "undefined"
+    ) {
       return res.status(404).send("Missing required information");
     }
 
-    return res.status(200).send("newIdea");
+    const findStatus = await StaffIdeaModel.findOne({
+      idStaff: req.body.idStaff,
+      idIdea: req.body.idIdea,
+    });
+    console.log(
+      "🚀 ~ file: idea.controller.js:209 ~ updateStatus ~ findStatus:",
+      findStatus,
+    );
+
+    const findIdea = await ideaService.getIdea(req.body.idIdea);
+
+    if (!findIdea) {
+      return res.status(404).send("idea not exist");
+    }
+
+    if (!findStatus) {
+      const newStatus = await StaffIdeaModel.create({
+        idStaff: req.body.idStaff,
+        idIdea: req.body.idIdea,
+        isLike: req.body.isLike,
+        isView: false,
+      });
+      console.log(
+        "🚀 ~ file: idea.controller.js:223 ~ updateStatus ~ newStatus:",
+        newStatus,
+      );
+      if (req.body.isLike == true) {
+        const newLike = findIdea.likeCount + 1;
+        const newDisLike = findIdea.disLikeCount;
+        await ideaService.updateIdea(findIdea._id, {
+          likeCount: newLike,
+        });
+        return res.status(200).send({ newLike, newDisLike });
+      }
+      const newLike = findIdea.likeCount;
+      const newDisLike = findIdea.disLikeCount + 1;
+      await ideaService.updateIdea(findIdea._id, {
+        disLikeCount: newDisLike,
+      });
+      return res.status(200).send({ newLike, newDisLike });
+    }
+    if (req.body.isLike == findStatus.isLike) {
+      await StaffIdeaModel.findByIdAndUpdate(findStatus._id, { isLike: null });
+      if (req.body.isLike == true) {
+        const newLike = findIdea.likeCount - 1;
+        const newDisLike = findIdea.disLikeCount;
+        await ideaService.updateIdea(findIdea._id, {
+          likeCount: newLike,
+        });
+        return res.status(200).send({ newLike, newDisLike });
+      }
+      const newLike = findIdea.likeCount;
+      const newDisLike = findIdea.disLikeCount - 1;
+      await ideaService.updateIdea(findIdea._id, {
+        disLikeCount: newDisLike,
+      });
+      return res.status(200).send({ newLike, newDisLike });
+    }
+    if (req.body.isLike == true) {
+      await StaffIdeaModel.findByIdAndUpdate(findStatus._id, {
+        isLike: true,
+      });
+
+      const newLike = findIdea.likeCount + 1;
+      const newDisLike = findIdea.disLikeCount;
+      await ideaService.updateIdea(findIdea._id, {
+        likeCount: newLike,
+      });
+      return res.status(200).send({ newLike, newDisLike });
+    }
+    await StaffIdeaModel.findByIdAndUpdate(findStatus._id, {
+      isLike: false,
+    });
+    const newLike = findIdea.likeCount;
+    const newDisLike = findIdea.disLikeCount + 1;
+    await ideaService.updateIdea(findIdea._id, {
+      disLikeCount: newDisLike,
+    });
+    return res.status(200).send({ newLike, newDisLike });
   } catch (err) {
-    console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
+    console.log("🚀 ~ file: idea.controller.js:256 ~ updateStatus ~ err:", err);
     return err;
   }
 };

@@ -38,14 +38,10 @@ describe("Good case: Unit test for idea", () => {
   //   // console.log("🚀 ~ file: idea.test.js:39 ~ it ~ ideaId", ideaId);
   //   // await ideaRepository.deleteIdea(ideaId);
   // });
-  // it("Should read a idea", async () => {
-  //   const idea = await ideaRepository.readIdea("63f0722f250404b4694b7045");
-  //   expect(idea.contentIdea).toEqual(mockIdea.contentIdea);
-  //   expect(idea.likeCount).toEqual(mockIdea.likeCount);
-  //   expect(idea.disLikeCount).toEqual(mockIdea.disLikeCount);
-  //   expect(idea.viewCount).toEqual(mockIdea.viewCount);
-  //   expect(idea.status).toEqual(mockIdea.status);
-  // });
+  it("Should read a idea", async () => {
+    const idea = await ideaRepository.readIdea("63f071cbb3d20cf76f8c153d");
+    console.log("🚀 ~ file: idea.test.js:43 ~ it ~ idea:", idea);
+  });
   // it("Should update a idea", async () => {
   //   const idea = await ideaRepository.updateIdea(
   //     "63f0722f250404b4694b7045",
