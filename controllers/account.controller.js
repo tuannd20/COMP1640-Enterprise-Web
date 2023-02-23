@@ -47,6 +47,7 @@ const createStaff = async (req, res) => {
     const phoneAccount = req.body.phoneNumber;
     const checkEmail = await StaffService.findByEmail(emailAccount);
     const checkPhoneNumber = await StaffService.findByPhoneNumber(
+      // eslint-disable-next-line no-use-before-define
       checkPhoneNumber,
     );
     if (!(checkEmail && checkPhoneNumber)) {
