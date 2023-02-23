@@ -57,10 +57,18 @@ const getEditPoll = async (req, res, next) => {
 
   try {
     const poll = await PollService.getPoll({ _id: id });
+
+    const pollDateStart = poll.dateStart;
+    console.log(
+      "🚀 ~ file: poll.controller.js:62 ~ getEditPoll ~ pollDateStart:",
+      pollDateStart,
+    );
+
     return res.render("partials/master", {
       title: "Poll Edit",
       content: "../qam/poll/editPollPage",
       poll,
+      pollDateStart,
       errorMessage: null,
       isFailed: false,
     });
