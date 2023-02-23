@@ -1,6 +1,6 @@
 <Main class="pt-[100px] w-3/5 m-auto min-h-screen">
   <div
-    class="relative p-3 border-2 idea border-stone-700 rounded-2xl h-auto opacity-80 overflow-y-auto"
+    class="mb-10 relative p-3 border-2 idea border-stone-700 rounded-2xl h-auto opacity-80 overflow-y-auto"
   >
     <div class="flex p-3 text-2xl font-semibold border-b-2 mb- title-create">
       <a href="/">
@@ -25,12 +25,13 @@
     <div class="mt-10 content-idea">
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px]">
-        <div class="">
-            <p class="text-xl font-extrabold text-gray-900 dark:text-black"> 1. Title:  </p>
-            <p class="text-start"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-        </div>
-        <br />
-        <div>
+          <% rules?.forEach(function(rule,index) { %>
+        <div class="mb-5">
+            <p class="text-xl font-extrabold text-gray-900 dark:text-black"> <%= index + 1 %>. <%= rule.title %>  </p>
+            <p class="text-start"> <%= rule.contentRule %> </p>
+          </div>
+          <% }) %>
+        <!-- <div>
             <p class="text-xl font-extrabold text-gray-900 dark:text-black"> 2. Title:  </p>
             <p class="text-start"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
         </div>
@@ -38,7 +39,7 @@
         <div>
             <p class="text-xl font-extrabold text-gray-900 dark:text-black"> 3. Title:  </p>
             <p class="text-start"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-        </div>
+        </div> -->
         </div>
       </div>
     </div>
