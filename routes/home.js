@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const CommentController = require("../controllers/comment.controller");
 const IdeaController = require("../controllers/idea.controller");
+const TermsController = require("../controllers/rule.controller");
 
 // router.get("/", (req, res) => {
 //   // eslint-disable-next-line max-len, max-len, max-len
@@ -21,6 +22,8 @@ router.get("/idea/:idIdea", IdeaController.displayDetailIdea);
 router.post("/idea/Status", IdeaController.updateStatus);
 
 router.get("/comments", CommentController.displayAllComment);
+
+router.get("/terms", TermsController.displayAllRule);
 
 // router.post("/idea/:idIdea", CommentController.createComment);
 

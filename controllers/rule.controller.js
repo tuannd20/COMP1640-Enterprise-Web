@@ -130,11 +130,11 @@ const getAllRule = async (req, res) => {
 
 const displayAllRule = async (req, res) => {
   try {
-    const rules = await RuleService.displayAllRule();
+    // const rules = await RuleService.displayAllRule();
     return res.render("partials/master", {
       title: "Display all terms",
-      content: "../admin/terms/displayAllTermsPage",
-      rules,
+      content: "../staff/termsPage",
+      // rules,
     });
     // return res.json(rules);
   } catch (err) {

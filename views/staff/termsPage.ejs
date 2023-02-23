@@ -3,7 +3,7 @@
     class="relative p-3 border-2 idea border-stone-700 rounded-2xl h-auto opacity-80 overflow-y-auto"
   >
     <div class="flex p-3 text-2xl font-semibold border-b-2 mb- title-create">
-      <a href="/admin/terms">
+      <a href="/">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -25,48 +25,20 @@
     <div class="mt-10 content-idea">
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px]">
-          <form action="/admin/terms/edit/<%= term.id %>" method="POST">
-            <div class="mb-4">
-              <label
-                for="title"
-                class="mb-3 block text-base font-medium text-[#07074D]"
-              >
-                Title
-              </label>
-              <input
-                type="text"
-                name="title"
-                id="title"
-                required
-                value="<%= term.title %>"
-                placeholder="Enter your title"
-                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-              />
-            </div>
-            <div class="mb-4">
-              <label
-                for="message"
-                class="mb-3 block text-base font-medium text-[#07074D]"
-              >
-                Content
-              </label>
-              <textarea
-                rows="6"
-                name="contentRule"
-                id="contentRule"
-                required
-                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md min-h-[200px]"
-              >
-<%= term.contentRule %></textarea
-              >
-            </div>
-
-            <div
-              class="w-1/6 px-3 py-2 m-auto text-center text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
-            >
-              <input type="submit" />
-            </div>
-          </form>
+        <div class="">
+            <p class="text-xl font-extrabold text-gray-900 dark:text-black"> 1. Title:  </p>
+            <p class="text-start"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+        </div>
+        <br />
+        <div>
+            <p class="text-xl font-extrabold text-gray-900 dark:text-black"> 2. Title:  </p>
+            <p class="text-start"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+        </div>
+        <br />
+        <div>
+            <p class="text-xl font-extrabold text-gray-900 dark:text-black"> 3. Title:  </p>
+            <p class="text-start"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+        </div>
         </div>
       </div>
     </div>
