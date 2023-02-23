@@ -1,9 +1,35 @@
+// const fs = require("fs");
+// const multer = require("multer");
+
 const ideaService = require("../services/idea.service");
 const staffService = require("../services/staff.service");
+const categoryService = require("../services/category.service");
+const sendMail = require("../utilities/sendMail");
 const Staff = require("../database/models/Staff");
+
+// // Set up the multer middleware to handle file uploads
+// const storage = multer.diskStorage({
+//   destination(req, file, cb) {
+//     cb(null, "../public/uploads");
+//   },
+//   filename(req, file, cb) {
+//     cb(null, file.originalname);
+//   },
+// });
 
 const createIdea = async (req, res) => {
   try {
+    // const { file } = req;
+    // if (file) {
+    //   const filePath = `public/uploads/${file.originalname}`;
+    //   fs.writeFile(filePath, file.buffer, (err) => {
+    //     if (err) {
+    //       res.status(500).send("Error writing file to disk");
+    //     } else {
+    //       res.send("File uploaded successfully");
+    //     }
+    //   });
+    // }
     if (
       !req.body.idPoll ||
       !req.body.idDepartment ||
@@ -34,6 +60,21 @@ const createIdea = async (req, res) => {
     if (!newIdea) {
       return res.status(500).send("Internal Server Error");
     }
+    await categoryService.updateCategory(req.body.idCategory, { isUsed: true });
+
+    const findLeader = await staffService.findLeader({
+      idRole: "63f066f996329eb058cc3095",
+      idDepartment: req.body.idDepartment,
+    });
+    if (!findLeader) {
+      return res.status(404).send("The Department has no leader");
+    }
+    sendMail.sendConfirmationEmail(
+      findLeader.email,
+      "<h1> you has new idea</h1>",
+      "new Idea",
+    );
+
     res.redirect(`http://localhost:3000/1/${req.body.idStaffIdea}`);
     return res.status(200).send(newIdea);
   } catch (err) {

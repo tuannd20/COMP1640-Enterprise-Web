@@ -104,6 +104,15 @@ const createToken = async (data) => {
   }
 };
 
+const findLeader = async (options) => {
+  try {
+    const staff = await StaffModel.findOne(options);
+    return staff;
+  } catch (err) {
+    console.log("🚀 ~ file: staff.repository.js:112 ~ findLeader ~ err:", err);
+    return err;
+  }
+};
 module.exports = {
   createStaff,
   updateStaff,
@@ -111,4 +120,5 @@ module.exports = {
   getAllStaff,
   findStaff,
   createToken,
+  findLeader,
 };

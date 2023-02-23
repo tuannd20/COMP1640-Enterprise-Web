@@ -96,7 +96,18 @@ const createToken = async (data) => {
   }
 };
 
+const findLeader = async (options) => {
+  try {
+    const staff = await StaffRepository.findLeader(options);
+    return staff;
+  } catch (err) {
+    console.log("🚀 ~ file: staff.service.js:104 ~ findLeader ~ err:", err);
+    return err;
+  }
+};
+
 module.exports = {
+  findLeader,
   createStaff,
   updateStaff,
   getAllStaff,
