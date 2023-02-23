@@ -41,17 +41,37 @@ const renderProfilePage = async (req, res) => {
 
 const createStaff = async (req, res) => {
   try {
-    const account = req.body;
-    const staff = await StaffService.createStaff(account);
-    // const staffs = await StaffService.getAllStaff();
-    // const findStaff = await StaffService.findStaff(req.params.email);
-    // if (!findStaff) return res.status(400).send("Email has been used before");
-    return res.redirect("/admin/account");
-    // return res.render("partials/master", {
-    //   title: "Create New Account",
-    //   content: "../admin/account/create",
-    //   staffs,
-    // });
+    const emailAccount = req.body.email;
+    const fullNameAccount = req.body.fullName;
+    const addressAccount = req.body.address;
+    const phoneAccount = req.body.phoneNumber;
+    const checkEmail = await StaffService.findByEmail(emailAccount);
+    const checkPhoneNumber = await StaffService.findByPhoneNumber(
+      checkPhoneNumber,
+    );
+    if (!(checkEmail && checkPhoneNumber)) {
+      const formData = req.body;
+      const staff = await StaffService.createStaff(formData);
+      return res.redirect("/admin/account");
+    }
+
+    const errorEmail = "Email is already exists";
+    const errorCodeEmail = 400;
+    const errorPhone = "Phone is already exists";
+    const errorCodePhone = 401;
+
+    return res.status(errorEmail, errorPhone).render("partials/master", {
+      title: "Create new terms",
+      content: "../admin/terms/createTermsPage",
+      errorEmailMessage: errorEmail,
+      errorPhoneMessage: errorPhone,
+      codeEmail: errorCodeEmail,
+      codePhone: errorCodePhone,
+      isFailed: true,
+      fullNameAccount,
+      addressAccount,
+      phoneAccount,
+    });
   } catch (err) {
     console.log(err);
     res.json(err);

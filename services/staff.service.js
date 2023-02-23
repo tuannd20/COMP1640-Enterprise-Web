@@ -96,6 +96,26 @@ const createToken = async (data) => {
   }
 };
 
+const findByEmail = async (emailAccount) => {
+  try {
+    const email = await StaffRepository.findByEmail(emailAccount);
+    return email;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+const findByPhoneNumber = async (phoneNumber) => {
+  try {
+    const phone = await StaffRepository.findByPhoneNumber(phoneNumber);
+    return phone;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 module.exports = {
   createStaff,
   updateStaff,
@@ -104,4 +124,6 @@ module.exports = {
   findStaff,
   checkPassword,
   createToken,
+  findByEmail,
+  findByPhoneNumber,
 };
