@@ -76,8 +76,8 @@ const updatePoll = async (req, res, next) => {
   const { dateSubEnd, dateEnd, dateStart } = req.body;
   // const name = req.body.namePoll;
   try {
-    const namePolls = await PollService.findByNameExist(namePoll);
-    if (!namePolls) {
+    const namePolls = await PollService.findByNameExist(id, namePoll);
+    if (namePolls.length === 0) {
       const result = await PollService.updatePoll(
         { _id: id },
         { $set: updateObject },

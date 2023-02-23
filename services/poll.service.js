@@ -76,9 +76,9 @@ const findByName = async (name) => {
   }
 };
 
-const findByNameExist = async (name) => {
+const findByNameExist = async (id, name) => {
   try {
-    const result = await PollRepository.findByNameExist(name);
+    const result = await PollRepository.findByNameExist(id, name);
 
     return result;
   } catch (err) {
