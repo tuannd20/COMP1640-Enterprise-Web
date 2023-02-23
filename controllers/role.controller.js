@@ -4,7 +4,7 @@ const createRole = async (req, res) => {
   try {
     const role = await RoleService.createRole(req.body);
 
-    return res.render("profileStaff");
+    return res.json(role);
   } catch (err) {
     console.log(err);
     return err;
