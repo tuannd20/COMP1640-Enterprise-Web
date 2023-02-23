@@ -10,15 +10,20 @@ const createRule = async (data) => {
     return err;
   }
 };
-const updateRule = async (_id, body) => {
+
+const updateRule = async (id, data) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = _id;
-    const updateObject = body;
-    const rule = await RuleRepository.updateMany(
-      { _id: id },
-      { $set: updateObject },
-    );
+    const rule = await RuleRepository.updateRule(id, data);
+    return rule;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+const displayRuleById = async (id) => {
+  try {
+    const rule = await RuleRepository.displayRuleById(id);
+
     return rule;
   } catch (err) {
     console.log(err);
@@ -29,25 +34,49 @@ const deleteOneRule = async (_id) => {
   try {
     // eslint-disable-next-line no-underscore-dangle
     const id = _id;
-    const rule = await RuleRepository.findByIdAndRemove(id);
+    const rule = await RuleRepository.deleteOneRule(id);
     return rule;
   } catch (err) {
     console.log(err);
     return err;
   }
 };
+
 const deleteAllRule = async () => {
   try {
-    const rule = await RuleRepository.deleteMany();
+    const rule = await RuleRepository.deleteAllRule();
     return rule;
   } catch (err) {
     console.log(err);
     return err;
   }
 };
+
+const getAllRule = async () => {
+  try {
+    const rules = await RuleRepository.getAllRule();
+    return rules;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+const findByTitle = async (titleTerm) => {
+  try {
+    const rule = await RuleRepository.findByTitle(titleTerm);
+    return rule;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createRule,
   updateRule,
+  getAllRule,
   deleteOneRule,
   deleteAllRule,
+  displayRuleById,
+  findByTitle,
 };

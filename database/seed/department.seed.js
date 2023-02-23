@@ -13,6 +13,21 @@ const departments = [
     description: "English class of University",
     isUsed: true,
   }),
+  new DepartmentModel({
+    nameDepartment: "Design",
+    description: "Design class of University",
+    isUsed: true,
+  }),
+  new DepartmentModel({
+    nameDepartment: "Student Support",
+    description: "Student Support Department of University",
+    isUsed: true,
+  }),
+  new DepartmentModel({
+    nameDepartment: "Accounting",
+    description: "Accounting Department of University",
+    isUsed: true,
+  }),
 ];
 
 (async () => {
@@ -22,7 +37,7 @@ const departments = [
 departments.map(async (data, index) => {
   // eslint-disable-next-line no-unused-vars
   data.save((_err, result) => {
-    if (index === departments.length - 1) {
+    if (index === departments.length - 6) {
       // eslint-disable-next-line no-console
       console.log("SEED DATA DONE!");
       mongoose.disconnect();

@@ -1,5 +1,16 @@
 const StaffService = require("../services/staff.service");
 
+const renderLoginPage = async (req, res) => {
+  try {
+    return res.render("partials/master", {
+      title: "Login",
+      content: "../Login/loginPage",
+    });
+  } catch (error) {
+    return error;
+  }
+};
+
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -36,6 +47,16 @@ const login = async (req, res) => {
   }
 };
 
+const logout = (req, res) => {
+  try {
+    return res.redirect("/auth/login");
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
+  renderLoginPage,
   login,
+  logout,
 };

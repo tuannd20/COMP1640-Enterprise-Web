@@ -9,6 +9,15 @@ const createPoll = async (data) => {
   }
 };
 
+const getPoll = async (id) => {
+  try {
+    const result = await PollRepository.getPoll(id);
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 const getAllPoll = async () => {
   try {
     const result = await PollRepository.getAllPoll();
@@ -49,10 +58,42 @@ const deleteOnePoll = async (id) => {
   }
 };
 
+const getPollActivated = async () => {
+  try {
+    const result = await PollRepository.getPollActivated();
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
+const findByName = async (name) => {
+  try {
+    const result = await PollRepository.findByName(name);
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
+const findByNameExist = async (name) => {
+  try {
+    const result = await PollRepository.findByNameExist(name);
+
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createPoll,
   getAllPoll,
   updatePoll,
   deleteAllPoll,
   deleteOnePoll,
+  getPoll,
+  getPollActivated,
+  findByName,
+  findByNameExist,
 };

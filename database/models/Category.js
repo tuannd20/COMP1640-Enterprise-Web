@@ -6,7 +6,10 @@ const CategorySchema = new Schema(
   {
     idDepartment: { type: mongoose.Types.ObjectId, ref: "Department" },
     nameCategory: String,
-    isUsed: Boolean,
+    isUsed: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 );

@@ -12,7 +12,7 @@ const createIdea = async (data) => {
 
 const readIdea = async (id) => {
   try {
-    const Idea = await ideaModel.findById(id);
+    const Idea = await ideaModel.findById(id).populate("idStaffIdea");
     return Idea;
   } catch (err) {
     console.error("🚀 ~ file: idea.repository.js:18 ~ readIdea ~ err", err);
@@ -40,9 +40,21 @@ const deleteIdea = async (id) => {
   }
 };
 
+const getAll = async (options) => {
+  try {
+    const Idea = await ideaModel.paginate({}, options);
+    // console.log(Idea);
+    return Idea;
+  } catch (err) {
+    console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);
+    return err;
+  }
+};
+
 module.exports = {
   createIdea,
   readIdea,
   updateIdea,
   deleteIdea,
+  getAll,
 };

@@ -1,0 +1,155 @@
+<Main class="pt-[100px] w-3/5 m-auto min-h-screen mb-5">
+  <% if (isFailed === false) { %>
+  <div
+    class="relative h-auto p-3 border-2 idea border-stone-700 rounded-2xl opacity-80"
+  >
+    <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
+      <a href="/qam/department">
+          <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="font-extrabold w-7 h-7 text-sky-900 hover:text-sky-400"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+          />
+        </svg>
+      </a>
+
+      <div class="m-auto">Create a new department</div>
+    </div>
+    <div class="content-idea">
+      <div class="flex items-center justify-center">
+        <div class="mx-auto w-full max-w-[550px] mb-28">
+          <form action="/qam/department/create" method="POST">
+            <div class="mt-14">
+              <label
+                for="name"
+                class="mb-3 block text-base font-medium text-[#07074D]"
+              >
+                Name
+              </label>
+              <input
+                type="text"
+                name="nameDepartment"
+                id="nameDepartment"
+                required
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              />
+
+              <label
+                for="name"
+                class="mb-3 block text-base font-medium text-[#07074D]"
+              >
+                Description
+              </label>
+              <input
+                type="text"
+                name="description"
+                id="description"
+                required
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              />
+            </div>
+            </div>
+            </div>
+            <div
+              class="absolute w-[90px] px-3 py-2 text-center text-white border-2 rounded-lg bottom-5 right-5 submit-btn bg-sky-900 hover:bg-sky-400"
+            >
+              <input type="submit" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+   <%}else { %>
+
+ <div id="alert-border-2" class="flex p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800" role="alert">
+      <svg class="flex-shrink-0 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+      <div class="ml-3 text-sm font-medium">
+        The <%= errorMessage %>
+      </div>
+      <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"  data-dismiss-target="#alert-border-2" aria-label="Close">
+        <span class="sr-only">Dismiss</span>
+        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+      </button>
+    </div>
+
+      <div
+    class="relative h-auto p-3 border-2 idea border-stone-700 rounded-2xl opacity-80"
+  >
+    <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
+      <a href="/qam/department">
+          <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="font-extrabold w-7 h-7 text-sky-900 hover:text-sky-400"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+          />
+        </svg>
+      </a>
+
+      <div class="m-auto">Create a new department</div>
+    </div>
+    <div class="content-idea">
+      <div class="flex items-center justify-center">
+        <div class="mx-auto w-full max-w-[550px] mb-28">
+          <form action="/qam/department/create" method="POST">
+            <div class="mt-14">
+              <label
+                for="name"
+                class="mb-3 block text-base font-medium text-[#07074D]"
+              >
+                Name
+              </label>
+              <input
+                type="text"
+                name="nameDepartment"
+                id="nameDepartment"
+                value="<%= nameDepartment %>"
+                required
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              />
+
+              <label
+                for="name"
+                class="mb-3 block text-base font-medium text-[#07074D]"
+              >
+                Description
+              </label>
+              <input
+                type="text"
+                name="description"
+                id="description"
+                value="<%= description %>"
+                required
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              />
+            </div>
+            </div>
+            </div>
+            <div
+              class="absolute w-[90px] px-3 py-2 text-center text-white border-2 rounded-lg bottom-5 right-5 submit-btn bg-sky-900 hover:bg-sky-400"
+            >
+              <input type="submit" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+     <% } %>
+</Main>

@@ -1,26 +1,89 @@
 const StaffService = require("../services/staff.service");
+const DepartmentService = require("../services/department.service");
+const RoleService = require("../services/role.service");
 
 const index = async (req, res) => {
   res.render("home/login");
 };
 
+const renderCreateAccountPage = async (req, res) => {
+  const departments = await DepartmentService.getAllDepartment();
+  const roles = await RoleService.getAllRole();
+  res.render("partials/master", {
+    title: "Create new account",
+    content: "../admin/account/createAccountPage",
+    departments,
+    roles,
+  });
+};
+
+const renderEditAccountPage = async (req, res) => {
+  const { id } = req.params;
+  const staff = await StaffService.displayStaffById({ _id: id });
+  const departments = await DepartmentService.getAllDepartment();
+  const roles = await RoleService.getAllRole();
+  return res.render("partials/master", {
+    title: "Edit account",
+    content: "../admin/account/editAccountPage",
+    staff,
+    departments,
+    roles,
+  });
+  // return res.json(staff);
+};
+
+const renderProfilePage = async (req, res) => {
+  res.render("partials/master", {
+    title: "My profile",
+    content: "../staff/profilePage",
+  });
+};
+
 const createStaff = async (req, res) => {
   try {
-    const staff = await StaffService.createStaff(req.body);
+    const account = req.body;
+    const staff = await StaffService.createStaff(account);
+    // const staffs = await StaffService.getAllStaff();
+    // const findStaff = await StaffService.findStaff(req.params.email);
+    // if (!findStaff) return res.status(400).send("Email has been used before");
+    return res.redirect("/admin/account");
+    // return res.render("partials/master", {
+    //   title: "Create New Account",
+    //   content: "../admin/account/create",
+    //   staffs,
+    // });
+  } catch (err) {
+    console.log(err);
+    res.json(err);
+    return err;
+  }
+};
 
-    return res.json("Staff page");
+const displayStaffById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const staff = await StaffService.displayStaffById({ _id: id });
+
+    return res.render("partials/master", {
+      title: "Edit Account",
+      content: "../admin/account/editAccountPage",
+      staff,
+    });
   } catch (err) {
     console.log(err);
     return err;
   }
 };
 
-const displayStaffById = async (req, res) => {
+const getAllStaff = async (req, res) => {
   try {
-    const staff = await StaffService.displayStaffById(req.body);
+    const staffs = await StaffService.getAllStaff();
 
-    return res.render("profile/profileStaff", {
-      staff,
+    // return res.json(staffs);
+    return res.render("partials/master", {
+      title: "List of accounts",
+      content: "../admin/account/listAccountPage",
+      staffs,
     });
   } catch (err) {
     console.log(err);
@@ -30,83 +93,41 @@ const displayStaffById = async (req, res) => {
 
 const updateStaff = async (req, res) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = req.params._id;
+    const { id } = req.params;
     const updateObject = req.body;
-    // eslint-disable-next-line max-len
-    const staff = await StaffService.updateMany(
+    console.log(updateObject);
+    const staff = await StaffService.updateStaff(
       { _id: id },
-      { $set: updateObject },
-    )
-      .exec()
-      .then(() => {
-        res.status(200).json({
-          success: true,
-          message: "Staff is updated",
-          updateStaff: updateObject,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          success: false,
-          message: "Server error. Please try again.",
-        });
-      });
-    return res.json("Staff page");
+      { $set: req.body },
+    );
+    return res.redirect("/admin/account");
+    // return res.json(staff);
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
 
-const deleteOneStaff = async (req, res) => {
-  try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = req.params._id;
-    const staff = await StaffService.findByIdAndRemove(id)
-      .exec()
-      .then(() => {
-        res.status(200).json({
-          success: true,
-          message: "Staff is deleted successfully",
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          success: false,
-          message: "Server error. Please try again.",
-        });
-      });
-    return res.json("Staff page");
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
+// const deleteOneStaff = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const staff = await StaffService.deleteOneStaff(id);
+//     return res.redirect("/admin/account");
+//   } catch (err) {
+//     console.log(err);
+//     return err;
+//   }
+// };
 
-const deleteAllStaff = async (req, res) => {
-  try {
-    // eslint-disable-next-line no-underscore-dangle
-    const staff = await StaffService.deleteMany()
-      .exec()
-      .then(() => {
-        res.status(200).json({
-          success: true,
-          message: "Delete all staff successfully",
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          success: false,
-          message: "Server error. Please try again.",
-        });
-      });
-    return res.json("Staff page");
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
+// const deleteAllStaff = async (req, res) => {
+//   try {
+//     const staff = await StaffService.deleteAllStaff();
+
+//     return res.json("Staff page");
+//   } catch (err) {
+//     console.log(err);
+//     return err;
+//   }
+// };
 
 const getStaffByEmail = async (req, res) => {
   try {
@@ -155,12 +176,14 @@ const logout = async (req, res) => {
 
 module.exports = {
   index,
+  renderCreateAccountPage,
+  renderEditAccountPage,
   createStaff,
   updateStaff,
-  deleteOneStaff,
-  deleteAllStaff,
   displayStaffById,
+  getAllStaff,
   login,
   logout,
   getStaffByEmail,
+  renderProfilePage,
 };

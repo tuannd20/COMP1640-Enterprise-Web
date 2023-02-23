@@ -2,9 +2,9 @@ const PollModel = require("../database/models/Poll");
 
 const createPoll = async (data) => {
   try {
-    const department = await PollModel.create(data);
+    const Poll = await PollModel.create(data);
 
-    return department;
+    return Poll;
   } catch (err) {
     console.log(err);
     return err;
@@ -13,7 +13,18 @@ const createPoll = async (data) => {
 
 const getAllPoll = async () => {
   try {
-    const result = await PollModel.find();
+    const result = await PollModel.find().sort({ createdAt: -1 });
+
+    return result;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+const getPoll = async (id) => {
+  try {
+    const result = await PollModel.findById(id);
 
     return result;
   } catch (err) {
@@ -24,8 +35,8 @@ const getAllPoll = async () => {
 
 const updatePoll = async (id, data) => {
   try {
-    const department = await PollModel.updateMany(id, data);
-    return department;
+    const Poll = await PollModel.updateMany(id, data);
+    return Poll;
   } catch (err) {
     return err;
   }
@@ -42,7 +53,36 @@ const deleteOnePoll = async (id) => {
 
 const deleteAllPoll = async () => {
   try {
-    const result = await PollModel.deleteMany({});
+    const result = await PollModel.deleteMany({ isUsed: false });
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
+const getPollActivated = async () => {
+  try {
+    const result = await PollModel.find({ isUsed: true });
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
+const findByName = async (name) => {
+  try {
+    const result = await PollModel.findOne({ namePoll: name });
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
+const findByNameExist = async (name) => {
+  try {
+    const result = await PollModel.distinct("namePoll")
+      .where("namePoll")
+      .ne(name);
     return result;
   } catch (err) {
     return err;
@@ -55,4 +95,8 @@ module.exports = {
   updatePoll,
   deleteAllPoll,
   deleteOnePoll,
+  getPoll,
+  getPollActivated,
+  findByName,
+  findByNameExist,
 };

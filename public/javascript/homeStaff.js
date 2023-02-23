@@ -1,10 +1,14 @@
+/* eslint-disable no-undef */
 /* eslint-disable func-names */
 /* eslint-disable no-plusplus */
 const dropMenu = document.getElementById("menu_icon");
 const drop = document.getElementById("dropdown");
-// const download = document.getElementById("download-button");
-// const downloadModel = document.getElementById("download-model");
-// const cancelBtn = document.getElementsByClassName("cancel");
+const download = document.getElementById("download-button");
+const downloadModel = document.getElementById("modal");
+const no = document.getElementById("no");
+const yes = document.getElementById("yes");
+const like = document.getElementsByClassName("like-icon");
+const dislike = document.getElementsByClassName("dislike-icon");
 
 function dropdown() {
   drop.classList.toggle("hidden");
@@ -22,30 +26,47 @@ drop.addEventListener("mouseleave", () => {
   dropdownDismiss();
 });
 
-// download.addEventListener("click", () => {
-//   downloadModel.style.display = "flex";
-// });
+download.addEventListener("click", () => {
+  downloadModel.style.display = "flex";
+});
 
-// download.onclick = () => {
-//   downloadModel.style.display = "flex";
-// };
+no.addEventListener("click", () => {
+  downloadModel.style.display = "none";
+});
+yes.addEventListener("click", () => {
+  downloadModel.style.display = "none";
+});
 
-// cancelBtn.addEventListener("click", () => {
-//   downloadModel.style.display = "none"; // Hide modal
-// });
+for (let i = 0; i < like.length; i++) {
+  // eslint-disable-next-line no-loop-func
+  like[i].addEventListener("click", () => {
+    const ideaId = $(".id-idea").val();
 
-// cancelBtn.onclick = () => {
-//   downloadModel.style.display = "none";
-// };
+    // $.ajax({
+    //   type: "GET",
+    //   url: "https://jsonplaceholder.typicode.com/posts/1",
+    //   data: { ideaId },
+    // }).then((response) => {
+    //   $(".like-moule").eq(i).empty();
+    //   $(".like-moule")[i].append(response.id);
+    // });
 
-// for (let i = 0; i < cancelBtn.length; i++) {
-//   cancelBtn[i].onclick = () => {
-//     downloadModel.style.display = "none";
-//   };
-// }
+    if (dislike[i].classList.contains("text-sky-500")) {
+      dislike[i].classList.remove("text-sky-500");
+      dislike[i].classList.add("text-slate-700");
+    }
+    like[i].classList.toggle("text-sky-500");
+    like[i].classList.toggle("text-slate-700");
+  });
+}
 
-// window.onclick = function (event) {
-//   if (event.target == downloadModel) {
-//     downloadModel.style.display = "none"; // Hide modal
-//   }
-// };
+for (let i = 0; i < dislike.length; i++) {
+  dislike[i].addEventListener("click", () => {
+    if (like[i].classList.contains("text-sky-500")) {
+      like[i].classList.remove("text-sky-500");
+      like[i].classList.add("text-slate-700");
+    }
+    dislike[i].classList.toggle("text-sky-500");
+    dislike[i].classList.toggle("text-slate-700");
+  });
+}
