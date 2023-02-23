@@ -3,29 +3,38 @@ const DepartmentModel = require("../database/models/Department");
 
 const getCreateDepartment = async (req, res) => {
   res.render("partials/master", {
-    title: "Department Create",
+    title: "Create new Department",
     content: "../qam/department/createDepartmentpage",
+    errorMessage: null,
+    isFailed: false,
   });
 };
 
 const createDepartment = async (req, res) => {
   try {
     const formData = req.body;
-    const name = req.body.nameDepartment;
+    const { nameDepartment } = req.body;
+    const { description } = req.body;
     // Validation logic
-    if (!formData.nameDepartment) {
-      return res.send(
-        "<script>alert('Department name is valided'); window.location.href='/qam/department/create';</script>",
-      );
-    }
-    const checkDepartmentResit = await DepartmentService.findByName(name);
+    const checkDepartmentResit = await DepartmentService.findByName(
+      nameDepartment,
+    );
     if (!checkDepartmentResit) {
       const department = await DepartmentService.createDepartment(formData);
       return res.redirect("/qam/department");
     }
-    return res.send(
-      "<script>alert('Department name is existed'); window.location.href='/qam/department/create';</script>",
-    );
+    const errorDepartment = "Title is already exists";
+    const errorCode = 400;
+
+    return res.status(errorCode).render("partials/master", {
+      title: "Create new Department",
+      content: "../qam/department/createDepartmentpage",
+      errorMessage: errorDepartment,
+      code: errorCode,
+      isFailed: true,
+      nameDepartment,
+      description,
+    });
   } catch (err) {
     return err;
   }
@@ -70,6 +79,8 @@ const getEditDepartment = async (req, res) => {
       title: "Department Edit",
       content: "../qam/department/editDepartmentpage",
       department,
+      errorMessage: null,
+      isFailed: false,
     });
   } catch (err) {
     return err;
@@ -79,22 +90,14 @@ const getEditDepartment = async (req, res) => {
 const updateDepartment = async (req, res) => {
   const { id } = req.params;
   const updateObject = req.body;
-  const name = req.body.nameDepartment;
+  const { nameDepartment } = req.body;
+  const { description } = req.body;
   try {
     const checkDepartment = await DepartmentService.getDepartment({ _id: id });
     const checkDepartmentName = await DepartmentService.findByNameExist(
       id,
-      name,
+      nameDepartment,
     );
-
-    if (
-      checkDepartment.nameDepartment === updateObject.nameDepartment &&
-      checkDepartment.description === updateObject.description
-    ) {
-      return res.send(
-        "<script>alert('No change'); window.location.href='/qam/department';</script>",
-      );
-    }
 
     if (checkDepartmentName.length === 0) {
       const departments = await DepartmentService.updateDepartment(
@@ -104,9 +107,18 @@ const updateDepartment = async (req, res) => {
       return res.redirect("/qam/department");
     }
 
-    return res.send(
-      "<script>alert('Tên đã tồn tại'); window.location.href='/qam/department';</script>",
-    );
+    const errorDepartment = "Title is already exists";
+    const errorCode = 400;
+
+    return res.status(errorCode).render("partials/master", {
+      title: "Create new Department",
+      content: "../qam/department/createDepartmentpage",
+      errorMessage: errorDepartment,
+      code: errorCode,
+      isFailed: true,
+      nameDepartment,
+      description,
+    });
   } catch (err) {
     return err;
   }
