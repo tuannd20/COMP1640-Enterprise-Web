@@ -14,6 +14,11 @@ const renderCreateAccountPage = async (req, res) => {
     content: "../admin/account/createAccountPage",
     departments,
     roles,
+    errorEmailMessage: null,
+    errorPhoneMessage: null,
+    codeError: null,
+    isFailed: false,
+    errorType: null,
   });
 };
 
@@ -41,37 +46,55 @@ const renderProfilePage = async (req, res) => {
 
 const createStaff = async (req, res) => {
   try {
+    let emailExist = false;
+    let phoneExist = false;
     const emailAccount = req.body.email;
     const fullNameAccount = req.body.fullName;
     const addressAccount = req.body.address;
     const phoneAccount = req.body.phoneNumber;
-    const checkEmail = await StaffService.findByEmail(emailAccount);
-    const checkPhoneNumber = await StaffService.findByPhoneNumber(
-      // eslint-disable-next-line no-use-before-define
-      checkPhoneNumber,
-    );
-    if (!(checkEmail && checkPhoneNumber)) {
+    const checkData = await StaffService.findByEmail(emailAccount);
+
+    if (!checkData.email && !checkData.phoneNumber) {
       const formData = req.body;
       const staff = await StaffService.createStaff(formData);
+      console.log(staff);
       return res.redirect("/admin/account");
     }
 
-    const errorEmail = "Email is already exists";
-    const errorCodeEmail = 400;
-    const errorPhone = "Phone is already exists";
-    const errorCodePhone = 401;
+    let errorType;
 
-    return res.status(errorEmail, errorPhone).render("partials/master", {
+    if (checkData.email == emailAccount) {
+      emailExist = true;
+      // errorType.push(`email: ${emailExist}`);
+      // errorType.push(`phone: ${phoneExist}`);
+      errorType = {
+        email: emailExist,
+        phone: phoneExist,
+      };
+    }
+    console.log(errorType);
+    if (checkData.phoneNumber == phoneAccount) {
+      phoneExist = true;
+      errorType = {
+        email: emailExist,
+        phone: phoneExist,
+      };
+    }
+
+    const errorCode = 400;
+    const errorEmail = "Email is already exists";
+    const errorPhone = "Phone is already exists";
+
+    return res.status(errorCode).render("partials/master", {
       title: "Create new terms",
       content: "../admin/terms/createTermsPage",
       errorEmailMessage: errorEmail,
       errorPhoneMessage: errorPhone,
-      codeEmail: errorCodeEmail,
-      codePhone: errorCodePhone,
       isFailed: true,
       fullNameAccount,
       addressAccount,
       phoneAccount,
+      errorType,
     });
   } catch (err) {
     console.log(err);
