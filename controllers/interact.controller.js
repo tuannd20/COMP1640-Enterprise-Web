@@ -1,10 +1,4 @@
-/* eslint-disable no-underscore-dangle */
-const fs = require("fs");
-const multer = require("multer");
-
-const upload = multer({ dest: "public/uploads/" });
-
-const ideaService = require("../services/idea.service");
+const staffIdeaService = require("../services/staffIdea.service");
 const staffService = require("../services/staff.service");
 const categoryService = require("../services/category.service");
 const StaffIdeaModel = require("../database/models/StaffIdea");
@@ -13,8 +7,14 @@ const Staff = require("../database/models/Staff");
 
 const LikeIdea = async (req, res) => {
   try {
-    if (!req.body.idIdea || !req.body.idStaff || !req.body.isLike) {
+    if (!req.body.IdIdea || !req.body.idStaff || !req.body.isLike) {
       return res.status(404).send("Missing required information");
+    }
+    const check = await staffIdeaService.findOne({
+      idStaff: req.body.idStaff,
+      IdIdea: req.body.IdIdea,
+    });
+    if (!check) {
     }
     return res.status(200).send("Oke");
   } catch (err) {
