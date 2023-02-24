@@ -2,32 +2,38 @@ const PollService = require("../services/poll.service");
 
 const getCreatePoll = async (req, res, next) => {
   res.render("partials/master", {
-    title: "Poll Create",
-    content: "../qam/poll/createpollpage",
+    title: "Create new Poll",
+    content: "../qam/poll/createPollPage",
+    errorMessage: null,
+    isFailed: false,
   });
 };
 
 const createPoll = async (req, res, next) => {
   try {
     const formData = req.body;
-    const name = req.body.namePoll;
-    // Validation logic
-    if (
-      !formData.namePoll ||
-      !formData.dateStart ||
-      !formData.dateSubEnd ||
-      !formData.dateEnd
-    ) {
-      return res.redirect("/qam/poll/create");
-    }
-    const checkDepartmentResit = await PollService.findByName(name);
+    const { namePoll } = req.body;
+    const { dateSubEnd, dateEnd, dateStart } = req.body;
+
+    const checkDepartmentResit = await PollService.findByName(namePoll);
     if (!checkDepartmentResit) {
       const Poll = await PollService.createPoll(formData);
       return res.redirect("/qam/poll");
     }
-    return res.send(
-      "<script>alert('Poll name is existed'); window.location.href='/qam/poll/create';</script>",
-    );
+    const errorPoll = "Title is already exists";
+    const errorCode = 400;
+
+    return res.status(errorCode).render("partials/master", {
+      title: "Create new Poll",
+      content: "../qam/poll/createPollPage",
+      errorMessage: errorPoll,
+      code: errorCode,
+      isFailed: true,
+      namePoll,
+      dateStart,
+      dateSubEnd,
+      dateEnd,
+    });
   } catch (err) {
     return err;
   }
@@ -51,18 +57,20 @@ const getEditPoll = async (req, res, next) => {
 
   try {
     const poll = await PollService.getPoll({ _id: id });
-    const namePollCurrent = poll.namePoll;
-    const namePolls = await PollService.findByNameExist(namePollCurrent);
+
+    const pollDateStart = poll.dateStart;
     console.log(
-      "🚀 ~ file: poll.controller.js:55 ~ getEditPoll ~ Polls",
-      namePolls,
+      "🚀 ~ file: poll.controller.js:62 ~ getEditPoll ~ pollDateStart:",
+      pollDateStart,
     );
 
     return res.render("partials/master", {
       title: "Poll Edit",
       content: "../qam/poll/editPollPage",
       poll,
-      namePolls,
+      pollDateStart,
+      errorMessage: null,
+      isFailed: false,
     });
   } catch (err) {
     return err;
@@ -72,13 +80,32 @@ const getEditPoll = async (req, res, next) => {
 const updatePoll = async (req, res, next) => {
   const { id } = req.params;
   const updateObject = req.body;
+  const { namePoll } = req.body;
+  const { dateSubEnd, dateEnd, dateStart } = req.body;
   // const name = req.body.namePoll;
   try {
-    const result = await PollService.updatePoll(
-      { _id: id },
-      { $set: updateObject },
-    );
-    return res.redirect("/qam/poll");
+    const namePolls = await PollService.findByNameExist(id, namePoll);
+    if (namePolls.length === 0) {
+      const result = await PollService.updatePoll(
+        { _id: id },
+        { $set: updateObject },
+      );
+      return res.redirect("/qam/poll");
+    }
+    const errorPoll = "Title is already exists";
+    const errorCode = 400;
+
+    return res.status(errorCode).render("partials/master", {
+      title: "Create new Poll",
+      content: "../qam/poll/createPollPage",
+      errorMessage: errorPoll,
+      code: errorCode,
+      isFailed: true,
+      namePoll,
+      dateStart,
+      dateSubEnd,
+      dateEnd,
+    });
   } catch (err) {
     return err;
   }
