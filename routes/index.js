@@ -1,3 +1,4 @@
+const AuthMiddleWare = require("../middlerwares/auth.middleware");
 const AuthRouter = require("./auth");
 const HomeRouter = require("./home");
 const ProfileRouter = require("./profile");
@@ -8,7 +9,7 @@ const QARouter = require("./qa");
 function route(app) {
   app.use("/qa", QARouter);
   app.use("/qam", QAMRouter);
-  app.use("/admin", AdminRouter);
+  app.use("/admin", AuthMiddleWare.isHaveToken, AdminRouter);
   app.use("/profile", ProfileRouter);
   app.use("/auth", AuthRouter);
   app.use("/", HomeRouter);

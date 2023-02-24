@@ -77,6 +77,7 @@ const displayStaffById = async (req, res) => {
 
 const getAllStaff = async (req, res) => {
   try {
+    const staff = req.cookies.Staff;
     const staffs = await StaffService.getAllStaff();
 
     // return res.json(staffs);
@@ -84,6 +85,7 @@ const getAllStaff = async (req, res) => {
       title: "List of accounts",
       content: "../admin/account/listAccountPage",
       staffs,
+      staff,
     });
   } catch (err) {
     console.log(err);

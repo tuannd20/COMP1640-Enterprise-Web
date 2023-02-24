@@ -4,6 +4,7 @@ const router = express.Router();
 const CommentController = require("../controllers/comment.controller");
 const IdeaController = require("../controllers/idea.controller");
 const TermsController = require("../controllers/rule.controller");
+const AuthMiddleWare = require("../middlerwares/auth.middleware");
 
 // router.get("/", (req, res) => {
 //   // eslint-disable-next-line max-len, max-len, max-len
@@ -13,7 +14,7 @@ const TermsController = require("../controllers/rule.controller");
 //   });
 // });
 
-router.get("/", IdeaController.displayAllIdea);
+router.get("/", AuthMiddleWare.isLoggedIn, IdeaController.displayAllIdea);
 
 // router.get("/?page=", IdeaController.displayAllIdea);
 
@@ -31,8 +32,11 @@ router.get("/terms", TermsController.displayAllRule);
 
 // router.delete("/idea/:idIdea&:idComment", CommentController.deleteComment);
 
-router.get("/404", (req, res) => {
-  res.render("404");
+router.get("/errors", (req, res) => {
+  res.render("partials/master", {
+    title: "Error 404",
+    content: "../404/404",
+  });
 });
 
 module.exports = router;
