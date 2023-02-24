@@ -4,81 +4,91 @@ const IdeaService = require("../services/idea.service");
 
 const LikeIdea = async (req, res) => {
   try {
-    if (!req.body.IdIdea || !req.body.idStaff || !req.body.isLike) {
-      return res.status(404).send("Missing required information");
+    const { IdIdea, idStaff, isLike } = req.body;
+    if (!IdIdea || !idStaff || !isLike) {
+      return res.status(422).send("Missing required information");
     }
-    const check = await staffIdeaService.findOne({
-      idStaff: req.body.idStaff,
-      IdIdea: req.body.IdIdea,
-    });
-    const findIdea = await IdeaService.getIdea(req.body.IdIdea);
+    const [check, findIdea] = await Promise.all([
+      staffIdeaService.findOne({
+        idStaff: req.body.idStaff,
+        IdIdea: req.body.IdIdea,
+      }),
+      IdeaService.getIdea(req.body.IdIdea),
+    ]);
     if (!findIdea) {
       return res.status(404).send("Idea you find is not exits");
     }
-    if (!check || typeof check.isLike == "undefined") {
-      const update = await staffIdeaService.createNew({
-        idStaff: req.body.idStaff,
-        IdIdea: req.body.IdIdea,
-        isLike: true,
-      });
-      const newLikeCount = findIdea.likeCount + 1;
-      const newDisLikeCount = findIdea.disLikeCount;
-
-      const updateIdea = await IdeaService.updateIdea(req.body.IdIdea, {
-        likeCount: newLikeCount,
-      });
+    if (!check || typeof check.isLike === "undefined") {
+      const [update, updateIdea] = await Promise.all([
+        staffIdeaService.createNew({
+          idStaff,
+          IdIdea,
+          isLike: true,
+        }),
+        IdeaService.updateIdea(IdIdea, {
+          likeCount: findIdea.likeCount + 1,
+        }),
+      ]);
       if (!updateIdea) {
         return res.status(500).send("Server error cannot update idea");
       }
-      return res
-        .status(200)
-        .send({ newLikeCount, newDisLikeCount, isLike: true });
+      return res.status(200).send({
+        newLikeCount: findIdea.likeCount + 1,
+        newDisLikeCount: findIdea.disLikeCount,
+        isLike: true,
+      });
     }
-    if (check.isLike == null) {
-      const update = await staffIdeaService.updateIdea(check._id, {
-        isLike: true,
-      });
-      const newLikeCount = findIdea.likeCount + 1;
-      const newDisLikeCount = findIdea.disLikeCount;
-
-      const updateIdea = await IdeaService.updateIdea(req.body.IdIdea, {
-        likeCount: newLikeCount,
-      });
+    if (check.isLike === null) {
+      const [update, updateIdea] = await Promise.all([
+        staffIdeaService.updateIdea(check._id, {
+          isLike: true,
+        }),
+        IdeaService.updateIdea(IdIdea, {
+          likeCount: findIdea.likeCount + 1,
+        }),
+      ]);
       if (!updateIdea) {
         return res.status(500).send("Server error cannot update idea");
       }
-      return res
-        .status(200)
-        .send({ newLikeCount, newDisLikeCount, isLike: true });
+      return res.status(200).send({
+        newLikeCount: findIdea.likeCount + 1,
+        newDisLikeCount: findIdea.disLikeCount,
+        isLike: true,
+      });
     }
     if (check.isLike == true) {
-      await staffIdeaService.updateIdea(check._id, {
-        isLike: null,
-      });
-      const newLikeCount = findIdea.likeCount - 1;
-      const newDisLikeCount = findIdea.disLikeCount;
-      const updateIdea = await IdeaService.updateIdea(req.body.IdIdea, {
-        likeCount: newLikeCount,
-      });
+      const [update, updateIdea] = await Promise.all([
+        staffIdeaService.updateIdea(check._id, {
+          isLike: null,
+        }),
+        IdeaService.updateIdea(req.body.IdIdea, {
+          likeCount: findIdea.likeCount - 1,
+        }),
+      ]);
       if (!updateIdea) {
         return res.status(500).send("Server error cannot update idea");
       }
-      return res
-        .status(200)
-        .send({ newLikeCount, newDisLikeCount, isLike: false });
+      return res.status(200).send({
+        newLikeCount: findIdea.likeCount - 1,
+        newDisLikeCount: findIdea.disLikeCount,
+        isLike: false,
+      });
     }
-    await staffIdeaService.updateIdea(check._id, {
-      isLike: true,
-    });
-    const newLikeCount = findIdea.likeCount + 1;
-    const newDisLikeCount = findIdea.disLikeCount - 1;
-    const updateIdea = await IdeaService.updateIdea(req.body.IdIdea, {
-      likeCount: newLikeCount,
-      disLikeCount: newDisLikeCount,
-    });
+    const [update, updateIdea] = await Promise.all([
+      staffIdeaService.updateIdea(check._id, {
+        isLike: true,
+      }),
+      IdeaService.updateIdea(req.body.IdIdea, {
+        likeCount: findIdea.likeCount + 1,
+        disLikeCount: findIdea.disLikeCount - 1,
+      }),
+    ]);
     if (!updateIdea) {
       return res.status(500).send("Server error cannot update idea");
     }
+    const newLikeCount = update.likeCount + 1;
+    const newDisLikeCount = update.disLikeCount - 1;
+
     return res
       .status(200)
       .send({ newLikeCount, newDisLikeCount, isLike: true });
