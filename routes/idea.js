@@ -1,4 +1,5 @@
 const express = require("express");
+const interactController = require("../controllers/interact.controller");
 
 const router = express.Router();
 /* GET home page. */
@@ -17,5 +18,7 @@ router.get("/create", (req, res) => {
 router.get("/login", (req, res) => {
   res.render("login");
 });
+
+router.post("/like", interactController.LikeIdea);
 
 module.exports = router;

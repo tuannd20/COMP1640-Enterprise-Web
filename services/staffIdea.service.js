@@ -21,9 +21,9 @@ const createNew = async (data) => {
     return err;
   }
 };
-const update = async (options, data) => {
+const updateIdea = async (id, data) => {
   try {
-    const staff = await StaffIdeaRepository.updateStaffIDea(options, data);
+    const staff = await StaffIdeaRepository.updateStaffIDea(id, data);
 
     return staff;
   } catch (err) {
@@ -34,5 +34,5 @@ const update = async (options, data) => {
 module.exports = {
   findOne,
   createNew,
-  update,
+  updateIdea,
 };

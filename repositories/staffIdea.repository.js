@@ -24,9 +24,9 @@ const createStaffIDea = async (data) => {
     return err;
   }
 };
-const updateStaffIDea = async (options, data) => {
+const updateStaffIDea = async (id, data) => {
   try {
-    const staff = await StaffIdeaModel.findOneAndUpdate(options, data);
+    const staff = await StaffIdeaModel.findByIdAndUpdate(id, data);
     return staff;
   } catch (err) {
     console.error(
