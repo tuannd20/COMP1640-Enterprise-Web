@@ -1,6 +1,6 @@
 <Main class="pt-[100px] w-3/5 m-auto min-h-screen mb-5">
   <div
-    class="relative p-3 border-2 idea border-stone-700 rounded-2xl h-auto opacity-80"
+    class="relative h-auto p-3 border-2 idea border-stone-700 rounded-2xl opacity-80"
   >
     <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
       <svg
@@ -62,16 +62,13 @@
               <label for="product-type">
                 Department
                 <select
-                  name="department-type"
+                  name="department"
                   form="create-form"
                   id="product-type"
                   class="border rounded-lg py-[2px] border-slate-400"
                 >
                   <option value="0">0</option>
                   <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
                 </select>
               </label>
             </div>
@@ -94,10 +91,10 @@
         </div>
       </div>
     </div>
-    <div class="content-idea mb-8">
+    <div class="mb-8 content-idea">
       <textarea
         rows="8"
-        name="content-idea"
+        name="content"
         form="create-form"
         required
         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md min-h-[200px]"
@@ -107,7 +104,7 @@
     <div class="w-[95%] m-auto">
       <form action="/action" method="post" id="create-form">
         <div class="flex flex-row justify-between footer-idea">
-          <div class="px-3 py-2 border-2 rounded-lg upload-btn h-auto">
+          <div class="h-auto px-3 py-2 border-2 rounded-lg upload-btn">
             <input type="file" name="filename" value="Upload" multiple />
           </div>
           <div class="flex flex-row items-center justify-between gap-5">
