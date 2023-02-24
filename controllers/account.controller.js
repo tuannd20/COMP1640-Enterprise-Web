@@ -3,7 +3,7 @@ const DepartmentService = require("../services/department.service");
 const RoleService = require("../services/role.service");
 
 const index = async (req, res) => {
-  res.render("login");
+  res.render("home/login");
 };
 
 const renderCreateAccountPage = async (req, res) => {
@@ -33,10 +33,16 @@ const renderEditAccountPage = async (req, res) => {
 };
 
 const renderProfilePage = async (req, res) => {
-  res.render("partials/master", {
-    title: "My profile",
-    content: "../staff/profilePage",
-  });
+  try {
+    const staff = req.cookies.Staff;
+    return res.render("partials/master", {
+      title: "Your profile",
+      content: "../staff/profilePage",
+      staff,
+    });
+  } catch (error) {
+    return error;
+  }
 };
 
 const createStaff = async (req, res) => {
@@ -77,6 +83,7 @@ const displayStaffById = async (req, res) => {
 
 const getAllStaff = async (req, res) => {
   try {
+    const staff = req.cookies.Staff;
     const staffs = await StaffService.getAllStaff();
 
     // return res.json(staffs);
@@ -84,6 +91,7 @@ const getAllStaff = async (req, res) => {
       title: "List of accounts",
       content: "../admin/account/listAccountPage",
       staffs,
+      staff,
     });
   } catch (err) {
     console.log(err);
@@ -129,6 +137,19 @@ const updateStaff = async (req, res) => {
 //   }
 // };
 
+const getStaffByEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const findStaff = await StaffService.findStaffByEmail(email);
+    console.log("Get Staff:", findStaff);
+
+    return res.json(findStaff);
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -143,7 +164,7 @@ const login = async (req, res) => {
     const token = await StaffService.createToken(email);
     res.cookie("token", token, { httpOnly: true });
 
-    return res.render("homeStaff");
+    return res.render("home/homeStaff");
   } catch (err) {
     console.log(err);
     return err;
@@ -154,7 +175,7 @@ const login = async (req, res) => {
 const logout = async (req, res) => {
   try {
     res.clearCookie("token");
-    return res.render("login");
+    return res.render("home/login");
   } catch (err) {
     console.log(err);
     return err;
@@ -171,5 +192,6 @@ module.exports = {
   getAllStaff,
   login,
   logout,
+  getStaffByEmail,
   renderProfilePage,
 };

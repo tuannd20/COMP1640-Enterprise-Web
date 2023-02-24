@@ -1,4 +1,5 @@
 const StaffRepository = require("../repositories/staff.repository");
+const { createTokenJwt } = require("../utilities/jwt");
 
 const createStaff = async (data) => {
   try {
@@ -76,9 +77,16 @@ const checkPassword = async (data) => {
   }
 };
 
-const findStaff = async (data) => {
+const findStaffByEmail = async (email) => {
   try {
-    const staff = await StaffRepository.findStaff(data);
+    const staff = await StaffRepository.findStaff(email);
+    // const staffDetail = {
+    //   fullName: staff.fullName,
+    //   email: staff.email,
+    //   role: staff.idRole.nameRole,
+    //   department: staff.idDepartment.nameDepartment,
+    // };
+
     return staff;
   } catch (err) {
     console.log(err);
@@ -89,7 +97,14 @@ const findStaff = async (data) => {
 // eslint-disable-next-line consistent-return
 const createToken = async (data) => {
   try {
-    const token = await StaffRepository.createToken(data);
+    const staffDetail = {
+      fullName: data.fullName,
+      email: data.email,
+      role: data.idRole.nameRole,
+      department: data.idDepartment.nameDepartment,
+    };
+
+    const token = await createTokenJwt(staffDetail);
     return token;
   } catch (error) {
     console.log(error);
@@ -112,7 +127,7 @@ module.exports = {
   updateStaff,
   getAllStaff,
   displayStaffById,
-  findStaff,
+  findStaffByEmail,
   checkPassword,
   createToken,
 };

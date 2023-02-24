@@ -21,7 +21,10 @@ router.get("/department/edit/:id", DepartmentController.getEditDepartment);
 router.post("/department/edit/:id", DepartmentController.updateDepartment);
 
 // [DELETE] delete department
-router.get("/department/delete/:id", DepartmentController.deleteOneDepartment);
+router.delete(
+  "/department/delete/:id",
+  DepartmentController.deleteOneDepartment,
+);
 
 // [DELETE] delete department
 router.get("/department/delete-all", DepartmentController.deleteAllDepartment);
@@ -48,7 +51,7 @@ router.get("/poll/edit/:id", PollController.getEditPoll);
 router.post("/poll/edit/:id", PollController.updatePoll);
 
 // [DELETE] delete Poll
-router.get("/poll/delete/:id", PollController.deleteOnePoll);
+router.delete("/poll/delete/:id", PollController.deleteOnePoll);
 
 // [DELETE] delete Poll
 router.get("/poll/delete-all", PollController.deleteAllPoll);

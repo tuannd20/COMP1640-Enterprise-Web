@@ -19,6 +19,19 @@ const Staff = require("../database/models/Staff");
 //   },
 // });
 
+const renderCreateIdeaPage = (req, res) => {
+  try {
+    const staff = req.cookies.Staff;
+    return res.render("partials/master", {
+      title: "Your Idea",
+      content: "../staff/idea/createIdeaPage",
+      staff,
+    });
+  } catch (error) {
+    return error;
+  }
+};
+
 const createIdea = async (req, res) => {
   try {
     // const { file } = req;
@@ -115,6 +128,7 @@ const displayDetailIdea = async (req, res) => {
 
 const displayAllIdea = async (req, res) => {
   try {
+    const staff = req.cookies.Staff;
     const { page = 1 } = req.query;
     const limit = 5;
     const options = {
@@ -139,6 +153,7 @@ const displayAllIdea = async (req, res) => {
     return res.render("partials/master", {
       title: "Idea",
       content: "../staff/homePage",
+      staff,
       ideas: allIdea,
     });
     // return res.status(200).send(allIdea);
@@ -283,6 +298,7 @@ const updateStatus = async (req, res) => {
   }
 };
 module.exports = {
+  renderCreateIdeaPage,
   createIdea,
   displayDetailIdea,
   displayAllIdea,
