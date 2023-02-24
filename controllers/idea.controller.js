@@ -1,6 +1,8 @@
 /* eslint-disable no-underscore-dangle */
-// const fs = require("fs");
-// const multer = require("multer");
+const fs = require("fs");
+const multer = require("multer");
+
+const upload = multer({ dest: "public/uploads/" });
 
 const ideaService = require("../services/idea.service");
 const staffService = require("../services/staff.service");
@@ -9,15 +11,15 @@ const StaffIdeaModel = require("../database/models/StaffIdea");
 const sendMail = require("../utilities/sendMail");
 const Staff = require("../database/models/Staff");
 
-// // Set up the multer middleware to handle file uploads
-// const storage = multer.diskStorage({
-//   destination(req, file, cb) {
-//     cb(null, "../public/uploads");
-//   },
-//   filename(req, file, cb) {
-//     cb(null, file.originalname);
-//   },
-// });
+// Set up the multer middleware to handle file uploads
+const storage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, "../public/uploads");
+  },
+  filename(req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
 
 const renderCreateIdeaPage = (req, res) => {
   try {
@@ -34,17 +36,28 @@ const renderCreateIdeaPage = (req, res) => {
 
 const createIdea = async (req, res) => {
   try {
-    // const { file } = req;
-    // if (file) {
-    //   const filePath = `public/uploads/${file.originalname}`;
-    //   fs.writeFile(filePath, file.buffer, (err) => {
-    //     if (err) {
-    //       res.status(500).send("Error writing file to disk");
-    //     } else {
-    //       res.send("File uploaded successfully");
-    //     }
-    //   });
-    // }
+    console.log(
+      "🚀 ~ file: idea.controller.js:38 ~ createIdea ~ req.file:",
+      req.file,
+    );
+    const filePath = req.file.path;
+
+    const fileName = req.file.originalname;
+    const newFilePath = `uploads/${fileName}`;
+    fs.renameSync(filePath, newFilePath);
+
+    // Add file path to data and save to JSON file
+    const newData = {
+      mediaPath: newFilePath, // Add file path to data
+    };
+    console.log(
+      "🚀 ~ file: idea.controller.js:46 ~ createIdea ~ newData:",
+      newData,
+    );
+    console.log(
+      "🚀 ~ file: idea.controller.js:56 ~ createIdea ~ req.body:",
+      req.body,
+    );
     if (
       !req.body.idPoll ||
       !req.body.idDepartment ||
@@ -93,7 +106,7 @@ const createIdea = async (req, res) => {
     res.redirect(`http://localhost:3000/1/${req.body.idStaffIdea}`);
     return res.status(200).send(newIdea);
   } catch (err) {
-    console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
+    console.log("🚀 ~ file: idea.controller.js:107 ~ createIdea ~ err:", err);
     return err;
   }
 };
@@ -148,7 +161,7 @@ const displayAllIdea = async (req, res) => {
       }
     });
 
-    console.log("Helololo", allIdea);
+    console.log("Hello", allIdea);
     // return res.json(allIdea);
     return res.render("partials/master", {
       title: "Idea",
