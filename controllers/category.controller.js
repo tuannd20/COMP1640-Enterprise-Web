@@ -3,12 +3,14 @@ const DepartmentService = require("../services/department.service");
 
 const renderListCategoryPage = async (req, res, next) => {
   try {
+    const staff = req.cookies.Staff;
     const categories = await CategoryService.getAllCategory();
 
     return res.render("partials/master", {
       title: "Category",
       content: "../qa/category/listCategoryPage",
       categories,
+      staff,
     });
     // return res.json(categories);
   } catch (err) {
@@ -19,11 +21,13 @@ const renderListCategoryPage = async (req, res, next) => {
 
 const rederCreateCategoryPage = async (req, res, next) => {
   try {
+    const staff = req.cookies.Staff;
     const Departments = await DepartmentService.getAllDepartment();
     res.render("partials/master", {
       title: "Category",
       content: "../qa/category/createCategoryPage",
       Departments,
+      staff,
     });
   } catch (error) {
     console.log(error);
