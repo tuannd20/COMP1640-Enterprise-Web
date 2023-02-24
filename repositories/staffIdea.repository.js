@@ -1,10 +1,6 @@
 const StaffIdeaModel = require("../database/models/StaffIdea");
 
 const findStaffIDea = async (options) => {
-  console.log(
-    "🚀 ~ file: staffIdea.repository.js:4 ~ findStaffIDea ~ options:",
-    options,
-  );
   try {
     const staff = await StaffIdeaModel.findOne(options);
     return staff;
