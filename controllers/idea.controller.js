@@ -74,6 +74,7 @@ const displayDetailIdea = async (req, res) => {
 
 const displayAllIdea = async (req, res) => {
   try {
+    const staff = req.cookies.Staff;
     const { page = 1 } = req.query;
     const limit = 5;
     const options = {
@@ -98,6 +99,7 @@ const displayAllIdea = async (req, res) => {
     return res.render("partials/master", {
       title: "Idea",
       content: "../staff/homePage",
+      staff,
       ideas: allIdea,
     });
     // return res.status(200).send(allIdea);

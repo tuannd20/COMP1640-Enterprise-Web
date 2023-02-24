@@ -97,13 +97,11 @@ const findStaffByEmail = async (email) => {
 // eslint-disable-next-line consistent-return
 const createToken = async (data) => {
   try {
-    const InforOfStaff = await findStaffByEmail(data);
-
     const staffDetail = {
-      fullName: InforOfStaff.fullName,
-      email: InforOfStaff.email,
-      role: InforOfStaff.idRole.nameRole,
-      department: InforOfStaff.idDepartment.nameDepartment,
+      fullName: data.fullName,
+      email: data.email,
+      role: data.idRole.nameRole,
+      department: data.idDepartment.nameDepartment,
     };
 
     const token = await createTokenJwt(staffDetail);

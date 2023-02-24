@@ -39,8 +39,6 @@ app.use(methodOverride("_method"));
 
 route(app);
 
-console.log(`Server listening on port: ${process.env.PORT}`);
-
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));
