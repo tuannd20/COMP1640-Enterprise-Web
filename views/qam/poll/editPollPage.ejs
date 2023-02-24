@@ -49,7 +49,8 @@
               />
               <div id="name-error" class="error-message"></div>
             </div>
-            <div class="mb-4">
+
+            <div class="mb-4" id="myStartDate">
               <label
                 for="startDate"
                 class="mb-3 block text-base font-medium text-[#07074D]"
@@ -57,14 +58,6 @@
                 Start date
               </label>
 
-              <% if (poll.dateStart <= new Date()) { %>
-              <input
-                type="date"
-                readonly
-                value="<%= poll.dateStart.toISOString().slice(0,10) %>"
-                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-              />
-              <% } else { %>
               <input
                 type="date"
                 name="dateStart"
@@ -74,8 +67,16 @@
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
 
-              <% } %>
+              <div
+                class="ml-3 text-sm font-medium"
+                id="alert-error-startDate"
+                style="color: red"
+                hidden
+              >
+                Ngày bắt đầu phải lớn hơn ngày hiện tại
+              </div>
             </div>
+
             <div class="mb-4">
               <label
                 for="subEndDate"
@@ -92,6 +93,16 @@
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
+
+            <div
+              class="ml-3 text-sm font-medium"
+              id="alert-error-endSubDate"
+              style="color: red"
+              hidden
+            >
+              Ngày kết thúc tạm thời phải lớn hơn ngày bắt đầu
+            </div>
+
             <div class="mb-4">
               <label
                 for="finalEndDate"
@@ -108,6 +119,16 @@
                 class="w-full rounded-md border mb-3 border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
+
+            <div
+              class="ml-3 text-sm font-medium"
+              id="alert-error-endDate"
+              style="color: red"
+              hidden
+            >
+              Ngày kết thúc phải lớn hơn ngày kết thúc tạm thời
+            </div>
+
             <div
               class="w-1/6 px-3 py-2 m-auto text-center text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
             >
@@ -182,20 +203,21 @@
         </svg>
       </a>
 
-      <div class="m-auto">Edit a poll</div>
+      <div class="m-auto">Edit poll</div>
     </div>
     <div class="content-idea">
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px]">
           <form
-            action="/qam/poll/edit/<%= poll.namePoll %>"
+            id="my-form"
+            action="/qam/poll/edit/<%= poll.id %>"
             onsubmit="return validateForm()"
             method="POST"
           >
             <div class="mb-4">
               <label
                 for="name"
-                class="mb-3 block text-base font-medium text-[#07074D] select-none"
+                class="mb-3 block text-base font-medium text-[#07074D]"
               >
                 Title
               </label>
@@ -203,31 +225,42 @@
                 type="text"
                 name="namePoll"
                 id="namePoll"
-                value="<%= namePoll %>"
                 required
+                value="<%= poll.namePoll %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
+              <div id="name-error" class="error-message"></div>
             </div>
-            <div class="mb-4">
+            <div class="mb-4" id="myStartDate">
               <label
-                for="dateStart"
-                class="mb-3 block text-base font-medium text-[#07074D] select-none"
+                for="startDate"
+                class="mb-3 block text-base font-medium text-[#07074D]"
               >
                 Start date
               </label>
+
               <input
                 type="date"
                 name="dateStart"
                 id="dateStart"
-                value="<%= dateStart %>"
                 required
+                value="<%= poll.dateStart.toISOString().slice(0,10) %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
+
+              <div
+                class="ml-3 text-sm font-medium"
+                id="alert-error-startDate"
+                style="color: red"
+                hidden
+              >
+                Ngày bắt đầu phải lớn hơn ngày hiện tại
+              </div>
             </div>
             <div class="mb-4">
               <label
                 for="subEndDate"
-                class="mb-3 block text-base font-medium text-[#07074D] select-none"
+                class="mb-3 block text-base font-medium text-[#07074D]"
               >
                 Sub-end date
               </label>
@@ -235,15 +268,25 @@
                 type="date"
                 name="dateSubEnd"
                 id="dateSubEnd"
-                value="<%= dateSubEnd %>"
                 required
+                value="<%= poll.dateSubEnd.toISOString().slice(0,10) %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
+
+            <div
+              class="ml-3 text-sm font-medium"
+              id="alert-error-endSubDate"
+              style="color: red"
+              hidden
+            >
+              Ngày kết thúc tạm thời phải lớn hơn ngày bắt đầu
+            </div>
+
             <div class="mb-4">
               <label
                 for="finalEndDate"
-                class="mb-3 block text-base font-medium text-[#07074D] select-none"
+                class="mb-3 block text-base font-medium text-[#07074D]"
               >
                 Final end date
               </label>
@@ -251,11 +294,21 @@
                 type="date"
                 name="dateEnd"
                 id="dateEnd"
-                value="<%= dateEnd %>"
                 required
-                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                value="<%= poll.dateEnd.toISOString().slice(0,10) %>"
+                class="w-full rounded-md border mb-3 border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
+
+            <div
+              class="ml-3 text-sm font-medium"
+              id="alert-error-endDate"
+              style="color: red"
+              hidden
+            >
+              Ngày kết thúc phải lớn hơn ngày kết thúc tạm thời
+            </div>
+
             <div
               class="w-1/6 px-3 py-2 m-auto text-center text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
             >
@@ -268,58 +321,63 @@
   </div>
 
   <% } %>
-  <!-- <script>
+
+  <script>
+    const startDateInput = document.getElementById("dateStart");
+    const startDate = new Date(startDateInput.value);
+    const currentDate = new Date();
+    if (startDate < currentDate) {
+      document.getElementById("myStartDate").hidden = true; // ẩn phần tử
+    }
+
     function validateForm() {
       const startDateInput = document.getElementById("dateStart");
       const endSubDateInput = document.getElementById("dateSubEnd");
       const endDateInput = document.getElementById("dateEnd");
+
       const startDate = new Date(startDateInput.value);
-      // alert(startDate);
       const endSubDate = new Date(endSubDateInput.value);
-      // alert(endSubDate);
       const endDate = new Date(endDateInput.value);
-      // alert(endDate);
-      // Lấy ngày hiện tại
       const currentDate = new Date();
-      // alert(currentDate);
-      // Check if start date is empty or not a valid date
-      if (startDateInput.value === "" || isNaN(startDate)) {
-        alert("Please enter a valid start date");
-        return false;
-      }
 
-      // Check if end date is empty or not a valid date
-      if (endSubDateInput.value === "" || isNaN(endSubDate)) {
-        alert("Please enter a valid end sub date");
-        return false;
-      }
+      if (startDate > currentDate) {
+        // Check if start date is earlier than start date
+        if (startDate < currentDate) {
+          let myDiv1 = document.getElementById("alert-error-startDate");
+          myDiv1.removeAttribute("hidden");
+          return false;
+        }
 
-      // Check if end date is empty or not a valid date
-      if (endDateInput.value === "" || isNaN(endDate)) {
-        alert("Please enter a valid end date");
-        return false;
-      }
+        // Check if end sub date is earlier than start date
+        if (endSubDate < startDate) {
+          let myDiv2 = document.getElementById("alert-error-endSubDate");
+          myDiv2.removeAttribute("hidden");
+          return false;
+        }
 
-      // Check if start date is earlier than start date
-      if (startDate < currentDate) {
-        alert("Start date must be than start current day");
-        return false;
-      }
+        // Check if end date is earlier than start date
+        if (endDate < endSubDate) {
+          let myDiv3 = document.getElementById("alert-error-endDate");
+          myDiv3.removeAttribute("hidden");
+          return false;
+        }
+      } else {
+        // Check if end sub date is earlier than start date
+        if (endSubDate < currentDate) {
+          let myDiv2 = document.getElementById("alert-error-endSubDate");
+          myDiv2.removeAttribute("hidden");
+          return false;
+        }
 
-      // Check if end sub date is earlier than start date
-      if (endSubDate < startDate) {
-        alert("End sub date must be than start date");
-        return false;
+        // Check if end date is earlier than start date
+        if (endDate < endSubDate) {
+          let myDiv3 = document.getElementById("alert-error-endDate");
+          myDiv3.removeAttribute("hidden");
+          return false;
+        }
       }
-
-      // Check if end date is earlier than start date
-      if (endDate < endSubDate) {
-        alert("End date must be later than end sub date");
-        return false;
-      }
-
       // Validation passed
       return true;
     }
-  </script> -->
+  </script>
 </Main>
