@@ -147,15 +147,24 @@ const getPollActivated = async (req, res) => {
   }
 };
 
-const updatePollActivated = async (req, res) => {
+const getPollInactive = async (req, res) => {
+  try {
+    const Poll = await PollService.getPollInactive({});
+    return res.json(Poll);
+  } catch (err) {
+    return err;
+  }
+};
+
+const updatePollActive = async (req, res) => {
   const { id } = req.params;
   try {
     const checkPoll = await PollService.getPoll({ _id: id });
     if (checkPoll.isUsed === false) {
       const Polls = await PollService.updatePoll({ _id: id }, { isUsed: true });
+      return res.json(Polls);
     }
-
-    return res.redirect("/qam/poll");
+    return res.send("this poll is used");
   } catch (err) {
     return err;
   }
@@ -170,5 +179,6 @@ module.exports = {
   updatePoll,
   getAllPoll,
   getPollActivated,
-  updatePollActivated,
+  updatePollActive,
+  getPollInactive,
 };

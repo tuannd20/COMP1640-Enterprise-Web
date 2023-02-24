@@ -73,7 +73,7 @@
                 style="color: red"
                 hidden
               >
-                Ngày bắt đầu phải lớn hơn ngày hiện tại
+                *Ngày bắt đầu phải lớn hơn ngày hiện tại
               </div>
             </div>
 
@@ -100,7 +100,7 @@
               style="color: red"
               hidden
             >
-              Ngày kết thúc tạm thời phải lớn hơn ngày bắt đầu
+              *Ngày kết thúc tạm thời phải lớn hơn ngày bắt đầu
             </div>
 
             <div class="mb-4">
@@ -126,7 +126,7 @@
               style="color: red"
               hidden
             >
-              Ngày kết thúc phải lớn hơn ngày kết thúc tạm thời
+              *Ngày kết thúc phải lớn hơn ngày kết thúc tạm thời
             </div>
 
             <div
@@ -141,7 +141,7 @@
   </div>
 
   <%}else { %>
-  <div
+  <!-- <div
     id="alert-border-2"
     class="flex p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
     role="alert"
@@ -180,7 +180,7 @@
         ></path>
       </svg>
     </button>
-  </div>
+  </div> -->
 
   <div
     class="relative h-auto p-3 overflow-y-auto border-2 idea border-stone-700 rounded-2xl opacity-80"
@@ -229,8 +229,18 @@
                 value="<%= poll.namePoll %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
-              <div id="name-error" class="error-message"></div>
+              <!-- <div id="name-error" class="error-message"></div> -->
             </div>
+
+            <div
+              class="ml-3 text-sm font-medium"
+              id="alert-error-startDate"
+              style="color: red"
+              hidden
+            >
+              *Poll Name is existed
+            </div>
+
             <div class="mb-4" id="myStartDate">
               <label
                 for="startDate"
@@ -254,7 +264,7 @@
                 style="color: red"
                 hidden
               >
-                Ngày bắt đầu phải lớn hơn ngày hiện tại
+                *Ngày bắt đầu phải lớn hơn ngày hiện tại
               </div>
             </div>
             <div class="mb-4">
@@ -280,7 +290,7 @@
               style="color: red"
               hidden
             >
-              Ngày kết thúc tạm thời phải lớn hơn ngày bắt đầu
+              *Ngày kết thúc tạm thời phải lớn hơn ngày bắt đầu
             </div>
 
             <div class="mb-4">
@@ -306,7 +316,7 @@
               style="color: red"
               hidden
             >
-              Ngày kết thúc phải lớn hơn ngày kết thúc tạm thời
+              *Ngày kết thúc phải lớn hơn ngày kết thúc tạm thời
             </div>
 
             <div
