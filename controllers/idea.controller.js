@@ -36,24 +36,16 @@ const renderCreateIdeaPage = (req, res) => {
 
 const createIdea = async (req, res) => {
   try {
-    console.log(
-      "🚀 ~ file: idea.controller.js:38 ~ createIdea ~ req.file:",
-      req.file,
-    );
     const filePath = req.file.path;
 
     const fileName = req.file.originalname;
-    const newFilePath = `uploads/${fileName}`;
+    const newFilePath = `public/uploads/${fileName}`;
     fs.renameSync(filePath, newFilePath);
 
     // Add file path to data and save to JSON file
     const newData = {
       mediaPath: newFilePath, // Add file path to data
     };
-    console.log(
-      "🚀 ~ file: idea.controller.js:46 ~ createIdea ~ newData:",
-      newData,
-    );
     console.log(
       "🚀 ~ file: idea.controller.js:56 ~ createIdea ~ req.body:",
       req.body,
