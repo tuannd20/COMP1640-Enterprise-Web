@@ -154,7 +154,7 @@ const DisLikeIdea = async (req, res) => {
       return res.status(200).send({
         newLikeCount: findIdea.likeCount,
         newDisLikeCount: findIdea.disLikeCount + 1,
-        isLike: true,
+        isLike: false,
       });
     }
     if (check.isLike === null) {
@@ -172,7 +172,7 @@ const DisLikeIdea = async (req, res) => {
       return res.status(200).send({
         newLikeCount: findIdea.likeCount,
         newDisLikeCount: findIdea.disLikeCount + 1,
-        isLike: true,
+        isLike: false,
       });
     }
     if (check.isLike == true) {
@@ -191,7 +191,7 @@ const DisLikeIdea = async (req, res) => {
       return res.status(200).send({
         newLikeCount: findIdea.likeCount - 1,
         newDisLikeCount: findIdea.disLikeCount + 1,
-        isLike: true,
+        isLike: false,
       });
     }
     const [update, updateIdea] = await Promise.all([
@@ -210,7 +210,7 @@ const DisLikeIdea = async (req, res) => {
 
     return res
       .status(200)
-      .send({ newLikeCount, newDisLikeCount, isLike: false });
+      .send({ newLikeCount, newDisLikeCount, isLike: true });
   } catch (err) {
     console.error(
       "🚀 ~ file: interact.controller.js:194 ~ DisLikeIdea ~ err:",

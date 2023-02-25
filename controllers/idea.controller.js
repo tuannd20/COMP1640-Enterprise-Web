@@ -24,6 +24,29 @@ const storage = multer.diskStorage({
 });
 
 const renderCreateIdeaPage = async (req, res) => {
+  const categories = await categoryService.getAllCategory();
+  const newCategory = Object.values(
+    categories.reduce((acc, obj) => {
+      console.log(
+        "🚀 ~ file: idea.controller.js:34 ~ categories.reduce ~ obj:",
+        obj,
+      );
+      console.log(
+        "🚀 ~ file: idea.controller.js:35 ~ categories.reduce ~ acc:",
+        acc,
+      );
+      if (!acc[obj.idDepartment]) {
+        acc[obj.idDepartment] = obj;
+      } else {
+        acc[obj.idDepartment.nameDepartment].content += obj.content;
+      }
+      return acc;
+    }, {}),
+  ).map((obj) => obj.content);
+  console.log(
+    "🚀 ~ file: idea.controller.js:42 ~ renderCreateIdeaPage ~ newCategory:",
+    newCategory,
+  );
   const staff = req.cookies.Staff;
   return res.render("partials/master", {
     title: "Your Idea",
@@ -156,6 +179,11 @@ const displayAllIdea = async (req, res) => {
     });
     allIdea.docs = allIdea.docs.filter((doc) => doc.idStaffIdea !== null);
     // return res.json(allIdea);
+    console.log(
+      "🚀 ~ file: idea.controller.js:170 ~ displayAllIdea ~ allIdea:",
+      allIdea,
+    );
+
     return res.render("partials/master", {
       title: "Idea",
       content: "../staff/homePage",
