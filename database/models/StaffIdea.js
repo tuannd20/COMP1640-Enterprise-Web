@@ -8,17 +8,12 @@ const StaffIdeaSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Staff",
     },
-    IdIdea: {
+    idIdea: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Idea",
     },
     isLike: {
       type: Boolean,
-      default: false,
-    },
-    isDissLike: {
-      type: Boolean,
-      default: false,
     },
     isView: {
       type: Boolean,

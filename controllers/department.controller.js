@@ -93,7 +93,7 @@ const updateDepartment = async (req, res) => {
   const { nameDepartment } = req.body;
   const { description } = req.body;
   try {
-    const checkDepartment = await DepartmentService.getDepartment({ _id: id });
+    // const checkDepartment = await DepartmentService.getDepartment({ _id: id });
     const checkDepartmentName = await DepartmentService.findByNameExist(
       id,
       nameDepartment,

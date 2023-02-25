@@ -57,10 +57,18 @@ const getEditPoll = async (req, res, next) => {
 
   try {
     const poll = await PollService.getPoll({ _id: id });
+
+    const pollDateStart = poll.dateStart;
+    console.log(
+      "🚀 ~ file: poll.controller.js:62 ~ getEditPoll ~ pollDateStart:",
+      pollDateStart,
+    );
+
     return res.render("partials/master", {
       title: "Poll Edit",
       content: "../qam/poll/editPollPage",
       poll,
+      pollDateStart,
       errorMessage: null,
       isFailed: false,
     });
@@ -76,8 +84,8 @@ const updatePoll = async (req, res, next) => {
   const { dateSubEnd, dateEnd, dateStart } = req.body;
   // const name = req.body.namePoll;
   try {
-    const namePolls = await PollService.findByNameExist(namePoll);
-    if (!namePolls) {
+    const namePolls = await PollService.findByNameExist(id, namePoll);
+    if (namePolls.length === 0) {
       const result = await PollService.updatePoll(
         { _id: id },
         { $set: updateObject },

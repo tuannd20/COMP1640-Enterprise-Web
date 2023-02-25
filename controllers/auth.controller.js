@@ -2,9 +2,15 @@ const StaffService = require("../services/staff.service");
 
 const renderLoginPage = async (req, res) => {
   try {
+    let staff = req.cookies.Staff;
+    if (typeof isLogin === "undefined") {
+      staff = "";
+    }
+
     return res.render("partials/master", {
       title: "Login",
       content: "../Login/loginPage",
+      staff,
     });
   } catch (error) {
     return error;
@@ -26,29 +32,35 @@ const login = async (req, res) => {
     }
 
     if (findStaff && passwordValid) {
-      // const staffDetail = {
-      //   fullName: findStaff.fullName,
-      //   email: findStaff.email,
-      //   role: findStaff.idRole.nameRole,
-      //   department: findStaff.idDepartment.nameDepartment,
-      // };
-      const handleToken = await StaffService.createToken(email);
-      console.log("Create Token", handleToken);
+      const handleToken = await StaffService.createToken(findStaff);
 
-      res.cookie("Access_Token: ", handleToken, {
+      res.cookie("AccessToken", handleToken, {
         http: true,
+        sameSite: "strict",
+      });
+
+      res.cookie("isLoggedIn", true, {
+        http: true,
+        sameSite: "strict",
+      });
+
+      res.cookie("Staff", findStaff, {
+        httpOnly: true,
         sameSite: "strict",
       });
     }
 
-    return res.render("home/homeStaff");
+    return res.redirect("/");
   } catch (err) {
     return err;
   }
 };
 
-const logout = (req, res) => {
+const logout = async (req, res) => {
   try {
+    await res.clearCookie("AccessToken");
+    await res.clearCookie("Staff");
+    await res.clearCookie("isLoggedIn");
     return res.redirect("/auth/login");
   } catch (error) {
     return error;
