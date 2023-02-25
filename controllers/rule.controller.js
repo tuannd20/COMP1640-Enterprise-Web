@@ -55,6 +55,9 @@ const renderEditTermsPage = async (req, res) => {
       title: "Edit term",
       content: "../admin/terms/editTermsPage",
       term,
+      errorMessage: null,
+      code: null,
+      isFailed: false,
     });
   } catch (err) {
     return err;
@@ -63,13 +66,38 @@ const renderEditTermsPage = async (req, res) => {
 
 const updateRule = async (req, res) => {
   const { id } = req.params;
-  const updateObject = req.body;
+  const term = await RuleService.displayRuleById({ _id: id });
   try {
-    const rule = await RuleService.updateRule(
-      { _id: id },
-      { $set: updateObject },
-    );
-    return res.redirect("/admin/terms");
+    // const { titleRule, contentRule } = req.body;
+    // localStorage.setItem("title", titleRule);
+    const titleTerms = req.body.title;
+    const checkTitle = await RuleService.findByTitle(titleTerms);
+
+    if (!checkTitle) {
+      const formData = req.body;
+      const termUpdate = await RuleService.updateRule(
+        { _id: id },
+        { $set: formData },
+      );
+      return res.redirect("/admin/terms");
+    }
+
+    const errorTerm = "Title is already exists";
+    const errorCode = 400;
+
+    return res.status(errorCode).render("partials/master", {
+      title: "Edit a term",
+      content: "../admin/terms/editTermsPage",
+      term,
+      errorMessage: errorTerm,
+      code: errorCode,
+      isFailed: true,
+    });
+
+    // return res.send(
+    //   "<script>alert('Title is existed'); window.location.href='/admin/terms/create';</script>",
+    // );
+    // return res.redirect("/admin/terms");
   } catch (err) {
     return err;
   }
