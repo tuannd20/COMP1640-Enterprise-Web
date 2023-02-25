@@ -1,21 +1,15 @@
+/* eslint-disable import/no-unresolved */
+const multer = require("multer");
+
+const upload = multer({ dest: "public/uploads/" });
 const express = require("express");
 
 const router = express.Router();
-/* GET home page. */
-router.get("/", (req, res) => {
-  res.render("homeStaff", { title: "Express" });
-});
-router.get("/edit", (req, res) => {
-  res.render("editIdea", { title: "Express" });
-});
-router.get("/profile", (req, res) => {
-  res.render("profileStaff", { title: "Express" });
-});
-router.get("/create", (req, res) => {
-  res.render("idea/createIdea");
-});
-router.get("/login", (req, res) => {
-  res.render("login");
-});
+const IdeaController = require("../controllers/idea.controller");
+
+// router.get("/createNewIdea", IdeaController.createIdea);
+router.get("/createNewIdea", IdeaController.renderCreateIdeaPage);
+
+router.post("/uploadIdea", upload.single("file"), IdeaController.createIdea);
 
 module.exports = router;

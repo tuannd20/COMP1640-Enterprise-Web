@@ -50,10 +50,21 @@ const getALl = async (options) => {
   }
 };
 
+const findByOptions = async (options) => {
+  try {
+    const Idea = await IdeaRepository.findByOptions(options);
+    return Idea;
+  } catch (err) {
+    console.error("🚀 ~ file: idea.service.js:58 ~ findByOptions ~ err:", err);
+    return err;
+  }
+};
+
 module.exports = {
   createIdea,
   getIdea,
   updateIdea,
   deleteIdea,
   getALl,
+  findByOptions,
 };

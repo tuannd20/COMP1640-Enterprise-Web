@@ -48,10 +48,16 @@ const renderEditAccountPage = async (req, res) => {
 };
 
 const renderProfilePage = async (req, res) => {
-  res.render("partials/master", {
-    title: "My profile",
-    content: "../staff/profilePage",
-  });
+  try {
+    const staff = req.cookies.Staff;
+    return res.render("partials/master", {
+      title: "Your profile",
+      content: "../staff/profilePage",
+      staff,
+    });
+  } catch (error) {
+    return error;
+  }
 };
 
 const createStaff = async (req, res) => {

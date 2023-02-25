@@ -120,6 +120,16 @@ const createToken = async (data) => {
   }
 };
 
+const findLeader = async (options) => {
+  try {
+    const staff = await StaffRepository.findLeader(options);
+    return staff;
+  } catch (err) {
+    console.log("🚀 ~ file: staff.service.js:104 ~ findLeader ~ err:", err);
+    return err;
+  }
+};
+
 const findByEmail = async (emailAccount) => {
   try {
     const email = await StaffRepository.findByEmail(emailAccount);
@@ -141,6 +151,7 @@ const findByPhoneNumber = async (phoneNumber) => {
 };
 
 module.exports = {
+  findLeader,
   createStaff,
   updateStaff,
   getAllStaff,

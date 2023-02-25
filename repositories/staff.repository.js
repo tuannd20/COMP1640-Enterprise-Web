@@ -264,6 +264,15 @@ const createToken = async (data) => {
   }
 };
 
+const findLeader = async (options) => {
+  try {
+    const staff = await StaffModel.findOne(options);
+    return staff;
+  } catch (err) {
+    console.log("🚀 ~ file: staff.repository.js:112 ~ findLeader ~ err:", err);
+    return err;
+  }
+};
 const findByEmail = async (emailAccount) => {
   try {
     const email = await StaffModel.findOne({ email: emailAccount }).select(
@@ -295,6 +304,7 @@ module.exports = {
   getAllStaff,
   findStaff,
   createToken,
+  findLeader,
   findByEmail,
   findByPhoneNumber,
 };
