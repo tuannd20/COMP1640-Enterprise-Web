@@ -21,4 +21,6 @@ router.get("/login", (req, res) => {
 
 router.post("/like", interactController.LikeIdea);
 
+router.post("/Dislike", interactController.DisLikeIdea);
+
 module.exports = router;
