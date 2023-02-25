@@ -1,12 +1,22 @@
+/* eslint-disable comma-dangle */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable array-callback-return */
+/* eslint-disable dot-notation */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-self-assign */
+/* eslint-disable object-curly-newline */
 const StaffService = require("../services/staff.service");
 const DepartmentService = require("../services/department.service");
 const RoleService = require("../services/role.service");
+const { BAD_REQUEST } = require("../constants/http.status.code");
 
 const index = async (req, res) => {
   res.render("home/login");
 };
 
 const renderCreateAccountPage = async (req, res) => {
+  const staff = req.cookies.Staff;
   const departments = await DepartmentService.getAllDepartment();
   const roles = await RoleService.getAllRole();
   res.render("partials/master", {
@@ -14,11 +24,11 @@ const renderCreateAccountPage = async (req, res) => {
     content: "../admin/account/createAccountPage",
     departments,
     roles,
-    errorEmailMessage: null,
-    errorPhoneMessage: null,
-    codeError: null,
-    isFailed: false,
-    errorType: null,
+    staff,
+    errorMessageEmail: null,
+    errorMessageSelect: null,
+    errorMessagePhoneNumber: null,
+    isSuccess: false,
   });
 };
 
@@ -46,58 +56,43 @@ const renderProfilePage = async (req, res) => {
 
 const createStaff = async (req, res) => {
   try {
-    let emailExist = false;
-    let phoneExist = false;
-    const emailAccount = req.body.email;
-    const fullNameAccount = req.body.fullName;
-    const addressAccount = req.body.address;
-    const phoneAccount = req.body.phoneNumber;
-    const checkData = await StaffService.findByEmail(emailAccount);
+    const staff = req.cookies.Staff;
 
-    if (!checkData.email && !checkData.phoneNumber) {
-      const formData = req.body;
-      const staff = await StaffService.createStaff(formData);
-      console.log(staff);
-      return res.redirect("/admin/account");
+    const formData = req.body;
+    const results = await StaffService.createStaff(formData);
+
+    const departmentDB = results.data.departmentRenders.map((department) => ({
+      _id: department._id,
+      nameDepartment: department.name,
+    }));
+
+    const roleDB = results.data.roleRenders.map(
+      (role) =>
+        // eslint-disable-next-line no-param-reassign, dot-notation
+        ({ _id: role._id, nameRole: role.name }),
+      // eslint-disable-next-line function-paren-newline
+    );
+
+    if (results.statusCode === BAD_REQUEST) {
+      return res.status(results.statusCode).render("partials/master", {
+        title: "Create new account",
+        content: "../admin/account/createAccountPage",
+        departments: departmentDB,
+        roles: roleDB,
+        staff,
+        email: results.data.staffRenders.email,
+        fullName: results.data.staffRenders.fullName,
+        phoneNumber: results.data.staffRenders.phoneNumber,
+        address: results.data.staffRenders.address,
+        errorMessageEmail: results.messageErrorEmail,
+        errorMessageSelect: results.messageErrorSelect,
+        errorMessagePhoneNumber: results.messageErrorPhone,
+        isSuccess: results.successStatus,
+      });
     }
 
-    let errorType;
-
-    if (checkData.email == emailAccount) {
-      emailExist = true;
-      // errorType.push(`email: ${emailExist}`);
-      // errorType.push(`phone: ${phoneExist}`);
-      errorType = {
-        email: emailExist,
-        phone: phoneExist,
-      };
-    }
-    console.log(errorType);
-    if (checkData.phoneNumber == phoneAccount) {
-      phoneExist = true;
-      errorType = {
-        email: emailExist,
-        phone: phoneExist,
-      };
-    }
-
-    const errorCode = 400;
-    const errorEmail = "Email is already exists";
-    const errorPhone = "Phone is already exists";
-
-    return res.status(errorCode).render("partials/master", {
-      title: "Create new terms",
-      content: "../admin/terms/createTermsPage",
-      errorEmailMessage: errorEmail,
-      errorPhoneMessage: errorPhone,
-      isFailed: true,
-      fullNameAccount,
-      addressAccount,
-      phoneAccount,
-      errorType,
-    });
+    return res.redirect("/admin/account");
   } catch (err) {
-    console.log(err);
     res.json(err);
     return err;
   }

@@ -1,11 +1,20 @@
 const StaffRepository = require("../repositories/staff.repository");
 const { createTokenJwt } = require("../utilities/jwt");
+const DepartmentService = require("./department.service");
+const RoleService = require("./role.service");
 
 const createStaff = async (data) => {
   try {
-    const staff = await StaffRepository.createStaff(data);
+    const departments = await DepartmentService.getAllDepartment();
+    const roles = await RoleService.getAllRole();
 
-    return staff;
+    const staffResponse = await StaffRepository.createStaff(
+      data,
+      departments,
+      roles,
+    );
+
+    return staffResponse;
   } catch (err) {
     console.log(err);
     return err;
