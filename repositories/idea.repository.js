@@ -71,5 +71,4 @@ module.exports = {
   updateIdea,
   deleteIdea,
   getAll,
-  findByOptions,
 };
