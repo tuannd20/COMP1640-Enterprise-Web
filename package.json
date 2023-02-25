@@ -24,6 +24,7 @@
     "flowbite": "^1.6.3",
     "fs": "^0.0.1-security",
     "http-errors": "~1.6.3",
+    "is-image-url": "^1.1.8",
     "jsonwebtoken": "^9.0.0",
     "method-override": "^3.0.0",
     "mongoose": "^6.9.2",
