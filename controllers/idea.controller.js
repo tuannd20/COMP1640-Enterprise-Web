@@ -23,17 +23,13 @@ const storage = multer.diskStorage({
   },
 });
 
-const renderCreateIdeaPage = (req, res) => {
-  try {
-    const staff = req.cookies.Staff;
-    return res.render("partials/master", {
-      title: "Your Idea",
-      content: "../staff/idea/createIdeaPage",
-      staff,
-    });
-  } catch (error) {
-    return error;
-  }
+const renderCreateIdeaPage = async (req, res) => {
+  const staff = req.cookies.Staff;
+  return res.render("partials/master", {
+    title: "Your Idea",
+    content: "../staff/idea/createIdeaPage",
+    staff,
+  });
 };
 
 const createIdea = async (req, res) => {

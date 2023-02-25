@@ -5,7 +5,7 @@ const ProfileRouter = require("./profile");
 const AdminRouter = require("./admin");
 const QAMRouter = require("./qam");
 const QARouter = require("./qa");
-const ideaRouter = require("./idea");
+const IdeaRouter = require("./idea");
 
 function route(app) {
   app.use("/qa", QARouter);
@@ -13,8 +13,8 @@ function route(app) {
   app.use("/admin", AuthMiddleWare.isHaveToken, AdminRouter);
   app.use("/profile", ProfileRouter);
   app.use("/auth", AuthRouter);
+  app.use("/ideas", IdeaRouter);
   app.use("/", HomeRouter);
-  app.use("/idea", ideaRouter);
 }
 
 module.exports = route;
