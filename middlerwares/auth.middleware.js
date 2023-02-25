@@ -18,7 +18,6 @@ const isLoggedIn = async (req, res, next) => {
 const isHaveToken = async (req, res, next) => {
   try {
     const token = await req.cookies.AccessToken;
-    console.log(token);
     next();
 
     if (!token) return res.redirect("/errors");

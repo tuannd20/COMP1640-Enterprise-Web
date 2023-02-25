@@ -1,12 +1,22 @@
+/* eslint-disable comma-dangle */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable array-callback-return */
+/* eslint-disable dot-notation */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-self-assign */
+/* eslint-disable object-curly-newline */
 const StaffService = require("../services/staff.service");
 const DepartmentService = require("../services/department.service");
 const RoleService = require("../services/role.service");
+const { BAD_REQUEST } = require("../constants/http.status.code");
 
 const index = async (req, res) => {
   res.render("home/login");
 };
 
 const renderCreateAccountPage = async (req, res) => {
+  const staff = req.cookies.Staff;
   const departments = await DepartmentService.getAllDepartment();
   const roles = await RoleService.getAllRole();
   res.render("partials/master", {
@@ -14,6 +24,11 @@ const renderCreateAccountPage = async (req, res) => {
     content: "../admin/account/createAccountPage",
     departments,
     roles,
+    staff,
+    errorMessageEmail: null,
+    errorMessageSelect: null,
+    errorMessagePhoneNumber: null,
+    isSuccess: false,
   });
 };
 
@@ -41,19 +56,43 @@ const renderProfilePage = async (req, res) => {
 
 const createStaff = async (req, res) => {
   try {
-    const account = req.body;
-    const staff = await StaffService.createStaff(account);
-    // const staffs = await StaffService.getAllStaff();
-    // const findStaff = await StaffService.findStaff(req.params.email);
-    // if (!findStaff) return res.status(400).send("Email has been used before");
+    const staff = req.cookies.Staff;
+
+    const formData = req.body;
+    const results = await StaffService.createStaff(formData);
+
+    const departmentDB = results.data.departmentRenders.map((department) => ({
+      _id: department._id,
+      nameDepartment: department.name,
+    }));
+
+    const roleDB = results.data.roleRenders.map(
+      (role) =>
+        // eslint-disable-next-line no-param-reassign, dot-notation
+        ({ _id: role._id, nameRole: role.name }),
+      // eslint-disable-next-line function-paren-newline
+    );
+
+    if (results.statusCode === BAD_REQUEST) {
+      return res.status(results.statusCode).render("partials/master", {
+        title: "Create new account",
+        content: "../admin/account/createAccountPage",
+        departments: departmentDB,
+        roles: roleDB,
+        staff,
+        email: results.data.staffRenders.email,
+        fullName: results.data.staffRenders.fullName,
+        phoneNumber: results.data.staffRenders.phoneNumber,
+        address: results.data.staffRenders.address,
+        errorMessageEmail: results.messageErrorEmail,
+        errorMessageSelect: results.messageErrorSelect,
+        errorMessagePhoneNumber: results.messageErrorPhone,
+        isSuccess: results.successStatus,
+      });
+    }
+
     return res.redirect("/admin/account");
-    // return res.render("partials/master", {
-    //   title: "Create New Account",
-    //   content: "../admin/account/create",
-    //   staffs,
-    // });
   } catch (err) {
-    console.log(err);
     res.json(err);
     return err;
   }

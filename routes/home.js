@@ -33,9 +33,14 @@ router.get("/terms", TermsController.displayAllRule);
 // router.delete("/idea/:idIdea&:idComment", CommentController.deleteComment);
 
 router.get("/errors", (req, res) => {
+  let staff = req.cookies.Staff;
+  if (typeof staff === "undefined") {
+    staff = "";
+  }
   res.render("partials/master", {
     title: "Error 404",
     content: "../404/404",
+    staff,
   });
 });
 
