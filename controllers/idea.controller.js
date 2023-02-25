@@ -112,7 +112,12 @@ const displayDetailIdea = async (req, res) => {
 
     if (!req.params.idIdea) return res.redirect("/404");
     const idea = await ideaService.getIdea(req.params.idIdea);
+    console.log(
+      "🚀 ~ file: idea.controller.js:115 ~ displayDetailIdea ~ idea:",
+      idea,
+    );
     if (!idea) return res.redirect("/404");
+    if (idea.idStaffIdea == null) return res.redirect("/404");
     // return res.status(200).send(Idea);
     // return res.render("partials/master", {
     //   title: "Idea",
