@@ -37,6 +37,8 @@ const renderCreateIdeaPage = (req, res) => {
 
 const createIdea = async (req, res) => {
   try {
+    const StaffData = req.cookies.Staff;
+    const id = StaffData._id;
     const filePath = req.file.path;
 
     const fileName = req.file.originalname;
@@ -48,15 +50,15 @@ const createIdea = async (req, res) => {
       mediaPath: newFilePath, // Add file path to data
     };
     console.log(
-      "🚀 ~ file: idea.controller.js:56 ~ createIdea ~ req.body:",
+      "🚀 ~ file: idea.controller.js:59 ~ createIdea ~ req.body:",
       req.body,
     );
+
     if (
       !req.body.idPoll ||
       !req.body.idDepartment ||
       !req.body.idCategory ||
-      !req.body.contentIdea ||
-      !req.body.idStaffIdea
+      !req.body.contentIdea
     ) {
       return res.status(404).send("Missing required information");
     }
@@ -68,7 +70,7 @@ const createIdea = async (req, res) => {
       contentIdea: req.body.contentIdea,
       urlFile: null,
       status: "Draft",
-      idStaffIdea: req.body.idStaffIdea,
+      idStaffIdea: id,
     };
     if (req.body.urlFile) {
       data.urlFile = req.body.urlFile;
@@ -77,27 +79,27 @@ const createIdea = async (req, res) => {
       data.status = req.body.status;
     }
 
-    const newIdea = await ideaService.createIdea(data);
-    if (!newIdea) {
-      return res.status(500).send("Internal Server Error");
-    }
-    await categoryService.updateCategory(req.body.idCategory, { isUsed: true });
+    // const newIdea = await ideaService.createIdea(data);
+    // if (!newIdea) {
+    //   return res.status(500).send("Internal Server Error");
+    // }
+    // await categoryService.updateCategory(req.body.idCategory, { isUsed: true });
 
-    const findLeader = await staffService.findLeader({
-      idRole: "63f066f996329eb058cc3095",
-      idDepartment: req.body.idDepartment,
-    });
-    if (!findLeader) {
-      return res.status(404).send("The Department has no leader");
-    }
-    sendMail.sendConfirmationEmail(
-      findLeader.email,
-      "<h1> you has new idea</h1>",
-      "new Idea",
-    );
+    // const findLeader = await staffService.findLeader({
+    //   idRole: "63f066f996329eb058cc3095",
+    //   idDepartment: req.body.idDepartment,
+    // });
+    // if (!findLeader) {
+    //   return res.status(404).send("The Department has no leader");
+    // }
+    // sendMail.sendConfirmationEmail(
+    //   findLeader.email,
+    //   "<h1> you has new idea</h1>",
+    //   "new Idea",
+    // );
 
-    res.redirect(`http://localhost:3000/1/${req.body.idStaffIdea}`);
-    return res.status(200).send(newIdea);
+    // return res.redirect(`http://localhost:3000/1/${req.body.idStaffIdea}`);
+    return res.status(200).send(data);
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:107 ~ createIdea ~ err:", err);
     return err;
@@ -204,10 +206,6 @@ const getIdeaForStaff = async (req, res) => {
     allIdea.docs = allIdea.docs.filter((doc) => doc.idStaffIdea !== null);
 
     const data = { allIdea, staff };
-    console.log(
-      "🚀 ~ file: idea.controller.js:207 ~ getIdeaForStaff ~ staff:",
-      staff,
-    );
     return res.render("partials/master", {
       title: "Idea",
       content: "../staff/profilePage",
