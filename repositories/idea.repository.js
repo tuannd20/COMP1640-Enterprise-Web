@@ -65,6 +65,7 @@ const findByOptions = async (options) => {
 };
 
 module.exports = {
+  findByOptions,
   createIdea,
   readIdea,
   updateIdea,

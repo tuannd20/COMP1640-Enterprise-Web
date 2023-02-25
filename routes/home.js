@@ -16,11 +16,7 @@ const AuthMiddleWare = require("../middlerwares/auth.middleware");
 
 router.get("/", AuthMiddleWare.isLoggedIn, IdeaController.displayAllIdea);
 
-// router.get("/?page=", IdeaController.displayAllIdea);
-
 router.get("/idea/:idIdea", IdeaController.displayDetailIdea);
-
-router.post("/idea/Status", IdeaController.updateStatus);
 
 router.get("/comments", CommentController.displayAllComment);
 
@@ -33,9 +29,14 @@ router.get("/terms", TermsController.displayAllRule);
 // router.delete("/idea/:idIdea&:idComment", CommentController.deleteComment);
 
 router.get("/errors", (req, res) => {
+  let staff = req.cookies.Staff;
+  if (typeof staff === "undefined") {
+    staff = "";
+  }
   res.render("partials/master", {
     title: "Error 404",
     content: "../404/404",
+    staff,
   });
 });
 

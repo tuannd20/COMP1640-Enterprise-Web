@@ -8,7 +8,7 @@ const StaffIdeaSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Staff",
     },
-    IdIdea: {
+    idIdea: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Idea",
     },
