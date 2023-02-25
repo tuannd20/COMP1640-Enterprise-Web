@@ -146,10 +146,6 @@ const displayAllIdea = async (req, res) => {
 
     const allIdea = await ideaService.getALl(options);
     if (!allIdea) return res.redirect("/404");
-    console.log(
-      "🚀 ~ file: idea.controller.js:158 ~ allIdea.docs.forEach ~ allIdea:",
-      allIdea,
-    );
     allIdea.docs.forEach((element, index) => {
       if (
         typeof element.urlFile === "undefined" ||
@@ -160,18 +156,14 @@ const displayAllIdea = async (req, res) => {
       }
     });
     allIdea.docs = allIdea.docs.filter((doc) => doc.idStaffIdea !== null);
-    console.log(
-      "🚀 ~ file: idea.controller.js:158 ~ allIdea.docs.forEach ~ allIdea:",
-      allIdea,
-    );
     // return res.json(allIdea);
-    // return res.render("partials/master", {
-    //   title: "Idea",
-    //   content: "../staff/homePage",
-    //   staff,
-    //   ideas: allIdea,
-    // });
-    return res.status(200).send(allIdea);
+    return res.render("partials/master", {
+      title: "Idea",
+      content: "../staff/homePage",
+      staff,
+      ideas: allIdea,
+    });
+    // return res.status(200).send(allIdea);
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
     return err;
@@ -180,11 +172,15 @@ const displayAllIdea = async (req, res) => {
 
 const getIdeaForStaff = async (req, res) => {
   try {
-    const { page, id } = req.params;
+    const StaffData = req.cookies.Staff;
+    const id = StaffData._id;
+    const { page } = req.query;
     const limit = 5;
     const options = {
       page,
       limit,
+      populate: { path: "idStaffIdea", model: Staff },
+
       query: { idStaffIdea: id },
       sort: { createdAt: -1 },
     };
@@ -197,12 +193,21 @@ const getIdeaForStaff = async (req, res) => {
     const allIdea = await ideaService.getALl(options);
 
     allIdea.docs.forEach((element) => {
-      if (typeof element.urlFile === "undefined") {
+      if (
+        typeof element.urlFile === "undefined" ||
+        !isImageUrl(element.urlFile)
+      ) {
         // eslint-disable-next-line no-param-reassign
         element.urlFile = null;
       }
     });
+    allIdea.docs = allIdea.docs.filter((doc) => doc.idStaffIdea !== null);
+
     const data = { allIdea, staff };
+    console.log(
+      "🚀 ~ file: idea.controller.js:207 ~ getIdeaForStaff ~ staff:",
+      staff,
+    );
     return res.render("partials/master", {
       title: "Idea",
       content: "../staff/profilePage",

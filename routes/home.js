@@ -18,8 +18,6 @@ router.get("/", AuthMiddleWare.isLoggedIn, IdeaController.displayAllIdea);
 
 router.get("/idea/:idIdea", IdeaController.displayDetailIdea);
 
-router.post("/idea/Status", IdeaController.updateStatus);
-
 router.get("/comments", CommentController.displayAllComment);
 
 router.get("/terms", TermsController.displayAllRule);

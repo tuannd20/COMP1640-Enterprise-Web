@@ -7,7 +7,7 @@ const IdeaController = require("../controllers/idea.controller");
 router.get("/", AccountController.renderProfilePage);
 
 // router.get("/:idAccount", AccountController.displayAccountById);
-router.get("/:page/:id", IdeaController.getIdeaForStaff);
+router.get("/idea", IdeaController.getIdeaForStaff);
 // router.post("/idea", IdeaController.createIdea);
 // router.put("/:idIdea", IdeaController.updateIdea);
 // router.delete("/:idIdea", IdeaController.deleteIdea);

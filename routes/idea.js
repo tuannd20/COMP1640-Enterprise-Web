@@ -11,6 +11,4 @@ router.get("/createNewIdea", IdeaController.renderCreateIdeaPage);
 
 router.post("/uploadIdea", upload.single("file"), IdeaController.createIdea);
 
-router.post("/isLike", IdeaController.updateStatus);
-
 module.exports = router;
