@@ -40,16 +40,14 @@ yes.addEventListener("click", () => {
 for (let i = 0; i < like.length; i++) {
   // eslint-disable-next-line no-loop-func
   like[i].addEventListener("click", () => {
-    const ideaId = $(".id-idea").val();
-
-    // $.ajax({
-    //   type: "GET",
-    //   url: "https://jsonplaceholder.typicode.com/posts/1",
-    //   data: { ideaId },
-    // }).then((response) => {
-    //   $(".like-moule").eq(i).empty();
-    //   $(".like-moule")[i].append(response.id);
-    // });
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:3000/ideas/like",
+      data: { IdIdea: $(".id-idea").val(), isLike: true },
+    }).then((response) => {
+      $(".like-moule").eq(i).empty();
+      $(".like-moule")[i].append(response.newLikeCount);
+    });
 
     if (dislike[i].classList.contains("text-sky-500")) {
       dislike[i].classList.remove("text-sky-500");
@@ -61,7 +59,17 @@ for (let i = 0; i < like.length; i++) {
 }
 
 for (let i = 0; i < dislike.length; i++) {
+  // eslint-disable-next-line no-loop-func
   dislike[i].addEventListener("click", () => {
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:3000/ideas/Dislike",
+      data: { IdIdea: $(".id-idea").val(), isLike: false },
+    }).then((response) => {
+      $(".dislike-moule").eq(i).empty();
+      $(".dislike-moule")[i].append(response.newDisLikeCount);
+    });
+
     if (like[i].classList.contains("text-sky-500")) {
       like[i].classList.remove("text-sky-500");
       like[i].classList.add("text-slate-700");
