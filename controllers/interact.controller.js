@@ -16,15 +16,6 @@ const LikeIdea = async (req, res) => {
       }),
       IdeaService.getIdea(req.body.IdIdea),
     ]);
-    console.log(
-      "🚀 ~ file: interact.controller.js:13 ~ LikeIdea ~ findIdea:",
-      findIdea,
-    );
-
-    console.log(
-      "🚀 ~ file: interact.controller.js:19 ~ LikeIdea ~ check:",
-      check,
-    );
     if (!findIdea) {
       return res.status(404).send("Idea you find is not exits");
     }

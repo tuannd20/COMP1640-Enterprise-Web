@@ -19,7 +19,7 @@
                   d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
                 />
               </svg>
-              <p class="text-base font-medium"><%= data.ideas.staffName %></p>
+              <p class="text-base font-medium"><%= staff.fullName %></p>
             </div>
             <div class="flex flex-row items-center justify-center gap-3">
               <svg
@@ -86,7 +86,7 @@
 
         <div class="content-idea">
           <div
-            class="w-full px-5 pt-2 mt-1 text-clip bg-zinc-300 h-60 sm:text-sm overflow-auto"
+            class="w-full px-5 pt-2 mt-1 text-clip bg-zinc-300 h-52 sm:text-sm overflow-auto"
           >
             <p
               class="leading-6 overflow-hidden indent-0.5 text-justify max-h-52"
@@ -97,7 +97,7 @@
                 display: -webkit-box;
               "
             >
-              <%= data.ideas.contentIdea %>
+              <%= idea.contentIdea %>
             </p>
           </div>
         </div>
@@ -202,9 +202,9 @@
           </div>
         </div>
         <div class="w-full border-b-2 border-gray-300 my-2"></div>
-        <% if (data.comments.length = 0) { %>
-        <div class="h-48 overflow-auto">
-          <% data.comments.forEach(function(comment, target) { %>
+        <% if (comments.length = 0) { %>
+        <div class="h-20 overflow-auto">
+          <% comments.forEach(function(comment, target) { %>
           <div class="comment">
             <div class="flex right-5 w-[95%] m-auto mt-2 h-18">
               <div class="my-auto">

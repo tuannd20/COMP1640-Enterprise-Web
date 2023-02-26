@@ -54,8 +54,23 @@ const getAllCommentsByIdIdea = async (id) => {
   }
 };
 
+const readAllCommentsByIdIdea = async (id) => {
+  try {
+    const comment = await CommentModel.find({ idIdea: id });
+
+    return comment;
+  } catch (error) {
+    console.error(
+      "🚀 ~ file: comment.repository.js:63 ~ readAllCommentsByIdIdea ~ error:",
+      error,
+    );
+    return error;
+  }
+};
+
 module.exports = {
   createComment,
   getAllComments,
   getAllCommentsByIdIdea,
+  readAllCommentsByIdIdea,
 };

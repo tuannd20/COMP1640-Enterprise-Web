@@ -9,11 +9,12 @@ const upload = multer({ dest: "public/uploads/" });
 const ideaService = require("../services/idea.service");
 const staffService = require("../services/staff.service");
 const categoryService = require("../services/category.service");
+const commentService = require("../services/comment.service");
 const departmentService = require("../services/department.service");
 const pollService = require("../services/poll.service");
-const StaffIdeaModel = require("../database/models/StaffIdea");
 const sendMail = require("../utilities/sendMail");
 const Staff = require("../database/models/Staff");
+const staffIdeaService = require("../services/staffIdea.service");
 
 // Set up the multer middleware to handle file uploads
 const storage = multer.diskStorage({
@@ -108,30 +109,46 @@ const createIdea = async (req, res) => {
 
 const displayDetailIdea = async (req, res) => {
   try {
-    const data = { ideas: "John", comments: [] };
-
     if (!req.params.idIdea) return res.redirect("/404");
     const idea = await ideaService.getIdea(req.params.idIdea);
     console.log(
-      "🚀 ~ file: idea.controller.js:115 ~ displayDetailIdea ~ idea:",
+      "🚀 ~ file: idea.controller.js:114 ~ displayDetailIdea ~ idea:",
       idea,
     );
     if (!idea) return res.redirect("/404");
     if (idea.idStaffIdea == null) return res.redirect("/404");
-    // return res.status(200).send(Idea);
-    // return res.render("partials/master", {
-    //   title: "Idea",
-    //   content: "../staff/idea/ideaDetailPage",
-    // idea,
-    // comments,
-    // });
-    data.ideas = idea;
 
-    // return res.status(200).send(data);
+    const staff = req.cookies.Staff;
+    console.log(
+      "🚀 ~ file: idea.controller.js:122 ~ displayDetailIdea ~ StaffData:",
+      staff,
+    );
+    const check = await staffIdeaService.findOne({
+      idStaff: staff._id,
+      IdIdea: req.params.idIdea,
+    });
+    if (!check) {
+      await staffIdeaService.createNew({
+        idStaff: staff._id,
+        IdIdea: req.params.idIdea,
+        isView: true,
+      });
+      await ideaService.updateIdea(req.params.idIdea, {
+        viewCount: idea.viewCount + 1,
+      });
+    }
+
+    const comments = await commentService.readAllCommentsByIdIdea(
+      req.params.idIdea,
+    );
+
+    // return res.status(200).send({ idea, comments });
     return res.render("partials/master", {
       title: "Department Create",
       content: "../staff/idea/detailIdea",
-      data,
+      idea,
+      comments,
+      staff,
     });
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);

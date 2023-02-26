@@ -17,4 +17,6 @@ router.post("/like", interactController.LikeIdea);
 
 router.post("/Dislike", interactController.DisLikeIdea);
 
+router.get("/:idIdea", IdeaController.displayDetailIdea);
+
 module.exports = router;
