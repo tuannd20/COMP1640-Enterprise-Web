@@ -156,6 +156,23 @@ const getAllRule = async (req, res) => {
   }
 };
 
+const displayAllRule = async (req, res) => {
+  try {
+    const staff = req.cookies.Staff;
+    const rules = await RuleService.getAllRule();
+    return res.render("partials/master", {
+      title: "Display all terms",
+      content: "../staff/termsPage",
+      rules,
+      staff,
+    });
+    // return res.json(rules);
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 module.exports = {
   createRule,
   updateRule,
@@ -165,4 +182,5 @@ module.exports = {
   getAllRule,
   deleteAllRule,
   displayTermById,
+  displayAllRule,
 };

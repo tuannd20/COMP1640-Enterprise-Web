@@ -1,10 +1,20 @@
 const StaffRepository = require("../repositories/staff.repository");
+const { createTokenJwt } = require("../utilities/jwt");
+const DepartmentService = require("./department.service");
+const RoleService = require("./role.service");
 
 const createStaff = async (data) => {
   try {
-    const staff = await StaffRepository.createStaff(data);
+    const departments = await DepartmentService.getAllDepartment();
+    const roles = await RoleService.getAllRole();
 
-    return staff;
+    const staffResponse = await StaffRepository.createStaff(
+      data,
+      departments,
+      roles,
+    );
+
+    return staffResponse;
   } catch (err) {
     console.log(err);
     return err;
@@ -76,9 +86,16 @@ const checkPassword = async (data) => {
   }
 };
 
-const findStaff = async (data) => {
+const findStaffByEmail = async (email) => {
   try {
-    const staff = await StaffRepository.findStaff(data);
+    const staff = await StaffRepository.findStaff(email);
+    // const staffDetail = {
+    //   fullName: staff.fullName,
+    //   email: staff.email,
+    //   role: staff.idRole.nameRole,
+    //   department: staff.idDepartment.nameDepartment,
+    // };
+
     return staff;
   } catch (err) {
     console.log(err);
@@ -89,10 +106,27 @@ const findStaff = async (data) => {
 // eslint-disable-next-line consistent-return
 const createToken = async (data) => {
   try {
-    const token = await StaffRepository.createToken(data);
+    const staffDetail = {
+      fullName: data.fullName,
+      email: data.email,
+      role: data.idRole.nameRole,
+      department: data.idDepartment.nameDepartment,
+    };
+
+    const token = await createTokenJwt(staffDetail);
     return token;
   } catch (error) {
     console.log(error);
+  }
+};
+
+const findLeader = async (options) => {
+  try {
+    const staff = await StaffRepository.findLeader(options);
+    return staff;
+  } catch (err) {
+    console.log("🚀 ~ file: staff.service.js:104 ~ findLeader ~ err:", err);
+    return err;
   }
 };
 
@@ -117,11 +151,12 @@ const findByPhoneNumber = async (phoneNumber) => {
 };
 
 module.exports = {
+  findLeader,
   createStaff,
   updateStaff,
   getAllStaff,
   displayStaffById,
-  findStaff,
+  findStaffByEmail,
   checkPassword,
   createToken,
   findByEmail,
