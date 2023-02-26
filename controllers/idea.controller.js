@@ -142,6 +142,7 @@ const displayDetailIdea = async (req, res) => {
 const displayAllIdea = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
+    console.log(staff.idRole.nameRole);
     const { page = 1 } = req.query;
     const limit = 5;
     const options = {
@@ -168,6 +169,7 @@ const displayAllIdea = async (req, res) => {
       title: "Idea",
       content: "../staff/homePage",
       staff,
+      role: staff.idRole.nameRole,
       ideas: allIdea,
     });
     // return res.status(200).send(allIdea);

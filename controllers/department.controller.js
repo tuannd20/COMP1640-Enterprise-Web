@@ -1,5 +1,4 @@
 const DepartmentService = require("../services/department.service");
-const DepartmentModel = require("../database/models/Department");
 
 const getCreateDepartment = async (req, res) => {
   res.render("partials/master", {
@@ -42,15 +41,14 @@ const createDepartment = async (req, res) => {
 
 const getAllDepartment = async (req, res) => {
   try {
+    const staff = req.cookies.Staff;
     const departments = await DepartmentService.getAllDepartment();
 
-    // return res.render("qam/department/listDepartmentPage", {
-    //   departments,
-    // });
     return res.render("partials/master", {
       title: "Department List",
-      content: "../qam/department/listDepartmentpage",
+      content: "../qam/department/listDepartmentPage",
       Department: departments,
+      staff,
     });
   } catch (err) {
     return err;

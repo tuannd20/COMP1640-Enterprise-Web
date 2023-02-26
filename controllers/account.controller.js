@@ -131,6 +131,7 @@ const getAllStaff = async (req, res) => {
       content: "../admin/account/listAccountPage",
       staffs,
       staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     console.log(err);
