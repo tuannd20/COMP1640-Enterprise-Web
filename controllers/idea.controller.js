@@ -35,6 +35,19 @@ const renderCreateIdeaPage = async (req, res) => {
   });
 };
 
+const renderUpdateIdeaPage = async (req, res) => {
+  if (!req.params.idIdea) return res.redirect("/404");
+  const idea = await ideaService.getIdea(req.params.idIdea);
+  if (!idea) return res.redirect("/404");
+  const staff = req.cookies.Staff;
+  return res.render("partials/master", {
+    title: "Your Idea",
+    content: "../staff/idea/createIdeaPage",
+    staff,
+    idea,
+  });
+};
+
 const createIdea = async (req, res) => {
   try {
     const StaffData = req.cookies.Staff;
@@ -111,10 +124,6 @@ const displayDetailIdea = async (req, res) => {
   try {
     if (!req.params.idIdea) return res.redirect("/404");
     const idea = await ideaService.getIdea(req.params.idIdea);
-    console.log(
-      "🚀 ~ file: idea.controller.js:114 ~ displayDetailIdea ~ idea:",
-      idea,
-    );
     if (!idea) return res.redirect("/404");
     if (idea.idStaffIdea == null) return res.redirect("/404");
 
@@ -248,4 +257,5 @@ module.exports = {
   displayDetailIdea,
   displayAllIdea,
   getIdeaForStaff,
+  renderUpdateIdeaPage,
 };

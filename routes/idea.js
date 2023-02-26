@@ -11,6 +11,8 @@ const IdeaController = require("../controllers/idea.controller");
 // router.get("/createNewIdea", IdeaController.createIdea);
 router.get("/createNewIdea", IdeaController.renderCreateIdeaPage);
 
+router.get("/updateIdea/:idIdea", IdeaController.renderUpdateIdeaPage);
+
 router.post("/uploadIdea", upload.single("file"), IdeaController.createIdea);
 
 router.post("/like", interactController.LikeIdea);
