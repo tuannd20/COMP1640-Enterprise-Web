@@ -104,8 +104,11 @@ const LikeIdea = async (req, res) => {
 const DisLikeIdea = async (req, res) => {
   try {
     const myCookieData = req.cookies.Staff;
-
     const { IdIdea, isLike } = req.body;
+    console.log(
+      "🚀 ~ file: interact.controller.js:110 ~ DisLikeIdea ~ req.body:",
+      req.body,
+    );
     if (!IdIdea || isLike) {
       return res.status(422).send("Missing required information");
     }
@@ -116,15 +119,6 @@ const DisLikeIdea = async (req, res) => {
       }),
       IdeaService.getIdea(req.body.IdIdea),
     ]);
-    console.log(
-      "🚀 ~ file: interact.controller.js:113 ~ DisLikeIdea ~ findIdea:",
-      findIdea,
-    );
-
-    console.log(
-      "🚀 ~ file: interact.controller.js:120 ~ DisLikeIdea ~ check:",
-      check,
-    );
     if (!findIdea) {
       return res.status(404).send("Idea you find is not exits");
     }

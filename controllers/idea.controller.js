@@ -205,8 +205,7 @@ const displayAllIdea = async (req, res) => {
 
 const getIdeaForStaff = async (req, res) => {
   try {
-    const StaffData = req.cookies.Staff;
-    const id = StaffData._id;
+    const staff = req.cookies.Staff;
     const { page } = req.query;
     const limit = 5;
     const options = {
@@ -214,12 +213,9 @@ const getIdeaForStaff = async (req, res) => {
       limit,
       populate: { path: "idStaffIdea", model: Staff },
 
-      query: { idStaffIdea: id },
+      query: { idStaffIdea: staff._id },
       sort: { createdAt: -1 },
     };
-    const staff = await staffService.displayStaffById(id);
-
-    if (!staff) return res.redirect("/404");
     if (typeof staff.avatarImage === "undefined") {
       staff.avatarImage = null;
     }
@@ -251,6 +247,25 @@ const getIdeaForStaff = async (req, res) => {
     return err;
   }
 };
+
+const delIDea = async (req, res) => {
+  try {
+    const StaffData = req.cookies.Staff;
+    const { idIdea } = req.params;
+    const idea = await ideaService.getIdea(idIdea);
+    console.log("🚀 ~ file: idea.controller.js:256 ~ delIDea ~ idea:", idea);
+    if (!idea) return res.redirect("/404");
+    if (idea.idStaffIdea._id !== StaffData._id) {
+      await ideaService.deleteIdea(idIdea);
+      return res.redirect("/");
+    }
+    return res.status(200).send("Oke");
+  } catch (err) {
+    console.error("🚀 ~ file: idea.controller.js:263 ~ delIDea ~ err:", err);
+    return err;
+  }
+};
+
 module.exports = {
   renderCreateIdeaPage,
   createIdea,
@@ -258,4 +273,5 @@ module.exports = {
   displayAllIdea,
   getIdeaForStaff,
   renderUpdateIdeaPage,
+  delIDea,
 };

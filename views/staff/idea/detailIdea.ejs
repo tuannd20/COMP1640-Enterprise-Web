@@ -65,20 +65,29 @@
               d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <script>
-            function removeComment(id) {
-              const xhr = new XMLHttpRequest();
-              xhr.open("DELETE", `/idea/deleteComment/${id}`, true);
-              xhr.setRequestHeader("Content-Type", "application/json");
-              xhr.send(JSON.stringify({ id }));
-              xhr.onload = function () {
-                if (xhr.status === 200) {
-                  location.reload();
-                }
-              };
-            }
-          </script>
         </div>
+        <script>
+          const deleteCommentIcon = document.getElementById("delIdea");
+          deleteCommentIcon.addEventListener("click", function () {
+            const ideaId = "<%= idea._id %>";
+            fetch(`/ideas/delIdea/${ideaId}`, {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" },
+            })
+              .then((response) => {
+                if (response.ok) {
+                  // Reload the page after deleting the comment
+                  window.location.href = "/";
+                } else {
+                  throw new Error("Failed to delete comment");
+                }
+              })
+              .catch((error) => {
+                console.error(error);
+                // Handle the error as appropriate
+              });
+          });
+        </script>
         <script>
           const editIdeaIcon = document.getElementById("editIdea");
           editIdeaIcon.addEventListener("click", function () {
