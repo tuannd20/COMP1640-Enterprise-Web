@@ -51,10 +51,21 @@ const getAll = async (options) => {
   }
 };
 
+const getAllWithQuery = async (options, query) => {
+  try {
+    const Idea = await ideaModel.paginate(query, options);
+    return Idea;
+  } catch (err) {
+    console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);
+    return err;
+  }
+};
+
 module.exports = {
   createIdea,
   readIdea,
   updateIdea,
   deleteIdea,
   getAll,
+  getAllWithQuery,
 };

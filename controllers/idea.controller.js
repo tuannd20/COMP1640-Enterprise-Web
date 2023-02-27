@@ -74,6 +74,8 @@ const displayDetailIdea = async (req, res) => {
 
 const displayAllIdea = async (req, res) => {
   try {
+    const query = { status: { $in: ["Private", "Public"] } };
+
     const { page = 1 } = req.query;
     const limit = 5;
     const options = {
@@ -83,7 +85,7 @@ const displayAllIdea = async (req, res) => {
       sort: { createdAt: -1 },
     };
 
-    const allIdea = await ideaService.getALl(options);
+    const allIdea = await ideaService.getAllWithQuery(options, query);
     if (!allIdea) return res.redirect("/404");
 
     allIdea.docs.forEach((element) => {

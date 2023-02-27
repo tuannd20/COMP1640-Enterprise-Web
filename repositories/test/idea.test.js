@@ -22,7 +22,7 @@ const mockIdea = {
   likeCount: 0,
   disLikeCount: 0,
   viewCount: 0,
-  status: "Draft",
+  status: "Private",
 };
 
 describe("Good case: Unit test for idea", () => {
@@ -39,12 +39,17 @@ describe("Good case: Unit test for idea", () => {
   //   // await ideaRepository.deleteIdea(ideaId);
   // });
   // it("Should read a idea", async () => {
-  //   const idea = await ideaRepository.readIdea("63f0722f250404b4694b7045");
-  //   expect(idea.contentIdea).toEqual(mockIdea.contentIdea);
-  //   expect(idea.likeCount).toEqual(mockIdea.likeCount);
-  //   expect(idea.disLikeCount).toEqual(mockIdea.disLikeCount);
-  //   expect(idea.viewCount).toEqual(mockIdea.viewCount);
-  //   expect(idea.status).toEqual(mockIdea.status);
+  //   const query = { status: { $in: ["Private", "Public"] } };
+  //   const page = 1,
+  //     limit = 5;
+  //   const options = {
+  //     page,
+  //     limit,
+  //     populate: { path: "idStaffIdea", model: Staff },
+  //     sort: { createdAt: -1 },
+  //   };
+  //   const idea = await ideaRepository.getAllWithQuery(options, query);
+  //   console.log("🚀 ~ file: idea.test.js:50 ~ it ~ idea:", idea);
   // });
   // it("Should update a idea", async () => {
   //   const idea = await ideaRepository.updateIdea(
