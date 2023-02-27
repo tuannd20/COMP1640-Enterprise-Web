@@ -11,6 +11,7 @@ const renderListCategoryPage = async (req, res, next) => {
       content: "../qa/category/listCategoryPage",
       categories,
       staff,
+      role: staff.idRole.nameRole,
     });
     // return res.json(categories);
   } catch (err) {
@@ -21,11 +22,14 @@ const renderListCategoryPage = async (req, res, next) => {
 
 const rederCreateCategoryPage = async (req, res, next) => {
   try {
+    const staff = req.cookies.Staff;
     const Departments = await DepartmentService.getAllDepartment();
     res.render("partials/master", {
       title: "Category",
       content: "../qa/category/createCategoryPage",
       Departments,
+      staff,
+      role: staff.idRole.nameRole,
     });
   } catch (error) {
     console.log(error);
@@ -72,6 +76,7 @@ const createCategory = async (req, res) => {
 
 const getEditCategory = async (req, res, next) => {
   const { id } = req.params;
+  const staff = req.cookies.Staff;
 
   try {
     const category = await CategoryService.readCategoryById({ _id: id });
@@ -81,6 +86,8 @@ const getEditCategory = async (req, res, next) => {
       content: "../qa/category/editCategoryPage",
       category,
       department,
+      staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     return err;

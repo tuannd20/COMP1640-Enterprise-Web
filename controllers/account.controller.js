@@ -29,6 +29,7 @@ const renderCreateAccountPage = async (req, res) => {
     errorMessageSelect: null,
     errorMessagePhoneNumber: null,
     isSuccess: false,
+    role: staff.idRole.nameRole,
   });
 };
 
@@ -41,6 +42,7 @@ const renderEditAccountPage = async (req, res) => {
     title: "Edit account",
     content: "../admin/account/editAccountPage",
     staff,
+    role: staff.idRole.nameRole,
     departments,
     roles,
   });
@@ -54,6 +56,7 @@ const renderProfilePage = async (req, res) => {
       title: "Your profile",
       content: "../staff/profilePage",
       staff,
+      role: staff.idRole.nameRole,
     });
   } catch (error) {
     return error;
@@ -94,6 +97,7 @@ const createStaff = async (req, res) => {
         errorMessageSelect: results.messageErrorSelect,
         errorMessagePhoneNumber: results.messageErrorPhone,
         isSuccess: results.successStatus,
+        role: staff.idRole.nameRole,
       });
     }
 
@@ -113,6 +117,7 @@ const displayStaffById = async (req, res) => {
       title: "Edit Account",
       content: "../admin/account/editAccountPage",
       staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     console.log(err);

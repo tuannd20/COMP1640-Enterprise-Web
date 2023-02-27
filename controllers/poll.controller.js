@@ -1,11 +1,15 @@
 const PollService = require("../services/poll.service");
 
 const getCreatePoll = async (req, res, next) => {
+  const staff = req.cookies.Staff;
+
   res.render("partials/master", {
     title: "Create new Poll",
     content: "../qam/poll/createPollPage",
     errorMessage: null,
     isFailed: false,
+    staff,
+    role: staff.idRole.nameRole,
   });
 };
 
@@ -14,6 +18,7 @@ const createPoll = async (req, res, next) => {
     const formData = req.body;
     const { namePoll } = req.body;
     const { dateSubEnd, dateEnd, dateStart } = req.body;
+    const staff = req.cookies.Staff;
 
     const checkDepartmentResit = await PollService.findByName(namePoll);
     if (!checkDepartmentResit) {
@@ -33,6 +38,8 @@ const createPoll = async (req, res, next) => {
       dateStart,
       dateSubEnd,
       dateEnd,
+      staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     return err;
@@ -41,11 +48,15 @@ const createPoll = async (req, res, next) => {
 
 const getAllPoll = async (req, res, next) => {
   try {
+    const staff = req.cookies.Staff;
+
     const Polls = await PollService.getAllPoll();
     return res.render("partials/master", {
       title: "Poll List",
       content: "../qam/poll/listpollpage",
       Polls,
+      staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     return err;
@@ -56,6 +67,8 @@ const getEditPoll = async (req, res, next) => {
   const { id } = req.params;
 
   try {
+    const staff = req.cookies.Staff;
+
     const poll = await PollService.getPoll({ _id: id });
 
     const pollDateStart = poll.dateStart;
@@ -71,6 +84,8 @@ const getEditPoll = async (req, res, next) => {
       pollDateStart,
       errorMessage: null,
       isFailed: false,
+      staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     return err;
@@ -84,6 +99,8 @@ const updatePoll = async (req, res, next) => {
   const { dateSubEnd, dateEnd, dateStart } = req.body;
   // const name = req.body.namePoll;
   try {
+    const staff = req.cookies.Staff;
+
     const namePolls = await PollService.findByNameExist(id, namePoll);
     if (namePolls.length === 0) {
       const result = await PollService.updatePoll(
@@ -105,6 +122,8 @@ const updatePoll = async (req, res, next) => {
       dateStart,
       dateSubEnd,
       dateEnd,
+      staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     return err;
