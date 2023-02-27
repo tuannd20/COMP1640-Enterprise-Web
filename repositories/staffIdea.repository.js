@@ -36,8 +36,22 @@ const updateStaffIDea = async (id, data) => {
     return err;
   }
 };
+
+const findAllByOptions = async (options) => {
+  try {
+    const staff = await StaffIdeaModel.find(options);
+    return staff;
+  } catch (err) {
+    console.error(
+      "🚀 ~ file: staffIdea.repository.js:45 ~ findAllByOptions ~ err:",
+      err,
+    );
+    return err;
+  }
+};
 module.exports = {
   findStaffIDea,
   createStaffIDea,
   updateStaffIDea,
+  findAllByOptions,
 };
