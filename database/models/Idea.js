@@ -10,24 +10,28 @@ const IdeaSchema = new Schema(
     idStaffIdea: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Staff",
+      require: true,
     },
     idPoll: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Poll",
+      require: true,
     },
     idDepartment: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Department",
+      require: true,
     },
     idCategory: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
+      require: true,
     },
-    contentIdea: String,
-    urlFile: String,
-    likeCount: Number,
-    disLikeCount: Number,
-    viewCount: Number,
+    contentIdea: { type: String, require: true },
+    urlFile: { type: String, default: null },
+    likeCount: { type: Number, default: 0 },
+    disLikeCount: { type: Number, default: 0 },
+    viewCount: { type: Number, default: 0 },
     status: {
       type: String,
       enum: [DRAFT, PRIVATE, PUBLIC],
