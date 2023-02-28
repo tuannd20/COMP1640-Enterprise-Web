@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-underscore-dangle */
@@ -144,8 +145,44 @@ const displayDetailIdea = async (req, res) => {
 
 const displayAllIdea = async (req, res) => {
   try {
-    const staff = req.cookies.Staff;
-    console.log(staff.idRole.nameRole);
+    const staff = {
+      _id: "63f8de505636c2f259e33f6c",
+      idRole: {
+        _id: "63f066f996329eb058cc3095",
+        nameRole: "QA",
+        description: "this description for role",
+        createdAt: "2023-02-18T05:49:46.004Z",
+        updatedAt: "2023-02-18T05:49:46.004Z",
+        __v: 0,
+      },
+      idDepartment: {
+        _id: "63f069d3ebc00d7c6f011ee0",
+        nameDepartment: "Student Support",
+        description: "Student Support Department of University",
+        isUsed: true,
+        createdAt: "2023-02-18T06:01:56.010Z",
+        updatedAt: "2023-02-18T06:01:56.010Z",
+        __v: 0,
+      },
+      fullName: "Truong Quang Nhanh",
+      email: "nhanhpo@gmail.com",
+      password: "nhanhadminpo1234",
+      avatarImage: null,
+      address: "Danang city",
+      phoneNumber: "0123456789",
+      lockAccount: false,
+      createdAt: "2023-02-24T15:57:04.219Z",
+      updatedAt: "2023-02-24T15:57:04.219Z",
+      __v: 0,
+    };
+
+    const anonymous = {
+      fullName: "anonymous",
+      avatarImage:
+        "https://png.pngtree.com/png-vector/20220608/ourmid/pngtree-man-avatar-isolated-on-white-background-png-image_4891418.png",
+    };
+
+    const query = { status: { $in: ["Private", "Public"] } };
     const { page = 1 } = req.query;
     const limit = 5;
     const options = {
@@ -155,18 +192,30 @@ const displayAllIdea = async (req, res) => {
       sort: { createdAt: -1 },
     };
 
-    const allIdea = await ideaService.getALl(options);
+    const allIdea = await ideaService.getAllWithQuery(options, query);
 
-    if (!allIdea) return res.redirect("/404");
+    if (!allIdea.docs) return res.redirect("/404");
     const allStaffIdea = await staffIdeaService.findAllByOptions({
       idStaff: staff._id,
     });
+
+    allIdea.docs.forEach((element, index) => {
+      if (
+        typeof element.urlFile === "undefined" ||
+        !isImageUrl(element.urlFile)
+      ) {
+        element.urlFile = null;
+      }
+      if (!element.idStaffIdea) {
+        element.idStaffIdea = anonymous;
+      }
+    });
+
     if (allStaffIdea) {
       const ideaMapping = {};
       for (const idea of allIdea.docs) {
         ideaMapping[idea.idStaffIdea._id] = idea._id;
-        idea.isLike = null; // initialize isLike property
-        console.log(`isLike for idea ${idea._id}: ${idea.isLike}`);
+        idea.isLike = null;
       }
 
       for (const staffIdea of allStaffIdea) {
@@ -178,38 +227,23 @@ const displayAllIdea = async (req, res) => {
           if (ideaIndex !== -1) {
             const isLiked = staffIdea.isLike === true;
             const isDisliked = staffIdea.isLike === false;
-            console.log(
-              `isLike for idea ${ideaId}: ${isLiked} / ${isDisliked}`,
-            );
+
             allIdea.docs[ideaIndex].isLike = isLiked ? true : false;
             allIdea.docs[ideaIndex].isDislike = isDisliked ? true : false;
           }
         }
       }
     }
-    // allIdea.docs.forEach((element, index) => {
-    //   if (
-    //     typeof element.urlFile === "undefined" ||
-    //     !isImageUrl(element.urlFile)
-    //   ) {
-    //     // eslint-disable-next-line no-param-reassign
-    //     element.urlFile = null;
-    //   }
-    // });
-    // allIdea.docs = allIdea.docs.filter((doc) => doc.idStaffIdea !== null);
-    console.log(
-      "🚀 ~ file: idea.controller.js:192 ~ displayAllIdea ~ allIdea:",
-      allIdea.docs[0].isLike,
-    );
+
     // return res.json(allIdea);
-    return res.render("partials/master", {
-      title: "Idea",
-      content: "../staff/homePage",
-      staff,
-      role: staff.idRole.nameRole,
-      ideas: allIdea,
-    });
-    // return res.status(200).send(allIdea);
+    // return res.render("partials/master", {
+    //   title: "Idea",
+    //   content: "../staff/homePage",
+    //   staff,
+    //   role: staff.idRole.nameRole,
+    //   ideas: allIdea,
+    // });
+    return res.status(200).send(allIdea.docs);
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
     return err;

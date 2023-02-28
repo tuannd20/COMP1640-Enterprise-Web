@@ -16,15 +16,7 @@ const LikeIdea = async (req, res) => {
       }),
       IdeaService.getIdea(req.body.IdIdea),
     ]);
-    console.log(
-      "🚀 ~ file: interact.controller.js:13 ~ LikeIdea ~ findIdea:",
-      findIdea,
-    );
 
-    console.log(
-      "🚀 ~ file: interact.controller.js:19 ~ LikeIdea ~ check:",
-      check,
-    );
     if (!findIdea) {
       return res.status(404).send("Idea you find is not exits");
     }
@@ -103,10 +95,8 @@ const LikeIdea = async (req, res) => {
       .status(200)
       .send({ newLikeCount, newDisLikeCount, isLike: true });
   } catch (err) {
-    console.error(
-      "🚀 ~ file: idea.controller.js:256 ~ updateStatus ~ err:",
-      err,
-    );
+    console.log("🚀 ~ file: interact.controller.js:106 ~ LikeIdea ~ err:", err);
+
     return err;
   }
 };
@@ -125,15 +115,7 @@ const DisLikeIdea = async (req, res) => {
       }),
       IdeaService.getIdea(req.body.IdIdea),
     ]);
-    console.log(
-      "🚀 ~ file: interact.controller.js:113 ~ DisLikeIdea ~ findIdea:",
-      findIdea,
-    );
 
-    console.log(
-      "🚀 ~ file: interact.controller.js:120 ~ DisLikeIdea ~ check:",
-      check,
-    );
     if (!findIdea) {
       return res.status(404).send("Idea you find is not exits");
     }
@@ -172,7 +154,7 @@ const DisLikeIdea = async (req, res) => {
       return res.status(200).send({
         newLikeCount: findIdea.likeCount,
         newDisLikeCount: findIdea.disLikeCount + 1,
-        isLike: true,
+        isLike: false,
       });
     }
     if (check.isLike == true) {
@@ -191,7 +173,7 @@ const DisLikeIdea = async (req, res) => {
       return res.status(200).send({
         newLikeCount: findIdea.likeCount - 1,
         newDisLikeCount: findIdea.disLikeCount + 1,
-        isLike: true,
+        isLike: false,
       });
     }
     const [update, updateIdea] = await Promise.all([
@@ -210,7 +192,7 @@ const DisLikeIdea = async (req, res) => {
 
     return res
       .status(200)
-      .send({ newLikeCount, newDisLikeCount, isLike: false });
+      .send({ newLikeCount, newDisLikeCount, isLike: true });
   } catch (err) {
     console.error(
       "🚀 ~ file: interact.controller.js:194 ~ DisLikeIdea ~ err:",

@@ -14,7 +14,7 @@ const AuthMiddleWare = require("../middlerwares/auth.middleware");
 //   });
 // });
 
-router.get("/", AuthMiddleWare.isLoggedIn, IdeaController.displayAllIdea);
+router.get("/", IdeaController.displayAllIdea);
 
 router.get("/idea/:idIdea", IdeaController.displayDetailIdea);
 
