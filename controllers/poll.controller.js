@@ -1,4 +1,5 @@
 const PollService = require("../services/poll.service");
+const PollModel = require("../database/models/Poll");
 
 const getCreatePoll = async (req, res, next) => {
   res.render("partials/master", {
@@ -42,10 +43,19 @@ const createPoll = async (req, res, next) => {
 const getAllPoll = async (req, res, next) => {
   try {
     const Polls = await PollService.getAllPoll();
+    const lastPoll = await PollModel.findOne().sort({ dateSubEnd: -1 });
+    if (!lastPoll) {
+      console.log(
+        "🚀 ~ file: poll.controller.js:48 ~ getAllPoll ~ lastPoll:",
+        lastPoll,
+      );
+    }
+
     return res.render("partials/master", {
       title: "Poll List",
       content: "../qam/poll/listpollpage",
       Polls,
+      lastPoll,
     });
   } catch (err) {
     return err;

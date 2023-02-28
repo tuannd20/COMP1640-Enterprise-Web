@@ -3,10 +3,18 @@ const express = require("express");
 const router = express.Router();
 const PollController = require("../controllers/poll.controller");
 const DepartmentController = require("../controllers/department.controller");
+const AccountController = require("../controllers/manageQA.controller");
 
 router.get("/", (req, res) => {
   res.render("homeStaff", { title: "Express" });
 });
+
+// Router for Account
+router.get("/manage-qa", AccountController.getAllStaff);
+router.get("/manage-qa/create", AccountController.renderCreateAccountPage);
+router.post("/manage-qa/create", AccountController.createStaff);
+router.get("/manage-qa/edit/:id", AccountController.renderEditAccountPage);
+router.post("/manage-qa/edit/:id", AccountController.updateStaff);
 
 // [GET] create department
 router.get("/department/create", DepartmentController.getCreateDepartment);
