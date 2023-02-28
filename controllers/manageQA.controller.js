@@ -29,16 +29,20 @@ const createStaff = async (req, res) => {
 
     req.body.idRole = "63f066f996329eb058cc3095";
 
+    const checkDepartment = await DepartmentService.getDepartment({
+      _id: req.body.idDepartment,
+    });
+
+    if (checkDepartment.isUsed === false) {
+      const departments = await DepartmentService.updateDepartment(
+        { _id: req.body.idDepartment },
+        { isUsed: true },
+      );
+    }
+
     const staff = await ManageQaService.createManageQa(account);
-    // const staffs = await ManageQaService.getAllStaff();
-    // const findStaff = await ManageQaService.findStaff(req.params.email);
-    // if (!findStaff) return res.status(400).send("Email has been used before");
+
     return res.redirect("/qam/manage-qa");
-    // return res.render("partials/master", {
-    //   title: "Create New Account",
-    //   content: "../admin/account/create",
-    //   staffs,
-    // });
   } catch (err) {
     console.log(err);
     res.json(err);
