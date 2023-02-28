@@ -125,6 +125,21 @@ const displayStaffById = async (req, res) => {
   }
 };
 
+const renderEditProfilePage = async (req, res) => {
+  const staff = req.cookies.Staff;
+  try {
+    return res.render("partials/master", {
+      title: "Edit profile",
+      content: "../staff/editProfilePage",
+      staff,
+      role: staff.idRole.nameRole,
+    });
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 const getAllStaff = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
@@ -154,6 +169,22 @@ const updateStaff = async (req, res) => {
       { $set: req.body },
     );
     return res.redirect("/admin/account");
+    // return res.json(staff);
+  } catch (err) {
+    return err;
+  }
+};
+
+const editProfilePage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateObject = req.body;
+    console.log(updateObject);
+    const staff = await StaffService.updateStaff(
+      { _id: id },
+      { $set: req.body },
+    );
+    return res.redirect("/staff/editProfilePage");
     // return res.json(staff);
   } catch (err) {
     return err;
@@ -239,4 +270,6 @@ module.exports = {
   logout,
   getStaffByEmail,
   renderProfilePage,
+  renderEditProfilePage,
+  editProfilePage,
 };
