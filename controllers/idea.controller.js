@@ -145,36 +145,7 @@ const displayDetailIdea = async (req, res) => {
 
 const displayAllIdea = async (req, res) => {
   try {
-    const staff = {
-      _id: "63f8de505636c2f259e33f6c",
-      idRole: {
-        _id: "63f066f996329eb058cc3095",
-        nameRole: "QA",
-        description: "this description for role",
-        createdAt: "2023-02-18T05:49:46.004Z",
-        updatedAt: "2023-02-18T05:49:46.004Z",
-        __v: 0,
-      },
-      idDepartment: {
-        _id: "63f069d3ebc00d7c6f011ee0",
-        nameDepartment: "Student Support",
-        description: "Student Support Department of University",
-        isUsed: true,
-        createdAt: "2023-02-18T06:01:56.010Z",
-        updatedAt: "2023-02-18T06:01:56.010Z",
-        __v: 0,
-      },
-      fullName: "Truong Quang Nhanh",
-      email: "nhanhpo@gmail.com",
-      password: "nhanhadminpo1234",
-      avatarImage: null,
-      address: "Danang city",
-      phoneNumber: "0123456789",
-      lockAccount: false,
-      createdAt: "2023-02-24T15:57:04.219Z",
-      updatedAt: "2023-02-24T15:57:04.219Z",
-      __v: 0,
-    };
+    const staff = req.cookies.Staff;
 
     const anonymous = {
       fullName: "anonymous",
