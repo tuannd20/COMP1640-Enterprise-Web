@@ -115,7 +115,7 @@ const DisLikeIdea = async (req, res) => {
     const myCookieData = req.cookies.Staff;
 
     const { IdIdea, isLike } = req.body;
-    if (!IdIdea || isLike) {
+    if (!IdIdea || isLike === false) {
       return res.status(422).send("Missing required information");
     }
     const [check, findIdea] = await Promise.all([
