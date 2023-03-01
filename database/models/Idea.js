@@ -37,6 +37,7 @@ const IdeaSchema = new Schema(
       enum: [DRAFT, PRIVATE, PUBLIC],
       default: DRAFT,
     },
+    isLike: { type: Boolean, default: null },
   },
   { timestamps: true },
 );

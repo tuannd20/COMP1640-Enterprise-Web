@@ -183,29 +183,17 @@ const displayAllIdea = async (req, res) => {
     });
 
     if (allStaffIdea) {
-      const ideaMapping = {};
-      for (const idea of allIdea.docs) {
-        ideaMapping[idea.idStaffIdea._id] = idea._id;
-        idea.isLike = null;
-      }
-
-      for (const staffIdea of allStaffIdea) {
-        const ideaId = ideaMapping[staffIdea.idStaff.toString()];
-        if (ideaId && ideaId.toString() === staffIdea.IdIdea.toString()) {
-          const ideaIndex = allIdea.docs.findIndex(
-            (idea) => idea._id.toString() === ideaId.toString(),
-          );
-          if (ideaIndex !== -1) {
-            const isLiked = staffIdea.isLike === true;
-            const isDisliked = staffIdea.isLike === false;
-
-            allIdea.docs[ideaIndex].isLike = isLiked ? true : false;
-            allIdea.docs[ideaIndex].isDislike = isDisliked ? true : false;
-          }
+      allIdea.docs.forEach((idea) => {
+        const staffIdea = allStaffIdea.find(
+          (sIdea) => toString(sIdea.IdIdea) === toString(idea._id),
+        );
+        if (staffIdea) {
+          idea.isLike = staffIdea.isLike;
+        } else {
+          idea.isLike = null;
         }
-      }
+      });
     }
-
     return res.json(allIdea.docs);
     // return res.render("partials/master", {
     //   title: "Idea",
