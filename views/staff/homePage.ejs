@@ -195,11 +195,13 @@
                 />
               </svg>
               <% } %>
-              <p class="text-base font-medium"><%= idea.likeCount %></p>
+              <p class="text-base font-medium like-moule">
+                <%= idea.likeCount %>
+              </p>
             </div>
 
             <div class="flex flex-row items-center justify-center gap-1">
-              <% if(idea.isLike === true) { %>
+              <% if(idea.isLike === false) { %>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -222,7 +224,7 @@
                 />
               </svg>
               <% } %>
-              <p class="text-base font-medium like-moule">
+              <p class="text-base font-medium dislike-moule">
                 <%= idea.disLikeCount %>
               </p>
             </div>

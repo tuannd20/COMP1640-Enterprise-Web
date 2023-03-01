@@ -1,4 +1,5 @@
 const PollService = require("../services/poll.service");
+const PollModel = require("../database/models/Poll");
 
 const getCreatePoll = async (req, res, next) => {
   const staff = req.cookies.Staff;
@@ -23,7 +24,7 @@ const createPoll = async (req, res, next) => {
     const checkDepartmentResit = await PollService.findByName(namePoll);
     if (!checkDepartmentResit) {
       const Poll = await PollService.createPoll(formData);
-      return res.redirect("/qam/poll");
+      return res.redirect("/qam/polls");
     }
     const errorPoll = "Title is already exists";
     const errorCode = 400;
@@ -51,12 +52,21 @@ const getAllPoll = async (req, res, next) => {
     const staff = req.cookies.Staff;
 
     const Polls = await PollService.getAllPoll();
+    const lastPoll = await PollModel.findOne().sort({ dateSubEnd: -1 });
+    if (!lastPoll) {
+      console.log(
+        "🚀 ~ file: poll.controller.js:48 ~ getAllPoll ~ lastPoll:",
+        lastPoll,
+      );
+    }
+
     return res.render("partials/master", {
       title: "Poll List",
       content: "../qam/poll/listpollpage",
       Polls,
       staff,
       role: staff.idRole.nameRole,
+      lastPoll,
     });
   } catch (err) {
     return err;
@@ -107,7 +117,7 @@ const updatePoll = async (req, res, next) => {
         { _id: id },
         { $set: updateObject },
       );
-      return res.redirect("/qam/poll");
+      return res.redirect("/qam/polls");
     }
     const errorPoll = "Title is already exists";
     const errorCode = 400;
@@ -140,9 +150,9 @@ const deleteOnePoll = async (req, res, next) => {
       const Polls = await PollService.deleteOnePoll({
         _id: id,
       });
-      return res.redirect("/qam/poll");
+      return res.redirect("/qam/polls");
     }
-    return res.redirect("/qam/poll");
+    return res.redirect("/qam/polls");
   } catch (err) {
     return err;
   }
@@ -166,15 +176,24 @@ const getPollActivated = async (req, res) => {
   }
 };
 
-const updatePollActivated = async (req, res) => {
+const getPollInactive = async (req, res) => {
+  try {
+    const Poll = await PollService.getPollInactive({});
+    return res.json(Poll);
+  } catch (err) {
+    return err;
+  }
+};
+
+const updatePollActive = async (req, res) => {
   const { id } = req.params;
   try {
     const checkPoll = await PollService.getPoll({ _id: id });
     if (checkPoll.isUsed === false) {
       const Polls = await PollService.updatePoll({ _id: id }, { isUsed: true });
+      return res.json(Polls);
     }
-
-    return res.redirect("/qam/poll");
+    return res.send("this poll is used");
   } catch (err) {
     return err;
   }
@@ -189,5 +208,6 @@ module.exports = {
   updatePoll,
   getAllPoll,
   getPollActivated,
-  updatePollActivated,
+  updatePollActive,
+  getPollInactive,
 };

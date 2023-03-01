@@ -1,0 +1,221 @@
+<Main class="pt-[100px] w-3/5 m-auto min-h-screen">
+  <style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type="number"] {
+      -moz-appearance: textfield;
+      /* Firefox */
+    }
+  </style>
+  <div
+    class="relative p-3 border-2 border-stone-700 rounded-2xl h-auto opacity-80 mb-10 overflow-auto"
+  >
+    <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
+      <a href="javascript:history.back()">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="font-extrabold w-7 h-7 text-sky-900 hover:text-sky-400"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+          />
+        </svg>
+      </a>
+      <div class="m-auto">Create a new account for QA</div>
+    </div>
+    <!-- <div class="flex flex-row justify-center gap-4 header-account">
+              <div class="Department">
+                <label for="product-type">
+                  Department
+                  <select
+                    name="department-type"
+                    form="create-form-account"
+                    id="product-type"
+                    class="border rounded-lg py-[2px] border-slate-400"
+                  >
+                    <% departments.forEach(function(department) { %>
+                    <option value="<%= department._id %>">
+                      <%= department.nameDepartment %>
+                    </option>
+                    <% }) %>
+                  </select>
+                </label>
+              </div>
+              <div class="role">
+                <label for="type">
+                  Role
+                  <select
+                    name="role"
+                    id="type"
+                    form="create-form-account"
+                    class="border rounded-lg py-[2px] border-slate-400"
+                  >
+                    <option value="All">All</option>
+                    <option value="Without comment">Without comment</option>
+                    <option value="Anonymous">Anonymous</option>
+                  </select>
+                </label>
+              </div>
+              <div class="italic terms">
+                <label for="myCheck"> Active</label>
+                <input
+                  type="checkbox"
+                  id="myCheck"
+                  name="active"
+                  form="create-form-account"
+                  class="border rounded-full"
+                />
+              </div>
+            </div> -->
+    <div class="mx-auto w-full max-w-[550px] mt-5">
+      <form
+        action="/qam/account/qa/create"
+        method="POST"
+        id="create-form-account"
+      >
+        <div class="flex flex-row justify-center gap-4 header-account">
+          <div class="Department">
+            <label for="product-type">
+              Department
+              <select
+                name="idDepartment"
+                form="create-form-account"
+                id="idDepartment"
+                class="border rounded-lg py-[2px] border-slate-400"
+              >
+                <option>Choose</option>
+                <% departments.forEach(function(department) { %>
+                <option value="<%= department.id %>">
+                  <%= department.nameDepartment %>
+                </option>
+                <% }) %>
+              </select>
+            </label>
+          </div>
+          <div class="italic terms">
+            <label for="myCheck"> Active</label>
+            <input
+              type="checkbox"
+              id="lockAccount"
+              name="lockAccount"
+              form="create-form-account"
+              class="border rounded-full"
+              value="true"
+            />
+          </div>
+        </div>
+        <div class="mb-4">
+          <label
+            for="name"
+            class="block mb-3 text-base font-medium text-black select-none"
+          >
+            Full name
+          </label>
+          <input
+            type="text"
+            name="fullName"
+            id="fullName"
+            required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="email"
+            class="block mb-3 text-base font-medium text-black"
+          >
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            pattern=".+@gmail\.com"
+            required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="password"
+            class="block mb-3 text-base font-medium text-black"
+          >
+            Password
+          </label>
+          <input
+            type="text"
+            id="password"
+            name="password"
+            title="Click to change password"
+            onclick="generatePassword()"
+            readonly
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="address"
+            class="block mb-3 text-base font-medium text-black"
+          >
+            Address
+          </label>
+          <input
+            type="text"
+            name="address"
+            id="address"
+            required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="phone"
+            class="block mb-3 text-base font-medium text-black"
+          >
+            Phone number
+          </label>
+          <input
+            type="tel"
+            pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+            name="phoneNumber"
+            id="phoneNumber"
+            required
+          />
+        </div>
+        <div
+          class="w-1/6 px-3 py-2 m-auto text-center text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
+        >
+          <input type="submit" />
+        </div>
+      </form>
+    </div>
+  </div>
+</Main>
+
+<script>
+  function generatePassword() {
+    // const length = 6;
+    let password = "";
+    const charText = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for (let i = 0; i < 3; i++) {
+      password += charText.charAt(Math.floor(Math.random() * charText.length));
+    }
+    const charNumber = "0123456789";
+    for (let i = 0; i < 3; i++) {
+      password += charNumber.charAt(
+        Math.floor(Math.random() * charNumber.length),
+      );
+    }
+    document.getElementById("password").value = password;
+  }
+</script>

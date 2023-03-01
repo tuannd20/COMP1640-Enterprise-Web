@@ -113,7 +113,7 @@ const updateDepartment = async (req, res) => {
         { _id: id },
         { $set: updateObject },
       );
-      return res.redirect("/qam/department");
+      return res.redirect("/qam/departments");
     }
 
     const errorDepartment = "Title is already exists";
@@ -145,9 +145,9 @@ const deleteOneDepartment = async (req, res) => {
       const departments = await DepartmentService.deleteOneDepartment({
         _id: id,
       });
-      return res.redirect("/qam/department");
+      return res.redirect("/qam/departments");
     }
-    return res.redirect("/qam/department");
+    return res.redirect("/qam/departments");
   } catch (err) {
     return err;
   }
@@ -173,7 +173,7 @@ const updateDepartmentActivated = async (req, res) => {
       );
     }
 
-    return res.redirect("/qam/department");
+    return res.redirect("/qam/departments");
   } catch (err) {
     return err;
   }

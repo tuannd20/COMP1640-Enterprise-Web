@@ -206,15 +206,14 @@ const displayAllIdea = async (req, res) => {
       }
     }
 
-    // return res.json(allIdea);
-    return res.render("partials/master", {
-      title: "Idea",
-      content: "../staff/homePage",
-      staff,
-      role: staff.idRole.nameRole,
-      ideas: allIdea,
-    });
-    // return res.status(200).send(allIdea.docs);
+    return res.json(allIdea.docs);
+    // return res.render("partials/master", {
+    //   title: "Idea",
+    //   content: "../staff/homePage",
+    //   staff,
+    //   role: staff.idRole.nameRole,
+    //   ideas: allIdea,
+    // });
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
     return err;
