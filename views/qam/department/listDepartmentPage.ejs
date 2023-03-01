@@ -2,8 +2,16 @@
   <div
     class="flex justify-center min-h-screen overflow-hidden font-sans bg-gray-100 min-w-screen"
   >
-    <div class="w-full select-none lg:w-4/6">
+    <div class="w-full select-none lg:w-5/6">
       <div class="relative mt-20 mb-10 create-btn flex justify-end">
+        <a href="account/qa">
+          <button
+            type="button"
+            class="inline-block px-6 py-4 mr-5 bg-sky-900 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-sky-400 hover:shadow-lg focus:bg-blue-400 focus:shadow-lg focus:outline-none focus:ring-0 active: active:shadow-lg transition duration-150 ease-in-out"
+          >
+            List QA
+          </button>
+        </a>
         <a href="/qam/department/create">
           <button
             type="button"
@@ -22,6 +30,7 @@
               <th class="px-6 py-3 text-center">No</th>
               <th class="px-6 py-3 text-left">Name Department</th>
               <th class="px-6 py-3 text-left">Description</th>
+              <th class="px-6 py-3 text-left">QA</th>
               <th class="px-6 py-3 text-center">Status</th>
               <th class="px-6 py-3 text-center">Action</th>
             </tr>
@@ -45,6 +54,18 @@
                 "
               >
                 <span><%= department.description%></span>
+              </td>
+              <td class="px-6 py-3 text-left ">
+                  <img
+                    src="<%= process.env.BASE_URL %>image/avatar.png"
+                    alt=""
+                    class="w-12 h-12 border rounded-full"
+                  />
+                  <a
+                href="account/qa/create"
+                class="block text-sm text-sky-900 font-normal hover:text-gray-400"
+                >Choose QA</a
+              >
               </td>
               <% if (department.isUsed === true) { %>
               <td class="px-6 py-3 text-center">
