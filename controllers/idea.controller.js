@@ -35,6 +35,7 @@ const renderCreateIdeaPage = async (req, res) => {
     title: "Your Idea",
     content: "../staff/idea/createIdeaPage",
     staff,
+    role: staff.idRole.nameRole,
   });
 };
 
@@ -149,8 +150,7 @@ const displayAllIdea = async (req, res) => {
 
     const anonymous = {
       fullName: "anonymous",
-      avatarImage:
-        "https://png.pngtree.com/png-vector/20220608/ourmid/pngtree-man-avatar-isolated-on-white-background-png-image_4891418.png",
+      avatarImage: null,
     };
 
     const query = { status: { $in: ["Private", "Public"] } };
@@ -177,7 +177,7 @@ const displayAllIdea = async (req, res) => {
       ) {
         element.urlFile = null;
       }
-      if (!element.idStaffIdea) {
+      if (!element.idStaffIdea || element.status === "Private") {
         element.idStaffIdea = anonymous;
       }
     });
@@ -207,14 +207,14 @@ const displayAllIdea = async (req, res) => {
     }
 
     // return res.json(allIdea);
-    // return res.render("partials/master", {
-    //   title: "Idea",
-    //   content: "../staff/homePage",
-    //   staff,
-    //   role: staff.idRole.nameRole,
-    //   ideas: allIdea,
-    // });
-    return res.status(200).send(allIdea.docs);
+    return res.render("partials/master", {
+      title: "Idea",
+      content: "../staff/homePage",
+      staff,
+      role: staff.idRole.nameRole,
+      ideas: allIdea,
+    });
+    // return res.status(200).send(allIdea.docs);
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
     return err;
