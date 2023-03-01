@@ -7,6 +7,8 @@ const router = express.Router();
 
 // Router for Account
 router.get("/account", AccountController.getAllStaff);
+// Page to use DataTable
+router.get("/accounts/example", AccountController.renderExampleAccountPage);
 router.get("/account/create", AccountController.renderCreateAccountPage);
 router.post("/account/create", AccountController.createStaff);
 router.get("/account/edit/:id", AccountController.renderEditAccountPage);
