@@ -57,9 +57,9 @@ const getAllPoll = async (req, res, next) => {
       title: "Poll List",
       content: "../qam/poll/listpollpage",
       Polls,
-      lastPoll,
       staff,
       role: staff.idRole.nameRole,
+      lastPoll,
     });
   } catch (err) {
     return err;
