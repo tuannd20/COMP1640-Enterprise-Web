@@ -55,19 +55,37 @@
               >
                 <span><%= department.description%></span>
               </td>
-              <td class="px-6 py-3 text-left ">
-                  <img
-                    src="<%= process.env.BASE_URL %>image/avatar.png"
-                    alt=""
-                    class="w-12 h-12 border rounded-full"
-                  />
-                  <a
-                href="account/qa/create"
-                class="block text-sm text-sky-900 font-normal hover:text-gray-400"
-                >Choose QA</a
-              >
+
+              <% if (Array.isArray(department.staffQA) &&
+              department.staffQA.length > 0) { %> <%
+              department.staffQA.forEach(function(staff) { %>
+              <td class="px-6 py-3 text-left">
+                <img
+                  src="<%= process.env.BASE_URL %>image/<%= staff.avatarImage%>"
+                  alt=""
+                  class="w-12 h-12 border rounded-full"
+                />
+                <a
+                  href="account/qa/edit/<%= staff._id%>"
+                  class="block text-sm text-sky-900 font-normal hover:text-gray-400"
+                  ><%= staff.fullName %></a
+                >
               </td>
-              <% if (department.isUsed === true) { %>
+              <% }) %> --> <%}else { %>
+              <td class="px-6 py-3 text-left">
+                <img
+                  src="<%= process.env.BASE_URL %>image/avatar.png"
+                  alt=""
+                  class="w-12 h-12 border rounded-full"
+                />
+                <a
+                  href="account/qa/create/<%= department._id%>"
+                  class="block text-sm text-sky-900 font-normal hover:text-gray-400"
+                  >Choose QA</a
+                >
+              </td>
+              <% } %> <% if (department.isUsed === true) { %>
+
               <td class="px-6 py-3 text-center">
                 <span
                   class="px-5 py-1 text-xs text-white bg-green-600 rounded-full"
@@ -168,14 +186,14 @@
                   <button
                     data-modal-target="popup-modal"
                     data-modal-toggle="popup-modal"
-                    data-category-id="<%= department.id%>"
+                    data-category-id="<%= department._id%>"
                     type="button"
                     class="trashDepartment w-6 mr-2 transform hover:text-sky-900 hover:scale-110"
                   >
                     <input
                       type="text"
                       class="getIdDepartment hidden"
-                      value="<%= department.id%>"
+                      value="<%= department._id%>"
                     />
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

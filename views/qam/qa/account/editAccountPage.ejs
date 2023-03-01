@@ -35,51 +35,15 @@
     </div>
     <div class="mx-auto w-full max-w-[550px] mt-5">
       <form
-        action="/qam/manage-qa/edit/<%= qa.id %>"
+        action="/qam/account/qa/edit/<%= qa.id %>"
         method="POST"
         id="edit-form-account"
       >
         <div class="flex flex-row justify-center gap-4 header-account">
           <div class="Department">
             <label for="product-type">
-              Department
-              <select
-                name="idDepartment"
-                form="edit-form-account"
-                id="idDepartment"
-                class="border rounded-lg py-[2px] border-slate-400"
-              >
-                <% departments.forEach(function(department) { %>
-                <option value="<%= department.id %>">
-                  <%= department.nameDepartment %>
-                </option>
-                <% }) %>
-              </select>
+              Department: <%=qa.idDepartment.nameDepartment %>
             </label>
-          </div>
-
-          <div class="italic terms">
-            <label for="myCheck"> Active</label>
-            <% if (qa.lockAccount === true) { %>
-            <input
-              type="checkbox"
-              id="lockAccount"
-              value="0"
-              name="lockAccount"
-              form="edit-form-account"
-              class="border rounded-full"
-              checked
-            />
-            <%}else { %>
-            <input
-              type="checkbox"
-              id="lockAccount"
-              name="lockAccount"
-              form="edit-form-account"
-              class="border rounded-full"
-              value="1"
-            />
-            <% } %>
           </div>
         </div>
         <div class="mb-4">

@@ -11,10 +11,10 @@ router.get("/", (req, res) => {
 
 // Router for Account
 router.get("/account/qa", AccountController.getAllStaff);
-router.get("/account/qa/create", AccountController.renderCreateAccountPage);
+router.get("/account/qa/create/:id", AccountController.renderCreateAccountPage);
 router.post("/account/qa/create", AccountController.createStaff);
-router.get("/manage-qa/edit/:id", AccountController.renderEditAccountPage);
-router.post("/manage-qa/edit/:id", AccountController.updateStaff);
+router.get("/account/qa/edit/:id", AccountController.renderEditAccountPage);
+router.post("/account/qa/edit/:id", AccountController.updateStaff);
 
 // [GET] create department
 router.get("/department/create", DepartmentController.getCreateDepartment);

@@ -36,18 +36,6 @@
               <div class="Department">
                 <label for="product-type">
                   Department
-                  <select
-                    name="department-type"
-                    form="create-form-account"
-                    id="product-type"
-                    class="border rounded-lg py-[2px] border-slate-400"
-                  >
-                    <% departments.forEach(function(department) { %>
-                    <option value="<%= department._id %>">
-                      <%= department.nameDepartment %>
-                    </option>
-                    <% }) %>
-                  </select>
                 </label>
               </div>
               <div class="role">
@@ -92,16 +80,13 @@
                 id="idDepartment"
                 class="border rounded-lg py-[2px] border-slate-400"
               >
-                <option>Choose</option>
-                <% departments.forEach(function(department) { %>
                 <option value="<%= department.id %>">
                   <%= department.nameDepartment %>
                 </option>
-                <% }) %>
               </select>
             </label>
           </div>
-          <div class="italic terms">
+          <!-- <div class="italic terms">
             <label for="myCheck"> Active</label>
             <input
               type="checkbox"
@@ -111,7 +96,7 @@
               class="border rounded-full"
               value="true"
             />
-          </div>
+          </div> -->
         </div>
         <div class="mb-4">
           <label

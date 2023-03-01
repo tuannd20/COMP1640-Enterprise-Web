@@ -2,12 +2,13 @@ const ManageQaService = require("../services/manageQA.service");
 const DepartmentService = require("../services/department.service");
 
 const renderCreateAccountPage = async (req, res) => {
+  const idDepartment = req.params.id;
   const staff = req.cookies.Staff;
-  const departments = await DepartmentService.getAllDepartment();
+  const department = await DepartmentService.getDepartment(idDepartment);
   res.render("partials/master", {
     title: "Create new account",
     content: "../qam/qa/account/createAccountPage",
-    departments,
+    department,
     staff,
     role: staff.idRole.nameRole,
   });
@@ -18,12 +19,11 @@ const renderEditAccountPage = async (req, res) => {
   const { id } = req.params;
 
   const qa = await ManageQaService.displayManageQaById({ _id: id });
-  const departments = await DepartmentService.getAllDepartment();
+
   return res.render("partials/master", {
     title: "Edit account",
     content: "../qam/qa/account/editAccountPage",
     qa,
-    departments,
     staff,
     role: staff.idRole.nameRole,
   });
@@ -35,6 +35,7 @@ const createStaff = async (req, res) => {
     const account = req.body;
 
     req.body.idRole = "63f066f996329eb058cc3095";
+    req.body.lockAccount = true;
 
     const checkDepartment = await DepartmentService.getDepartment({
       _id: req.body.idDepartment,
@@ -49,6 +50,7 @@ const createStaff = async (req, res) => {
 
     const staff = await ManageQaService.createManageQa(account);
 
+    // return res.json(staff);
     return res.redirect("/qam/departments");
   } catch (err) {
     console.log(err);

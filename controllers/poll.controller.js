@@ -52,6 +52,13 @@ const getAllPoll = async (req, res, next) => {
     const staff = req.cookies.Staff;
 
     const Polls = await PollService.getAllPoll();
+    console.log(
+      "🚀 ~ file: poll.controller.js:55 ~ getAllPoll ~ Polls:",
+      Polls,
+    );
+    if (Polls.length == 0) {
+      return res.redirect("/qam/poll/create");
+    }
     const lastPoll = await PollModel.findOne().sort({ dateSubEnd: -1 });
     if (!lastPoll) {
       console.log(
