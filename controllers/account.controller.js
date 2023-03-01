@@ -150,7 +150,7 @@ const getAllStaff = async (req, res) => {
     // return res.json(staffs);
     return res.render("partials/master", {
       title: "List of accounts",
-      content: "../admin/account/listAccountPage",
+      content: "../admin/account/listAccountDataPage",
       staffs,
       staff,
       role: staff.idRole.nameRole,
