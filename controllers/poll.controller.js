@@ -42,6 +42,8 @@ const createPoll = async (req, res, next) => {
 
 const getAllPoll = async (req, res, next) => {
   try {
+    const staff = req.cookies.Staff;
+
     const Polls = await PollService.getAllPoll();
     const lastPoll = await PollModel.findOne().sort({ dateSubEnd: -1 });
     if (!lastPoll) {
@@ -56,6 +58,8 @@ const getAllPoll = async (req, res, next) => {
       content: "../qam/poll/listpollpage",
       Polls,
       lastPoll,
+      staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     return err;
