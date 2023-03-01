@@ -35,7 +35,7 @@
     </div>
     <div class="mx-auto w-full max-w-[550px] mt-5">
       <form
-        action="/qam/manage-qa/edit/<%= staff.id %>"
+        action="/qam/manage-qa/edit/<%= qa.id %>"
         method="POST"
         id="edit-form-account"
       >
@@ -60,7 +60,7 @@
 
           <div class="italic terms">
             <label for="myCheck"> Active</label>
-            <% if (staff.lockAccount === true) { %>
+            <% if (qa.lockAccount === true) { %>
             <input
               type="checkbox"
               id="lockAccount"
@@ -93,7 +93,7 @@
             type="text"
             name="fullName"
             id="fullName"
-            value="<%= staff.fullName %>"
+            value="<%= qa.fullName %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -110,7 +110,7 @@
             name="email"
             id="email"
             pattern=".+@gmail\.com"
-            value="<%= staff.email %>"
+            value="<%= qa.email %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -127,7 +127,7 @@
             id="password"
             name="password"
             title="Click to change password"
-            value="<%= staff.password %>"
+            value="<%= qa.password %>"
             onclick="generatePassword()"
             readonly
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -144,7 +144,7 @@
             type="text"
             name="address"
             id="address"
-            value="<%= staff.address %>"
+            value="<%= qa.address %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -161,7 +161,7 @@
             pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
             name="phoneNumber"
             id="phoneNumber"
-            value="<%= staff.phoneNumber %>"
+            value="<%= qa.phoneNumber %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -179,8 +179,8 @@
 <script>
   let selectDepartment = document.getElementById("idDepartment");
   let selectRole = document.getElementById("idRole");
-  selectDepartment.value = "<%= staff.idDepartment.id %>";
-  selectRole.value = "<%= staff.idRole.id %>";
+  selectDepartment.value = "<%= qa.idDepartment.id %>";
+  selectRole.value = "<%= qa.idRole.id %>";
   function generatePassword() {
     // const length = 6;
     let password = "";
