@@ -2,23 +2,30 @@ const ManageQaService = require("../services/manageQA.service");
 const DepartmentService = require("../services/department.service");
 
 const renderCreateAccountPage = async (req, res) => {
+  const staff = req.cookies.Staff;
   const departments = await DepartmentService.getAllDepartment();
   res.render("partials/master", {
     title: "Create new account",
     content: "../qam/qa/account/createAccountPage",
     departments,
+    staff,
+    role: staff.idRole.nameRole,
   });
 };
 
 const renderEditAccountPage = async (req, res) => {
+  const staff = req.cookies.Staff;
   const { id } = req.params;
-  const staff = await ManageQaService.displayManageQaById({ _id: id });
+
+  const qa = await ManageQaService.displayManageQaById({ _id: id });
   const departments = await DepartmentService.getAllDepartment();
   return res.render("partials/master", {
     title: "Edit account",
     content: "../qam/qa/account/editAccountPage",
-    staff,
+    qa,
     departments,
+    staff,
+    role: staff.idRole.nameRole,
   });
   // return res.json(staff);
 };
@@ -53,12 +60,15 @@ const createStaff = async (req, res) => {
 const displayStaffById = async (req, res) => {
   const { id } = req.params;
   try {
-    const staff = await ManageQaService.displayManageQaById({ _id: id });
+    const staff = req.cookies.Staff;
+    const result = await ManageQaService.displayManageQaById({ _id: id });
 
     return res.render("partials/master", {
       title: "Edit Account",
       content: "../qam/qa/account/editAccountPage",
+      result,
       staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     console.log(err);
@@ -68,6 +78,7 @@ const displayStaffById = async (req, res) => {
 
 const getAllStaff = async (req, res) => {
   try {
+    const staff = req.cookies.Staff;
     const staffs = await ManageQaService.getAllManageQa();
 
     // return res.json(staffs);
@@ -75,6 +86,8 @@ const getAllStaff = async (req, res) => {
       title: "List of accounts",
       content: "../qam/qa/account/listAccountPage",
       staffs,
+      staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     console.log(err);
