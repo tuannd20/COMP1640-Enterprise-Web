@@ -24,7 +24,7 @@ const createPoll = async (req, res, next) => {
     const checkDepartmentResit = await PollService.findByName(namePoll);
     if (!checkDepartmentResit) {
       const Poll = await PollService.createPoll(formData);
-      return res.redirect("/qam/poll");
+      return res.redirect("/qam/polls");
     }
     const errorPoll = "Title is already exists";
     const errorCode = 400;
@@ -117,7 +117,7 @@ const updatePoll = async (req, res, next) => {
         { _id: id },
         { $set: updateObject },
       );
-      return res.redirect("/qam/poll");
+      return res.redirect("/qam/polls");
     }
     const errorPoll = "Title is already exists";
     const errorCode = 400;
@@ -150,9 +150,9 @@ const deleteOnePoll = async (req, res, next) => {
       const Polls = await PollService.deleteOnePoll({
         _id: id,
       });
-      return res.redirect("/qam/poll");
+      return res.redirect("/qam/polls");
     }
-    return res.redirect("/qam/poll");
+    return res.redirect("/qam/polls");
   } catch (err) {
     return err;
   }

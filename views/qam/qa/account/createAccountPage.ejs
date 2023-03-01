@@ -14,7 +14,7 @@
     class="relative p-3 border-2 border-stone-700 rounded-2xl h-auto opacity-80 mb-10 overflow-auto"
   >
     <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
-      <a href="/qam/manage-qa">
+      <a href="javascript:history.back()">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -30,7 +30,7 @@
           />
         </svg>
       </a>
-      <div class="m-auto">Create a new account</div>
+      <div class="m-auto">Create a new account for QA</div>
     </div>
     <!-- <div class="flex flex-row justify-center gap-4 header-account">
               <div class="Department">
@@ -78,7 +78,7 @@
             </div> -->
     <div class="mx-auto w-full max-w-[550px] mt-5">
       <form
-        action="/qam/manage-qa/create"
+        action="/qam/account/qa/create"
         method="POST"
         id="create-form-account"
       >

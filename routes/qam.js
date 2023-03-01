@@ -10,9 +10,9 @@ router.get("/", (req, res) => {
 });
 
 // Router for Account
-router.get("/manage-qa", AccountController.getAllStaff);
-router.get("/manage-qa/create", AccountController.renderCreateAccountPage);
-router.post("/manage-qa/create", AccountController.createStaff);
+router.get("/account/qa", AccountController.getAllStaff);
+router.get("/account/qa/create", AccountController.renderCreateAccountPage);
+router.post("/account/qa/create", AccountController.createStaff);
 router.get("/manage-qa/edit/:id", AccountController.renderEditAccountPage);
 router.post("/manage-qa/edit/:id", AccountController.updateStaff);
 

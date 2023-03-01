@@ -49,7 +49,7 @@ const createStaff = async (req, res) => {
 
     const staff = await ManageQaService.createManageQa(account);
 
-    return res.redirect("/qam/manage-qa");
+    return res.redirect("/qam/departments");
   } catch (err) {
     console.log(err);
     res.json(err);
@@ -104,7 +104,7 @@ const updateStaff = async (req, res) => {
       { _id: id },
       { $set: req.body },
     );
-    return res.redirect("/qam/manage-qa");
+    return res.redirect("/qam/account/qa");
     // return res.json(staff);
   } catch (err) {
     return err;
