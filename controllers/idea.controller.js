@@ -166,9 +166,12 @@ const displayAllIdea = async (req, res) => {
     const allIdea = await ideaService.getAllWithQuery(options, query);
 
     if (!allIdea.docs) return res.redirect("/404");
-    const allStaffIdea = await staffIdeaService.findAllByOptions({
-      idStaff: staff._id,
-    });
+    const allStaffIdea = await staffIdeaService.getAllWithQuery(
+      {
+        idStaff: staff._id,
+      },
+      { isLike: { $in: [true, false] } },
+    );
 
     allIdea.docs.forEach((element, index) => {
       if (
@@ -182,9 +185,9 @@ const displayAllIdea = async (req, res) => {
       }
     });
 
-    if (allStaffIdea) {
+    if (allStaffIdea.docs) {
       allIdea.docs.forEach((idea) => {
-        const staffIdea = allStaffIdea.find(
+        const staffIdea = allStaffIdea.docs.find(
           (sIdea) => toString(sIdea.IdIdea) === toString(idea._id),
         );
         if (staffIdea) {

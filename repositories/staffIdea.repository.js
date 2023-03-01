@@ -49,9 +49,20 @@ const findAllByOptions = async (options) => {
     return err;
   }
 };
+
+const getAllWithQuery = async (options, query) => {
+  try {
+    const Idea = await StaffIdeaModel.paginate(query, options);
+    return Idea;
+  } catch (err) {
+    console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);
+    return err;
+  }
+};
 module.exports = {
   findStaffIDea,
   createStaffIDea,
   updateStaffIDea,
   findAllByOptions,
+  getAllWithQuery,
 };
