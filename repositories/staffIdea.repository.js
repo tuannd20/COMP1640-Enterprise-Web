@@ -50,9 +50,9 @@ const findAllByOptions = async (options) => {
   }
 };
 
-const getAllWithQuery = async (options, query) => {
+const getAllWithQuery = async (query) => {
   try {
-    const Idea = await StaffIdeaModel.paginate(query, options);
+    const Idea = await StaffIdeaModel.find(query);
     return Idea;
   } catch (err) {
     console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);
