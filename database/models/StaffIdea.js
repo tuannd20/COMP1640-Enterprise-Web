@@ -14,11 +14,6 @@ const StaffIdeaSchema = new Schema(
     },
     isLike: {
       type: Boolean,
-      default: false,
-    },
-    isDissLike: {
-      type: Boolean,
-      default: false,
     },
     isView: {
       type: Boolean,

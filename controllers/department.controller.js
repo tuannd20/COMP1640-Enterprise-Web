@@ -1,12 +1,15 @@
 const DepartmentService = require("../services/department.service");
-const DepartmentModel = require("../database/models/Department");
 
 const getCreateDepartment = async (req, res) => {
+  const staff = req.cookies.Staff;
+
   res.render("partials/master", {
     title: "Create new Department",
-    content: "../qam/department/createDepartmentpage",
+    content: "../qam/department/createDepartmentPage",
     errorMessage: null,
     isFailed: false,
+    staff,
+    role: staff.idRole.nameRole,
   });
 };
 
@@ -28,7 +31,7 @@ const createDepartment = async (req, res) => {
 
     return res.status(errorCode).render("partials/master", {
       title: "Create new Department",
-      content: "../qam/department/createDepartmentpage",
+      content: "../qam/department/createDepartmentPage",
       errorMessage: errorDepartment,
       code: errorCode,
       isFailed: true,
@@ -42,15 +45,15 @@ const createDepartment = async (req, res) => {
 
 const getAllDepartment = async (req, res) => {
   try {
+    const staff = req.cookies.Staff;
     const departments = await DepartmentService.getAllDepartment();
 
-    // return res.render("qam/department/listDepartmentPage", {
-    //   departments,
-    // });
     return res.render("partials/master", {
       title: "Department List",
-      content: "../qam/department/listDepartmentpage",
+      content: "../qam/department/listDepartmentPage",
       Department: departments,
+      staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     return err;
@@ -69,6 +72,8 @@ const getDepartmentActivated = async (req, res) => {
 const getEditDepartment = async (req, res) => {
   const { id } = req.params;
   try {
+    const staff = req.cookies.Staff;
+
     const department = await DepartmentService.getDepartment({ _id: id });
     // return res.render("partials/master", {
     //   title: "Department Edit",
@@ -81,6 +86,8 @@ const getEditDepartment = async (req, res) => {
       department,
       errorMessage: null,
       isFailed: false,
+      staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     return err;
@@ -93,6 +100,8 @@ const updateDepartment = async (req, res) => {
   const { nameDepartment } = req.body;
   const { description } = req.body;
   try {
+    const staff = req.cookies.Staff;
+
     // const checkDepartment = await DepartmentService.getDepartment({ _id: id });
     const checkDepartmentName = await DepartmentService.findByNameExist(
       id,
@@ -112,12 +121,14 @@ const updateDepartment = async (req, res) => {
 
     return res.status(errorCode).render("partials/master", {
       title: "Create new Department",
-      content: "../qam/department/createDepartmentpage",
+      content: "../qam/department/createDepartmentPage",
       errorMessage: errorDepartment,
       code: errorCode,
       isFailed: true,
       nameDepartment,
       description,
+      staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     return err;

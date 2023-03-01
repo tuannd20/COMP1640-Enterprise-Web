@@ -50,10 +50,32 @@ const getALl = async (options) => {
   }
 };
 
+const findByOptions = async (options) => {
+  try {
+    const Idea = await IdeaRepository.findByOptions(options);
+    return Idea;
+  } catch (err) {
+    console.error("🚀 ~ file: idea.service.js:58 ~ findByOptions ~ err:", err);
+    return err;
+  }
+};
+
+const getAllWithQuery = async (options, query) => {
+  try {
+    const Idea = await IdeaRepository.getAllWithQuery(options, query);
+    return Idea;
+  } catch (err) {
+    console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);
+    return err;
+  }
+};
+
 module.exports = {
   createIdea,
   getIdea,
   updateIdea,
   deleteIdea,
   getALl,
+  findByOptions,
+  getAllWithQuery,
 };

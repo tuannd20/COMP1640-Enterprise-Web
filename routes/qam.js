@@ -38,7 +38,7 @@ router.delete(
 router.get("/department/delete-all", DepartmentController.deleteAllDepartment);
 
 // [GET] all department
-router.get("/department/", DepartmentController.getAllDepartment);
+router.get("/departments", DepartmentController.getAllDepartment);
 
 // [GET] all Department Activated
 router.get(
@@ -65,7 +65,7 @@ router.delete("/poll/delete/:id", PollController.deleteOnePoll);
 router.get("/poll/delete-all", PollController.deleteAllPoll);
 
 // [GET] all Poll
-router.get("/poll/", PollController.getAllPoll);
+router.get("/polls", PollController.getAllPoll);
 
 // [GET] all Poll Activated
 router.get("/poll/activated", PollController.getPollActivated);
