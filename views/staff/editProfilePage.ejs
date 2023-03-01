@@ -1,0 +1,178 @@
+<Main class="pt-[100px] w-3/5 m-auto min-h-screen">
+  <style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type="number"] {
+      -moz-appearance: textfield;
+      /* Firefox */
+    }
+  </style>
+  <div
+    class="relative p-3 border-2 border-stone-700 rounded-2xl h-auto opacity-80 mb-10"
+  >
+    <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
+      <a href="/admin/account">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="font-extrabold w-7 h-7 text-sky-900 hover:text-sky-400"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+          />
+        </svg>
+      </a>
+
+      <div class="m-auto">Edit profile page</div>
+    </div>
+    <div class="mx-auto w-full max-w-[550px] mt-5">
+      <form
+        action="/staff/editProfilePage/"
+        method="POST"
+        id="edit-form-profile"
+      >
+        <!-- <div class="flex flex-row justify-center gap-4 header-profile">
+          <img class="rounded-full" src="https://f8-zpcloud.zdn.vn/4225363031182610715/a531468f8f2f55710c3e.jpg" alt="hoa sen" width="100">
+        </div>
+        <div class="w-1/6 px-3 py-2 m-auto text-center text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400">
+          <button>Edit avatar</button>
+        </div> -->
+        <div class="flex justify-center">
+        <form class="flex items-center space-x-6">
+          <div class="shrink-0">
+            <img class="h-16 w-16 object-cover rounded-full" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1361&q=80" alt="Current profile photo" />
+          </div>
+          
+          <label class="block ml-3 mt-3">
+            <span class="sr-only">Choose profile photo</span>
+            <input type="file" class="block w-full text-sm text-slate-500
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-full file:border-0
+              file:text-sm file:font-semibold
+              file:bg-violet-50 file:text-violet-700
+              hover:file:bg-violet-100
+            "/>
+          </label>
+        </form>
+        </div>
+
+        <div class="mb-4">
+          <label
+            for="name"
+            class="block mb-3 text-base font-medium text-black select-none"
+          >
+            Full name
+          </label>
+          <input
+            type="text"
+            name="fullName"
+            id="fullName"
+            value=""
+            required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="email"
+            class="block mb-3 text-base font-medium text-black"
+          >
+            Email
+          </label>
+          <input
+            type="email"
+            readonly
+            name="email"
+            id="email"
+            pattern=".+@gmail\.com"
+            value=""
+            required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="password"
+            class="block mb-3 text-base font-medium text-black"
+          >
+            Address
+          </label>
+          <input
+            type="text"
+            id="password"
+            name="password"
+            title="Click to change password"
+            value=""
+            onclick="generatePassword()"
+            readonly
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="address"
+            class="block mb-3 text-base font-medium text-black"
+          >
+            Phone number
+          </label>
+          <input
+            type="text"
+            name="address"
+            id="address"
+            value=""
+            required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="phone"
+            class="block mb-3 text-base font-medium text-black"
+          >
+            Old password
+          </label>
+          <input
+            type="tel"
+            pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
+            name="phoneNumber"
+            id="phoneNumber"
+            value=""
+            required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="phone"
+            class="block mb-3 text-base font-medium text-black"
+          >
+            New password
+          </label>
+          <input
+            type="tel"
+            pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
+            name="phoneNumber"
+            id="phoneNumber"
+            value=""
+            required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          />
+        </div>
+        <div
+          class="w-1/6 px-3 py-2 m-auto text-center text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
+        >
+          <input type="submit" />
+        </div>
+      </form>
+    </div>
+  </div>
+</Main>
+

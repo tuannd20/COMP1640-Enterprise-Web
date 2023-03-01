@@ -24,22 +24,13 @@
     </div>
     <div class="mt-10 content-idea">
       <div class="flex items-center justify-center">
-        <div class="mx-auto w-full max-w-[650px] overflow-x-auto overflow-y-auto max-h-[410px]">
+        <div class="mx-auto w-full max-w-[550px]">
           <% rules?.forEach(function(rule,index) { %>
         <div class="mb-5">
-            <p class="text-xl font-extrabold text-gray-900 dark:text-black"> <%= index + 1 %>. <%= rule.title %>:  </p>
-            <p class="text-justify max-w-[580px]"> <%= rule.contentRule %> </p>
+            <p class="text-xl font-extrabold text-gray-900 dark:text-black"> <%= index + 1 %>. <%= rule.title %>  </p>
+            <p class="text-start"> <%= rule.contentRule %> </p>
           </div>
           <% }) %>
-        <!-- <div>
-            <p class="text-xl font-extrabold text-gray-900 dark:text-black"> 2. Title:  </p>
-            <p class="text-start"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-        </div>
-        <br />
-        <div>
-            <p class="text-xl font-extrabold text-gray-900 dark:text-black"> 3. Title:  </p>
-            <p class="text-start"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-        </div> -->
         </div>
       </div>
     </div>
