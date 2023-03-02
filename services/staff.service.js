@@ -45,8 +45,15 @@ const displayStaffById = async (id) => {
 
 const updateStaff = async (id, data) => {
   try {
-    const staff = await StaffRepository.updateStaff(id, data);
-    return staff;
+    const departments = await DepartmentService.getAllDepartment();
+    const roles = await RoleService.getAllRole();
+    const staffResponse = await StaffRepository.updateStaff(
+      { _id: id },
+      { $set: data },
+      departments,
+      roles,
+    );
+    return staffResponse;
   } catch (err) {
     console.log(err);
     return err;

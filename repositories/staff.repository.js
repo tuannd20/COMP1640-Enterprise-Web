@@ -275,11 +275,157 @@ const displayStaffById = async (id) => {
   }
 };
 
-const updateStaff = async (id, data) => {
+// eslint-disable-next-line consistent-return
+const updateStaff = async (id, data, departments, roles) => {
   try {
+    let departmentRenders = [];
+    let roleRenders = [];
+    // eslint-disable-next-line array-callback-return
+    departmentRenders = departments.map((department) => ({
+      _id: department._id,
+      name: department.nameDepartment,
+    }));
+    roleRenders = roles.map((role) => ({ _id: role._id, name: role.nameRole }));
+
+    const { email, phoneNumber, idRole, idDepartment } = data;
+
+    const checkDataOfStaff = await findByEmail(email);
+    const checkDataOfStaffPhoneNumber = await findByPhoneNumber(phoneNumber);
+
+    if (
+      idRole === "" &&
+      idDepartment === "" &&
+      checkDataOfStaff.email === email &&
+      checkDataOfStaffPhoneNumber.phoneNumber === phoneNumber
+    ) {
+      const resultBody = {
+        staffRenders: data,
+        departmentRenders,
+        roleRenders,
+      };
+
+      const responseCheckEmail = ResponseHandler.responseAccountHandler(
+        true,
+        resultBody,
+        400,
+        EMAIL_ALREADY_EXISTS,
+        DEPARTMENT_AND_ROLE_IS_REQUIRED,
+        PHONE_NUMBER_ALREADY_EXISTS,
+      );
+
+      return responseCheckEmail;
+    }
+
     // eslint-disable-next-line no-underscore-dangle, max-len
-    const staff = await StaffModel.updateMany(id, data);
-    return staff;
+    if (!checkDataOfStaff && !checkDataOfStaffPhoneNumber) {
+      const staff = await StaffModel.updateMany(id, data);
+
+      const result = {
+        staffRenders: staff,
+        departmentRenders,
+        roleRenders,
+      };
+
+      const response = ResponseHandler.responseAccountHandler(
+        true,
+        result,
+        200,
+        null,
+      );
+      return response;
+    }
+
+    if (checkDataOfStaffPhoneNumber.phoneNumber === phoneNumber) {
+      const resultBody = {
+        staffRenders: data,
+        departmentRenders,
+        roleRenders,
+      };
+
+      const responseCheckEmail = ResponseHandler.responseAccountHandler(
+        true,
+        resultBody,
+        400,
+        null,
+        null,
+        PHONE_NUMBER_ALREADY_EXISTS,
+      );
+
+      return responseCheckEmail;
+    }
+    if (idRole === "" && idDepartment === "") {
+      const resultBody = {
+        staffRenders: data,
+        departmentRenders,
+        roleRenders,
+      };
+
+      const responseCheckEmail = ResponseHandler.responseAccountHandler(
+        true,
+        resultBody,
+        400,
+        null,
+        DEPARTMENT_AND_ROLE_IS_REQUIRED,
+        null,
+      );
+
+      return responseCheckEmail;
+    }
+
+    if (idRole === "" && idDepartment !== "") {
+      const resultBody = {
+        staffRenders: data,
+        departmentRenders,
+        roleRenders,
+      };
+
+      const responseCheckEmail = ResponseHandler.responseAccountHandler(
+        true,
+        resultBody,
+        400,
+        null,
+        ROLE_IS_REQUIRED,
+        null,
+      );
+
+      return responseCheckEmail;
+    }
+
+    if (idRole !== "" && idDepartment === "") {
+      const resultBody = {
+        staffRenders: data,
+        departmentRenders,
+        roleRenders,
+      };
+
+      const responseCheckEmail = ResponseHandler.responseAccountHandler(
+        true,
+        resultBody,
+        400,
+        null,
+        DEPARTMENT_IS_REQUIRED,
+        null,
+      );
+
+      return responseCheckEmail;
+    }
+
+    if (checkDataOfStaff.email === email) {
+      const resultBody = {
+        staffRenders: data,
+        departmentRenders,
+        roleRenders,
+      };
+
+      const responseCheckEmail = ResponseHandler.responseAccountHandler(
+        true,
+        resultBody,
+        400,
+        EMAIL_ALREADY_EXISTS,
+      );
+
+      return responseCheckEmail;
+    }
   } catch (err) {
     console.log(err);
     return err;
