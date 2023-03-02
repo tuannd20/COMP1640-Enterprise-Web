@@ -52,7 +52,7 @@ const getAllDepartment = async (req, res) => {
     const allStaff = await StaffService.getAllStaff();
     const staffQA = allStaff.filter((item) => item.idRole.nameRole === "QA");
     // từ department lấy ra thông tin của staffQa
-    departments.map((item) => {
+    const departmentsWithQa = departments.map((item) => {
       const staffQAInDepartment = staffQA.filter(
         (result) => result.idDepartment._id.toString() === item._id.toString(),
       );
@@ -66,7 +66,7 @@ const getAllDepartment = async (req, res) => {
     // return res.render("partials/master", {
     //   title: "Department List",
     //   content: "../qam/department/listDepartmentPage",
-    //   Department: departmentswithqa,
+    //   Department: departmentsWithQa,
     //   staff,
     //   role: staff.idRole.nameRole,
     // });
