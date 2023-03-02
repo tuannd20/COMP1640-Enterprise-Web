@@ -164,20 +164,11 @@ const displayAllIdea = async (req, res) => {
     };
 
     const allIdea = await ideaService.getAllWithQuery(options, query);
-    console.log(
-      "🚀 ~ file: idea.controller.js:167 ~ displayAllIdea ~ allIdea:",
-      allIdea,
-    );
-
     if (!allIdea.docs) return res.redirect("/404");
     const allStaffIdea = await staffIdeaService.getAllWithQuery({
       idStaff: staff._id,
       isLike: { $in: [true, false] },
     });
-    console.log(
-      "🚀 ~ file: idea.controller.js:177 ~ displayAllIdea ~ allStaffIdea:",
-      allStaffIdea,
-    );
 
     allIdea.docs.forEach((element, index) => {
       if (
@@ -190,11 +181,19 @@ const displayAllIdea = async (req, res) => {
         element.idStaffIdea = anonymous;
       }
     });
-
     if (allStaffIdea) {
       allIdea.docs.forEach((idea) => {
+        console.log(
+          "🚀 ~ file: idea.controller.js:204 ~ allIdea.docs.forEach ~ idea._id:",
+          idea._id,
+        );
+
         const staffIdea = allStaffIdea.find(
-          (sIdea) => toString(sIdea.IdIdea) === toString(idea._id),
+          (sIdea) => sIdea.IdIdea.toString() === idea._id.toString(),
+        );
+        console.log(
+          "🚀 ~ file: idea.controller.js:195 ~ allIdea.docs.forEach ~ staffIdea:",
+          staffIdea.IdIdea,
         );
         if (staffIdea) {
           idea.isLike = staffIdea.isLike;
