@@ -37,6 +37,7 @@ router.get("/errors", (req, res) => {
     title: "Error 404",
     content: "../404/404",
     staff,
+    role: staff.idRole.nameRole,
   });
 });
 

@@ -1,16 +1,22 @@
 const RuleService = require("../services/rule.service");
 
 const renderCreateTermsPage = async (req, res) => {
+  const staff = req.cookies.Staff;
+
   res.render("partials/master", {
     title: "Create new terms",
     content: "../admin/terms/createTermsPage",
     errorMessage: null,
     isFailed: false,
+    staff,
+    role: staff.idRole.nameRole,
   });
 };
 
 const createRule = async (req, res) => {
   try {
+    const staff = req.cookies.Staff;
+
     const titleTerms = req.body.title;
     const contentTerms = req.body.contentRule;
     // const { titleRule, contentRule } = req.body;
@@ -36,6 +42,8 @@ const createRule = async (req, res) => {
       isFailed: true,
       titleRule: titleTerms,
       contentRule: contentTerms,
+      staff,
+      role: staff.idRole.nameRole,
     });
 
     // return res.send(
@@ -49,15 +57,16 @@ const createRule = async (req, res) => {
 
 const renderEditTermsPage = async (req, res) => {
   const { id } = req.params;
+  const staff = req.cookies.Staff;
+
   const term = await RuleService.displayRuleById({ _id: id });
   try {
     return res.render("partials/master", {
       title: "Edit term",
       content: "../admin/terms/editTermsPage",
       term,
-      errorMessage: null,
-      code: null,
-      isFailed: false,
+      staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     return err;
@@ -106,12 +115,16 @@ const updateRule = async (req, res) => {
 const displayTermById = async (req, res) => {
   const { id } = req.params;
   try {
+    const staff = req.cookies.Staff;
+
     const rule = await RuleService.displayTermById({ _id: id });
 
     return res.render("partials/master", {
       title: "Edit Term",
       content: "../admin/terms/editTermsPage",
       rule,
+      staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     console.log(err);
@@ -143,11 +156,15 @@ const deleteAllRule = async (req, res) => {
 
 const getAllRule = async (req, res) => {
   try {
+    const staff = req.cookies.Staff;
+
     const rules = await RuleService.getAllRule();
     return res.render("partials/master", {
       title: "List of terms",
       content: "../admin/terms/listTermsPage",
       rules,
+      staff,
+      role: staff.idRole.nameRole,
     });
     // return res.json(rules);
   } catch (err) {
@@ -165,6 +182,7 @@ const displayAllRule = async (req, res) => {
       content: "../staff/termsPage",
       rules,
       staff,
+      role: staff.idRole.nameRole,
     });
     // return res.json(rules);
   } catch (err) {

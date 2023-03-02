@@ -29,6 +29,7 @@ const renderCreateAccountPage = async (req, res) => {
     errorMessageSelect: null,
     errorMessagePhoneNumber: null,
     isSuccess: false,
+    role: staff.idRole.nameRole,
   });
 };
 
@@ -43,6 +44,7 @@ const renderEditAccountPage = async (req, res) => {
     content: "../admin/account/editAccountPage",
     staffByID,
     staff,
+    role: staff.idRole.nameRole,
     departments,
     roles,
     errorMessageEmail: null,
@@ -60,6 +62,7 @@ const renderProfilePage = async (req, res) => {
       title: "Your profile",
       content: "../staff/profilePage",
       staff,
+      role: staff.idRole.nameRole,
     });
   } catch (error) {
     return error;
@@ -113,6 +116,7 @@ const createStaff = async (req, res) => {
         errorMessageSelect: results.messageErrorSelect,
         errorMessagePhoneNumber: results.messageErrorPhone,
         isSuccess: results.successStatus,
+        role: staff.idRole.nameRole,
       });
     }
 
@@ -126,12 +130,13 @@ const createStaff = async (req, res) => {
 const displayStaffById = async (req, res) => {
   const { id } = req.params;
   try {
-    const staffByID = await StaffService.displayStaffById({ _id: id });
+    const staff = await StaffService.displayStaffById({ _id: id });
 
     return res.render("partials/master", {
       title: "Edit Account",
       content: "../admin/account/editAccountPage",
-      staffByID,
+      staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     console.log(err);
@@ -150,6 +155,7 @@ const getAllStaff = async (req, res) => {
       content: "../admin/account/listAccountPage",
       staffs,
       staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     console.log(err);
@@ -179,29 +185,31 @@ const updateStaff = async (req, res) => {
       { _id: id },
       { $set: req.body },
     );
-    const departmentDB = results.data.departmentRenders.map((department) => ({
-      _id: department._id,
-      nameDepartment: department.name,
-    }));
+    const departments = await DepartmentService.getAllDepartment();
+    const roles = await RoleService.getAllRole();
+    // const departmentDB = results.data.departmentRenders.map((department) => ({
+    //   _id: department._id,
+    //   nameDepartment: department.name,
+    // }));
 
-    const roleDB = results.data.roleRenders.map(
-      (role) =>
-        // eslint-disable-next-line no-param-reassign, dot-notation
-        ({ _id: role._id, nameRole: role.name }),
-      // eslint-disable-next-line function-paren-newline
-    );
+    // const roleDB = results.data.roleRenders.map(
+    //   (role) =>
+    //     // eslint-disable-next-line no-param-reassign, dot-notation
+    //     ({ _id: role._id, nameRole: role.name }),
+    //   // eslint-disable-next-line function-paren-newline
+    // );
 
     if (results.statusCode === BAD_REQUEST) {
       return res.status(results.statusCode).render("partials/master", {
         title: "Edit an account",
         content: "../admin/account/editAccountPage",
-        departments: departmentDB,
-        roles: roleDB,
+        departments,
+        roles,
         staff,
-        email: results.data.staffRenders.email,
-        fullName: results.data.staffRenders.fullName,
-        phoneNumber: results.data.staffRenders.phoneNumber,
-        address: results.data.staffRenders.address,
+        // email: results.data.staffRenders.email,
+        // fullName: results.data.staffRenders.fullName,
+        // phoneNumber: results.data.staffRenders.phoneNumber,
+        // address: results.data.staffRenders.address,
         errorMessageEmail: results.messageErrorEmail,
         errorMessageSelect: results.messageErrorSelect,
         errorMessagePhoneNumber: results.messageErrorPhone,

@@ -19,4 +19,14 @@ describe("Good case: Unit test for Staff", () => {
     });
     console.log("🚀 ~ file: staffIdea.test.js:20 ~ it ~ staff:", staff);
   });
+  it("Should create staffIdea", async () => {
+    const staff = await staffIdeaRepository.createStaffIDea({
+      idStaff: "63f8de505636c2f259e33f6c",
+      IdIdea: "63f0770e9b0c7469404f3c84",
+      isLike: false,
+      isView: false,
+      __v: 0,
+    });
+    console.log("🚀 ~ file: staffIdea.test.js:20 ~ it ~ staff:", staff);
+  });
 });

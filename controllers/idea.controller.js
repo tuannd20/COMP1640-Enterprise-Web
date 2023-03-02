@@ -1,3 +1,5 @@
+/* eslint-disable no-unneeded-ternary */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-underscore-dangle */
 const fs = require("fs");
 const multer = require("multer");
@@ -11,6 +13,7 @@ const staffService = require("../services/staff.service");
 const categoryService = require("../services/category.service");
 const departmentService = require("../services/department.service");
 const pollService = require("../services/poll.service");
+const staffIdeaService = require("../services/staffIdea.service");
 const StaffIdeaModel = require("../database/models/StaffIdea");
 const sendMail = require("../utilities/sendMail");
 const Staff = require("../database/models/Staff");
@@ -142,6 +145,7 @@ const displayDetailIdea = async (req, res) => {
 const displayAllIdea = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
+    console.log(staff.idRole.nameRole);
     const { page = 1 } = req.query;
     const limit = 5;
     const options = {
@@ -152,22 +156,57 @@ const displayAllIdea = async (req, res) => {
     };
 
     const allIdea = await ideaService.getALl(options);
+
     if (!allIdea) return res.redirect("/404");
-    allIdea.docs.forEach((element, index) => {
-      if (
-        typeof element.urlFile === "undefined" ||
-        !isImageUrl(element.urlFile)
-      ) {
-        // eslint-disable-next-line no-param-reassign
-        element.urlFile = null;
-      }
+    const allStaffIdea = await staffIdeaService.findAllByOptions({
+      idStaff: staff._id,
     });
-    allIdea.docs = allIdea.docs.filter((doc) => doc.idStaffIdea !== null);
+    if (allStaffIdea) {
+      const ideaMapping = {};
+      for (const idea of allIdea.docs) {
+        ideaMapping[idea.idStaffIdea._id] = idea._id;
+        idea.isLike = null; // initialize isLike property
+        console.log(`isLike for idea ${idea._id}: ${idea.isLike}`);
+      }
+
+      for (const staffIdea of allStaffIdea) {
+        const ideaId = ideaMapping[staffIdea.idStaff.toString()];
+        if (ideaId && ideaId.toString() === staffIdea.IdIdea.toString()) {
+          const ideaIndex = allIdea.docs.findIndex(
+            (idea) => idea._id.toString() === ideaId.toString(),
+          );
+          if (ideaIndex !== -1) {
+            const isLiked = staffIdea.isLike === true;
+            const isDisliked = staffIdea.isLike === false;
+            console.log(
+              `isLike for idea ${ideaId}: ${isLiked} / ${isDisliked}`,
+            );
+            allIdea.docs[ideaIndex].isLike = isLiked ? true : false;
+            allIdea.docs[ideaIndex].isDislike = isDisliked ? true : false;
+          }
+        }
+      }
+    }
+    // allIdea.docs.forEach((element, index) => {
+    //   if (
+    //     typeof element.urlFile === "undefined" ||
+    //     !isImageUrl(element.urlFile)
+    //   ) {
+    //     // eslint-disable-next-line no-param-reassign
+    //     element.urlFile = null;
+    //   }
+    // });
+    // allIdea.docs = allIdea.docs.filter((doc) => doc.idStaffIdea !== null);
+    console.log(
+      "🚀 ~ file: idea.controller.js:192 ~ displayAllIdea ~ allIdea:",
+      allIdea.docs[0].isLike,
+    );
     // return res.json(allIdea);
     return res.render("partials/master", {
       title: "Idea",
       content: "../staff/homePage",
       staff,
+      role: staff.idRole.nameRole,
       ideas: allIdea,
     });
     // return res.status(200).send(allIdea);

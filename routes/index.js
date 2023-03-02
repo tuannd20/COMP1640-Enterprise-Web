@@ -8,9 +8,24 @@ const QARouter = require("./qa");
 const IdeaRouter = require("./idea");
 
 function route(app) {
-  app.use("/qa", QARouter);
-  app.use("/qam", QAMRouter);
-  app.use("/admin", AuthMiddleWare.isHaveToken, AdminRouter);
+  app.use(
+    "/qa",
+    AuthMiddleWare.isHaveToken,
+    AuthMiddleWare.checkCurrentRoleQA,
+    QARouter,
+  );
+  app.use(
+    "/qam",
+    AuthMiddleWare.isHaveToken,
+    AuthMiddleWare.checkCurrentRoleQAM,
+    QAMRouter,
+  );
+  app.use(
+    "/admin",
+    AuthMiddleWare.isHaveToken,
+    AuthMiddleWare.checkCurrentRoleAdmin,
+    AdminRouter,
+  );
   app.use("/profile", ProfileRouter);
   app.use("/auth", AuthRouter);
   app.use("/ideas", IdeaRouter);

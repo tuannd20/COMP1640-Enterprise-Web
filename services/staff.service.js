@@ -48,8 +48,8 @@ const updateStaff = async (id, data) => {
     const departments = await DepartmentService.getAllDepartment();
     const roles = await RoleService.getAllRole();
     const staffResponse = await StaffRepository.updateStaff(
-      id,
-      data,
+      { _id: id },
+      { $set: data },
       departments,
       roles,
     );
