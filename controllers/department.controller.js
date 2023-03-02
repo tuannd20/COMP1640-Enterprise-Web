@@ -51,24 +51,24 @@ const getAllDepartment = async (req, res) => {
     const allstaff = await StaffService.getAllStaff();
     const staffQA = allstaff.filter((item) => item.idRole.nameRole === "QA");
     // từ department lấy ra thông tin của staffQa
-    const departmentswithqa = departments.map((item) => {
-      const staffQAInDepartment = staffQA.filter(
-        (staff) => staff.idDepartment._id.toString() === item._id.toString(),
-      );
-      return {
-        ...item._doc,
-        staffQA: staffQAInDepartment,
-      };
-    });
+    // const departmentswithqa = departments.map((item) => {
+    //   const staffQAInDepartment = staffQA.filter(
+    //     (staff) => staff.idDepartment._id.toString() === item._id.toString(),
+    //   );
+    //   return {
+    //     ...item._doc,
+    //     staffQA: staffQAInDepartment,
+    //   };
+    // });
 
-    // return res.send(departmentswithqa);
-    return res.render("partials/master", {
-      title: "Department List",
-      content: "../qam/department/listDepartmentPage",
-      Department: departmentswithqa,
-      staff,
-      role: staff.idRole.nameRole,
-    });
+    return res.send(departments);
+    // return res.render("partials/master", {
+    //   title: "Department List",
+    //   content: "../qam/department/listDepartmentPage",
+    //   Department: departmentswithqa,
+    //   staff,
+    //   role: staff.idRole.nameRole,
+    // });
   } catch (err) {
     return err;
   }
