@@ -171,6 +171,18 @@ const getCategoryActivated = async (req, res) => {
   }
 };
 
+const findCategoryByIdDepartment = async (req, res) => {
+  try {
+    const { idDeparment } = req.params;
+    const categories = await CategoryService.findCategoryByIdDepartment(
+      idDeparment,
+    );
+    return res.json(categories);
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createCategory,
   getEditCategory,
@@ -180,4 +192,5 @@ module.exports = {
   renderListCategoryPage,
   rederCreateCategoryPage,
   getCategoryActivated,
+  findCategoryByIdDepartment,
 };

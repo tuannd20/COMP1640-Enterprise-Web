@@ -11,7 +11,7 @@ router.get("/idea", IdeaController.getIdeaForStaff);
 // router.post("/idea", IdeaController.createIdea);
 // router.put("/:idIdea", IdeaController.updateIdea);
 // router.delete("/:idIdea", IdeaController.deleteIdea);
-router.get("/edit", AccountController.renderEditProfilePage);
+router.get("/edit/:id", AccountController.renderEditProfilePage);
 router.put("/profile/edit/:id", AccountController.editProfilePage);
 
 module.exports = router;

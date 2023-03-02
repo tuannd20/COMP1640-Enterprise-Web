@@ -135,11 +135,15 @@ const displayStaffById = async (req, res) => {
 
 const renderEditProfilePage = async (req, res) => {
   const staff = req.cookies.Staff;
+  const { id } = req.params;
   try {
+    const staffProfile = await StaffService.displayStaffById(id);
+    console.log(staffProfile);
     return res.render("partials/master", {
       title: "Edit profile",
       content: "../staff/editProfilePage",
       staff,
+      staffProfile,
       role: staff.idRole.nameRole,
     });
   } catch (err) {

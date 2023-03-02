@@ -69,6 +69,15 @@ const findByName = async (name) => {
   }
 };
 
+const findCategoryByIdDepartment = async (id) => {
+  try {
+    const result = await CategoryRepository.getCategoryByDepartmentId(id);
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createCategory,
   getAllCategory,
@@ -77,4 +86,5 @@ module.exports = {
   deleteOneCategory,
   readCategoryById,
   findByName,
+  findCategoryByIdDepartment,
 };
