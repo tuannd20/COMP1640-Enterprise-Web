@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-underscore-dangle */
@@ -145,7 +146,14 @@ const displayDetailIdea = async (req, res) => {
 const displayAllIdea = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
-    console.log(staff.idRole.nameRole);
+
+    const anonymous = {
+      fullName: "anonymous",
+      avatarImage:
+        "https://png.pngtree.com/png-vector/20220608/ourmid/pngtree-man-avatar-isolated-on-white-background-png-image_4891418.png",
+    };
+
+    const query = { status: { $in: ["Private", "Public"] } };
     const { page = 1 } = req.query;
     const limit = 5;
     const options = {
@@ -155,18 +163,30 @@ const displayAllIdea = async (req, res) => {
       sort: { createdAt: -1 },
     };
 
-    const allIdea = await ideaService.getALl(options);
+    const allIdea = await ideaService.getAllWithQuery(options, query);
 
-    if (!allIdea) return res.redirect("/404");
+    if (!allIdea.docs) return res.redirect("/404");
     const allStaffIdea = await staffIdeaService.findAllByOptions({
       idStaff: staff._id,
     });
+
+    allIdea.docs.forEach((element, index) => {
+      if (
+        typeof element.urlFile === "undefined" ||
+        !isImageUrl(element.urlFile)
+      ) {
+        element.urlFile = null;
+      }
+      if (!element.idStaffIdea) {
+        element.idStaffIdea = anonymous;
+      }
+    });
+
     if (allStaffIdea) {
       const ideaMapping = {};
       for (const idea of allIdea.docs) {
         ideaMapping[idea.idStaffIdea._id] = idea._id;
-        idea.isLike = null; // initialize isLike property
-        console.log(`isLike for idea ${idea._id}: ${idea.isLike}`);
+        idea.isLike = null;
       }
 
       for (const staffIdea of allStaffIdea) {
@@ -178,38 +198,23 @@ const displayAllIdea = async (req, res) => {
           if (ideaIndex !== -1) {
             const isLiked = staffIdea.isLike === true;
             const isDisliked = staffIdea.isLike === false;
-            console.log(
-              `isLike for idea ${ideaId}: ${isLiked} / ${isDisliked}`,
-            );
+
             allIdea.docs[ideaIndex].isLike = isLiked ? true : false;
             allIdea.docs[ideaIndex].isDislike = isDisliked ? true : false;
           }
         }
       }
     }
-    // allIdea.docs.forEach((element, index) => {
-    //   if (
-    //     typeof element.urlFile === "undefined" ||
-    //     !isImageUrl(element.urlFile)
-    //   ) {
-    //     // eslint-disable-next-line no-param-reassign
-    //     element.urlFile = null;
-    //   }
-    // });
-    // allIdea.docs = allIdea.docs.filter((doc) => doc.idStaffIdea !== null);
-    console.log(
-      "🚀 ~ file: idea.controller.js:192 ~ displayAllIdea ~ allIdea:",
-      allIdea.docs[0].isLike,
-    );
+
     // return res.json(allIdea);
-    return res.render("partials/master", {
-      title: "Idea",
-      content: "../staff/homePage",
-      staff,
-      role: staff.idRole.nameRole,
-      ideas: allIdea,
-    });
-    // return res.status(200).send(allIdea);
+    // return res.render("partials/master", {
+    //   title: "Idea",
+    //   content: "../staff/homePage",
+    //   staff,
+    //   role: staff.idRole.nameRole,
+    //   ideas: allIdea,
+    // });
+    return res.status(200).send(allIdea.docs);
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
     return err;

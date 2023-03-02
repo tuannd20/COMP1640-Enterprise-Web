@@ -35,16 +35,22 @@ const renderCreateAccountPage = async (req, res) => {
 
 const renderEditAccountPage = async (req, res) => {
   const { id } = req.params;
-  const staff = await StaffService.displayStaffById({ _id: id });
+  const staff = req.cookies.Staff;
+  const staffByID = await StaffService.displayStaffById({ _id: id });
   const departments = await DepartmentService.getAllDepartment();
   const roles = await RoleService.getAllRole();
   return res.render("partials/master", {
     title: "Edit account",
     content: "../admin/account/editAccountPage",
+    staffByID,
     staff,
     role: staff.idRole.nameRole,
     departments,
     roles,
+    errorMessageEmail: null,
+    errorMessageSelect: null,
+    errorMessagePhoneNumber: null,
+    isSuccess: false,
   });
   // return res.json(staff);
 };
@@ -68,7 +74,9 @@ const createStaff = async (req, res) => {
     const staff = req.cookies.Staff;
 
     const formData = req.body;
+    console.log("body controller", formData);
     const results = await StaffService.createStaff(formData);
+    console.log(results);
 
     const departmentDB = results.data.departmentRenders.map((department) => ({
       _id: department._id,
@@ -83,7 +91,7 @@ const createStaff = async (req, res) => {
     );
 
     if (results.statusCode === BAD_REQUEST) {
-      return res.status(results.statusCode).render("partials/master", {
+      return res.status(400).render("partials/master", {
         title: "Create new account",
         content: "../admin/account/createAccountPage",
         departments: departmentDB,
@@ -103,7 +111,7 @@ const createStaff = async (req, res) => {
 
     return res.redirect("/admin/account");
   } catch (err) {
-    res.json(err);
+    console.log(err);
     return err;
   }
 };
@@ -152,7 +160,7 @@ const getAllStaff = async (req, res) => {
     // return res.json(staffs);
     return res.render("partials/master", {
       title: "List of accounts",
-      content: "../admin/account/listAccountPage",
+      content: "../admin/account/listAccountDataPage",
       staffs,
       staff,
       role: staff.idRole.nameRole,
@@ -165,13 +173,57 @@ const getAllStaff = async (req, res) => {
 
 const updateStaff = async (req, res) => {
   try {
+    const staff = req.cookies.Staff;
+    const { idDepartment } = req.body;
+    const checkDepartment = await DepartmentService.getDepartment({
+      _id: idDepartment,
+    });
+    if (checkDepartment.isUsed === false) {
+      const departments = await DepartmentService.updateDepartment(
+        { _id: idDepartment },
+        { isUsed: true },
+      );
+      if (!departments) {
+        res.redirect("/home/errors");
+      }
+    }
     const { id } = req.params;
-    const updateObject = req.body;
-    console.log(updateObject);
-    const staff = await StaffService.updateStaff(
+    // const updateObject = req.body;
+    const results = await StaffService.updateStaff(
       { _id: id },
       { $set: req.body },
     );
+    const departments = await DepartmentService.getAllDepartment();
+    const roles = await RoleService.getAllRole();
+    // const departmentDB = results.data.departmentRenders.map((department) => ({
+    //   _id: department._id,
+    //   nameDepartment: department.name,
+    // }));
+
+    // const roleDB = results.data.roleRenders.map(
+    //   (role) =>
+    //     // eslint-disable-next-line no-param-reassign, dot-notation
+    //     ({ _id: role._id, nameRole: role.name }),
+    //   // eslint-disable-next-line function-paren-newline
+    // );
+
+    if (results.statusCode === BAD_REQUEST) {
+      return res.status(results.statusCode).render("partials/master", {
+        title: "Edit an account",
+        content: "../admin/account/editAccountPage",
+        departments,
+        roles,
+        staff,
+        // email: results.data.staffRenders.email,
+        // fullName: results.data.staffRenders.fullName,
+        // phoneNumber: results.data.staffRenders.phoneNumber,
+        // address: results.data.staffRenders.address,
+        errorMessageEmail: results.messageErrorEmail,
+        errorMessageSelect: results.messageErrorSelect,
+        errorMessagePhoneNumber: results.messageErrorPhone,
+        isSuccess: results.successStatus,
+      });
+    }
     return res.redirect("/admin/account");
     // return res.json(staff);
   } catch (err) {
@@ -262,6 +314,26 @@ const logout = async (req, res) => {
   }
 };
 
+const renderExampleAccountPage = async (req, res) => {
+  try {
+    const staff = req.cookies.Staff;
+    const staffs = await StaffService.getAllStaff();
+
+    // return res.json(staffs);
+    return res.render("partials/master", {
+      title: "List of accounts",
+      content: "../admin/account/listAccountDataPage",
+      staffs,
+      staff,
+      role: staff.idRole.nameRole,
+    });
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+  // return res.json(staff);
+};
+
 module.exports = {
   index,
   renderCreateAccountPage,
@@ -276,4 +348,5 @@ module.exports = {
   renderProfilePage,
   renderEditProfilePage,
   editProfilePage,
+  renderExampleAccountPage,
 };

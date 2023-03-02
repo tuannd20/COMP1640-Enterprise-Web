@@ -69,6 +69,15 @@ const getPollActivated = async () => {
   }
 };
 
+const getPollInactive = async () => {
+  try {
+    const result = await PollModel.find({ isUsed: false });
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 const findByName = async (name) => {
   try {
     const result = await PollModel.findOne({ namePoll: name });
@@ -101,4 +110,5 @@ module.exports = {
   getPollActivated,
   findByName,
   findByNameExist,
+  getPollInactive,
 };

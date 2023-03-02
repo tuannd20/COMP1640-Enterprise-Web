@@ -31,6 +31,267 @@ const createStaff = async (data, departments, roles) => {
     const checkDataOfStaff = await findByEmail(email);
     const checkDataOfStaffPhoneNumber = await findByPhoneNumber(phoneNumber);
 
+    if (checkDataOfStaff !== null && checkDataOfStaffPhoneNumber !== null) {
+      if (
+        idRole === "" &&
+        idDepartment === "" &&
+        checkDataOfStaff.email === email &&
+        checkDataOfStaffPhoneNumber.phoneNumber === phoneNumber
+      ) {
+        const resultBody = {
+          staffRenders: data,
+          departmentRenders,
+          roleRenders,
+        };
+
+        const responseCheckEmail = ResponseHandler.responseAccountHandler(
+          false,
+          resultBody,
+          400,
+          EMAIL_ALREADY_EXISTS,
+          DEPARTMENT_AND_ROLE_IS_REQUIRED,
+          PHONE_NUMBER_ALREADY_EXISTS,
+        );
+
+        return responseCheckEmail;
+      }
+
+      if (
+        idRole === "" &&
+        idDepartment !== "" &&
+        checkDataOfStaff.email === email &&
+        checkDataOfStaffPhoneNumber.phoneNumber === phoneNumber
+      ) {
+        const resultBody = {
+          staffRenders: data,
+          departmentRenders,
+          roleRenders,
+        };
+
+        const responseCheckEmail = ResponseHandler.responseAccountHandler(
+          false,
+          resultBody,
+          400,
+          EMAIL_ALREADY_EXISTS,
+          ROLE_IS_REQUIRED,
+          PHONE_NUMBER_ALREADY_EXISTS,
+        );
+
+        return responseCheckEmail;
+      }
+
+      if (
+        idRole !== "" &&
+        idDepartment === "" &&
+        checkDataOfStaff.email === email &&
+        checkDataOfStaffPhoneNumber.phoneNumber === phoneNumber
+      ) {
+        const resultBody = {
+          staffRenders: data,
+          departmentRenders,
+          roleRenders,
+        };
+
+        const responseCheckEmail = ResponseHandler.responseAccountHandler(
+          false,
+          resultBody,
+          400,
+          EMAIL_ALREADY_EXISTS,
+          DEPARTMENT_IS_REQUIRED,
+          PHONE_NUMBER_ALREADY_EXISTS,
+        );
+
+        return responseCheckEmail;
+      }
+    }
+
+    if (idRole === "" && idDepartment === "") {
+      const resultBody = {
+        staffRenders: data,
+        departmentRenders,
+        roleRenders,
+      };
+
+      const responseCheckEmail = ResponseHandler.responseAccountHandler(
+        false,
+        resultBody,
+        400,
+        null,
+        DEPARTMENT_AND_ROLE_IS_REQUIRED,
+        null,
+      );
+
+      return responseCheckEmail;
+    }
+
+    if (idRole !== "" && idDepartment === "") {
+      const resultBody = {
+        staffRenders: data,
+        departmentRenders,
+        roleRenders,
+      };
+
+      const responseCheckEmail = ResponseHandler.responseAccountHandler(
+        false,
+        resultBody,
+        400,
+        null,
+        DEPARTMENT_IS_REQUIRED,
+        null,
+      );
+
+      return responseCheckEmail;
+    }
+
+    if (idRole === "" && idDepartment !== "") {
+      const resultBody = {
+        staffRenders: data,
+        departmentRenders,
+        roleRenders,
+      };
+
+      const responseCheckEmail = ResponseHandler.responseAccountHandler(
+        false,
+        resultBody,
+        400,
+        null,
+        ROLE_IS_REQUIRED,
+        null,
+      );
+
+      return responseCheckEmail;
+    }
+
+    if (checkDataOfStaff !== null) {
+      if (checkDataOfStaff.email === email) {
+        const resultBody = {
+          staffRenders: data,
+          departmentRenders,
+          roleRenders,
+        };
+
+        const responseCheckEmail = ResponseHandler.responseAccountHandler(
+          false,
+          resultBody,
+          400,
+          EMAIL_ALREADY_EXISTS,
+        );
+
+        return responseCheckEmail;
+      }
+    }
+
+    if (checkDataOfStaffPhoneNumber !== null) {
+      if (checkDataOfStaffPhoneNumber.phoneNumber === phoneNumber) {
+        const resultBody = {
+          staffRenders: data,
+          departmentRenders,
+          roleRenders,
+        };
+
+        const responseCheckEmail = ResponseHandler.responseAccountHandler(
+          false,
+          resultBody,
+          400,
+          null,
+          null,
+          PHONE_NUMBER_ALREADY_EXISTS,
+        );
+
+        return responseCheckEmail;
+      }
+    }
+
+    if (!checkDataOfStaffPhoneNumber && !checkDataOfStaff) {
+      const staff = await StaffModel.create(data);
+
+      const result = {
+        staffRenders: staff,
+        departmentRenders,
+        roleRenders,
+      };
+
+      const response = ResponseHandler.responseAccountHandler(
+        true,
+        result,
+        200,
+        null,
+      );
+      return response;
+    }
+  } catch (err) {
+    return err;
+  }
+};
+
+const getAllStaff = async () => {
+  try {
+    const staffs = await StaffModel.find()
+      .sort({ createdAt: -1 })
+      .populate(["idDepartment", "idRole"]);
+
+    return staffs;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+const findStaff = async (data) => {
+  try {
+    const staff = await StaffModel.findOne({ email: data }).populate([
+      "idRole",
+      "idDepartment",
+    ]);
+    return staff;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+// const displayAllStaff = async () => {
+//   try {
+//     const staff = await StaffModel.find();
+
+//     return staff;
+//   } catch (err) {
+//     console.log(err);
+//     return err;
+//   }
+// };
+
+const displayStaffById = async (id) => {
+  try {
+    const staff = await StaffModel.findById(id).populate([
+      "idDepartment",
+      "idRole",
+    ]);
+
+    return staff;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+// eslint-disable-next-line consistent-return
+const updateStaff = async (id, data, departments, roles) => {
+  try {
+    let departmentRenders = [];
+    let roleRenders = [];
+    // eslint-disable-next-line array-callback-return
+    departmentRenders = departments.map((department) => ({
+      _id: department._id,
+      name: department.nameDepartment,
+    }));
+    roleRenders = roles.map((role) => ({ _id: role._id, name: role.nameRole }));
+
+    const { email, phoneNumber, idRole, idDepartment } = data;
+
+    const checkDataOfStaff = await findByEmail(email);
+    const checkDataOfStaffPhoneNumber = await findByPhoneNumber(phoneNumber);
+
     if (
       idRole === "" &&
       idDepartment === "" &&
@@ -55,8 +316,9 @@ const createStaff = async (data, departments, roles) => {
       return responseCheckEmail;
     }
 
+    // eslint-disable-next-line no-underscore-dangle, max-len
     if (!checkDataOfStaff && !checkDataOfStaffPhoneNumber) {
-      const staff = await StaffModel.create(data);
+      const staff = await StaffModel.updateMany(id, data);
 
       const result = {
         staffRenders: staff,
@@ -91,7 +353,6 @@ const createStaff = async (data, departments, roles) => {
 
       return responseCheckEmail;
     }
-
     if (idRole === "" && idDepartment === "") {
       const resultBody = {
         staffRenders: data,
@@ -165,67 +426,6 @@ const createStaff = async (data, departments, roles) => {
 
       return responseCheckEmail;
     }
-  } catch (err) {
-    return err;
-  }
-};
-
-const getAllStaff = async () => {
-  try {
-    const staffs = await StaffModel.find()
-      .sort({ createdAt: -1 })
-      .populate(["idDepartment", "idRole"]);
-
-    return staffs;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
-
-const findStaff = async (data) => {
-  try {
-    const staff = await StaffModel.findOne({ email: data }).populate([
-      "idRole",
-      "idDepartment",
-    ]);
-    return staff;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
-
-// const displayAllStaff = async () => {
-//   try {
-//     const staff = await StaffModel.find();
-
-//     return staff;
-//   } catch (err) {
-//     console.log(err);
-//     return err;
-//   }
-// };
-
-const displayStaffById = async (id) => {
-  try {
-    const staff = await StaffModel.findById(id).populate([
-      "idDepartment",
-      "idRole",
-    ]);
-
-    return staff;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
-
-const updateStaff = async (id, data) => {
-  try {
-    // eslint-disable-next-line no-underscore-dangle, max-len
-    const staff = await StaffModel.updateMany(id, data);
-    return staff;
   } catch (err) {
     console.log(err);
     return err;

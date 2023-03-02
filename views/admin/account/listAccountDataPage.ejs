@@ -1,55 +1,73 @@
 <div class="overflow-x-auto m-1">
-    <div
-      class="min-w-screen min-h-screen flex justify-center font-sans overflow-hidden"
-    >
-      <div class="w-full m-10">
-        <div class="relative mt-20 mb-10 create-btn flex justify-end">
-          <a href="/admin/account/create">
-              <button type="button" class="inline-block px-6 py-4 bg-sky-900 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-sky-400 hover:shadow-lg focus:bg-blue-400 focus:shadow-lg focus:outline-none focus:ring-0 active: active:shadow-lg transition duration-150 ease-in-out">New Account</button>
-          </a>
-        </div>
-        <div class="bg-white shadow-md rounded my-6">
-          <table class="min-w-max w-full table-auto" id="table_list_account">
+  <div
+    class="min-w-screen min-h-screen flex justify-center font-sans overflow-hidden"
+  >
+    <div class="w-full m-10">
+      <div class="relative mt-20 mb-10 create-btn flex justify-end">
+        <a href="/admin/account/create">
+            <button type="button" class="inline-block px-6 py-4 bg-sky-900 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-sky-400 hover:shadow-lg focus:bg-blue-400 focus:shadow-lg focus:outline-none focus:ring-0 active: active:shadow-lg transition duration-150 ease-in-out">New Account</button>
+        </a>
+      </div>
+
+      <!--Container-->
+      <!-- <div class="container w-full md:w-4/5 xl:w-3/5  mx-auto px-2"> -->
+      <div class="">
+
+        <!--Card-->
+        <div id='recipients' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white rounded my-6">
+
+          <table id="table_list_account" class="" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
             <thead>
-              <tr
-                class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal"
-              >
-                <th class="py-3 px-6 text-left">ID</th>
-                <th class="py-3 px-6 text-left">Full Name</th>
-                <th class="py-3 px-6 text-left">Email</th>
-                <th class="py-3 px-6 text-left">Address</th>
-                <th class="py-3 px-6 text-center">Phone Number</th>
-                <th class="py-3 px-6 text-left">Department</th>
-                <th class="py-3 px-6 text-left">Role</th>
-                <th class="py-3 px-6 text-center">Active</th>
-                <th class="py-3 px-6 text-center">Actions</th>
+              <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                <th data-priority="1">ID</th>
+                <th data-priority="2">Full Name</th>
+                <th data-priority="3">Email</th>
+                <th data-priority="4">Phone Number</th>
+                <th data-priority="5">Department</th>
+                <th data-priority="6">Role</th>
+                <th data-priority="7">Active</th>
+                <th data-priority="8">Actions</th>
               </tr>
             </thead>
-            <tbody class="text-gray-600 text-sm font-light">
+            <tbody>
+              <!-- <tr>
+                <td>Tiger Nixon</td>
+                <td>System Architect</td>
+                <td>Edinburgh</td>
+                <td>61</td>
+                <td>2011/04/25</td>
+                <td>$320,800</td>
+                <td>$320,800</td>
+                <td>$320,800</td>
+                <td>$320,800</td>
+              </tr> -->
+
+              <!-- Rest of your data (refer to https://datatables.net/examples/server_side/ for server side processing)-->
+
               <% let count = staffs.length %>
               <% staffs.forEach(function(staff, index) { %>
               <tr class="border-b border-gray-200 hover:bg-gray-100">
-                <td class="py-3 px-6 text-left">
+                <td class="py-3 px-6 text-center">
                   <span class="font-medium"><%= ++index %></span>
                 </td>
-                <td class="py-3 px-6 text-left">
+                <td class="py-3 px-6 text-center">
                   <span class="font-medium"><%= staff.fullName %></span>
                 </td>
-                <td class="py-3 px-6 text-left">
+                <td class="py-3 px-6 text-center">
                   <span class="font-medium"><%= staff.email %></span>
                 </td>
-                <td class="py-3 px-6 text-left">
+                <!-- <td class="py-3 px-6 text-center">
                   <span class="font-medium"><%= staff.address %></span>
-                </td>
+                </td> -->
                 <td class="py-3 px-6 text-center">
                   <span class="font-medium"><%= staff.phoneNumber %></span>
                 </td>
-                <td class="py-3 px-6 text-left">
+                <td class="py-3 px-6 text-center">
                   <span class="font-medium"
                     ><%= staff.idDepartment.nameDepartment %></span
                   >
                 </td>
-                <td class="py-3 px-6 text-left">
+                <td class="py-3 px-6 text-center">
                   <span class="font-medium"><%= staff.idRole.nameRole %></span>
                 </td>
                 <% if (staff.lockAccount === true) { %>
@@ -93,9 +111,17 @@
               </tr>
               <% }) %>
             </tbody>
+
           </table>
+
+
         </div>
+        <!--/Card-->
+
+
       </div>
+      <!--/container-->
+
     </div>
   </div>
-  
+</div>
