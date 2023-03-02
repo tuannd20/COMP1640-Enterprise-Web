@@ -62,14 +62,14 @@ const getAllDepartment = async (req, res) => {
       };
     });
 
-    return res.send(departments);
-    // return res.render("partials/master", {
-    //   title: "Department List",
-    //   content: "../qam/department/listDepartmentPage",
-    //   Department: departmentsWithQa,
-    //   staff,
-    //   role: staff.idRole.nameRole,
-    // });
+    // return res.send(departments);
+    return res.render("partials/master", {
+      title: "Department List",
+      content: "../qam/department/listDepartmentPage",
+      Department: departmentsWithQa,
+      staff,
+      role: staff.idRole.nameRole,
+    });
   } catch (err) {
     return err;
   }
