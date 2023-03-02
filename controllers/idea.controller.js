@@ -183,17 +183,8 @@ const displayAllIdea = async (req, res) => {
     });
     if (allStaffIdea) {
       allIdea.docs.forEach((idea) => {
-        console.log(
-          "🚀 ~ file: idea.controller.js:204 ~ allIdea.docs.forEach ~ idea._id:",
-          idea._id,
-        );
-
         const staffIdea = allStaffIdea.find(
           (sIdea) => sIdea.IdIdea.toString() === idea._id.toString(),
-        );
-        console.log(
-          "🚀 ~ file: idea.controller.js:195 ~ allIdea.docs.forEach ~ staffIdea:",
-          staffIdea.IdIdea,
         );
         if (staffIdea) {
           idea.isLike = staffIdea.isLike;
