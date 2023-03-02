@@ -10,12 +10,10 @@ const renderListCategoryPage = async (req, res, next) => {
     );
 
     const dataPayload = categories.toString();
-    console.log("ass: ", dataPayload);
 
     let isHaveData = true;
     if (dataPayload === "") {
       isHaveData = false;
-      console.log("dataPayload ", isHaveData);
     }
 
     console.log(categories);

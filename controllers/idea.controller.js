@@ -41,13 +41,17 @@ const renderCreateIdeaPage = async (req, res) => {
 
 const renderEditIdeaPage = async (req, res) => {
   try {
+    const { id } = req.params;
     const staff = req.cookies.Staff;
     const departments = await departmentService.getAllDepartment();
+    const idea = await ideaService.getIdea(id);
+    console.log(idea);
 
     return res.render("partials/master", {
       title: "Your Idea",
       content: "../staff/idea/editIdeaPage",
       staff,
+      idea,
       departments,
       role: staff.idRole.nameRole,
     });
