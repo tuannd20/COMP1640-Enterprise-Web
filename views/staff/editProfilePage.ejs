@@ -41,10 +41,20 @@
       >
         <div class="flex justify-center">
         <form class="flex items-center space-x-6">
+          <% if(staffProfile.avatarImage === null) { %>
+          <div class="shrink-0">
+          <img
+            src="<%= process.env.BASE_URL %>image/avatar.png"
+            alt=""
+            class="h-16 w-16 object-cover rounded-full border-2 border-lime-700"
+          />
+          </div>
+          <%}else { %>
           <div class="shrink-0">
             <img class="h-16 w-16 object-cover rounded-full" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1361&q=80" alt="Current profile photo" />
           </div>
-          
+          <% } %>
+
           <label class="block ml-3 mt-3">
             <span class="sr-only">Choose profile photo</span>
             <input type="file" class="block w-full text-sm text-slate-500
@@ -69,7 +79,7 @@
             type="text"
             name="fullName"
             id="fullName"
-            value=""
+            value="<%= staffProfile.fullName %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -87,7 +97,7 @@
             name="email"
             id="email"
             pattern=".+@gmail\.com"
-            value=""
+            value="<%= staffProfile.email %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -104,7 +114,7 @@
             id="password"
             name="password"
             title="Click to change password"
-            value=""
+            value="<%= staffProfile.address %>"
             onclick="generatePassword()"
             readonly
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -121,7 +131,7 @@
             type="text"
             name="address"
             id="address"
-            value=""
+            value="<%= staffProfile.phoneNumber %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -134,11 +144,9 @@
             Old password
           </label>
           <input
-            type="tel"
-            pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
-            name="phoneNumber"
-            id="phoneNumber"
-            value=""
+            type="text"
+            name="password"
+            value="<%= staffProfile.password %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -151,10 +159,8 @@
             New password
           </label>
           <input
-            type="tel"
-            pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
-            name="phoneNumber"
-            id="phoneNumber"
+            type="text"
+            name="password"
             value=""
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
