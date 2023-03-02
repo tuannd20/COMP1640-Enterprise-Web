@@ -64,14 +64,17 @@
                 <select
                   name="department-type"
                   form="create-form"
-                  id="product-type"
                   class="border rounded-lg py-[2px] border-slate-400"
+                  id="department-select"
                 >
-                  <option value="0">0</option>
-                  <option value="1">1</option>
+                <option value="0">Select</option>
+                <% departments.forEach(function(department) { %>
+                  <option value="<%= department._id %>"> <%= department.nameDepartment %></option>
+                  <!-- <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
-                  <option value="4">4</option>
+                  <option value="4">4</option> -->
+                  <% }) %>
                 </select>
               </label>
             </div>
@@ -80,7 +83,7 @@
                 Category
                 <select
                   name="Category"
-                  id="type"
+                  id="categories-list"
                   class="border rounded-lg py-[2px] border-slate-400"
                 >
                   <option value="0">All</option>
@@ -123,3 +126,38 @@
     </div>
   </div>
 </Main>
+
+<script>
+  // const selectDepartmentElement = document.getElementById("department-select");
+
+  // selectDepartmentElement.addEventListener('click', function() {
+  // // Do something when the select element is clicked
+  //   console.log('Select element clicked!');
+  // });
+
+  $(document).ready(function () {
+
+    $("#department-select").click(async function () {
+        const departmentId = await $("#department-select").val();
+
+        if (departmentId === "0") {
+          console.log('Select element clicked!', departmentId);
+          console.log('Select element 0');
+        } else {
+          console.log('Select', departmentId);
+          const response = await axios.get(`/api/v1/categories/department/${departmentId}`);
+          console.log(response.data);
+          const categories = response.data;
+
+          $(`#categories-list option[value='${categories.nameCategory}']`)
+
+          categories.map((category) => {
+            $(`#categories-list option[value='${category.nameCategory}']`)
+            console.log(category);
+          })
+
+          return categories;
+        }
+    });
+  });
+</script>

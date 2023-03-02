@@ -35,7 +35,25 @@ const renderCreateIdeaPage = async (req, res) => {
     title: "Your Idea",
     content: "../staff/idea/createIdeaPage",
     staff,
+    role: staff.idRole.nameRole,
   });
+};
+
+const renderEditIdeaPage = async (req, res) => {
+  try {
+    const staff = req.cookies.Staff;
+    const departments = await departmentService.getAllDepartment();
+
+    return res.render("partials/master", {
+      title: "Your Idea",
+      content: "../staff/idea/editIdeaPage",
+      staff,
+      departments,
+      role: staff.idRole.nameRole,
+    });
+  } catch (error) {
+    return error;
+  }
 };
 
 const createIdea = async (req, res) => {
@@ -275,4 +293,5 @@ module.exports = {
   displayDetailIdea,
   displayAllIdea,
   getIdeaForStaff,
+  renderEditIdeaPage,
 };

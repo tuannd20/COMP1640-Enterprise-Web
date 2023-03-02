@@ -101,7 +101,14 @@ const getCategoryActivated = async () => {
 
 const getCategoryByDepartmentId = async (id) => {
   try {
-    const result = await CategoryModel.find({ idDepartmentId: id });
+    const result = await CategoryModel.find({ idDepartment: id }).populate(
+      "idDepartment",
+    );
+
+    if (result !== null) {
+      console.log("data: Nodata ", result);
+    }
+
     console.log("data: ", result);
     return result;
   } catch (err) {

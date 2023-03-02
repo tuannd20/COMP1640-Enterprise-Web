@@ -6,8 +6,10 @@ const AdminRouter = require("./admin");
 const QAMRouter = require("./qam");
 const QARouter = require("./qa");
 const IdeaRouter = require("./idea");
+const ApiRouter = require("./apiRoutes");
 
 function route(app) {
+  app.use("/api/v1", ApiRouter);
   app.use(
     "/qa",
     // AuthMiddleWare.isHaveToken,

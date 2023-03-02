@@ -25,6 +25,7 @@
     "import/no-named-as-default": 0,
     "import/no-named-as-default-member": 0,
     "no-empty": "warn",
+    "no-underscore-dangle": "off",
     "no-cond-assign": ["error", "always"],
     "import/no-extraneous-dependencies": "off",
     "operator-linebreak": ["error", "after"],
