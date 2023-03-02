@@ -18,6 +18,7 @@
     "curly": "error",
     "quotes": ["error", "double"],
     "linebreak-style": 0,
+    "no-console": "off",
     "eslint linebreak-style": [0, "error", "windows"],
     "no-unused-vars": "warn",
     "import/prefer-default-export": 0,
