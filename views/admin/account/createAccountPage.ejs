@@ -187,9 +187,10 @@
                 <select
                   name="idDepartment"
                   form="create-form-account"
-                  id="idDepartment"
+                  id="idDepartmentDefault"
                   class="border rounded-lg py-[2px] border-slate-400"
                 >
+                  <% var departmentDefault = 'ValueDepartment' %>
                   <option value="">Select</option>
                   <% departments.forEach(function(department) { %>
                   <option value="<%= department._id %>">
@@ -204,10 +205,11 @@
                 Role
                 <select
                   name="idRole"
-                  id="idRole"
+                  id="idRoleDefault"
                   form="create-form-account"
                   class="border rounded-lg py-[2px] border-slate-400"
                 >
+                  <% var roleDefault = 'ValueRole' %>
                   <option value="">Select</option>
                   <% roles.forEach(function(role) { %>
                   <option value="<%= role._id %>"><%= role.nameRole %></option>
@@ -325,6 +327,9 @@
 </Main>
 
 <script>
+  // document.getElementById("idDepartmentDefault").value = "Select";
+  // document.getElementById("idRoleDefault").value = "Select";
+
   function generatePassword() {
     // const length = 6;
     let password = "";
