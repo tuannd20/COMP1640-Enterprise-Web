@@ -245,6 +245,7 @@ const displayAllIdea = async (req, res) => {
 
 const getIdeaForStaff = async (req, res) => {
   try {
+    const staff = req.cookies.Staff;
     const StaffData = req.cookies.Staff;
     const id = StaffData._id;
     const { page } = req.query;
@@ -257,11 +258,11 @@ const getIdeaForStaff = async (req, res) => {
       query: { idStaffIdea: id },
       sort: { createdAt: -1 },
     };
-    const staff = await staffService.displayStaffById(id);
+    const staffPayload = await staffService.displayStaffById(id);
 
-    if (!staff) return res.redirect("/404");
-    if (typeof staff.avatarImage === "undefined") {
-      staff.avatarImage = null;
+    if (!staffPayload) return res.redirect("/404");
+    if (typeof staffPayload.avatarImage === "undefined") {
+      staffPayload.avatarImage = null;
     }
     const allIdea = await ideaService.getALl(options);
 
@@ -276,11 +277,14 @@ const getIdeaForStaff = async (req, res) => {
     });
     allIdea.docs = allIdea.docs.filter((doc) => doc.idStaffIdea !== null);
 
-    const data = { allIdea, staff };
+    const data = { allIdea, staffPayload };
+    console.log(data.allIdea.docs);
     return res.render("partials/master", {
-      title: "Idea",
+      title: "Your profile",
       content: "../staff/profilePage",
       data,
+      staff,
+      role: staff.idRole.nameRole,
     });
     // return res.status(200).send(data);
   } catch (err) {

@@ -14,7 +14,7 @@
     class="relative p-3 border-2 border-stone-700 rounded-2xl h-auto opacity-80 mb-10"
   >
     <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
-      <a href="/admin/account">
+      <a href="/profile">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -46,16 +46,21 @@
           <img
             src="<%= process.env.BASE_URL %>image/avatar.png"
             alt=""
-            class="h-16 w-16 object-cover rounded-full border-2 border-lime-700"
+            class="h-24 w-24 object-cover rounded-full border-2 border-lime-700"
           />
           </div>
           <%}else { %>
-          <div class="shrink-0">
+          <!-- <div class="shrink-0">
             <img class="h-16 w-16 object-cover rounded-full" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1361&q=80" alt="Current profile photo" />
-          </div>
+          </div> -->
+            <img
+              src="<%= staffProfile.avatarImage %>"
+              alt=""
+              class="w-24 h-24 border rounded-full"
+            />
           <% } %>
 
-          <label class="block ml-3 mt-3">
+          <label class="block ml-3 mt-7">
             <span class="sr-only">Choose profile photo</span>
             <input type="file" class="block w-full text-sm text-slate-500
               file:mr-4 file:py-2 file:px-4

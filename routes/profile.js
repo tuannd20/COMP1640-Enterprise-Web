@@ -4,7 +4,7 @@ const router = express.Router();
 const AccountController = require("../controllers/account.controller");
 const IdeaController = require("../controllers/idea.controller");
 
-router.get("/", AccountController.renderProfilePage);
+router.get("/", IdeaController.getIdeaForStaff);
 
 // router.get("/:idAccount", AccountController.displayAccountById);
 router.get("/idea", IdeaController.getIdeaForStaff);
