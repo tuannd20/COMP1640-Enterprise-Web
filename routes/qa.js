@@ -21,4 +21,6 @@ router.delete("/categories/:id", CategoryController.deleteOneCategory);
 
 router.get("/category/delete-all", CategoryController.deleteAllCategory);
 
+router.get("/categories/department/:id", CategoryController.findCategoryByIdDepartment);
+
 module.exports = router;

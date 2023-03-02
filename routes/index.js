@@ -10,8 +10,8 @@ const IdeaRouter = require("./idea");
 function route(app) {
   app.use(
     "/qa",
-    AuthMiddleWare.isHaveToken,
-    AuthMiddleWare.checkCurrentRoleQA,
+    // AuthMiddleWare.isHaveToken,
+    // AuthMiddleWare.checkCurrentRoleQA,
     QARouter,
   );
   app.use(

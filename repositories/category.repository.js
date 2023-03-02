@@ -99,6 +99,16 @@ const getCategoryActivated = async () => {
   }
 };
 
+const getCategoryByDepartmentId = async (id) => {
+  try {
+    const result = await CategoryModel.find({ idDepartmentId: id });
+    console.log("data: ", result);
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   readCategories,
   createCategory,
@@ -108,4 +118,5 @@ module.exports = {
   deleteAllCategory,
   findByName,
   getCategoryActivated,
+  getCategoryByDepartmentId,
 };
