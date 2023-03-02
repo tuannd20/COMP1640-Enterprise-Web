@@ -30,6 +30,16 @@ const updateCategory = async (id, data) => {
   }
 };
 
+const updateStatusCategory = async (id) => {
+  try {
+    const result = await CategoryRepository.updateStatusOfCategory(id);
+    return result;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 const deleteAllCategory = async () => {
   try {
     const result = await CategoryRepository.deleteAllCategory();
@@ -87,4 +97,5 @@ module.exports = {
   readCategoryById,
   findByName,
   findCategoryByIdDepartment,
+  updateStatusCategory,
 };
