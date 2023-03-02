@@ -6,7 +6,7 @@ const responseAccountHandler = (
   errorTypeSelect,
   errorTypePhoneNumber,
 ) => ({
-  successStatus: success,
+  success,
   data,
   statusCode,
   messageErrorEmail: errorTypeEmail || null,

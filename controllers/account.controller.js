@@ -74,20 +74,9 @@ const createStaff = async (req, res) => {
     const staff = req.cookies.Staff;
 
     const formData = req.body;
-    const { idDepartment } = req.body;
-    const checkDepartment = await DepartmentService.getDepartment({
-      _id: idDepartment,
-    });
-    if (checkDepartment.isUsed === false) {
-      const departments = await DepartmentService.updateDepartment(
-        { _id: idDepartment },
-        { isUsed: true },
-      );
-      if (!departments) {
-        res.redirect("/home/errors");
-      }
-    }
+    console.log("body controller", formData);
     const results = await StaffService.createStaff(formData);
+    console.log(results);
 
     const departmentDB = results.data.departmentRenders.map((department) => ({
       _id: department._id,
@@ -102,7 +91,7 @@ const createStaff = async (req, res) => {
     );
 
     if (results.statusCode === BAD_REQUEST) {
-      return res.status(results.statusCode).render("partials/master", {
+      return res.status(400).render("partials/master", {
         title: "Create new account",
         content: "../admin/account/createAccountPage",
         departments: departmentDB,
@@ -144,6 +133,21 @@ const displayStaffById = async (req, res) => {
   }
 };
 
+const renderEditProfilePage = async (req, res) => {
+  const staff = req.cookies.Staff;
+  try {
+    return res.render("partials/master", {
+      title: "Edit profile",
+      content: "../staff/editProfilePage",
+      staff,
+      role: staff.idRole.nameRole,
+    });
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 const getAllStaff = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
@@ -152,7 +156,7 @@ const getAllStaff = async (req, res) => {
     // return res.json(staffs);
     return res.render("partials/master", {
       title: "List of accounts",
-      content: "../admin/account/listAccountPage",
+      content: "../admin/account/listAccountDataPage",
       staffs,
       staff,
       role: staff.idRole.nameRole,
@@ -217,6 +221,22 @@ const updateStaff = async (req, res) => {
       });
     }
     return res.redirect("/admin/account");
+    // return res.json(staff);
+  } catch (err) {
+    return err;
+  }
+};
+
+const editProfilePage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateObject = req.body;
+    console.log(updateObject);
+    const staff = await StaffService.updateStaff(
+      { _id: id },
+      { $set: req.body },
+    );
+    return res.redirect("/staff/editProfilePage");
     // return res.json(staff);
   } catch (err) {
     return err;
@@ -290,6 +310,26 @@ const logout = async (req, res) => {
   }
 };
 
+const renderExampleAccountPage = async (req, res) => {
+  try {
+    const staff = req.cookies.Staff;
+    const staffs = await StaffService.getAllStaff();
+
+    // return res.json(staffs);
+    return res.render("partials/master", {
+      title: "List of accounts",
+      content: "../admin/account/listAccountDataPage",
+      staffs,
+      staff,
+      role: staff.idRole.nameRole,
+    });
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+  // return res.json(staff);
+};
+
 module.exports = {
   index,
   renderCreateAccountPage,
@@ -302,4 +342,7 @@ module.exports = {
   logout,
   getStaffByEmail,
   renderProfilePage,
+  renderEditProfilePage,
+  editProfilePage,
+  renderExampleAccountPage,
 };

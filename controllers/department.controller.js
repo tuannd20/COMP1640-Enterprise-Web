@@ -1,4 +1,5 @@
 const DepartmentService = require("../services/department.service");
+const StaffService = require("../services/staff.service");
 
 const getCreateDepartment = async (req, res) => {
   const staff = req.cookies.Staff;
@@ -24,7 +25,7 @@ const createDepartment = async (req, res) => {
     );
     if (!checkDepartmentResit) {
       const department = await DepartmentService.createDepartment(formData);
-      return res.redirect("/qam/department");
+      return res.redirect("/qam/departments");
     }
     const errorDepartment = "Title is already exists";
     const errorCode = 400;
@@ -47,14 +48,27 @@ const getAllDepartment = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
     const departments = await DepartmentService.getAllDepartment();
+    const allstaff = await StaffService.getAllStaff();
+    const staffQA = allstaff.filter((item) => item.idRole.nameRole === "QA");
+    // từ department lấy ra thông tin của staffQa
+    // const departmentswithqa = departments.map((item) => {
+    //   const staffQAInDepartment = staffQA.filter(
+    //     (staff) => staff.idDepartment._id.toString() === item._id.toString(),
+    //   );
+    //   return {
+    //     ...item._doc,
+    //     staffQA: staffQAInDepartment,
+    //   };
+    // });
 
-    return res.render("partials/master", {
-      title: "Department List",
-      content: "../qam/department/listDepartmentPage",
-      Department: departments,
-      staff,
-      role: staff.idRole.nameRole,
-    });
+    return res.send(departments);
+    // return res.render("partials/master", {
+    //   title: "Department List",
+    //   content: "../qam/department/listDepartmentPage",
+    //   Department: departmentswithqa,
+    //   staff,
+    //   role: staff.idRole.nameRole,
+    // });
   } catch (err) {
     return err;
   }
@@ -113,7 +127,7 @@ const updateDepartment = async (req, res) => {
         { _id: id },
         { $set: updateObject },
       );
-      return res.redirect("/qam/department");
+      return res.redirect("/qam/departments");
     }
 
     const errorDepartment = "Title is already exists";
@@ -145,9 +159,9 @@ const deleteOneDepartment = async (req, res) => {
       const departments = await DepartmentService.deleteOneDepartment({
         _id: id,
       });
-      return res.redirect("/qam/department");
+      return res.redirect("/qam/departments");
     }
-    return res.redirect("/qam/department");
+    return res.redirect("/qam/departments");
   } catch (err) {
     return err;
   }
@@ -173,7 +187,7 @@ const updateDepartmentActivated = async (req, res) => {
       );
     }
 
-    return res.redirect("/qam/department");
+    return res.redirect("/qam/departments");
   } catch (err) {
     return err;
   }
