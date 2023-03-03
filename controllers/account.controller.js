@@ -17,7 +17,7 @@ const index = async (req, res) => {
 
 const renderCreateAccountPage = async (req, res) => {
   const staff = req.cookies.Staff;
-  const departments = await DepartmentService.getAllDepartment();
+  const departments = await DepartmentService.getDepartmentActivated();
   const roles = await RoleService.getAllRole();
   res.render("partials/master", {
     title: "Create new account",
@@ -37,8 +37,16 @@ const renderEditAccountPage = async (req, res) => {
   const { id } = req.params;
   const staff = req.cookies.Staff;
   const staffByID = await StaffService.displayStaffById({ _id: id });
-  const departments = await DepartmentService.getAllDepartment();
+  const departments = await DepartmentService.getDepartmentActivated();
   const roles = await RoleService.getAllRole();
+
+  let isHaveDepartments = true;
+  if (departments.toString() === " ") {
+    isHaveDepartments = false;
+    console.log(isHaveDepartments);
+  }
+  console.log(departments.toString());
+
   return res.render("partials/master", {
     title: "Edit account",
     content: "../admin/account/editAccountPage",
@@ -51,6 +59,7 @@ const renderEditAccountPage = async (req, res) => {
     errorMessageSelect: null,
     errorMessagePhoneNumber: null,
     isSuccess: false,
+    isHaveDepartments,
   });
   // return res.json(staff);
 };
@@ -135,11 +144,15 @@ const displayStaffById = async (req, res) => {
 
 const renderEditProfilePage = async (req, res) => {
   const staff = req.cookies.Staff;
+  const { id } = req.params;
   try {
+    const staffProfile = await StaffService.displayStaffById(id);
+    console.log(staffProfile);
     return res.render("partials/master", {
       title: "Edit profile",
       content: "../staff/editProfilePage",
       staff,
+      staffProfile,
       role: staff.idRole.nameRole,
     });
   } catch (err) {
@@ -151,8 +164,13 @@ const renderEditProfilePage = async (req, res) => {
 const getAllStaff = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
-    const staffs = await StaffService.getAllStaff();
-
+    const allStaff = await StaffService.getAllStaff();
+    const staffs = allStaff.filter((item) => item.idRole.nameRole === "Staff");
+    // console.log(roleStaff);
+    console.log(
+      "🚀 ~ file: account.controller.js:172 ~ getAllStaff ~ roleStaff:",
+      staffs,
+    );
     // return res.json(staffs);
     return res.render("partials/master", {
       title: "List of accounts",
@@ -170,26 +188,26 @@ const getAllStaff = async (req, res) => {
 const updateStaff = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
-    const { idDepartment } = req.body;
-    const checkDepartment = await DepartmentService.getDepartment({
-      _id: idDepartment,
-    });
-    if (checkDepartment.isUsed === false) {
-      const departments = await DepartmentService.updateDepartment(
-        { _id: idDepartment },
-        { isUsed: true },
-      );
-      if (!departments) {
-        res.redirect("/home/errors");
-      }
-    }
+    // const { idDepartment } = req.body;
+    // const checkDepartment = await DepartmentService.getDepartment({
+    //   _id: idDepartment,
+    // });
+    // if (checkDepartment.isUsed === false) {
+    //   const departments = await DepartmentService.updateDepartment(
+    //     { _id: idDepartment },
+    //     { isUsed: true },
+    //   );
+    //   if (!departments) {
+    //     res.redirect("/home/errors");
+    //   }
+    // }
     const { id } = req.params;
     // const updateObject = req.body;
     const results = await StaffService.updateStaff(
       { _id: id },
       { $set: req.body },
     );
-    const departments = await DepartmentService.getAllDepartment();
+    const departments = await DepartmentService.getDepartmentActivated();
     const roles = await RoleService.getAllRole();
     // const departmentDB = results.data.departmentRenders.map((department) => ({
     //   _id: department._id,

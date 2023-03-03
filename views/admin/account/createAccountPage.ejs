@@ -68,10 +68,10 @@
                 form="create-form-account"
                 class="border rounded-lg py-[2px] border-slate-400"
               >
-                <option value="">Select</option>
-                <!-- <% roles.forEach(function(role) { %> -->
-                <option value="<%= 63f069093057672cba67eb4b %>">Staff</option>
-                <!-- <% }) %> -->
+                <option value="63f069093057672cba67eb4b">Staff</option>
+                <!-- <% roles.forEach(function(role) { %>
+                <option value="63f069093057672cba67eb4b">Staff</option>
+                <% }) %> -->
               </select>
             </label>
           </div>
@@ -209,11 +209,12 @@
                 form="create-form-account"
                 class="border rounded-lg py-[2px] border-slate-400"
               >
-                <% var roleDefault = 'ValueRole' %>
-                <option value="">Select</option>
+                <!-- <% var roleDefault = 'ValueRole' %> -->
+                <option value="63f069093057672cba67eb4b">Staff</option>
+                <!-- <option value="">Select</option>
                 <% roles.forEach(function(role) { %>
                 <option value="<%= role._id %>"><%= role.nameRole %></option>
-                <% }) %>
+                <% }) %> -->
               </select>
             </label>
           </div>

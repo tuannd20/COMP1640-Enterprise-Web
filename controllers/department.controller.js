@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const DepartmentService = require("../services/department.service");
 const StaffService = require("../services/staff.service");
 
@@ -48,27 +49,27 @@ const getAllDepartment = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
     const departments = await DepartmentService.getAllDepartment();
-    const allstaff = await StaffService.getAllStaff();
-    const staffQA = allstaff.filter((item) => item.idRole.nameRole === "QA");
+    const allStaff = await StaffService.getAllStaff();
+    const staffQA = allStaff.filter((item) => item.idRole.nameRole === "QA");
     // từ department lấy ra thông tin của staffQa
-    // const departmentswithqa = departments.map((item) => {
-    //   const staffQAInDepartment = staffQA.filter(
-    //     (staff) => staff.idDepartment._id.toString() === item._id.toString(),
-    //   );
-    //   return {
-    //     ...item._doc,
-    //     staffQA: staffQAInDepartment,
-    //   };
-    // });
+    const departmentsWithQa = departments.map((item) => {
+      const staffQAInDepartment = staffQA.filter(
+        (result) => result.idDepartment._id.toString() === item._id.toString(),
+      );
+      return {
+        ...item._doc,
+        staffQA: staffQAInDepartment,
+      };
+    });
 
-    return res.send(departments);
-    // return res.render("partials/master", {
-    //   title: "Department List",
-    //   content: "../qam/department/listDepartmentPage",
-    //   Department: departmentswithqa,
-    //   staff,
-    //   role: staff.idRole.nameRole,
-    // });
+    // return res.send(departments);
+    return res.render("partials/master", {
+      title: "Department List",
+      content: "../qam/department/listDepartmentPage",
+      Department: departmentsWithQa,
+      staff,
+      role: staff.idRole.nameRole,
+    });
   } catch (err) {
     return err;
   }

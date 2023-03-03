@@ -229,7 +229,6 @@ const getAllStaff = async () => {
     const staffs = await StaffModel.find()
       .sort({ createdAt: -1 })
       .populate(["idDepartment", "idRole"]);
-
     return staffs;
   } catch (err) {
     console.log(err);

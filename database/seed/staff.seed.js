@@ -4,12 +4,21 @@ const database = require("../connection");
 
 const staffs = [
   new StaffModel({
-    idRole: "63f066f996329eb058cc3095",
-    idDepartment: "63f069d3ebc00d7c6f011ee0",
+    idRole: "63f066f996329eb058cc3096",
+    fullName: "Phan Le Chinh Nhan",
+    email: "nhanchinhpro@gmail.com",
+    password: "Abc123",
+    avatarImage: "",
+    address: "Danang city",
+    phoneNumber: "0985664795",
+    lockAccount: false,
+  }),
+  new StaffModel({
+    idRole: "63f069093057672cba67eb4a",
     fullName: "Truong Quang Nhanh",
     email: "nhanhpo@gmail.com",
-    password: "nhanhadminpo1234",
-    avatarImage: null,
+    password: "Abc123",
+    avatarImage: "",
     address: "Danang city",
     phoneNumber: "0123456789",
     lockAccount: false,

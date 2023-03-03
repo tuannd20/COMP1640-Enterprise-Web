@@ -12,7 +12,9 @@ const createIdea = async (data) => {
 
 const readIdea = async (id) => {
   try {
-    const Idea = await ideaModel.findById(id).populate("idStaffIdea");
+    const Idea = await ideaModel
+      .findById(id)
+      .populate(["idStaffIdea", "idDepartment", "idPoll", "idCategory"]);
     return Idea;
   } catch (err) {
     console.error("🚀 ~ file: idea.repository.js:18 ~ readIdea ~ err", err);

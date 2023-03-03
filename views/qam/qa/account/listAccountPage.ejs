@@ -39,6 +39,15 @@
               <th class="py-3 px-6 text-center">Actions</th>
             </tr>
           </thead>
+          <% if (staffs.length === 0) { %>
+            <tbody class="text-sm font-light text-gray-600">
+              <tr class="border-b border-gray-200 hover:bg-gray-100">
+                <td class="px-6 py-3 text-center" colspan="9">
+                  <span class="font-medium">No data</span>
+                </td>
+              </tr>
+            </tbody>
+          <% } else { %>
           <tbody class="text-gray-600 text-sm font-light">
             <% let count = staffs.length %> <% staffs.forEach(function(staff,
             index) { %>
@@ -86,7 +95,7 @@
                   <div
                     class="w-6 mr-2 transform hover:text-sky-900 hover:scale-110"
                   >
-                    <a href="/qam/manage-qa/edit/<%= staff.id %>">
+                    <a href="qa/edit/<%= staff.id %>">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -107,6 +116,7 @@
             </tr>
             <% }) %>
           </tbody>
+          <% } %>
         </table>
       </div>
     </div>

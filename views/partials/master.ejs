@@ -7,9 +7,13 @@
   <body>
     <%- include('header') -%>
 
-    <div><%- include(content) -%></div>
+    <div>
+      <%- include(content) -%>
+    </div>
 
-    <%- include('footer') -%>
+    <div class="relative mt-56">
+      <%- include('footer') -%>
+    </div>
   </body>
 
   <!--Datatables -->
@@ -27,5 +31,6 @@
 	</script>
 
   <script src="<%= process.env.BASE_URL %>javascript/homeStaff.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script> -->
 </html>

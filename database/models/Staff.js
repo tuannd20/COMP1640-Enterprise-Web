@@ -5,7 +5,11 @@ const { Schema } = mongoose;
 const StaffSchema = new Schema(
   {
     idRole: { type: mongoose.Types.ObjectId, ref: "Role" },
-    idDepartment: { type: mongoose.Types.ObjectId, ref: "Department" },
+    idDepartment: {
+      type: mongoose.Types.ObjectId,
+      ref: "Department",
+      default: null,
+    },
     fullName: {
       type: String,
       required: true,

@@ -2,23 +2,35 @@
   <div
     class="min-w-screen min-h-screen flex justify-center font-sans overflow-hidden"
   >
-    <div class="w-full m-10">
+    <div class="w-full lg:w-5/6">
       <div class="relative mt-20 mb-10 create-btn flex justify-end">
         <a href="/admin/account/create">
-            <button type="button" class="inline-block px-6 py-4 bg-sky-900 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-sky-400 hover:shadow-lg focus:bg-blue-400 focus:shadow-lg focus:outline-none focus:ring-0 active: active:shadow-lg transition duration-150 ease-in-out">New Account</button>
+          <button
+            type="button"
+            class="inline-block px-6 py-4 bg-sky-900 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-sky-400 hover:shadow-lg focus:bg-blue-400 focus:shadow-lg focus:outline-none focus:ring-0 active: active:shadow-lg transition duration-150 ease-in-out"
+          >
+            New Account
+          </button>
         </a>
       </div>
 
       <!--Container-->
       <!-- <div class="container w-full md:w-4/5 xl:w-3/5  mx-auto px-2"> -->
       <div class="">
-
         <!--Card-->
-        <div id='recipients' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white rounded my-6">
-
-          <table id="table_list_account" class="" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+        <div
+          id="recipients"
+          class="p-8 mt-6 lg:mt-0 rounded shadow bg-white rounded my-6"
+        >
+          <table
+            id="table_list_account"
+            class=""
+            style="width: 100%; padding-top: 1em; padding-bottom: 1em"
+          >
             <thead>
-              <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+              <tr
+                class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal"
+              >
                 <th data-priority="1">ID</th>
                 <th data-priority="2">Full Name</th>
                 <th data-priority="3">Email</th>
@@ -44,8 +56,8 @@
 
               <!-- Rest of your data (refer to https://datatables.net/examples/server_side/ for server side processing)-->
 
-              <% let count = staffs.length %>
-              <% staffs.forEach(function(staff, index) { %>
+              <% let count = staffs.length %> <% staffs.forEach(function(staff,
+              index) { %>
               <tr class="border-b border-gray-200 hover:bg-gray-100">
                 <td class="py-3 px-6 text-center">
                   <span class="font-medium"><%= ++index %></span>
@@ -62,15 +74,21 @@
                 <td class="py-3 px-6 text-center">
                   <span class="font-medium"><%= staff.phoneNumber %></span>
                 </td>
+                <% if (staff.idDepartment === null) { %>
+                <td class="py-3 px-6 text-center">
+                  <span class="font-medium">Null</span>
+                </td>
+                <%}else { %>
                 <td class="py-3 px-6 text-center">
                   <span class="font-medium"
                     ><%= staff.idDepartment.nameDepartment %></span
                   >
                 </td>
+                <% } %>
                 <td class="py-3 px-6 text-center">
                   <span class="font-medium"><%= staff.idRole.nameRole %></span>
                 </td>
-                <% if (staff.lockAccount === true) { %>
+                <% if (staff.lockAccount === false) { %>
                 <td class="py-3 px-6 text-center">
                   <span
                     class="bg-green-600 text-white py-1 px-3 rounded-full text-xs"
@@ -111,17 +129,11 @@
               </tr>
               <% }) %>
             </tbody>
-
           </table>
-
-
         </div>
         <!--/Card-->
-
-
       </div>
       <!--/container-->
-
     </div>
   </div>
 </div>

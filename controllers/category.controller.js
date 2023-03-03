@@ -4,13 +4,24 @@ const DepartmentService = require("../services/department.service");
 const renderListCategoryPage = async (req, res, next) => {
   try {
     const staff = req.cookies.Staff;
-    const categories = await CategoryService.getAllCategory();
+    const departmentId = staff.idDepartment._id;
+    const categories = await CategoryService.findCategoryByIdDepartment(
+      departmentId,
+    );
+
+    let isHaveData = true;
+    if (categories.toString() === "") {
+      isHaveData = false;
+    }
+
+    console.log(categories);
 
     return res.render("partials/master", {
       title: "Category",
       content: "../qa/category/listCategoryPage",
       categories,
       staff,
+      isHaveData,
       role: staff.idRole.nameRole,
     });
     // return res.json(categories);
@@ -24,12 +35,15 @@ const rederCreateCategoryPage = async (req, res, next) => {
   try {
     const staff = req.cookies.Staff;
     const Departments = await DepartmentService.getAllDepartment();
+
     res.render("partials/master", {
       title: "Category",
       content: "../qa/category/createCategoryPage",
       Departments,
       staff,
       role: staff.idRole.nameRole,
+      idDepartment: staff.idDepartment._id,
+      nameDepartment: staff.idDepartment.nameDepartment,
     });
   } catch (error) {
     console.log(error);
@@ -88,6 +102,8 @@ const getEditCategory = async (req, res, next) => {
       department,
       staff,
       role: staff.idRole.nameRole,
+      idDepartment: staff.idDepartment._id,
+      nameDepartment: staff.idDepartment.nameDepartment,
     });
   } catch (err) {
     return err;
@@ -171,6 +187,23 @@ const getCategoryActivated = async (req, res) => {
   }
 };
 
+const findCategoryByIdDepartment = async (req, res) => {
+  try {
+    const { idDepartment } = req.params;
+    const categories = await CategoryService.findCategoryByIdDepartment(
+      idDepartment,
+    );
+
+    // if (!categories) {
+    //   return res.status(404).json({ status: "404 Not Found" });
+    // }
+
+    return res.json(categories);
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createCategory,
   getEditCategory,
@@ -180,4 +213,5 @@ module.exports = {
   renderListCategoryPage,
   rederCreateCategoryPage,
   getCategoryActivated,
+  findCategoryByIdDepartment,
 };

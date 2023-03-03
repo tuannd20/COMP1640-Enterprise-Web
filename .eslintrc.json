@@ -3,13 +3,14 @@
     "es2020": true,
     "jest": true,
     "browser": true,
-    "node": true
+    "node": true,
+    "es6": true
   },
   "extends": "airbnb-base",
   "plugins": ["import"],
   "overrides": [],
   "parserOptions": {
-    "ecmaVersion": 2017,
+    "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "rules": {
@@ -17,12 +18,14 @@
     "curly": "error",
     "quotes": ["error", "double"],
     "linebreak-style": 0,
+    "no-console": "off",
     "eslint linebreak-style": [0, "error", "windows"],
     "no-unused-vars": "warn",
     "import/prefer-default-export": 0,
     "import/no-named-as-default": 0,
     "import/no-named-as-default-member": 0,
     "no-empty": "warn",
+    "no-underscore-dangle": "off",
     "no-cond-assign": ["error", "always"],
     "import/no-extraneous-dependencies": "off",
     "operator-linebreak": ["error", "after"],
