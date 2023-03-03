@@ -9,15 +9,15 @@
           </a>
         </div>
         <div class="bg-white shadow-md rounded my-6">
-          <table class="w-full table-auto min-w-max">
+          <table class="" id="table_list_terms" style="width: 100%; padding-top: 1em; padding-bottom: 1em">
             <thead>
               <tr
                 class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal"
               >
-                <th class="py-3 px-6 text-center">ID</th>
-                <th class="py-3 px-6 text-center">Title</th>
-                <th class="py-3 px-6 text-center">Content</th>
-                <th class="py-3 px-6 text-center">Actions</th>
+                <th data-priority="1">ID</th>
+                <th data-priority="2">Title</th>
+                <th data-priority="3">Content</th>
+                <th data-priority="4">Actions</th>
               </tr>
             </thead>
             <tbody class="text-gray-600 text-sm font-light">
@@ -37,6 +37,7 @@
                   </td>
                 </tr>
               <%}else { %>
+              <% let count = rules.length %>
               <% rules?.forEach(function(rule,index) { %>
               <tr class="border-b border-gray-200 hover:bg-gray-100">
                 <td class="py-3 px-6 text-left whitespace-nowrap">

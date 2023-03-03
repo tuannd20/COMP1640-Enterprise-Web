@@ -202,36 +202,35 @@ const updateStaff = async (req, res) => {
     //   }
     // }
     const { id } = req.params;
+    const { formData } = req.body;
     // const updateObject = req.body;
     const results = await StaffService.updateStaff(
       { _id: id },
-      { $set: req.body },
+      { $set: formData },
     );
-    const departments = await DepartmentService.getDepartmentActivated();
-    const roles = await RoleService.getAllRole();
-    // const departmentDB = results.data.departmentRenders.map((department) => ({
-    //   _id: department._id,
-    //   nameDepartment: department.name,
-    // }));
+    const departmentDB = results.data.departmentRenders.map((department) => ({
+      _id: department._id,
+      nameDepartment: department.name,
+    }));
 
-    // const roleDB = results.data.roleRenders.map(
-    //   (role) =>
-    //     // eslint-disable-next-line no-param-reassign, dot-notation
-    //     ({ _id: role._id, nameRole: role.name }),
-    //   // eslint-disable-next-line function-paren-newline
-    // );
+    const roleDB = results.data.roleRenders.map(
+      (role) =>
+        // eslint-disable-next-line no-param-reassign, dot-notation
+        ({ _id: role._id, nameRole: role.name }),
+      // eslint-disable-next-line function-paren-newline
+    );
 
     if (results.statusCode === BAD_REQUEST) {
       return res.status(results.statusCode).render("partials/master", {
         title: "Edit an account",
         content: "../admin/account/editAccountPage",
-        departments,
-        roles,
+        departments: departmentDB,
+        roles: roleDB,
         staff,
-        // email: results.data.staffRenders.email,
-        // fullName: results.data.staffRenders.fullName,
-        // phoneNumber: results.data.staffRenders.phoneNumber,
-        // address: results.data.staffRenders.address,
+        email: results.data.staffRenders.email,
+        fullName: results.data.staffRenders.fullName,
+        phoneNumber: results.data.staffRenders.phoneNumber,
+        address: results.data.staffRenders.address,
         errorMessageEmail: results.messageErrorEmail,
         errorMessageSelect: results.messageErrorSelect,
         errorMessagePhoneNumber: results.messageErrorPhone,
