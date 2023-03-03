@@ -9,10 +9,8 @@ const renderListCategoryPage = async (req, res, next) => {
       departmentId,
     );
 
-    const dataPayload = categories.toString();
-
     let isHaveData = true;
-    if (dataPayload === "") {
+    if (categories.toString() === "") {
       isHaveData = false;
     }
 

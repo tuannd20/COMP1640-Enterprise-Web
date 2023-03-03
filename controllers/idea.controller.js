@@ -279,12 +279,19 @@ const getIdeaForStaff = async (req, res) => {
 
     const data = { allIdea, staffPayload };
     console.log(data.allIdea.docs);
+
+    let isHaveIdeas = true;
+    if (data.allIdea.docs.toString() === "") {
+      isHaveIdeas = false;
+    }
+
     return res.render("partials/master", {
       title: "Your profile",
       content: "../staff/profilePage",
       data,
       staff,
       role: staff.idRole.nameRole,
+      isHaveIdeas,
     });
     // return res.status(200).send(data);
   } catch (err) {

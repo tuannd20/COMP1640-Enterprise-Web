@@ -62,15 +62,23 @@
                 <td class="py-3 px-6 text-center">
                   <span class="font-medium"><%= staff.phoneNumber %></span>
                 </td>
-                <td class="py-3 px-6 text-center">
-                  <span class="font-medium"
-                    ><%= staff.idDepartment.nameDepartment %></span
-                  >
-                </td>
+                <% if (staff.idDepartment === null) { %>
+                  <td class="py-3 px-6 text-center">
+                    <span class="font-medium"
+                      >Null</span
+                    >
+                  </td>
+                <%}else { %>
+                  <td class="py-3 px-6 text-center">
+                    <span class="font-medium"
+                      ><%= staff.idDepartment.nameDepartment %></span
+                    >
+                  </td>
+                <% } %>
                 <td class="py-3 px-6 text-center">
                   <span class="font-medium"><%= staff.idRole.nameRole %></span>
                 </td>
-                <% if (staff.lockAccount === true) { %>
+                <% if (staff.lockAccount === false) { %>
                 <td class="py-3 px-6 text-center">
                   <span
                     class="bg-green-600 text-white py-1 px-3 rounded-full text-xs"

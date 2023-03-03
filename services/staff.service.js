@@ -117,7 +117,6 @@ const createToken = async (data) => {
       fullName: data.fullName,
       email: data.email,
       role: data.idRole.nameRole,
-      department: data.idDepartment.nameDepartment,
     };
 
     const token = await createTokenJwt(staffDetail);
