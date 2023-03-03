@@ -47,6 +47,8 @@ for (let i = 0; i < like.length; i++) {
     }).then((response) => {
       $(".like-moule").eq(i).empty();
       $(".like-moule")[i].append(response.newLikeCount);
+      $(".dislike-moule").eq(i).empty();
+      $(".dislike-moule")[i].append(response.newDisLikeCount);
     });
 
     if (dislike[i].classList.contains("text-sky-500")) {
@@ -66,7 +68,9 @@ for (let i = 0; i < dislike.length; i++) {
       url: "http://localhost:3000/ideas/dislike",
       data: { IdIdea: $(".id-idea").eq(i).val(), isLike: false },
     }).then((response) => {
+      $(".like-moule").eq(i).empty();
       $(".dislike-moule").eq(i).empty();
+      $(".like-moule")[i].append(response.newLikeCount);
       $(".dislike-moule")[i].append(response.newDisLikeCount);
     });
 

@@ -171,8 +171,7 @@ const displayAllIdea = async (req, res) => {
 
     const anonymous = {
       fullName: "anonymous",
-      avatarImage:
-        "https://png.pngtree.com/png-vector/20220608/ourmid/pngtree-man-avatar-isolated-on-white-background-png-image_4891418.png",
+      avatarImage: null,
     };
 
     const query = { status: { $in: ["Private", "Public"] } };
@@ -186,10 +185,10 @@ const displayAllIdea = async (req, res) => {
     };
 
     const allIdea = await ideaService.getAllWithQuery(options, query);
-
     if (!allIdea.docs) return res.redirect("/404");
-    const allStaffIdea = await staffIdeaService.findAllByOptions({
+    const allStaffIdea = await staffIdeaService.getAllWithQuery({
       idStaff: staff._id,
+      isLike: { $in: [true, false] },
     });
 
     allIdea.docs.forEach((element, index) => {
@@ -199,44 +198,30 @@ const displayAllIdea = async (req, res) => {
       ) {
         element.urlFile = null;
       }
-      if (!element.idStaffIdea) {
+      if (!element.idStaffIdea || element.status === "Private") {
         element.idStaffIdea = anonymous;
       }
     });
-
     if (allStaffIdea) {
-      const ideaMapping = {};
-      for (const idea of allIdea.docs) {
-        ideaMapping[idea.idStaffIdea._id] = idea._id;
-        idea.isLike = null;
-      }
-
-      for (const staffIdea of allStaffIdea) {
-        const ideaId = ideaMapping[staffIdea.idStaff.toString()];
-        if (ideaId && ideaId.toString() === staffIdea.IdIdea.toString()) {
-          const ideaIndex = allIdea.docs.findIndex(
-            (idea) => idea._id.toString() === ideaId.toString(),
-          );
-          if (ideaIndex !== -1) {
-            const isLiked = staffIdea.isLike === true;
-            const isDisliked = staffIdea.isLike === false;
-
-            allIdea.docs[ideaIndex].isLike = isLiked ? true : false;
-            allIdea.docs[ideaIndex].isDislike = isDisliked ? true : false;
-          }
+      allIdea.docs.forEach((idea) => {
+        const staffIdea = allStaffIdea.find(
+          (sIdea) => sIdea.IdIdea.toString() === idea._id.toString(),
+        );
+        if (staffIdea) {
+          idea.isLike = staffIdea.isLike;
+        } else {
+          idea.isLike = null;
         }
-      }
+      });
     }
-
-    // return res.json(allIdea);
-    // return res.render("partials/master", {
-    //   title: "Idea",
-    //   content: "../staff/homePage",
-    //   staff,
-    //   role: staff.idRole.nameRole,
-    //   ideas: allIdea,
-    // });
-    return res.status(200).send(allIdea.docs);
+    // return res.json(allIdea.docs);
+    return res.render("partials/master", {
+      title: "Idea",
+      content: "../staff/homePage",
+      staff,
+      role: staff.idRole.nameRole,
+      ideas: allIdea,
+    });
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
     return err;
