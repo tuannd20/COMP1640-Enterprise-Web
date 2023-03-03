@@ -50,22 +50,13 @@ const createPoll = async (req, res, next) => {
 const getAllPoll = async (req, res, next) => {
   try {
     const staff = req.cookies.Staff;
-
+    const date = new Date();
     const Polls = await PollService.getAllPoll();
+    const lastPoll = await PollModel.find().sort({ dateSubEnd: -1 });
     console.log(
-      "🚀 ~ file: poll.controller.js:55 ~ getAllPoll ~ Polls:",
-      Polls,
+      "🚀 ~ file: poll.controller.js:56 ~ getAllPoll ~ lastPoll:",
+      lastPoll,
     );
-    if (Polls.length == 0) {
-      return res.redirect("/qam/poll/create");
-    }
-    const lastPoll = await PollModel.findOne().sort({ dateSubEnd: -1 });
-    if (!lastPoll) {
-      console.log(
-        "🚀 ~ file: poll.controller.js:48 ~ getAllPoll ~ lastPoll:",
-        lastPoll,
-      );
-    }
 
     return res.render("partials/master", {
       title: "Poll List",
@@ -74,6 +65,7 @@ const getAllPoll = async (req, res, next) => {
       staff,
       role: staff.idRole.nameRole,
       lastPoll,
+      date,
     });
   } catch (err) {
     return err;
