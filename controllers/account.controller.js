@@ -39,6 +39,14 @@ const renderEditAccountPage = async (req, res) => {
   const staffByID = await StaffService.displayStaffById({ _id: id });
   const departments = await DepartmentService.getAllDepartment();
   const roles = await RoleService.getAllRole();
+
+  let isHaveDepartments = true;
+  if (departments.toString() === " ") {
+    isHaveDepartments = false;
+    console.log(isHaveDepartments);
+  }
+  console.log(departments.toString());
+
   return res.render("partials/master", {
     title: "Edit account",
     content: "../admin/account/editAccountPage",
@@ -51,6 +59,7 @@ const renderEditAccountPage = async (req, res) => {
     errorMessageSelect: null,
     errorMessagePhoneNumber: null,
     isSuccess: false,
+    isHaveDepartments,
   });
   // return res.json(staff);
 };

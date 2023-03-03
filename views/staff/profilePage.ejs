@@ -12,7 +12,11 @@
           <div class="mt-2 leading-loose information text-zinc-800">
             <p>Fullname: <%= data.staffPayload.fullName %></p>
             <p>Role: <%= data.staffPayload.idRole.nameRole %></p>
-            <p>Department: <%= data.staffPayload.idDepartment.nameDepartment %></p>
+            <% if (data.staffPayload.idDepartment === null) { %>
+              <p>Department: You do not have a Department</p>
+            <%}else { %>
+              <p>Department: <%= data.staffPayload.idDepartment.nameDepartment %></p>
+            <% } %>
             <p>Email: <%= data.staffPayload.email %></p>
             <p>Phone number: <%= data.staffPayload.phoneNumber %></p>
             <p>Address: <%= data.staffPayload.address %></p>
@@ -39,6 +43,54 @@
             </span>
           </button>
         </div>
+
+        <% if (!isHaveIdeas) { %>
+
+          <div class="flex flex-col w-2/3 m-auto mt-4 select-none gap-9">
+              <div
+                class="relative p-3 border-2 idea border-stone-700 rounded-2xl h-96 opacity-80"
+              >
+                <div class="flex flex-row justify-between header-idea">
+                  <div class="flex flex-row items-center justify-center gap-2 ml-3 mb-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-12 h-12 max-lg:w-8 max-lg:h-8 text-sky-600"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                      </svg>
+  
+                    <p class="text-base font-medium"><%= staff.fullName%></p>
+                  </div>
+                </div>
+  
+                <div class="content-idea">
+                  <div
+                    class="w-full px-5 pt-2 mt-1 border border-gray-300 rounded-md shadow-sm text-clip h-60 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  >
+                    <p
+                      class="leading-6 overflow-hidden indent-0.5 text-justify max-h-52"
+                      style="
+                        -webkit-line-clamp: 7;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        display: -webkit-box;
+                      "
+                    >
+                    You do not have any idea
+                    </p>
+                  </div>
+                </div>
+              </div>
+          </div>
+        <%}else { %>
 
         <div class="flex flex-col w-2/3 m-auto mt-4 select-none gap-9">
           <% data.allIdea.docs.forEach(function(idea) { %>
@@ -347,10 +399,11 @@
           </nav>
         </div>
       </div>
+          <!-- Delete hidden form -->
+          <form class="hidden" name="delete-idea-form" method="POST"></form>
+      <% } %>
     </Main>
 
-    <!-- Delete hidden form -->
-    <form class="hidden" name="delete-idea-form" method="POST"></form>
 
     <script>
     let idIdea = document.getElementsByClassName("getIdIdea")

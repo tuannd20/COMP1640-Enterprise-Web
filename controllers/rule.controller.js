@@ -159,12 +159,18 @@ const getAllRule = async (req, res) => {
     const staff = req.cookies.Staff;
 
     const rules = await RuleService.getAllRule();
+    let isHaveData = true;
+    if (rules.toString() === "") {
+      isHaveData = false;
+    }
+
     return res.render("partials/master", {
       title: "List of terms",
       content: "../admin/terms/listTermsPage",
       rules,
       staff,
       role: staff.idRole.nameRole,
+      isHaveData,
     });
     // return res.json(rules);
   } catch (err) {
