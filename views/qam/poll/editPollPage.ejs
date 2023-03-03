@@ -77,7 +77,7 @@
               </div>
             </div>
 
-            <div class="mb-4">
+            <div class="mb-4" id="mySubEndDate">
               <label
                 for="subEndDate"
                 class="mb-3 block text-base font-medium text-[#07074D]"
@@ -126,7 +126,8 @@
               style="color: red"
               hidden
             >
-              *Ngày kết thúc phải lớn hơn ngày kết thúc tạm thời
+              *Ngày kết thúc phải lớn hơn ngày kết thúc tạm thời và ngày hiện
+              tại
             </div>
 
             <div
@@ -229,7 +230,6 @@
                 value="<%= poll.namePoll %>"
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
-              <!-- <div id="name-error" class="error-message"></div> -->
             </div>
 
             <div
@@ -267,7 +267,7 @@
                 *Ngày bắt đầu phải lớn hơn ngày hiện tại
               </div>
             </div>
-            <div class="mb-4">
+            <div class="mb-4" id="mySubEndDate">
               <label
                 for="subEndDate"
                 class="mb-3 block text-base font-medium text-[#07074D]"
@@ -316,7 +316,8 @@
               style="color: red"
               hidden
             >
-              *Ngày kết thúc phải lớn hơn ngày kết thúc tạm thời
+              *Ngày kết thúc phải lớn hơn ngày kết thúc tạm thời và lớn hơn ngày
+              hiện tại
             </div>
 
             <div
@@ -335,9 +336,15 @@
   <script>
     const startDateInput = document.getElementById("dateStart");
     const startDate = new Date(startDateInput.value);
+    const endSubDateInput = document.getElementById("dateSubEnd");
+    const endSubDate = new Date(endSubDateInput.value);
+
     const currentDate = new Date();
     if (startDate < currentDate) {
       document.getElementById("myStartDate").hidden = true; // ẩn phần tử
+    }
+    if (endSubDate < currentDate) {
+      document.getElementById("mySubEndDate").hidden = true; // ẩn phần tử
     }
 
     function validateForm() {
@@ -371,7 +378,8 @@
           myDiv3.removeAttribute("hidden");
           return false;
         }
-      } else {
+      }
+      if (currentDate >= startDate && currentDate <= endSubDate) {
         // Check if end sub date is earlier than start date
         if (endSubDate < currentDate) {
           let myDiv2 = document.getElementById("alert-error-endSubDate");
@@ -381,6 +389,13 @@
 
         // Check if end date is earlier than start date
         if (endDate < endSubDate) {
+          let myDiv3 = document.getElementById("alert-error-endDate");
+          myDiv3.removeAttribute("hidden");
+          return false;
+        }
+      } else {
+        // Check if end date is earlier than start date
+        if (currentDate > endDate) {
           let myDiv3 = document.getElementById("alert-error-endDate");
           myDiv3.removeAttribute("hidden");
           return false;
