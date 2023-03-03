@@ -1,6 +1,6 @@
 <div class="overflow-x-auto m-1">
   <div
-    class="flex justify-center min-h-screen overflow-hidden font-sans bg-gray-100 min-w-screen"
+    class="flex justify-center min-h-screen overflow-hidden font-sans min-w-screen"
   >
     <div class="w-full select-none lg:w-5/6">
       <div class="relative mt-20 mb-10 create-btn flex justify-end">
@@ -35,6 +35,15 @@
               <th class="px-6 py-3 text-center">Action</th>
             </tr>
           </thead>
+          <% if (Department.length === 0) { %>
+          <tbody class="text-sm font-light text-gray-600">
+            <tr class="border-b border-gray-200 hover:bg-gray-100">
+              <td class="px-6 py-3 text-center" colspan="6">
+                <span class="font-medium">No data</span>
+              </td>
+            </tr>
+          </tbody>
+          <% } else { %>
           <tbody class="text-sm font-light text-gray-600">
             <% Department.forEach(function(department, index) { %>
             <tr class="border-b border-gray-200 hover:bg-gray-100">
@@ -128,7 +137,7 @@
                   <div
                     class="w-6 mr-2 transform hover:text-sky-900 hover:scale-110"
                   >
-                    <a href="/qam/department/edit/<%= department.id %>">
+                    <a href="/qam/department/edit/<%= department._id %>">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -285,6 +294,7 @@
             </tr>
             <% }); %>
           </tbody>
+          <% } %>
         </table>
       </div>
     </div>
