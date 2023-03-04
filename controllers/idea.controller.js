@@ -134,6 +134,8 @@ const createIdea = async (req, res) => {
 
 const displayDetailIdea = async (req, res) => {
   try {
+    const staff = req.cookies.Staff;
+    const role = staff.idRole.nameRole;
     const data = { ideas: "John", comments: [] };
 
     if (!req.params.idIdea) return res.redirect("/404");
@@ -158,6 +160,8 @@ const displayDetailIdea = async (req, res) => {
       title: "Department Create",
       content: "../staff/idea/detailIdea",
       data,
+      staff,
+      role,
     });
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
