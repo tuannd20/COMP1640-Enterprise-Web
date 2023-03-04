@@ -268,6 +268,14 @@
             >
               *Ngày kết thúc phải lớn hơn ngày kết thúc tạm thời
             </div>
+            <div
+              class="ml-3 text-sm font-medium"
+              id="alert-error-dateEquality"
+              style="color: red"
+              hidden
+            >
+              *start date , sub end date and end date not be equal
+            </div>
 
             <div
               class="w-1/6 px-3 py-2 m-auto text-center text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
@@ -282,10 +290,10 @@
   <% } %>
 
   <script>
+    const startDateInput = document.getElementById("dateStart");
+    const endSubDateInput = document.getElementById("dateSubEnd");
+    const endDateInput = document.getElementById("dateEnd");
     function validateForm() {
-      const startDateInput = document.getElementById("dateStart");
-      const endSubDateInput = document.getElementById("dateSubEnd");
-      const endDateInput = document.getElementById("dateEnd");
       const startDate = new Date(startDateInput.value);
       // alert(startDate);
       const endSubDate = new Date(endSubDateInput.value);
@@ -313,6 +321,15 @@
       if (endDate < endSubDate) {
         let myDiv3 = document.getElementById("alert-error-endDate");
         myDiv3.removeAttribute("hidden");
+        return false;
+      }
+      if (
+        startDate === endSubDate ||
+        endSubDate === endDate ||
+        startDate === endDate
+      ) {
+        let myDiv4 = document.getElementById("alert-error-dateEquality");
+        myDiv4.removeAttribute("hidden");
         return false;
       }
 

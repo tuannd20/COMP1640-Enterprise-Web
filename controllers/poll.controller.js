@@ -57,6 +57,17 @@ const getAllPoll = async (req, res, next) => {
       lastPoll,
     );
 
+    const currentDate = new Date();
+
+    const update = await PollModel.updateMany(
+      { dateStart: { $lte: currentDate } },
+      { $set: { isUsed: true } },
+    );
+    console.log(
+      "🚀 ~ file: poll.controller.js:66 ~ getAllPoll ~ update:",
+      update,
+    );
+
     return res.render("partials/master", {
       title: "Poll List",
       content: "../qam/poll/listpollpage",

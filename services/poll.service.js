@@ -100,7 +100,7 @@ const checkPoll = async () => {
     const currentDate = new Date();
     const condition = {
       dateStart: { $lte: currentDate },
-      dateSubEnd: { $gte: currentDate },
+      dateSubEnd: { $gt: currentDate },
     };
     const lastPoll = await PollRepository.lastPoll(condition);
     return lastPoll;
