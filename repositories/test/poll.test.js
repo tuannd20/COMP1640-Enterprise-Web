@@ -59,9 +59,13 @@ describe("Good case: Unit test for Poll", () => {
   //   console.log(result);
   // });
 
-  it("Should delete one poll", async () => {
-    const id = "63e90454d2f534b017aec369";
-    const result = await PollRepository.getPoll(id);
+  // it("Should delete one poll", async () => {
+  //   const id = "63e90454d2f534b017aec369";
+  //   const result = await PollRepository.getPoll(id);
+  //   console.log(result);
+  // });
+  it("Should find last one poll", async () => {
+    const result = await PollRepository.checkPoll();
     console.log(result);
   });
 });
