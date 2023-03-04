@@ -100,10 +100,10 @@ const findByNameExist = async (id, name) => {
   }
 };
 
-const checkPoll = async () => {
+const lastPoll = async () => {
   try {
-    const latestItem = await PollModel.find().sort({ timestamp: -1 }).limit(1);
-    return latestItem;
+    const result = await PollModel.findOne().sort({ dateSubEnd: -1 });
+    return result;
   } catch (error) {
     return error;
   }
@@ -120,5 +120,5 @@ module.exports = {
   findByName,
   findByNameExist,
   getPollInactive,
-  checkPoll,
+  lastPoll,
 };

@@ -95,6 +95,26 @@ const findByNameExist = async (id, name) => {
   }
 };
 
+const checkPoll = async () => {
+  try {
+    const lastPoll = await PollRepository.lastPoll();
+    console.log(
+      "🚀 ~ file: poll.service.js:101 ~ checkPoll ~ lastPoll:",
+      lastPoll,
+    );
+    const currentDate = new Date();
+    if (
+      currentDate >= lastPoll.dateStart &&
+      currentDate <= lastPoll.dateSubEnd
+    ) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   createPoll,
   getAllPoll,
@@ -106,4 +126,5 @@ module.exports = {
   findByName,
   findByNameExist,
   getPollInactive,
+  checkPoll,
 };
