@@ -18,7 +18,6 @@ const createRule = async (req, res) => {
     const staff = req.cookies.Staff;
 
     const titleTerms = req.body.title;
-    const contentTerms = req.body.contentRule;
     // const { titleRule, contentRule } = req.body;
     // localStorage.setItem("title", titleRule);
 
@@ -40,8 +39,6 @@ const createRule = async (req, res) => {
       errorMessage: errorTerm,
       code: errorCode,
       isFailed: true,
-      titleRule: titleTerms,
-      contentRule: contentTerms,
       staff,
       role: staff.idRole.nameRole,
     });
@@ -66,6 +63,8 @@ const renderEditTermsPage = async (req, res) => {
       content: "../admin/terms/editTermsPage",
       term,
       staff,
+      errorMessage: null,
+      isFailed: false,
       role: staff.idRole.nameRole,
     });
   } catch (err) {
@@ -75,11 +74,12 @@ const renderEditTermsPage = async (req, res) => {
 
 const updateRule = async (req, res) => {
   const { id } = req.params;
+  const staff = req.cookies.Staff;
   const term = await RuleService.displayRuleById({ _id: id });
   try {
-    // const { titleRule, contentRule } = req.body;
     // localStorage.setItem("title", titleRule);
     const titleTerms = req.body.title;
+    const contentTerms = req.body.contentRule;
     const checkTitle = await RuleService.findByTitle(titleTerms);
 
     if (!checkTitle) {
@@ -99,8 +99,12 @@ const updateRule = async (req, res) => {
       content: "../admin/terms/editTermsPage",
       term,
       errorMessage: errorTerm,
+      titleRule: titleTerms,
+      contentRule: contentTerms,
       code: errorCode,
       isFailed: true,
+      role: staff.idRole.nameRole,
+      staff,
     });
 
     // return res.send(
