@@ -1,3 +1,4 @@
+const { query } = require("express");
 const PollModel = require("../database/models/Poll");
 
 const createPoll = async (data) => {
@@ -100,9 +101,9 @@ const findByNameExist = async (id, name) => {
   }
 };
 
-const lastPoll = async () => {
+const lastPoll = async (condition) => {
   try {
-    const result = await PollModel.findOne().sort({ dateSubEnd: -1 });
+    const result = await PollModel.find(condition);
     return result;
   } catch (error) {
     return error;
