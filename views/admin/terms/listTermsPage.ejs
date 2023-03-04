@@ -40,10 +40,21 @@
               <% let count = rules.length %>
               <% rules?.forEach(function(rule,index) { %>
               <tr class="border-b border-gray-200 hover:bg-gray-100">
-                <td class="py-3 px-6 text-left whitespace-nowrap">
-                  <div class="flex items-center">
+                <td class="py-3 px-6 text-center">
                     <span class="font-medium"><%= ++index %></span>
-                  </div>
+                  </td>
+                <td class="py-3 px-6 text-center">
+                    <span class="font-medium"><%= rule.title %></span>
+                </td>
+                <td
+                  class="py-1 px-6 text-center leading-6 overflow-hidden indent-0.5 max-h-52" style="
+                  -webkit-line-clamp: 3;
+                  -webkit-box-orient: vertical;
+                  overflow: hidden;
+                  display: -webkit-box;">
+                    <%= rule.contentRule %>
+                </td>
+                <td class="flex justify-center item-center">
                   <div
                     class="w-6 mr-2 transform hover:text-sky-900 hover:scale-110"
                   >

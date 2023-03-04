@@ -167,10 +167,10 @@ const getAllStaff = async (req, res) => {
     const allStaff = await StaffService.getAllStaff();
     const staffs = allStaff.filter((item) => item.idRole.nameRole === "Staff");
     // console.log(roleStaff);
-    console.log(
-      "🚀 ~ file: account.controller.js:172 ~ getAllStaff ~ roleStaff:",
-      staffs,
-    );
+    // console.log(
+    //   "🚀 ~ file: account.controller.js:172 ~ getAllStaff ~ roleStaff:",
+    //   staffs,
+    // );
     // return res.json(staffs);
     return res.render("partials/master", {
       title: "List of accounts",
