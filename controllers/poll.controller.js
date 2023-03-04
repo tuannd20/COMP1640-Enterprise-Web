@@ -127,12 +127,13 @@ const updatePoll = async (req, res, next) => {
       );
       return res.redirect("/qam/polls");
     }
+
     const errorPoll = "Title is already exists";
     const errorCode = 400;
 
     return res.status(errorCode).render("partials/master", {
       title: "Create new Poll",
-      content: "../qam/poll/createPollPage",
+      content: "../qam/poll/editPollPage",
       errorMessage: errorPoll,
       code: errorCode,
       isFailed: true,
@@ -142,6 +143,7 @@ const updatePoll = async (req, res, next) => {
       dateEnd,
       staff,
       role: staff.idRole.nameRole,
+      idPoll: id,
     });
   } catch (err) {
     return err;
