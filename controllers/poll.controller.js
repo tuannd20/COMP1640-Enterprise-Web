@@ -132,7 +132,7 @@ const updatePoll = async (req, res, next) => {
     const errorCode = 400;
 
     return res.status(errorCode).render("partials/master", {
-      title: "Create new Poll",
+      title: "Edit Poll",
       content: "../qam/poll/editPollPage",
       errorMessage: errorPoll,
       code: errorCode,

@@ -123,6 +123,15 @@
             </div>
 
             <div
+              class="ml-3 text-sm font-medium"
+              id="alert-error-dateEquality"
+              style="color: red"
+              hidden
+            >
+              *start date , sub end date and end date not be equal
+            </div>
+
+            <div
               class="w-1/6 px-3 py-2 m-auto text-center text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
             >
               <input type="submit" />
@@ -322,15 +331,15 @@
         myDiv3.removeAttribute("hidden");
         return false;
       }
-      // if (
-      //   startDate.getDate() === endSubDate.getDate() ||
-      //   endSubDate.getDate() === endDate.getDate() ||
-      //   startDate.getDate() === endDate.getDate()
-      // ) {
-      //   let myDiv4 = document.getElementById("alert-error-dateEquality");
-      //   myDiv4.removeAttribute("hidden");
-      //   return false;
-      // }
+      if (
+        startDate.getDate() === endSubDate.getDate() ||
+        endSubDate.getDate() === endDate.getDate() ||
+        startDate.getDate() === endDate.getDate()
+      ) {
+        let myDiv4 = document.getElementById("alert-error-dateEquality");
+        myDiv4.removeAttribute("hidden");
+        return false;
+      }
 
       // Validation passed
       return true;
