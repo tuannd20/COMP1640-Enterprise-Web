@@ -4,8 +4,8 @@
 /* eslint-disable no-underscore-dangle */
 const fs = require("fs");
 const multer = require("multer");
-// eslint-disable-next-line import/no-unresolved
 const isImageUrl = require("is-image-url");
+const mongoose = require("mongoose");
 
 const upload = multer({ dest: "public/uploads/" });
 
@@ -136,14 +136,14 @@ const displayDetailIdea = async (req, res) => {
   try {
     const data = { ideas: "John", comments: [] };
 
-    if (!req.params.idIdea) return res.redirect("/404");
+    if (!req.params.idIdea) return res.redirect("/errors");
     const idea = await ideaService.getIdea(req.params.idIdea);
     console.log(
       "🚀 ~ file: idea.controller.js:115 ~ displayDetailIdea ~ idea:",
       idea,
     );
-    if (!idea) return res.redirect("/404");
-    if (idea.idStaffIdea == null) return res.redirect("/404");
+    if (!idea) return res.redirect("/errors");
+    if (idea.idStaffIdea == null) return res.redirect("/errors");
     // return res.status(200).send(Idea);
     // return res.render("partials/master", {
     //   title: "Idea",
@@ -185,7 +185,7 @@ const displayAllIdea = async (req, res) => {
     };
 
     const allIdea = await ideaService.getAllWithQuery(options, query);
-    if (!allIdea.docs) return res.redirect("/404");
+    if (!allIdea.docs) return res.redirect("/errors");
     const allStaffIdea = await staffIdeaService.getAllWithQuery({
       idStaff: staff._id,
       isLike: { $in: [true, false] },
@@ -230,40 +230,34 @@ const displayAllIdea = async (req, res) => {
 
 const getIdeaForStaff = async (req, res) => {
   try {
-    const staff = req.cookies.Staff;
+    const staffPayload = req.cookies.Staff;
     const StaffData = req.cookies.Staff;
-    const id = StaffData._id;
+    if (!mongoose.Types.ObjectId.isValid(StaffData._id)) {
+      return res.redirect("/Error");
+    }
     const { page } = req.query;
     const limit = 5;
     const options = {
       page,
       limit,
-      populate: { path: "idStaffIdea", model: Staff },
-
-      query: { idStaffIdea: id },
+      populate: { path: "idStaffIdea", select: "fullName avatarImage" },
       sort: { createdAt: -1 },
     };
-    const staffPayload = await staffService.displayStaffById(id);
+    const query = { idStaffIdea: StaffData._id };
 
-    if (!staffPayload) return res.redirect("/404");
-    if (typeof staffPayload.avatarImage === "undefined") {
-      staffPayload.avatarImage = null;
-    }
-    const allIdea = await ideaService.getALl(options);
+    const allIdea = await ideaService.getAllWithQuery(options, query);
 
     allIdea.docs.forEach((element) => {
       if (
         typeof element.urlFile === "undefined" ||
         !isImageUrl(element.urlFile)
       ) {
-        // eslint-disable-next-line no-param-reassign
         element.urlFile = null;
       }
     });
     allIdea.docs = allIdea.docs.filter((doc) => doc.idStaffIdea !== null);
 
     const data = { allIdea, staffPayload };
-    console.log(data.allIdea.docs);
 
     let isHaveIdeas = true;
     if (data.allIdea.docs.toString() === "") {
@@ -274,8 +268,8 @@ const getIdeaForStaff = async (req, res) => {
       title: "Your profile",
       content: "../staff/profilePage",
       data,
-      staff,
-      role: staff.idRole.nameRole,
+      staff: staffPayload,
+      role: staffPayload.idRole.nameRole,
       isHaveIdeas,
     });
     // return res.status(200).send(data);
