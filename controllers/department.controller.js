@@ -148,8 +148,8 @@ const updateDepartment = async (req, res) => {
     const errorCode = 400;
 
     return res.status(errorCode).render("partials/master", {
-      title: "Create new Department",
-      content: "../qam/department/createDepartmentPage",
+      title: "Edit Poll",
+      content: "../qam/department/editDepartmentpage",
       errorMessage: errorDepartment,
       code: errorCode,
       isFailed: true,
@@ -157,6 +157,7 @@ const updateDepartment = async (req, res) => {
       description,
       staff,
       role: staff.idRole.nameRole,
+      idDepartment: id,
     });
   } catch (err) {
     return err;
