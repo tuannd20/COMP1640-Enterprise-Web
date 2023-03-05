@@ -73,7 +73,7 @@
                 style="color: red"
                 hidden
               >
-                *Ngày bắt đầu phải lớn hơn ngày hiện tại
+                *Start date must be than current date
               </div>
             </div>
 
@@ -100,7 +100,7 @@
               style="color: red"
               hidden
             >
-              *Ngày kết thúc tạm thời phải lớn hơn ngày bắt đầu
+              *Sub end date must be than start date and current date
             </div>
 
             <div class="mb-4">
@@ -126,8 +126,7 @@
               style="color: red"
               hidden
             >
-              *Ngày kết thúc phải lớn hơn ngày kết thúc tạm thời và ngày hiện
-              tại
+              *End date must than sub end date and current date
             </div>
 
             <div
@@ -231,7 +230,7 @@
                 style="color: red"
                 hidden
               >
-                *Ngày bắt đầu phải lớn hơn ngày hiện tại
+                *Start date must be than current date
               </div>
             </div>
             <div class="mb-4" id="mySubEndDate">
@@ -257,7 +256,7 @@
               style="color: red"
               hidden
             >
-              *Ngày kết thúc tạm thời phải lớn hơn ngày bắt đầu và ngày hiện tại
+              *Sub end date must be than start date and current date
             </div>
 
             <div class="mb-4">
@@ -283,8 +282,7 @@
               style="color: red"
               hidden
             >
-              *Ngày kết thúc phải lớn hơn ngày kết thúc tạm thời và lớn hơn ngày
-              hiện tại
+              *End date must than sub end date and current date
             </div>
             <div
               class="ml-3 text-sm font-medium"
@@ -332,14 +330,14 @@
       const endDate = new Date(endDateInput.value);
       const currentDate = new Date();
 
-      if (startDate > currentDate) {
-        // Check if start date is earlier than start date
-        if (startDate < currentDate) {
-          let myDiv1 = document.getElementById("alert-error-startDate");
-          myDiv1.removeAttribute("hidden");
-          return false;
-        }
+      // Check if start date is earlier than start date
+      if (startDate <= currentDate) {
+        let myDiv1 = document.getElementById("alert-error-startDate");
+        myDiv1.removeAttribute("hidden");
+        return false;
+      }
 
+      if (startDate > currentDate) {
         // Check if end sub date is earlier than start date
         if (endSubDate < startDate) {
           let myDiv2 = document.getElementById("alert-error-endSubDate");
