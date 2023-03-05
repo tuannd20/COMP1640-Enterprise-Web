@@ -106,7 +106,7 @@ const updateStaff = async (req, res) => {
       { _id: id },
       { $set: req.body },
     );
-    return res.redirect("/qam/account/qa");
+    return res.redirect("/qam/departments");
     // return res.json(staff);
   } catch (err) {
     return err;

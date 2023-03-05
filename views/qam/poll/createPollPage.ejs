@@ -123,6 +123,15 @@
             </div>
 
             <div
+              class="ml-3 text-sm font-medium"
+              id="alert-error-dateEquality"
+              style="color: red"
+              hidden
+            >
+              *start date , sub end date and end date not be equal
+            </div>
+
+            <div
               class="w-1/6 px-3 py-2 m-auto text-center text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
             >
               <input type="submit" />
@@ -138,7 +147,7 @@
     class="relative h-auto p-3 overflow-y-auto border-2 idea border-stone-700 rounded-2xl opacity-80"
   >
     <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
-      <a href="/qam/poll">
+      <a href="/qam/polls">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -186,7 +195,6 @@
               class="ml-3 text-sm font-medium"
               id="alert-error-endDate"
               style="color: red"
-              hidden
             >
               *The <%= errorMessage %>
             </div>
@@ -268,6 +276,14 @@
             >
               *Ngày kết thúc phải lớn hơn ngày kết thúc tạm thời
             </div>
+            <div
+              class="ml-3 text-sm font-medium"
+              id="alert-error-dateEquality"
+              style="color: red"
+              hidden
+            >
+              *start date , sub end date and end date not be equal
+            </div>
 
             <div
               class="w-1/6 px-3 py-2 m-auto text-center text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
@@ -282,10 +298,10 @@
   <% } %>
 
   <script>
+    const startDateInput = document.getElementById("dateStart");
+    const endSubDateInput = document.getElementById("dateSubEnd");
+    const endDateInput = document.getElementById("dateEnd");
     function validateForm() {
-      const startDateInput = document.getElementById("dateStart");
-      const endSubDateInput = document.getElementById("dateSubEnd");
-      const endDateInput = document.getElementById("dateEnd");
       const startDate = new Date(startDateInput.value);
       // alert(startDate);
       const endSubDate = new Date(endSubDateInput.value);
@@ -296,23 +312,32 @@
       const currentDate = new Date();
 
       // Check if start date is earlier than start date
-      if (startDate < currentDate) {
+      if (startDate.getDate < currentDate.getDate) {
         let myDiv1 = document.getElementById("alert-error-startDate");
         myDiv1.removeAttribute("hidden");
         return false;
       }
 
       // Check if end sub date is earlier than start date
-      if (endSubDate < startDate) {
+      if (endSubDate.getDate < startDate.getDate) {
         let myDiv2 = document.getElementById("alert-error-endSubDate");
         myDiv2.removeAttribute("hidden");
         return false;
       }
 
       // Check if end date is earlier than start date
-      if (endDate < endSubDate) {
+      if (endDate.getDate() < endSubDate.getDate) {
         let myDiv3 = document.getElementById("alert-error-endDate");
         myDiv3.removeAttribute("hidden");
+        return false;
+      }
+      if (
+        startDate.getDate() === endSubDate.getDate() ||
+        endSubDate.getDate() === endDate.getDate() ||
+        startDate.getDate() === endDate.getDate()
+      ) {
+        let myDiv4 = document.getElementById("alert-error-dateEquality");
+        myDiv4.removeAttribute("hidden");
         return false;
       }
 

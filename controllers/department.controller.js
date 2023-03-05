@@ -17,20 +17,31 @@ const getCreateDepartment = async (req, res) => {
 
 const createDepartment = async (req, res) => {
   try {
+    const staff = req.cookies.Staff;
     const formData = req.body;
-    const { nameDepartment } = req.body;
-    const { description } = req.body;
-    // Validation logic
+    const { nameDepartment, description } = req.body;
+
     const checkDepartmentResit = await DepartmentService.findByName(
       nameDepartment,
     );
-    if (!checkDepartmentResit) {
+
+    if (checkDepartmentResit.length === 0) {
       const department = await DepartmentService.createDepartment(formData);
+      console.log(
+        "🚀 ~ file: department.controller.js:30 ~ createDepartment ~ department:",
+        department,
+      );
       return res.redirect("/qam/departments");
     }
+
+    console.log(
+      "🚀 ~ file: department.controller.js:27 ~ createDepartment ~ checkDepartmentResit:",
+      checkDepartmentResit.length,
+    );
+
     const errorDepartment = "Title is already exists";
     const errorCode = 400;
-
+    // return res.send(checkDepartmentResit);
     return res.status(errorCode).render("partials/master", {
       title: "Create new Department",
       content: "../qam/department/createDepartmentPage",
@@ -39,6 +50,8 @@ const createDepartment = async (req, res) => {
       isFailed: true,
       nameDepartment,
       description,
+      staff,
+      role: staff.idRole.nameRole,
     });
   } catch (err) {
     return err;
@@ -135,8 +148,8 @@ const updateDepartment = async (req, res) => {
     const errorCode = 400;
 
     return res.status(errorCode).render("partials/master", {
-      title: "Create new Department",
-      content: "../qam/department/createDepartmentPage",
+      title: "Edit Poll",
+      content: "../qam/department/editDepartmentpage",
       errorMessage: errorDepartment,
       code: errorCode,
       isFailed: true,
@@ -144,6 +157,7 @@ const updateDepartment = async (req, res) => {
       description,
       staff,
       role: staff.idRole.nameRole,
+      idDepartment: id,
     });
   } catch (err) {
     return err;

@@ -95,6 +95,20 @@ const findByNameExist = async (id, name) => {
   }
 };
 
+const checkPoll = async () => {
+  try {
+    const currentDate = new Date();
+    const condition = {
+      dateStart: { $lte: currentDate },
+      dateSubEnd: { $gt: currentDate },
+    };
+    const lastPoll = await PollRepository.lastPoll(condition);
+    return lastPoll;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   createPoll,
   getAllPoll,
@@ -106,4 +120,5 @@ module.exports = {
   findByName,
   findByNameExist,
   getPollInactive,
+  checkPoll,
 };

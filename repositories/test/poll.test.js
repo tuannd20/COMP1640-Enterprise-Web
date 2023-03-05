@@ -30,12 +30,10 @@ describe("Good case: Unit test for Poll", () => {
   //   const poll = await PollRepository.createPoll(data);
   //   console.log(poll);
   // });
-
   // it("Should read all poll", async () => {
   //   const result = await PollRepository.getAllPoll();
   //   console.log(result);
   // });
-
   // it("Should update a new poll", async () => {
   //   const data = {
   //     namePoll: "first Year updated",
@@ -47,21 +45,18 @@ describe("Good case: Unit test for Poll", () => {
   //   const result = await PollRepository.updatePoll(id, data);
   //   console.log(result);
   // });
-
   // it("Should delete one poll", async () => {
   //   const id = "63e52ed1eb2ce435a37feab4";
   //   const result = await PollRepository.deleteOnePoll(id);
   //   console.log(result);
   // });
-
   // it("Should delete all poll", async () => {
   //   const result = await PollRepository.deleteAllPoll();
   //   console.log(result);
   // });
-
-  it("Should delete one poll", async () => {
-    const id = "63e90454d2f534b017aec369";
-    const result = await PollRepository.getPoll(id);
-    console.log(result);
-  });
+  // it("Should delete one poll", async () => {
+  //   const id = "63e90454d2f534b017aec369";
+  //   const result = await PollRepository.getPoll(id);
+  //   console.log(result);
+  // });
 });

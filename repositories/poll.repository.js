@@ -1,3 +1,4 @@
+const { query } = require("express");
 const PollModel = require("../database/models/Poll");
 
 const createPoll = async (data) => {
@@ -100,6 +101,15 @@ const findByNameExist = async (id, name) => {
   }
 };
 
+const lastPoll = async (condition) => {
+  try {
+    const result = await PollModel.find(condition);
+    return result;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   createPoll,
   getAllPoll,
@@ -111,4 +121,5 @@ module.exports = {
   findByName,
   findByNameExist,
   getPollInactive,
+  lastPoll,
 };

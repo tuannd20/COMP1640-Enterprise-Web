@@ -87,7 +87,7 @@
     class="relative h-auto p-3 border-2 idea border-stone-700 rounded-2xl opacity-80"
   >
     <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
-      <a href="/qam/department">
+      <a href="/qam/departments">
           <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -109,7 +109,7 @@
     <div class="content-idea">
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px] mb-28">
-          <form action="/qam/department/create" method="POST">
+          <form action="/qam/department/edit/<%= idDepartment%>" method="POST">
             <div class="mt-14">
               <label
                 for="name"
@@ -130,7 +130,6 @@
               class="ml-3 text-sm font-medium"
               id="alert-error-endDate"
               style="color: red"
-              hidden
             >
               *The <%= errorMessage %>
             </div>
