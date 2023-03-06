@@ -83,14 +83,14 @@ const getAllStaff = async (req, res) => {
     const staff = req.cookies.Staff;
     const staffs = await ManageQaService.getAllManageQa();
 
-    return res.json(staffs);
-    // return res.render("partials/master", {
-    //   title: "List of accounts",
-    //   content: "../qam/qa/account/listAccountPage",
-    //   staffs,
-    //   staff,
-    //   role: staff.idRole.nameRole,
-    // });
+    // return res.json(staffs);
+    return res.render("partials/master", {
+      title: "List of accounts",
+      content: "../qam/qa/account/listAccountPage",
+      staffs,
+      staff,
+      role: staff.idRole.nameRole,
+    });
   } catch (err) {
     console.log(err);
     return err;
