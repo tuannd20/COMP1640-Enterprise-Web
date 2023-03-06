@@ -115,9 +115,9 @@ const getCategoryActivated = async () => {
 
 const getCategoryByDepartmentId = async (id) => {
   try {
-    const result = await CategoryModel.find({ idDepartment: id }).populate(
-      "idDepartment",
-    );
+    const result = await CategoryModel.find({ idDepartment: id })
+      .populate("idDepartment")
+      .sort({ createdAt: -1 });
     return result;
   } catch (err) {
     return err;
