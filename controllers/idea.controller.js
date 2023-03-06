@@ -199,6 +199,7 @@ const displayAllIdea = async (req, res) => {
 
     const allIdea = await ideaService.getAllWithQuery(options, query);
     if (!allIdea.docs) return res.redirect("/errors");
+
     const allStaffIdea = await staffIdeaService.getAllWithQuery({
       idStaff: staff._id,
       isLike: { $in: [true, false] },
@@ -227,6 +228,29 @@ const displayAllIdea = async (req, res) => {
         }
       });
     }
+
+    const all = await ideaService.getAllWithQuery(
+      {},
+      {
+        status: { $in: ["Private", "Public"] },
+      },
+    );
+    console.log(
+      "🚀 ~ file: idea.controller.js:235 ~ displayAllIdea ~ all:",
+      all,
+    );
+
+    if (!all.docs) return res.redirect("/errors");
+    const idStaffIdeas = all.docs.map((obj) => obj.idStaffIdea);
+
+    const uniqueIdStaffIdeas = new Set(idStaffIdeas);
+    const participants = uniqueIdStaffIdeas.size;
+
+    const percentage = `${(
+      (allIdea.totalDocs / allIdea.totalDocs) *
+      100
+    ).toFixed(2)}%`;
+
     // return res.json(allIdea.docs);
     return res.render("partials/master", {
       title: "Idea",
@@ -234,6 +258,8 @@ const displayAllIdea = async (req, res) => {
       staff,
       role: staff.idRole.nameRole,
       ideas: allIdea,
+      participants,
+      percentage,
     });
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
@@ -294,6 +320,20 @@ const getIdeaForStaff = async (req, res) => {
     return err;
   }
 };
+
+const deleteIdea = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deleteIdeaById = await ideaService.deleteIdea(id);
+    console.log(deleteIdeaById);
+
+    return res.redirect("/profile");
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   renderCreateIdeaPage,
   createIdea,
@@ -301,4 +341,5 @@ module.exports = {
   displayAllIdea,
   getIdeaForStaff,
   renderEditIdeaPage,
+  deleteIdea,
 };

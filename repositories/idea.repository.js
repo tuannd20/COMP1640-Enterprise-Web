@@ -34,7 +34,7 @@ const updateIdea = async (id, data) => {
 
 const deleteIdea = async (id) => {
   try {
-    const Idea = await ideaModel.findByIdAndDelete(id);
+    const Idea = await ideaModel.delete({ _id: id });
     return Idea;
   } catch (err) {
     console.error("🚀 ~ file: idea.repository.js:38 ~ deleteIdea ~ err", err);

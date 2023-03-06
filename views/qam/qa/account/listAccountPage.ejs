@@ -23,23 +23,34 @@
         <div class="m-auto text-2xl font-semibold">LIST OF QA</div>
       </div>
       <div class="bg-white shadow-md rounded my-6">
-        <table class="min-w-max w-full table-auto">
-          <thead>
-            <tr
-              class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal"
-            >
-              <th class="py-3 px-6 text-left">ID</th>
-              <th class="py-3 px-6 text-left">Full Name</th>
-              <th class="py-3 px-6 text-left">Email</th>
-              <th class="py-3 px-6 text-left">Address</th>
-              <th class="py-3 px-6 text-center">Phone Number</th>
-              <th class="py-3 px-6 text-left">Department</th>
-              <th class="py-3 px-6 text-left">Role</th>
-              <th class="py-3 px-6 text-center">Active</th>
-              <th class="py-3 px-6 text-center">Actions</th>
-            </tr>
-          </thead>
-          <% if (staffs.length === 0) { %>
+        <div
+          id="recipients"
+          class="p-8 mt-6 lg:mt-0 rounded shadow bg-white rounded my-6"
+        >
+          <table
+            id="table_list_qa"
+            style="width: 100%; padding-top: 1em; padding-bottom: 1em"
+          >
+            <thead>
+              <tr
+                class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal"
+              >
+                <th data-priority="1" class="py-3 px-6 text-left">ID</th>
+                <th data-priority="2" class="py-3 px-6 text-left">Full Name</th>
+                <th data-priority="3" class="py-3 px-6 text-left">Email</th>
+                <th data-priority="4" class="py-3 px-6 text-left">Address</th>
+                <th data-priority="5" class="py-3 px-6 text-center">
+                  Phone Number
+                </th>
+                <th data-priority="6" class="py-3 px-6 text-left">
+                  Department
+                </th>
+                <th data-priority="7" class="py-3 px-6 text-left">Role</th>
+                <th data-priority="8" class="py-3 px-6 text-center">Active</th>
+                <th data-priority="9" class="py-3 px-6 text-center">Actions</th>
+              </tr>
+            </thead>
+            <% if (staffs.length === 0) { %>
             <tbody class="text-sm font-light text-gray-600">
               <tr class="border-b border-gray-200 hover:bg-gray-100">
                 <td class="px-6 py-3 text-center" colspan="9">
@@ -47,77 +58,78 @@
                 </td>
               </tr>
             </tbody>
-          <% } else { %>
-          <tbody class="text-gray-600 text-sm font-light">
-            <% let count = staffs.length %> <% staffs.forEach(function(staff,
-            index) { %>
-            <tr class="border-b border-gray-200 hover:bg-gray-100">
-              <td class="py-3 px-6 text-left">
-                <span class="font-medium"><%= ++index %></span>
-              </td>
-              <td class="py-3 px-6 text-left">
-                <span class="font-medium"><%= staff.fullName %></span>
-              </td>
-              <td class="py-3 px-6 text-left">
-                <span class="font-medium"><%= staff.email %></span>
-              </td>
-              <td class="py-3 px-6 text-left">
-                <span class="font-medium"><%= staff.address %></span>
-              </td>
-              <td class="py-3 px-6 text-center">
-                <span class="font-medium"><%= staff.phoneNumber %></span>
-              </td>
-              <td class="py-3 px-6 text-left">
-                <span class="font-medium"
-                  ><%= staff.idDepartment.nameDepartment %></span
-                >
-              </td>
-              <td class="py-3 px-6 text-left">
-                <span class="font-medium"><%= staff.idRole.nameRole %></span>
-              </td>
-              <% if (staff.lockAccount === true) { %>
-              <td class="py-3 px-6 text-center">
-                <span
-                  class="bg-green-600 text-white py-1 px-3 rounded-full text-xs"
-                  >Active</span
-                >
-              </td>
-              <%}else { %>
-              <td class="py-3 px-6 text-center">
-                <span
-                  class="bg-red-600 text-white py-1 px-3 rounded-full text-xs"
-                  >Block</span
-                >
-              </td>
-              <% } %>
-              <td class="py-3 px-6 text-center">
-                <div class="flex item-center justify-center">
-                  <div
-                    class="w-6 mr-2 transform hover:text-sky-900 hover:scale-110"
+            <% } else { %>
+            <tbody class="text-gray-600 text-sm font-light">
+              <% let count = staffs.length %> <% staffs.forEach(function(staff,
+              index) { %>
+              <tr class="border-b border-gray-200 hover:bg-gray-100">
+                <td class="py-3 px-6 text-left">
+                  <span class="font-medium"><%= ++index %></span>
+                </td>
+                <td class="py-3 px-6 text-left">
+                  <span class="font-medium"><%= staff.fullName %></span>
+                </td>
+                <td class="py-3 px-6 text-left">
+                  <span class="font-medium"><%= staff.email %></span>
+                </td>
+                <td class="py-3 px-6 text-left">
+                  <span class="font-medium"><%= staff.address %></span>
+                </td>
+                <td class="py-3 px-6 text-center">
+                  <span class="font-medium"><%= staff.phoneNumber %></span>
+                </td>
+                <td class="py-3 px-6 text-left">
+                  <span class="font-medium"
+                    ><%= staff.idDepartment.nameDepartment %></span
                   >
-                    <a href="qa/edit/<%= staff.id %>">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                        />
-                      </svg>
-                    </a>
+                </td>
+                <td class="py-3 px-6 text-left">
+                  <span class="font-medium"><%= staff.idRole.nameRole %></span>
+                </td>
+                <% if (staff.lockAccount === true) { %>
+                <td class="py-3 px-6 text-center">
+                  <span
+                    class="bg-green-600 text-white py-1 px-3 rounded-full text-xs"
+                    >Active</span
+                  >
+                </td>
+                <%}else { %>
+                <td class="py-3 px-6 text-center">
+                  <span
+                    class="bg-red-600 text-white py-1 px-3 rounded-full text-xs"
+                    >Block</span
+                  >
+                </td>
+                <% } %>
+                <td class="py-3 px-6 text-center">
+                  <div class="flex item-center justify-center">
+                    <div
+                      class="w-6 mr-2 transform hover:text-sky-900 hover:scale-110"
+                    >
+                      <a href="qa/edit/<%= staff.id %>">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                          />
+                        </svg>
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </td>
-            </tr>
-            <% }) %>
-          </tbody>
-          <% } %>
-        </table>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+            <% } %>
+          </table>
+        </div>
       </div>
     </div>
   </div>
