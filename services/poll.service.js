@@ -109,6 +109,16 @@ const checkPoll = async () => {
   }
 };
 
+const getPollNewest = async () => {
+  try {
+    const poll = await PollRepository.getPollNewest();
+
+    return poll;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   createPoll,
   getAllPoll,
@@ -121,4 +131,5 @@ module.exports = {
   findByNameExist,
   getPollInactive,
   checkPoll,
+  getPollNewest,
 };
