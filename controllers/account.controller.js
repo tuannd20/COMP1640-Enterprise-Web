@@ -188,26 +188,10 @@ const getAllStaff = async (req, res) => {
 const updateStaff = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
-    // const { idDepartment } = req.body;
-    // const checkDepartment = await DepartmentService.getDepartment({
-    //   _id: idDepartment,
-    // });
-    // if (checkDepartment.isUsed === false) {
-    //   const departments = await DepartmentService.updateDepartment(
-    //     { _id: idDepartment },
-    //     { isUsed: true },
-    //   );
-    //   if (!departments) {
-    //     res.redirect("/home/errors");
-    //   }
-    // }
     const { id } = req.params;
-    const { formData } = req.body;
+    const staffByID = await StaffService.displayStaffById({ _id: id });
     // const updateObject = req.body;
-    const results = await StaffService.updateStaff(
-      { _id: id },
-      { $set: formData },
-    );
+    const results = await StaffService.updateStaff(id, req.body);
     const departmentDB = results.data.departmentRenders.map((department) => ({
       _id: department._id,
       nameDepartment: department.name,
@@ -221,12 +205,13 @@ const updateStaff = async (req, res) => {
     );
 
     if (results.statusCode === BAD_REQUEST) {
-      return res.status(results.statusCode).render("partials/master", {
+      return res.status(400).render("partials/master", {
         title: "Edit an account",
         content: "../admin/account/editAccountPage",
         departments: departmentDB,
         roles: roleDB,
         staff,
+        staffByID,
         email: results.data.staffRenders.email,
         fullName: results.data.staffRenders.fullName,
         phoneNumber: results.data.staffRenders.phoneNumber,
@@ -235,6 +220,7 @@ const updateStaff = async (req, res) => {
         errorMessageSelect: results.messageErrorSelect,
         errorMessagePhoneNumber: results.messageErrorPhone,
         isSuccess: results.successStatus,
+        role: staff.idRole.nameRole,
       });
     }
     return res.redirect("/admin/account");

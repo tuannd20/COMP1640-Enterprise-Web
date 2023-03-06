@@ -82,9 +82,9 @@
               </select>
             </label>
           </div>
-          <div class="italic terms">
+          <!-- <div class="italic terms">
             <label for="myCheck"> Active</label>
-            <% if (staff.lockAccount === true) { %>
+            <% if (staffByID.lockAccount === true) { %>
             <input
               type="checkbox"
               id="lockAccount"
@@ -104,7 +104,7 @@
               value="false"
             />
             <% } %>
-          </div>
+          </div> -->
         </div>
         <div class="mb-4">
           <label
@@ -246,13 +246,13 @@
               </select>
             </label>
           </div>
-          <div class="italic terms">
+          <!-- <div class="italic terms">
             <label for="myCheck"> Active</label>
-            <% if (staff.lockAccount === true) { %>
+            <% if (staffByID.lockAccount === true) { %>
             <input
               type="checkbox"
               id="lockAccount"
-              value="0"
+              value="true"
               name="lockAccount"
               form="edit-form-account"
               class="border rounded-full"
@@ -265,10 +265,10 @@
               name="lockAccount"
               form="edit-form-account"
               class="border rounded-full"
-              value="1"
+              value="false"
             />
             <% } %>
-          </div>
+          </div> -->
         </div>
         <p class="text-red-600"><%= errorMessageSelect %></p>
         <div class="mb-4">
@@ -282,7 +282,7 @@
             type="text"
             name="fullName"
             id="fullName"
-            value="<%= staffByID.fullName %>"
+            value="<%= fullName %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -299,7 +299,7 @@
             name="email"
             id="email"
             pattern=".+@gmail\.com"
-            value="<%= staffByID.email %>"
+            value="<%= email %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -317,7 +317,7 @@
             id="password"
             name="password"
             title="Click to change password"
-            value="<%= staff.password %>"
+            value="<%= staffByID.password %>"
             onclick="generatePassword()"
             readonly
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -334,7 +334,7 @@
             type="text"
             name="address"
             id="address"
-            value="<%= staffByID.address %>"
+            value="<%= address %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -351,7 +351,7 @@
             pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
             name="phoneNumber"
             id="phoneNumber"
-            value="<%= staffByID.phoneNumber %>"
+            value="<%= phoneNumber %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
