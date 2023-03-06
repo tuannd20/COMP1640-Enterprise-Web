@@ -24,7 +24,6 @@
         .columns.adjust()
         .responsive.recalc();
 
-<<<<<<< Updated upstream
       var table2 = $("#table_list_department")
         .DataTable({
           responsive: true,
@@ -38,25 +37,15 @@
         })
         .columns.adjust()
         .responsive.recalc();
+
+      var tableCategory = $("#table_list_category")
+        .DataTable({
+          responsive: true,
+        })
+        .columns.adjust()
+        .responsive.recalc();
     });
   </script>
-=======
-			var table = $('#table_list_account').DataTable({
-					responsive: true
-				})
-				.columns.adjust()
-				.responsive.recalc();
-
-        var table = $('#table_list_category').DataTable({
-					responsive: true
-				})
-				.columns.adjust()
-				.responsive.recalc();
-		});
-
-    
-	</script>
->>>>>>> Stashed changes
 
   <script src="<%= process.env.BASE_URL %>javascript/homeStaff.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
