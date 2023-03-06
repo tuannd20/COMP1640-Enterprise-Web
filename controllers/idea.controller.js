@@ -34,6 +34,16 @@ const renderCreateIdeaPage = async (req, res) => {
   const newestPoll = await pollService.getPollNewest();
 
   const departments = await departmentService.getDepartmentActivated();
+  console.log(
+    "🚀 -----------------------------------------------------------------------------------🚀",
+  );
+  console.log(
+    "🚀 ~ file: idea.controller.js:37 ~ renderCreateIdeaPage ~ departments:",
+    newestPoll,
+  );
+  console.log(
+    "🚀 -----------------------------------------------------------------------------------🚀",
+  );
 
   return res.render("partials/master", {
     title: "Your Idea",
@@ -78,7 +88,16 @@ const createIdea = async (req, res) => {
       newFilePath = `public/uploads/${fileName}`;
       fs.renameSync(filePath, newFilePath);
     }
-
+    console.log(
+      "🚀 ---------------------------------------------------------------------------------------🚀",
+    );
+    console.log(
+      "🚀 ~ file: idea.controller.js:98 ~ createIdea ~ req.body.Category :",
+      req.body.Category,
+    );
+    console.log(
+      "🚀 ---------------------------------------------------------------------------------------🚀",
+    );
     if (
       !req.body.pool ||
       !req.body.department ||
@@ -87,6 +106,10 @@ const createIdea = async (req, res) => {
     ) {
       return res.status(404).send("Missing required information");
     }
+    if (req.body.Category === "No") {
+      return res.status(404).send("No category");
+    }
+
     const promises = [
       categoryService.findByName(req.body.Category),
       pollService.findByName(req.body.pool),
