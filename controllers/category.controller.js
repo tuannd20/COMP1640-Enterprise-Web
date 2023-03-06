@@ -128,6 +128,7 @@ const updateCategory = async (req, res, next) => {
   const updateObject = req.body;
   const staff = req.cookies.Staff;
   try {
+    const category = await CategoryService.readCategoryById({ _id: id });
     const checkCategoryResit = await CategoryService.findByName(
       updateObject.nameCategory,
     );
@@ -144,13 +145,14 @@ const updateCategory = async (req, res, next) => {
     const errorCategory = "Title is already exists";
     const errorCode = 400;
 
-    return res.status(errorCode).render("partials/master", {
+    return res.render("partials/master", {
       title: "Edit Category",
       content: "../qa/category/editCategoryPage",
       errorMessage: errorCategory,
       code: errorCode,
       isFailed: true,
       staff,
+      category,
       role: staff.idRole.nameRole,
       currentCategoryTitle: updateObject.nameCategory,
       idDepartment: staff.idDepartment._id,
