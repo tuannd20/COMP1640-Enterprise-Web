@@ -419,7 +419,7 @@
           const id = idIdea[i].value
   
           btnDeleteIdea.onclick = function () {
-            deleteForm.action = "/";
+            deleteForm.action = "/ideas/" + id + "?_method=DELETE";
             deleteForm.submit();
           }
         })
