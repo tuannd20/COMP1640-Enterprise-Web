@@ -13,10 +13,10 @@ afterEach(async () => {
 });
 
 const mockIdea = {
-  idStaffIdea: "6401748791e33ed5e38e4d7f",
-  idPoll: "6401da2da4604c6d6ccdfac5",
-  idDepartment: "6401f3e8a4604c6d6ccdfad6",
-  idCategory: "64020d9db9f33b213f16e969",
+  idStaffIdea: "64035f66bc97e96e0abcd52d",
+  idPoll: "64058b7717392fa8ffef88a8",
+  idDepartment: "64035f2cbc97e96e0abcd515",
+  idCategory: "640596b68c6c2546c81575c0",
   contentIdea: "Nhanh PO will invite all members go to eat chicken ++",
   urlFile: "https://wallpaper.dog/large/3372.jpg",
   likeCount: 0,
