@@ -147,8 +147,8 @@ const displayDetailIdea = async (req, res) => {
     const role = staff.idRole.nameRole;
     const data = { ideas: "John", comments: [] };
 
-    if (!req.params.idIdea) return res.redirect("/errors");
-    const idea = await ideaService.getIdea(req.params.idIdea);
+    if (!req.params.id) return res.redirect("/errors");
+    const idea = await ideaService.getIdea(req.params.id);
     console.log(
       "🚀 ~ file: idea.controller.js:115 ~ displayDetailIdea ~ idea:",
       idea,
@@ -166,7 +166,7 @@ const displayDetailIdea = async (req, res) => {
 
     // return res.status(200).send(data);
     return res.render("partials/master", {
-      title: "Department Create",
+      title: "Idea detail",
       content: "../staff/idea/detailIdea",
       data,
       staff,
