@@ -110,6 +110,16 @@ const lastPoll = async (condition) => {
   }
 };
 
+const getPollNewest = async () => {
+  try {
+    const newestPoll = await PollModel.findOne().sort({ dateSubEnd: -1 });
+
+    return newestPoll;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   createPoll,
   getAllPoll,
@@ -122,4 +132,5 @@ module.exports = {
   findByNameExist,
   getPollInactive,
   lastPoll,
+  getPollNewest,
 };

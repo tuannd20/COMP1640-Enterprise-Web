@@ -31,10 +31,16 @@ const storage = multer.diskStorage({
 
 const renderCreateIdeaPage = async (req, res) => {
   const staff = req.cookies.Staff;
+  const newestPoll = await pollService.getPollNewest();
+
+  const departments = await departmentService.getDepartmentActivated();
+
   return res.render("partials/master", {
     title: "Your Idea",
     content: "../staff/idea/createIdeaPage",
     staff,
+    newestPoll,
+    departments,
     role: staff.idRole.nameRole,
   });
 };
@@ -82,18 +88,18 @@ const createIdea = async (req, res) => {
       return res.status(404).send("Missing required information");
     }
     const promises = [
-      departmentService.findByName(req.body.department),
       categoryService.findByName(req.body.Category),
       pollService.findByName(req.body.pool),
     ];
 
-    const [Department, Category, Poll] = await Promise.all(promises);
+    const [Category, Poll] = await Promise.all(promises);
+    console.log(req.body.department);
 
     const data = {
       idPoll: Poll._id,
-      idDepartment: Department._id,
+      idDepartment: req.body.department,
       idCategory: Category._id,
-      contentIdea: req.body.contentIdea,
+      contentIdea: req.body.content,
       urlFile: null,
       status: "Draft",
       idStaffIdea: id,
@@ -106,6 +112,7 @@ const createIdea = async (req, res) => {
     }
 
     const newIdea = await ideaService.createIdea(data);
+
     if (!newIdea) {
       return res.status(500).send("Internal Server Error");
     }
@@ -113,11 +120,13 @@ const createIdea = async (req, res) => {
 
     const findLeader = await staffService.findLeader({
       idRole: "63f066f996329eb058cc3095",
-      idDepartment: Department._id,
+      idDepartment: req.body.department,
     });
+
     if (!findLeader) {
       return res.status(404).send("The Department has no leader");
     }
+
     sendMail.sendConfirmationEmail(
       findLeader.email,
       "<h1> you has new idea</h1>",
@@ -125,7 +134,7 @@ const createIdea = async (req, res) => {
     );
 
     // return res.redirect(`http://localhost:3000/1/${req.body.idStaffIdea}`);
-    return res.status(200).send(data);
+    return res.redirect("/profile");
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:107 ~ createIdea ~ err:", err);
     return err;
