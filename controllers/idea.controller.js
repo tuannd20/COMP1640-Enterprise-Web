@@ -320,6 +320,20 @@ const getIdeaForStaff = async (req, res) => {
     return err;
   }
 };
+
+const deleteIdea = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deleteIdeaById = await ideaService.deleteIdea(id);
+    console.log(deleteIdeaById);
+
+    return res.redirect("/profile");
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   renderCreateIdeaPage,
   createIdea,
@@ -327,4 +341,5 @@ module.exports = {
   displayAllIdea,
   getIdeaForStaff,
   renderEditIdeaPage,
+  deleteIdea,
 };

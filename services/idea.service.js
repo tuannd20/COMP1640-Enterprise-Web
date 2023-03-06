@@ -35,7 +35,7 @@ const deleteIdea = async (id) => {
     const result = await IdeaRepository.deleteIdea(id);
     return result;
   } catch (err) {
-    console.lerrorog("🚀 ~ file: idea.service.js:38 ~ deleteIdea ~ err", err);
+    console.log("🚀 ~ file: idea.service.js:38 ~ deleteIdea ~ err", err);
     return err;
   }
 };

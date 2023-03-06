@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const paginate = require("mongoose-paginate-v2");
+const mongooseDelete = require("mongoose-delete");
 
 const { DRAFT, PRIVATE, PUBLIC } = require("../../constants/status");
 
@@ -43,6 +44,10 @@ const IdeaSchema = new Schema(
 );
 
 IdeaSchema.plugin(paginate);
+IdeaSchema.plugin(mongooseDelete, {
+  overrideMethods: "all",
+  deletedAt: true,
+});
 const Idea = mongoose.model("Idea", IdeaSchema);
 
 module.exports = Idea;
