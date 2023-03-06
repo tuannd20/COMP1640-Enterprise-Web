@@ -23,6 +23,14 @@
         })
         .columns.adjust()
         .responsive.recalc();
+    });
+    $(document).ready(function () {
+      var table = $("#table_list_terms")
+        .DataTable({
+          responsive: true,
+        })
+        .columns.adjust()
+        .responsive.recalc();
 
       var table2 = $("#table_list_department")
         .DataTable({

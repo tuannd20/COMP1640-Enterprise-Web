@@ -31,12 +31,12 @@
         </svg>
       </a>
 
-      <div class="m-auto">Edit account</div>
+      <div class="m-auto">Edit account of Staff</div>
     </div>
     <% if (isSuccess === false) { %>
     <div class="mx-auto w-full max-w-[550px] mt-5">
       <form
-        action="/admin/account/edit/<%= staff.id %>"
+        action="/admin/account/edit/<%= staffByID.id %>"
         method="POST"
         id="edit-form-account"
       >
@@ -66,20 +66,29 @@
                 id="idRole"
                 form="edit-form-account"
                 class="border rounded-lg py-[2px] border-slate-400"
+                style="
+                  appearance: none;
+                  -webkit-appearance: none;
+                  -moz-appearance: none;
+                  background-image: none;
+                  padding-right: 10px;
+                  padding-left: 8px;
+                "
               >
-                <% roles.forEach(function(role) { %>
+                <option value="63f069093057672cba67eb4b">Staff</option>
+                <!-- <% roles.forEach(function(role) { %>
                 <option value="<%= role.id %>"><%= role.nameRole %></option>
-                <% }) %>
+                <% }) %> -->
               </select>
             </label>
           </div>
-          <div class="italic terms">
+          <!-- <div class="italic terms">
             <label for="myCheck"> Active</label>
-            <% if (staff.lockAccount === true) { %>
+            <% if (staffByID.lockAccount === true) { %>
             <input
               type="checkbox"
               id="lockAccount"
-              value="0"
+              value="true"
               name="lockAccount"
               form="edit-form-account"
               class="border rounded-full"
@@ -92,10 +101,10 @@
               name="lockAccount"
               form="edit-form-account"
               class="border rounded-full"
-              value="1"
+              value="false"
             />
             <% } %>
-          </div>
+          </div> -->
         </div>
         <div class="mb-4">
           <label
@@ -108,7 +117,7 @@
             type="text"
             name="fullName"
             id="fullName"
-            value="<%= staff.fullName %>"
+            value="<%= staffByID.fullName %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -125,7 +134,7 @@
             name="email"
             id="email"
             pattern=".+@gmail\.com"
-            value="<%= staff.email %>"
+            value="<%= staffByID.email %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -142,7 +151,7 @@
             id="password"
             name="password"
             title="Click to change password"
-            value="<%= staff.password %>"
+            value="<%= staffByID.password %>"
             onclick="generatePassword()"
             readonly
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -159,7 +168,7 @@
             type="text"
             name="address"
             id="address"
-            value="<%= staff.address %>"
+            value="<%= staffByID.address %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -176,7 +185,7 @@
             pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
             name="phoneNumber"
             id="phoneNumber"
-            value="<%= staff.phoneNumber %>"
+            value="<%= staffByID.phoneNumber %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -191,7 +200,7 @@
     <%} else { %>
     <div class="mx-auto w-full max-w-[550px] mt-5">
       <form
-        action="/admin/account/edit/<%= staff.id %>"
+        action="/admin/account/edit/<%= staffByID.id %>"
         method="POST"
         id="edit-form-account"
       >
@@ -221,20 +230,29 @@
                 id="idRole"
                 form="edit-form-account"
                 class="border rounded-lg py-[2px] border-slate-400"
+                style="
+                  appearance: none;
+                  -webkit-appearance: none;
+                  -moz-appearance: none;
+                  background-image: none;
+                  padding-right: 10px;
+                  padding-left: 8px;
+                "
               >
-                <% roles.forEach(function(role) { %>
+                <option value="63f069093057672cba67eb4b">Staff</option>
+                <!-- <% roles.forEach(function(role) { %>
                 <option value="<%= role.id %>"><%= role.nameRole %></option>
-                <% }) %>
+                <% }) %> -->
               </select>
             </label>
           </div>
-          <div class="italic terms">
+          <!-- <div class="italic terms">
             <label for="myCheck"> Active</label>
-            <% if (staff.lockAccount === true) { %>
+            <% if (staffByID.lockAccount === true) { %>
             <input
               type="checkbox"
               id="lockAccount"
-              value="0"
+              value="true"
               name="lockAccount"
               form="edit-form-account"
               class="border rounded-full"
@@ -247,10 +265,10 @@
               name="lockAccount"
               form="edit-form-account"
               class="border rounded-full"
-              value="1"
+              value="false"
             />
             <% } %>
-          </div>
+          </div> -->
         </div>
         <p class="text-red-600"><%= errorMessageSelect %></p>
         <div class="mb-4">
@@ -264,7 +282,7 @@
             type="text"
             name="fullName"
             id="fullName"
-            value="<%= staff.fullName %>"
+            value="<%= fullName %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -281,7 +299,7 @@
             name="email"
             id="email"
             pattern=".+@gmail\.com"
-            value="<%= staff.email %>"
+            value="<%= email %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -299,7 +317,7 @@
             id="password"
             name="password"
             title="Click to change password"
-            value="<%= staff.password %>"
+            value="<%= staffByID.password %>"
             onclick="generatePassword()"
             readonly
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -316,7 +334,7 @@
             type="text"
             name="address"
             id="address"
-            value="<%= staff.address %>"
+            value="<%= address %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -333,7 +351,7 @@
             pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
             name="phoneNumber"
             id="phoneNumber"
-            value="<%= staff.phoneNumber %>"
+            value="<%= phoneNumber %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
