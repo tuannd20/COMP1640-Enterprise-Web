@@ -31,7 +31,7 @@ function route(app) {
   app.use("/profile", ProfileRouter);
   app.use("/auth", AuthRouter);
   app.use("/ideas", IdeaRouter);
-  app.use("/", HomeRouter);
+  app.use("/", AuthMiddleWare.isLoggedIn, HomeRouter);
 }
 
 module.exports = route;

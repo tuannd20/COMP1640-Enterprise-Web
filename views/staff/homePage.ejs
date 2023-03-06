@@ -278,14 +278,11 @@
 
 <div class="flex justify-center my-10 pagination">
   <!-- pagination -->
-  <!-- hiển thị phân trang nếu có trang -->
   <% if( ideas.totalPages > 0) { %>
   <nav aria-label="Page navigation example">
     <ul class="inline-flex items-center -space-x-px">
       <!-- FIRST ITEM -->
       <% if( ideas.page == 1) { %>
-      <!-- // Nếu thông số http://localhost:3333/news/1/ là 1 thì First sẽ bị disabled -->
-
       <li>
         <a
           class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -294,8 +291,6 @@
         >
       </li>
       <% } else { %>
-      <!-- // Nếu thông số http://localhost:3333/news/2/ từ 2 trở lên thì First sẽ bỏ disabled -->
-
       <li>
         <a
           class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -303,10 +298,8 @@
           >First</a
         >
       </li>
-      <% } %>
-      <!-- ITEMS -->
-      <% var i = (Number(ideas.page) > 3 ? Number(ideas.page) - 2 : 1) %><!-- // Toán tử điều kiện 3 ngôi syntax: < điều_kiện ? giá_trị_1 : giá_trị_2 > --><!-- // Nếu điều_kiện trả về true, toán tử có giá trị giá_trị_1. Ngược lại toán tử có giá trị giá_trị_2. -->
-      <% if(i !== 1) { %>
+      <% } %> <% var i = (Number(ideas.page) > 3 ? Number(ideas.page) - 2 : 1)
+      %> <% if(i !== 1) { %>
       <li>
         <a
           class="px-4 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -315,11 +308,7 @@
         >
       </li>
       <% } %> <% for(; i <= (Number(ideas.page) + 2) && i <= ideas.totalPages;
-      i++) { %>
-      <!-- // Sử dụng vòng lặp để lặp qua từng trang và tăng số trang -->
-
-      <!-- // Trong vòng lặp for có ba biểu thức tùy chọn nên chỉ cần các bạn tách mỗi biểu thức bằng dấu `;` là oke rồi -->
-      <% if(i == ideas.page) { %>
+      i++) { %> <% if(i == ideas.page) { %>
       <li>
         <a
           class="px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
@@ -349,20 +338,16 @@
       <% } %> <% } %>
       <!-- LAST ITEM -->
       <% if(ideas.page == ideas.totalPages) { %>
-      <!-- // Nếu số current( chỉ số phân trang ) là 6 và tổng số page là 6 thì Last bị disabled -->
-
       <li
         class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
       >
         <a class="" href="#"> Last </a>
       </li>
       <% } else { %>
-      <!-- // Ngược lại, thì Last là trang cuối cùng pages ở đây là 6 đồng nghĩa với Last là trang số 6 -->
-
       <li
         class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
       >
-        <a class="" href="?page<%= ideas.totalPages %>"> Last </a>
+        <a class="" href="?page=<%= ideas.totalPages %>"> Last </a>
       </li>
       <% } %>
     </ul>

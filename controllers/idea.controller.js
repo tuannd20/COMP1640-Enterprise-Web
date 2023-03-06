@@ -248,7 +248,7 @@ const getIdeaForStaff = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(StaffData._id)) {
       return res.redirect("/Error");
     }
-    const { page } = req.query;
+    const { page = 1 } = req.query;
     const limit = 5;
     const options = {
       page,
