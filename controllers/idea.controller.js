@@ -4,8 +4,8 @@
 /* eslint-disable no-underscore-dangle */
 const fs = require("fs");
 const multer = require("multer");
-// eslint-disable-next-line import/no-unresolved
 const isImageUrl = require("is-image-url");
+const mongoose = require("mongoose");
 
 const upload = multer({ dest: "public/uploads/" });
 
@@ -31,10 +31,16 @@ const storage = multer.diskStorage({
 
 const renderCreateIdeaPage = async (req, res) => {
   const staff = req.cookies.Staff;
+  const newestPoll = await pollService.getPollNewest();
+
+  const departments = await departmentService.getDepartmentActivated();
+
   return res.render("partials/master", {
     title: "Your Idea",
     content: "../staff/idea/createIdeaPage",
     staff,
+    newestPoll,
+    departments,
     role: staff.idRole.nameRole,
   });
 };
@@ -82,18 +88,18 @@ const createIdea = async (req, res) => {
       return res.status(404).send("Missing required information");
     }
     const promises = [
-      departmentService.findByName(req.body.department),
       categoryService.findByName(req.body.Category),
       pollService.findByName(req.body.pool),
     ];
 
-    const [Department, Category, Poll] = await Promise.all(promises);
+    const [Category, Poll] = await Promise.all(promises);
+    console.log(req.body.department);
 
     const data = {
       idPoll: Poll._id,
-      idDepartment: Department._id,
+      idDepartment: req.body.department,
       idCategory: Category._id,
-      contentIdea: req.body.contentIdea,
+      contentIdea: req.body.content,
       urlFile: null,
       status: "Draft",
       idStaffIdea: id,
@@ -106,6 +112,7 @@ const createIdea = async (req, res) => {
     }
 
     const newIdea = await ideaService.createIdea(data);
+
     if (!newIdea) {
       return res.status(500).send("Internal Server Error");
     }
@@ -113,11 +120,13 @@ const createIdea = async (req, res) => {
 
     const findLeader = await staffService.findLeader({
       idRole: "63f066f996329eb058cc3095",
-      idDepartment: Department._id,
+      idDepartment: req.body.department,
     });
+
     if (!findLeader) {
       return res.status(404).send("The Department has no leader");
     }
+
     sendMail.sendConfirmationEmail(
       findLeader.email,
       "<h1> you has new idea</h1>",
@@ -125,7 +134,7 @@ const createIdea = async (req, res) => {
     );
 
     // return res.redirect(`http://localhost:3000/1/${req.body.idStaffIdea}`);
-    return res.status(200).send(data);
+    return res.redirect("/profile");
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:107 ~ createIdea ~ err:", err);
     return err;
@@ -134,16 +143,18 @@ const createIdea = async (req, res) => {
 
 const displayDetailIdea = async (req, res) => {
   try {
+    const staff = req.cookies.Staff;
+    const role = staff.idRole.nameRole;
     const data = { ideas: "John", comments: [] };
 
-    if (!req.params.idIdea) return res.redirect("/404");
-    const idea = await ideaService.getIdea(req.params.idIdea);
+    if (!req.params.id) return res.redirect("/errors");
+    const idea = await ideaService.getIdea(req.params.id);
     console.log(
       "🚀 ~ file: idea.controller.js:115 ~ displayDetailIdea ~ idea:",
       idea,
     );
-    if (!idea) return res.redirect("/404");
-    if (idea.idStaffIdea == null) return res.redirect("/404");
+    if (!idea) return res.redirect("/errors");
+    if (idea.idStaffIdea == null) return res.redirect("/errors");
     // return res.status(200).send(Idea);
     // return res.render("partials/master", {
     //   title: "Idea",
@@ -155,9 +166,11 @@ const displayDetailIdea = async (req, res) => {
 
     // return res.status(200).send(data);
     return res.render("partials/master", {
-      title: "Department Create",
+      title: "Idea detail",
       content: "../staff/idea/detailIdea",
       data,
+      staff,
+      role,
     });
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
@@ -185,7 +198,7 @@ const displayAllIdea = async (req, res) => {
     };
 
     const allIdea = await ideaService.getAllWithQuery(options, query);
-    if (!allIdea.docs) return res.redirect("/404");
+    if (!allIdea.docs) return res.redirect("/errors");
     const allStaffIdea = await staffIdeaService.getAllWithQuery({
       idStaff: staff._id,
       isLike: { $in: [true, false] },
@@ -230,40 +243,34 @@ const displayAllIdea = async (req, res) => {
 
 const getIdeaForStaff = async (req, res) => {
   try {
-    const staff = req.cookies.Staff;
+    const staffPayload = req.cookies.Staff;
     const StaffData = req.cookies.Staff;
-    const id = StaffData._id;
+    if (!mongoose.Types.ObjectId.isValid(StaffData._id)) {
+      return res.redirect("/Error");
+    }
     const { page } = req.query;
     const limit = 5;
     const options = {
       page,
       limit,
-      populate: { path: "idStaffIdea", model: Staff },
-
-      query: { idStaffIdea: id },
+      populate: { path: "idStaffIdea", select: "fullName avatarImage" },
       sort: { createdAt: -1 },
     };
-    const staffPayload = await staffService.displayStaffById(id);
+    const query = { idStaffIdea: StaffData._id };
 
-    if (!staffPayload) return res.redirect("/404");
-    if (typeof staffPayload.avatarImage === "undefined") {
-      staffPayload.avatarImage = null;
-    }
-    const allIdea = await ideaService.getALl(options);
+    const allIdea = await ideaService.getAllWithQuery(options, query);
 
     allIdea.docs.forEach((element) => {
       if (
         typeof element.urlFile === "undefined" ||
         !isImageUrl(element.urlFile)
       ) {
-        // eslint-disable-next-line no-param-reassign
         element.urlFile = null;
       }
     });
     allIdea.docs = allIdea.docs.filter((doc) => doc.idStaffIdea !== null);
 
     const data = { allIdea, staffPayload };
-    console.log(data.allIdea.docs);
 
     let isHaveIdeas = true;
     if (data.allIdea.docs.toString() === "") {
@@ -274,8 +281,8 @@ const getIdeaForStaff = async (req, res) => {
       title: "Your profile",
       content: "../staff/profilePage",
       data,
-      staff,
-      role: staff.idRole.nameRole,
+      staff: staffPayload,
+      role: staffPayload.idRole.nameRole,
       isHaveIdeas,
     });
     // return res.status(200).send(data);

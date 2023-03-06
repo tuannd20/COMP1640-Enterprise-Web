@@ -1,4 +1,5 @@
 <Main class="pt-[100px] w-3/5 m-auto min-h-screen mb-5">
+  <% if (isFailed === false) { %>
   <div
     class="relative h-auto p-3 pb-32 border-2 idea border-stone-700 rounded-2xl opacity-80"
   >
@@ -75,4 +76,91 @@
       </div>
     </div>
   </div>
+  <%}else { %>
+  <div
+    class="relative h-auto p-3 pb-32 border-2 idea border-stone-700 rounded-2xl opacity-80"
+  >
+    <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
+      <a href="/qa/categories">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="font-extrabold w-7 h-7 text-sky-900 hover:text-sky-400"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+          />
+        </svg>
+      </a>
+
+      <div class="m-auto">Create a new category</div>
+    </div>
+    <div class="content-idea">
+      <div class="flex items-center justify-center">
+        <div class="mx-auto w-full max-w-[550px]">
+          <form action="/qa/category/create" method="POST">
+            <div class="mt-14">
+              <input
+                readonly
+                placeholder="Design"
+                type="text"
+                value="<%= idDepartment %>"
+                name="idDepartment"
+                style="display: none"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              />
+              <label
+                for="name"
+                class="mb-3 block text-base font-medium text-[#07074D]"
+              >
+                Name Department
+              </label>
+              <input
+                readonly
+                placeholder="Design"
+                type="text"
+                value="<%= nameDepartment %>"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              />
+            </div>
+            <div class="mt-14">
+              <label
+                for="name"
+                class="mb-3 block text-base font-medium text-[#07074D]"
+              >
+                Name Category
+              </label>
+              <input
+                type="text"
+                name="nameCategory"
+                id="nameCategory"
+                value="<%= currentCategoryTitle %>"
+                required
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              />
+
+              <div
+                class="ml-3 text-sm font-medium"
+                id="alert-error-endDate"
+                style="color: red"
+              >
+                *<%= errorMessage %>
+              </div>
+            </div>
+            <div
+              class="absolute w-[90px] px-3 py-2 text-center text-white border-2 rounded-lg bottom-5 right-5 submit-btn bg-sky-900 hover:bg-sky-400"
+            >
+              <input type="submit" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% } %>
 </Main>

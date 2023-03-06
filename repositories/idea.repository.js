@@ -45,7 +45,6 @@ const deleteIdea = async (id) => {
 const getAll = async (options) => {
   try {
     const Idea = await ideaModel.paginate({}, options);
-    // console.log(Idea);
     return Idea;
   } catch (err) {
     console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);

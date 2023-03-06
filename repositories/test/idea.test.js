@@ -13,16 +13,16 @@ afterEach(async () => {
 });
 
 const mockIdea = {
-  idStaffIdea: "63f0718f5fd3e1c2d3f75f72",
-  idPoll: "63f06f1a73af73fb75984dd7",
-  idDepartment: "63f069d3ebc00d7c6f011edd",
-  idCategory: "63f06bfda21296c767a69cac",
+  idStaffIdea: "6401748791e33ed5e38e4d7f",
+  idPoll: "6401da2da4604c6d6ccdfac5",
+  idDepartment: "6401f3e8a4604c6d6ccdfad6",
+  idCategory: "64020d9db9f33b213f16e969",
   contentIdea: "Nhanh PO will invite all members go to eat chicken ++",
   urlFile: "https://wallpaper.dog/large/3372.jpg",
   likeCount: 0,
   disLikeCount: 0,
   viewCount: 0,
-  status: "Draft",
+  status: "Private",
 };
 
 describe("Good case: Unit test for idea", () => {

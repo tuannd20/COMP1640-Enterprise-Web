@@ -50,22 +50,23 @@ const createPoll = async (req, res, next) => {
 const getAllPoll = async (req, res, next) => {
   try {
     const staff = req.cookies.Staff;
-
     const Polls = await PollService.getAllPoll();
-    console.log(
-      "🚀 ~ file: poll.controller.js:55 ~ getAllPoll ~ Polls:",
-      Polls,
-    );
-    if (Polls.length == 0) {
-      return res.redirect("/qam/poll/create");
-    }
     const lastPoll = await PollModel.findOne().sort({ dateSubEnd: -1 });
-    if (!lastPoll) {
-      console.log(
-        "🚀 ~ file: poll.controller.js:48 ~ getAllPoll ~ lastPoll:",
-        lastPoll,
-      );
-    }
+    console.log(
+      "🚀 ~ file: poll.controller.js:55 ~ getAllPoll ~ lastPoll:",
+      lastPoll,
+    );
+
+    const currentDate = new Date();
+
+    const update = await PollModel.updateMany(
+      { dateStart: { $lte: currentDate } },
+      { $set: { isUsed: true } },
+    );
+    console.log(
+      "🚀 ~ file: poll.controller.js:66 ~ getAllPoll ~ update:",
+      update,
+    );
 
     return res.render("partials/master", {
       title: "Poll List",
@@ -126,12 +127,13 @@ const updatePoll = async (req, res, next) => {
       );
       return res.redirect("/qam/polls");
     }
+
     const errorPoll = "Title is already exists";
     const errorCode = 400;
 
     return res.status(errorCode).render("partials/master", {
-      title: "Create new Poll",
-      content: "../qam/poll/createPollPage",
+      title: "Edit Poll",
+      content: "../qam/poll/editPollPage",
       errorMessage: errorPoll,
       code: errorCode,
       isFailed: true,
@@ -141,6 +143,7 @@ const updatePoll = async (req, res, next) => {
       dateEnd,
       staff,
       role: staff.idRole.nameRole,
+      idPoll: id,
     });
   } catch (err) {
     return err;
@@ -206,6 +209,16 @@ const updatePollActive = async (req, res) => {
   }
 };
 
+const getPollNewest = async (req, res) => {
+  try {
+    const poll = await PollService.getPollNewest();
+
+    return res.json(poll);
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   getCreatePoll,
   createPoll,
@@ -217,4 +230,5 @@ module.exports = {
   getPollActivated,
   updatePollActive,
   getPollInactive,
+  getPollNewest,
 };
