@@ -81,6 +81,19 @@ const findByTitle = async (titleTerm) => {
   }
 };
 
+const findByTitleExists = async (id, title) => {
+  try {
+    const checkTitleExists = await RuleModel.find()
+      .where("title")
+      .equals(title)
+      .where("_id")
+      .ne(id);
+    return checkTitleExists;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createRule,
   updateRule,
@@ -90,4 +103,5 @@ module.exports = {
   displayRuleById,
   displayAllRule,
   findByTitle,
+  findByTitleExists,
 };

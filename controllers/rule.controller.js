@@ -1,4 +1,5 @@
 const RuleService = require("../services/rule.service");
+const RuleRepository = require("../repositories/rule.repository");
 
 const renderCreateTermsPage = async (req, res) => {
   const staff = req.cookies.Staff;
@@ -80,9 +81,13 @@ const updateRule = async (req, res) => {
     // localStorage.setItem("title", titleRule);
     const titleTerms = req.body.title;
     const contentTerms = req.body.contentRule;
-    const checkTitle = await RuleService.findByTitle(titleTerms);
+    const checkTitle = await RuleRepository.findByTitleExists(id, titleTerms);
+    console.log(
+      "🚀 ~ file: rule.controller.js:84 ~ updateRule ~ checkTitle:",
+      checkTitle,
+    );
 
-    if (!checkTitle) {
+    if (checkTitle.length == 0) {
       const formData = req.body;
       const termUpdate = await RuleService.updateRule(
         { _id: id },
