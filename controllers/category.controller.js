@@ -41,6 +41,7 @@ const rederCreateCategoryPage = async (req, res, next) => {
       content: "../qa/category/createCategoryPage",
       Departments,
       staff,
+      isFailed: false,
       role: staff.idRole.nameRole,
       idDepartment: staff.idDepartment._id,
       nameDepartment: staff.idDepartment.nameDepartment,
@@ -67,22 +68,33 @@ const rederCreateCategoryPage = async (req, res, next) => {
 
 const createCategory = async (req, res) => {
   try {
+    const staff = req.cookies.Staff;
     const formData = req.body;
     const name = req.body.nameCategory;
-    // Validation logic
-    if (!formData.nameCategory) {
-      return res.send(
-        "<script>alert('Category name is valided'); window.location.href='/qa/category/create';</script>",
-      );
-    }
+
     const checkCategoryResit = await CategoryService.findByName(name);
+
     if (!checkCategoryResit) {
       const category = await CategoryService.createCategory(formData);
+      console.log(category);
       return res.redirect("/qa/categories");
     }
-    return res.send(
-      "<script>alert('Category name is existed'); window.location.href='/qa/category/create';</script>",
-    );
+
+    const errorCategory = "Title is already exists";
+    const errorCode = 400;
+
+    return res.status(errorCode).render("partials/master", {
+      title: "Create new Category",
+      content: "../qa/category/createCategoryPage",
+      errorMessage: errorCategory,
+      code: errorCode,
+      isFailed: true,
+      staff,
+      role: staff.idRole.nameRole,
+      currentCategoryTitle: name,
+      idDepartment: staff.idDepartment._id,
+      nameDepartment: staff.idDepartment.nameDepartment,
+    });
   } catch (err) {
     return err;
   }
@@ -101,6 +113,7 @@ const getEditCategory = async (req, res, next) => {
       category,
       department,
       staff,
+      isFailed: false,
       role: staff.idRole.nameRole,
       idDepartment: staff.idDepartment._id,
       nameDepartment: staff.idDepartment.nameDepartment,
@@ -113,13 +126,36 @@ const getEditCategory = async (req, res, next) => {
 const updateCategory = async (req, res, next) => {
   const { id } = req.params;
   const updateObject = req.body;
+  const staff = req.cookies.Staff;
   try {
-    const categories = await CategoryService.updateCategory(
-      { _id: id },
-      { $set: updateObject },
+    const checkCategoryResit = await CategoryService.findByName(
+      updateObject.nameCategory,
     );
-    return res.redirect("/qa/categories");
+    console.log("dataaaa: ", checkCategoryResit);
+
+    if (!checkCategoryResit) {
+      const categories = await CategoryService.updateCategory(
+        { _id: id },
+        { $set: updateObject },
+      );
+      return res.redirect("/qa/categories");
+    }
     // return res.json(categories);
+    const errorCategory = "Title is already exists";
+    const errorCode = 400;
+
+    return res.status(errorCode).render("partials/master", {
+      title: "Edit Category",
+      content: "../qa/category/editCategoryPage",
+      errorMessage: errorCategory,
+      code: errorCode,
+      isFailed: true,
+      staff,
+      role: staff.idRole.nameRole,
+      currentCategoryTitle: updateObject.nameCategory,
+      idDepartment: staff.idDepartment._id,
+      nameDepartment: staff.idDepartment.nameDepartment,
+    });
   } catch (err) {
     return err;
   }
