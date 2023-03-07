@@ -30,11 +30,9 @@ const updateRule = async (id, data) => {
   }
 };
 
-const deleteOneRule = async (_id, body) => {
+const deleteOneRule = async (id) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = _id;
-    const rule = await RuleModel.findByIdAndRemove(id);
+    const rule = await RuleModel.delete({ _id: id });
     return rule;
   } catch (err) {
     console.log(err);
