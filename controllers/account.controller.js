@@ -6,6 +6,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-self-assign */
 /* eslint-disable object-curly-newline */
+const fs = require("fs");
 const StaffService = require("../services/staff.service");
 const DepartmentService = require("../services/department.service");
 const RoleService = require("../services/role.service");
@@ -147,12 +148,12 @@ const renderEditProfilePage = async (req, res) => {
   const { id } = req.params;
   try {
     const staffProfile = await StaffService.displayStaffById(id);
-    console.log(staffProfile);
     return res.render("partials/master", {
       title: "Edit profile",
       content: "../staff/editProfilePage",
       staff,
       staffProfile,
+      isFailed: false,
       role: staff.idRole.nameRole,
     });
   } catch (err) {
@@ -333,6 +334,64 @@ const renderExampleAccountPage = async (req, res) => {
   // return res.json(staff);
 };
 
+const handleUpdateProfileAccount = async (req, res) => {
+  try {
+    const staff = req.cookies.Staff;
+    const { idProfile } = req.params;
+    const profileBody = req.body;
+
+    const staffProfile = await StaffService.displayStaffById(idProfile);
+
+    let newFilePath;
+    if (req.file) {
+      const filePath = req.file.path;
+
+      const fileName = req.file.originalname;
+      newFilePath = `public/uploads/${fileName}`;
+      fs.renameSync(filePath, newFilePath);
+    }
+
+    const checkPhoneNumber = await StaffService.findByPhoneNumber(
+      idProfile,
+      profileBody.phoneNumber,
+    );
+
+    if (checkPhoneNumber.length === 0) {
+      const data = {
+        address: profileBody.address,
+        phoneNumber: profileBody.phoneNumber,
+        avatarImage: null,
+      };
+      if (newFilePath) {
+        data.avatarImage = newFilePath.slice(7);
+      }
+
+      const staffsProfile = await StaffService.handleUpdateProfile(
+        idProfile,
+        data,
+      );
+
+      return res.redirect(`/profile/edit/${idProfile}`);
+      // return res.json(staffsProfile);
+    }
+
+    const errorProfilePhoneNumber = "* The phone number is already exists";
+
+    return res.status(400).render("partials/master", {
+      title: "Edit profile",
+      content: "../staff/editProfilePage",
+      staff,
+      errorMessage: errorProfilePhoneNumber,
+      currentPhone: profileBody.phoneNumber,
+      isFailed: true,
+      staffProfile,
+      role: staff.idRole.nameRole,
+    });
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   index,
   renderCreateAccountPage,
@@ -348,4 +407,5 @@ module.exports = {
   renderEditProfilePage,
   editProfilePage,
   renderExampleAccountPage,
+  handleUpdateProfileAccount,
 };
