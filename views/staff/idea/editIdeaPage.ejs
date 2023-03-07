@@ -157,16 +157,23 @@
         const categories = response.data;
 
         const listNameCategory = [];
-        categories.map((category) => {
-          listNameCategory.push(category.nameCategory);
-        });
-
-        console.log(listNameCategory);
-        $.each(listNameCategory, function (key, value) {
+        if (categories.length === 0) {
+          $("#categoriesList").empty();
           $("#categoriesList").append(
-            $("<option></option>").attr("value", value).text(value),
+            $("<option></option>").attr("value", "No").text("No category"),
           );
-        });
+        } else {
+          categories.map((category) => {
+            listNameCategory.push(category.nameCategory);
+          });
+          console.log(listNameCategory);
+          $("#categoriesList").empty();
+          $.each(listNameCategory, function (key, value) {
+            $("#categoriesList").append(
+              $("<option></option>").attr("value", value).text(value),
+            );
+          });
+        }
       }
     });
   });

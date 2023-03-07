@@ -47,11 +47,11 @@
             />
           </svg>
           <%}else { %>
-            <img
-              src="<%= staff.avatarImage %>"
-              alt=""
-              class="w-24 h-24 border rounded-full"
-            />
+          <img
+            src="<%= staff.avatarImage %>"
+            alt=""
+            class="w-24 h-24 border rounded-full"
+          />
           <% } %>
           <div>
             <p class="mb-1 text-lg font-medium"><%= staff.fullName %></p>
@@ -84,9 +84,11 @@
                     id="department-select"
                     class="border rounded-lg py-[2px] border-slate-400"
                   >
-                  <% departments.forEach(function(department) { %>
-                    <option value="<%= department._id %>"> <%= department.nameDepartment %></option>
-                  <% }) %>
+                    <% departments.forEach(function(department) { %>
+                    <option value="<%= department._id %>">
+                      <%= department.nameDepartment %>
+                    </option>
+                    <% }) %>
                   </select>
                 </label>
               </div>
@@ -111,12 +113,12 @@
       </div>
       <div class="mb-8 content-idea">
         <input
-            type="text"
-            name="pool"
-            hidden
-            value="<%= newestPoll.namePoll %>"
-            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-          />
+          type="text"
+          name="pool"
+          hidden
+          value="<%= newestPoll.namePoll %>"
+          class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+        />
         <textarea
           rows="8"
           name="content"
@@ -127,53 +129,62 @@
         ></textarea>
       </div>
       <div class="w-[95%] m-auto">
-          <div class="flex flex-row justify-between footer-idea">
-            <div class="px-3 py-2 border-2 rounded-lg upload-btn h-auto">
-              <input type="file" name="file" value="Upload" multiple />
-            </div>
-            <div class="flex flex-row items-center justify-between gap-5">
-              <div class="italic terms">
-                <input type="checkbox" id="myCheck" required />
-                <a href="/terms" target="_blank"><label> Agree to terms?</label></a>
-              </div>
-              <div
-                class="px-3 py-2 text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
+        <div class="flex flex-row justify-between footer-idea">
+          <div class="h-auto px-3 py-2 border-2 rounded-lg upload-btn">
+            <input type="file" name="file" value="Upload" multiple />
+          </div>
+          <div class="flex flex-row items-center justify-between gap-5">
+            <div class="italic terms">
+              <input type="checkbox" id="myCheck" required />
+              <a href="/terms" target="_blank"
+                ><label> Agree to terms?</label></a
               >
-                <input type="submit" />
-              </div>
+            </div>
+            <div
+              class="px-3 py-2 text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
+            >
+              <input type="submit" />
             </div>
           </div>
+        </div>
       </div>
     </form>
   </div>
 </Main>
 
 <script>
-
   $(document).ready(function () {
-
     $("#department-select").click(async function () {
-        const departmentId = await $("#department-select").val();
+      const departmentId = await $("#department-select").val();
 
-        if (departmentId === "0") {
-          console.log('Select default!!!!!!!!!!', departmentId);
+      if (departmentId === "0") {
+        console.log("Select default!!!!!!!!!!", departmentId);
+      } else {
+        console.log("Select department from DB: ", departmentId);
+        const response = await axios.get(
+          `/api/v1/categories/department/${departmentId}`,
+        );
+        const categories = response.data;
+
+        const listNameCategory = [];
+        if (categories.length === 0) {
+          $("#categoriesList").empty();
+          $("#categoriesList").append(
+            $("<option></option>").attr("value", "No").text("No category"),
+          );
         } else {
-          console.log('Select department from DB: ', departmentId);
-          const response = await axios.get(`/api/v1/categories/department/${departmentId}`);
-          const categories = response.data;
-
-          const listNameCategory = []
           categories.map((category) => {
-            listNameCategory.push(category.nameCategory)
-          })
-
+            listNameCategory.push(category.nameCategory);
+          });
           console.log(listNameCategory);
-          $.each(listNameCategory, function(key, value) {   
-            $("#categoriesList").append($("<option></option>")
-                      .attr("value", value)
-                      .text(value)); 
-          })
+          $("#categoriesList").empty();
+          $.each(listNameCategory, function (key, value) {
+            $("#categoriesList").append(
+              $("<option></option>").attr("value", value).text(value),
+            );
+          });
         }
+      }
     });
   });
 </script>
