@@ -26,7 +26,7 @@
     <div class="content-idea">
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px] mb-28">
-          <form action="/qam/department/edit/<%= department.id%>" method="POST">
+          <form action="/qam/departments/<%= department.id%>?_method=PUT" method="POST">
             <div class="mt-14">
               <label
                 for="name"
@@ -109,7 +109,7 @@
     <div class="content-idea">
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px] mb-28">
-          <form action="/qam/department/edit/<%= idDepartment%>" method="POST">
+          <form action="/qam/departments/<%= idDepartment%>?_method=PUT" method="POST">
             <div class="mt-14">
               <label
                 for="name"

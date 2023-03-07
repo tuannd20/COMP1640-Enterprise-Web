@@ -32,59 +32,13 @@
       </a>
       <div class="m-auto">Create a new account for QA</div>
     </div>
-    <!-- <div class="flex flex-row justify-center gap-4 header-account">
-              <div class="Department">
-                <label for="product-type">
-                  Department
-                </label>
-              </div>
-              <div class="role">
-                <label for="type">
-                  Role
-                  <select
-                    name="role"
-                    id="type"
-                    form="create-form-account"
-                    class="border rounded-lg py-[2px] border-slate-400"
-                  >
-                    <option value="All">All</option>
-                    <option value="Without comment">Without comment</option>
-                    <option value="Anonymous">Anonymous</option>
-                  </select>
-                </label>
-              </div>
-              <div class="italic terms">
-                <label for="myCheck"> Active</label>
-                <input
-                  type="checkbox"
-                  id="myCheck"
-                  name="active"
-                  form="create-form-account"
-                  class="border rounded-full"
-                />
-              </div>
-            </div> -->
+    <% if (isSuccess === false) { %>
     <div class="mx-auto w-full max-w-[550px] mt-5">
-      <form
-        action="/qam/account/qa/create"
-        method="POST"
-        id="create-form-account"
-      >
+      <form action="/qam/qas" method="POST" id="create-form-account">
         <div class="flex flex-row justify-center gap-4 header-account">
           <div class="Department">
             <label for="product-type">
               Department: <%= department.nameDepartment %>
-              <!-- <select
-                name="idDepartment"
-                form="create-form-account"
-                id="idDepartment"
-                class="border rounded-lg py-[2px] border-slate-400"
-              >
-                <option value="<%= department.id %>">
-                  <%= department.nameDepartment %>
-                </option>
-              </select> -->
-
               <input
                 name="idDepartment"
                 id="idDepartment"
@@ -192,6 +146,112 @@
         </div>
       </form>
     </div>
+    <%} else { %>
+    <div class="mx-auto w-full max-w-[550px] mt-5">
+      <form action="/qam/qas" method="POST" id="create-form-account">
+        <div class="flex flex-row justify-center gap-4 header-account">
+          <div class="Department">
+            <label for="product-type">
+              Department: <%= department.nameDepartment %>
+              <input
+                name="idDepartment"
+                id="idDepartment"
+                value="<%= department.id %>"
+                hidden
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              />
+            </label>
+          </div>
+        </div>
+        <div class="mb-4">
+          <label
+            for="name"
+            class="block mb-3 text-base font-medium text-black select-none"
+          >
+            Full name
+          </label>
+          <input
+            type="text"
+            name="fullName"
+            id="fullName"
+            required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="email"
+            class="block mb-3 text-base font-medium text-black"
+          >
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            pattern=".+@gmail\.com"
+            required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          />
+        </div>
+        <p class="text-red-600"><%= errorMessageEmail %></p>
+        <div class="mb-4">
+          <label
+            for="password"
+            class="block mb-3 text-base font-medium text-black"
+          >
+            Password
+          </label>
+          <input
+            type="text"
+            id="password"
+            name="password"
+            title="Click to change password"
+            onclick="generatePassword()"
+            readonly
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="address"
+            class="block mb-3 text-base font-medium text-black"
+          >
+            Address
+          </label>
+          <input
+            type="text"
+            name="address"
+            id="address"
+            required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="phone"
+            class="block mb-3 text-base font-medium text-black"
+          >
+            Phone number
+          </label>
+          <input
+            type="tel"
+            pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+            name="phoneNumber"
+            id="phoneNumber"
+            required
+          />
+        </div>
+        <p class="text-red-600"><%= errorMessagePhoneNumber %></p>
+        <div
+          class="w-1/6 px-3 py-2 m-auto text-center text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
+        >
+          <input type="submit" />
+        </div>
+      </form>
+    </div>
+    <% } %>
   </div>
 </Main>
 

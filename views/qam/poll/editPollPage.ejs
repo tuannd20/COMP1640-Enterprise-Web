@@ -28,7 +28,7 @@
         <div class="mx-auto w-full max-w-[550px]">
           <form
             id="my-form"
-            action="/qam/poll/edit/<%= poll.id %>"
+            action="/qam/polls/<%= poll.id %>?_method=PUT"
             onsubmit="return validateForm()"
             method="POST"
           >
@@ -178,7 +178,7 @@
         <div class="mx-auto w-full max-w-[550px]">
           <form
             id="my-form"
-            action="/qam/poll/edit/<%= idPoll %>"
+            action="/qam/polls/<%= idPoll %>?_method=PUT"
             onsubmit="return validateForm()"
             method="POST"
           >
