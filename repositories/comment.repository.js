@@ -44,7 +44,7 @@ const getAllCommentsByIdIdea = async (id) => {
   try {
     const comment = await CommentModel.find({ idIdea: id }).populate({
       path: "idStaffComment",
-      select: "fullName",
+      select: "fullName avatarImage",
     });
 
     return comment;
