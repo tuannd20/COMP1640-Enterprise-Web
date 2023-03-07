@@ -42,9 +42,9 @@ const getAllComments = async () => {
 
 const getAllCommentsByIdIdea = async (id) => {
   try {
-    const comment = await CommentModel.findOne({ idIdea: id }).populate({
-      path: "idIdea",
-      select: "_id",
+    const comment = await CommentModel.find({ idIdea: id }).populate({
+      path: "idStaffComment",
+      select: "fullName",
     });
 
     return comment;

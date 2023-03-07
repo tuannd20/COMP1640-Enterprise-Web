@@ -9,7 +9,7 @@
 
     <div><%- include(content) -%></div>
 
-    <div class="relative mt-56"><%- include('footer') -%></div>
+    <div class="relative mt-20"><%- include('footer') -%></div>
   </body>
 
   <!--Datatables -->
@@ -52,7 +52,7 @@
         })
         .columns.adjust()
         .responsive.recalc();
-        
+
       var tableCategory = $("#table_list_category")
         .DataTable({
           responsive: true,

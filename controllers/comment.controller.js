@@ -23,7 +23,28 @@ const displayAllCommentOfIdea = async (req, res) => {
   }
 };
 
+const createComment = async (req, res) => {
+  try {
+    const staff = req.cookies.Staff;
+    const idStaffComment = staff._id;
+    const { comment, idIdea } = req.body;
+    if (!comment || !idIdea) return res.redirect("/errors");
+
+    const comments = await CommentService.createComment({
+      idIdea,
+      idStaffComment,
+      contentComment: comment,
+    });
+
+    return res.send(comments);
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 module.exports = {
   displayAllComment,
   displayAllCommentOfIdea,
+  createComment,
 };

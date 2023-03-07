@@ -22,7 +22,29 @@ const getAllCommentOfIdea = async (id) => {
   }
 };
 
+const createComment = async (data) => {
+  try {
+    console.log(
+      "🚀 --------------------------------------------------------------🚀",
+    );
+    console.log(
+      "🚀 ~ file: comment.service.js:28 ~ createComment ~ data:",
+      data,
+    );
+    console.log(
+      "🚀 --------------------------------------------------------------🚀",
+    );
+    const comments = await CommentRepository.createComment(data);
+
+    return comments;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
 module.exports = {
   getAllComment,
   getAllCommentOfIdea,
+  createComment,
 };

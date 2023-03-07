@@ -15,6 +15,7 @@ const categoryService = require("../services/category.service");
 const departmentService = require("../services/department.service");
 const pollService = require("../services/poll.service");
 const staffIdeaService = require("../services/staffIdea.service");
+const commentService = require("../services/comment.service");
 const StaffIdeaModel = require("../database/models/StaffIdea");
 const sendMail = require("../utilities/sendMail");
 const Staff = require("../database/models/Staff");
@@ -172,20 +173,22 @@ const displayDetailIdea = async (req, res) => {
 
     if (!req.params.id) return res.redirect("/errors");
     const idea = await ideaService.getIdea(req.params.id);
+    const comment = await commentService.getAllCommentOfIdea(idea._id);
     console.log(
-      "🚀 ~ file: idea.controller.js:115 ~ displayDetailIdea ~ idea:",
-      idea,
+      "🚀 -------------------------------------------------------------------------🚀",
     );
-    if (!idea) return res.redirect("/errors");
+    console.log(
+      "🚀 ~ file: idea.controller.js:177 ~ displayDetailIdea ~ comment:",
+      comment,
+    );
+    console.log(
+      "🚀 -------------------------------------------------------------------------🚀",
+    );
+    if (!idea || !comment) return res.redirect("/errors");
     if (idea.idStaffIdea == null) return res.redirect("/errors");
-    // return res.status(200).send(Idea);
-    // return res.render("partials/master", {
-    //   title: "Idea",
-    //   content: "../staff/idea/ideaDetailPage",
-    // idea,
-    // comments,
-    // });
+
     data.ideas = idea;
+    data.comments = comment;
 
     // return res.status(200).send(data);
     return res.render("partials/master", {
