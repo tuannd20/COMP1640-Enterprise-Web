@@ -41,7 +41,7 @@ for (let i = 0; i < like.length; i++) {
   // eslint-disable-next-line no-loop-func
   like[i].addEventListener("click", () => {
     $.ajax({
-      type: "POST",
+      type: "PUT",
       url: "http://localhost:3000/ideas/like",
       data: { IdIdea: $(".id-idea").eq(i).val(), isLike: true },
     }).then((response) => {
@@ -64,7 +64,7 @@ for (let i = 0; i < dislike.length; i++) {
   // eslint-disable-next-line no-loop-func
   dislike[i].addEventListener("click", () => {
     $.ajax({
-      type: "POST",
+      type: "PUT",
       url: "http://localhost:3000/ideas/dislike",
       data: { IdIdea: $(".id-idea").eq(i).val(), isLike: false },
     }).then((response) => {

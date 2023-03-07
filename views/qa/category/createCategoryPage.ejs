@@ -26,7 +26,7 @@
     <div class="content-idea">
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px]">
-          <form action="/qa/category/create" method="POST">
+          <form action="/qa/categories" method="POST">
             <div class="mt-14">
               <input
                 readonly
@@ -39,19 +39,18 @@
               />
               <label
                 for="name"
-                class="mb-3 block text-base font-medium text-[#07074D]"
+                class="block text-base font-medium text-[#07074D]"
               >
-                Name Department
+                Name Department: <%= nameDepartment %>
               </label>
               <input
                 readonly
-                placeholder="Design"
                 type="text"
                 value="<%= nameDepartment %>"
-                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                class="hidden w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
-            <div class="mt-14">
+            <div class="mt-4">
               <label
                 for="name"
                 class="mb-3 block text-base font-medium text-[#07074D]"
@@ -103,7 +102,7 @@
     <div class="content-idea">
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px]">
-          <form action="/qa/category/create" method="POST">
+          <form action="/qa/categories" method="POST">
             <div class="mt-14">
               <input
                 readonly
@@ -118,17 +117,17 @@
                 for="name"
                 class="mb-3 block text-base font-medium text-[#07074D]"
               >
-                Name Department
+                Name Department: <%= nameDepartment %>
               </label>
               <input
                 readonly
                 placeholder="Design"
                 type="text"
                 value="<%= nameDepartment %>"
-                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                class="hidden w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
-            <div class="mt-14">
+            <div class="mt-4">
               <label
                 for="name"
                 class="mb-3 block text-base font-medium text-[#07074D]"
