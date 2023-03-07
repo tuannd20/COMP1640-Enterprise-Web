@@ -30,6 +30,16 @@ const updateCategory = async (id, data) => {
   }
 };
 
+const updateStatusCategory = async (id) => {
+  try {
+    const result = await CategoryRepository.updateStatusOfCategory(id);
+    return result;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 const deleteAllCategory = async () => {
   try {
     const result = await CategoryRepository.deleteAllCategory();
@@ -69,6 +79,15 @@ const findByName = async (name) => {
   }
 };
 
+const findCategoryByIdDepartment = async (id) => {
+  try {
+    const result = await CategoryRepository.getCategoryByDepartmentId(id);
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createCategory,
   getAllCategory,
@@ -77,4 +96,6 @@ module.exports = {
   deleteOneCategory,
   readCategoryById,
   findByName,
+  findCategoryByIdDepartment,
+  updateStatusCategory,
 };

@@ -3,63 +3,41 @@ const express = require("express");
 const router = express.Router();
 const PollController = require("../controllers/poll.controller");
 const DepartmentController = require("../controllers/department.controller");
+const AccountController = require("../controllers/manageQA.controller");
 
 router.get("/", (req, res) => {
   res.render("homeStaff", { title: "Express" });
 });
 
-// [GET] create department
-router.get("/department/create", DepartmentController.getCreateDepartment);
+// qa
+router.get("/qas", AccountController.getAllStaff);
+router.get("/qas/create-page/:id", AccountController.renderCreateAccountPage);
+router.post("/qas", AccountController.createStaff);
+router.get("/qas/edit-page/:id", AccountController.renderEditAccountPage);
+router.put("/qas/:id", AccountController.updateStaff);
 
-// [POST] create department
-router.post("/department/create", DepartmentController.createDepartment);
-
-// [GET] edit department
-router.get("/department/edit/:id", DepartmentController.getEditDepartment);
-
-// [PUT] update department
-router.post("/department/edit/:id", DepartmentController.updateDepartment);
-
-// [DELETE] delete department
-router.delete(
-  "/department/delete/:id",
-  DepartmentController.deleteOneDepartment,
-);
-
-// [DELETE] delete department
-router.get("/department/delete-all", DepartmentController.deleteAllDepartment);
-
-// [GET] all department
+// department
 router.get("/departments", DepartmentController.getAllDepartment);
-
-// [GET] all Department Activated
 router.get(
-  "/department/activated",
-  DepartmentController.getDepartmentActivated,
+  "/departments/create-page",
+  DepartmentController.getCreateDepartment,
 );
+router.post("/departments", DepartmentController.createDepartment);
+router.get(
+  "/departments/edit-page/:id",
+  DepartmentController.getEditDepartment,
+);
+router.put("/departments/:id", DepartmentController.updateDepartment);
+router.delete("/departments/:id", DepartmentController.deleteOneDepartment);
 
-// [GET] create Poll
-router.get("/poll/create", PollController.getCreatePoll);
-
-// [POST] create Poll
-router.post("/poll/create", PollController.createPoll);
-
-// [GET] edit Poll
-router.get("/poll/edit/:id", PollController.getEditPoll);
-
-// [PUT] update Poll
-router.post("/poll/edit/:id", PollController.updatePoll);
-
-// [DELETE] delete Poll
-router.delete("/poll/delete/:id", PollController.deleteOnePoll);
-
-// [DELETE] delete Poll
-router.get("/poll/delete-all", PollController.deleteAllPoll);
-
-// [GET] all Poll
+// create Poll
 router.get("/polls", PollController.getAllPoll);
-
-// [GET] all Poll Activated
-router.get("/poll/activated", PollController.getPollActivated);
+router.get("/polls/create-page", PollController.getCreatePoll);
+router.post("/polls", PollController.createPoll);
+router.get("/polls/edit-page/:id", PollController.getEditPoll);
+router.put("/polls/:id", PollController.updatePoll);
+router.delete("/polls/:id", PollController.deleteOnePoll);
+// router.get("/polls/delete-all", PollController.deleteAllPoll);
+// router.get("/polls/activated", PollController.getPollActivated);
 
 module.exports = router;

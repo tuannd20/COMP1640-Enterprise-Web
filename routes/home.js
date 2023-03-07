@@ -18,7 +18,9 @@ router.get("/", AuthMiddleWare.isLoggedIn, IdeaController.displayAllIdea);
 
 router.get("/idea/:idIdea", IdeaController.displayDetailIdea);
 
-router.get("/comments", CommentController.displayAllComment);
+router.get("/comments/:idIdea", CommentController.displayAllCommentOfIdea);
+
+router.post("/comments", CommentController.createComment);
 
 router.get("/terms", TermsController.displayAllRule);
 

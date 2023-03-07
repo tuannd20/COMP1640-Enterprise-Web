@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const paginate = require("mongoose-paginate-v2");
+// eslint-disable-next-line import/no-unresolved
+const mongooseDelete = require("mongoose-delete");
 
 const { DRAFT, PRIVATE, PUBLIC } = require("../../constants/status");
 
@@ -37,11 +39,16 @@ const IdeaSchema = new Schema(
       enum: [DRAFT, PRIVATE, PUBLIC],
       default: DRAFT,
     },
+    isLike: { type: Boolean, default: null },
   },
   { timestamps: true },
 );
 
 IdeaSchema.plugin(paginate);
+IdeaSchema.plugin(mongooseDelete, {
+  overrideMethods: "all",
+  deletedAt: true,
+});
 const Idea = mongoose.model("Idea", IdeaSchema);
 
 module.exports = Idea;

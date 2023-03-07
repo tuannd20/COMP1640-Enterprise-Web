@@ -9,12 +9,18 @@ const interactController = require("../controllers/interact.controller");
 const IdeaController = require("../controllers/idea.controller");
 
 // router.get("/createNewIdea", IdeaController.createIdea);
-router.get("/createNewIdea", IdeaController.renderCreateIdeaPage);
+router.get("/", IdeaController.renderCreateIdeaPage);
+
+router.get("/:id", IdeaController.renderEditIdeaPage);
+
+router.get("/:id/detail", IdeaController.displayDetailIdea);
 
 router.post("/uploadIdea", upload.single("file"), IdeaController.createIdea);
 
-router.post("/like", interactController.LikeIdea);
+router.put("/like", interactController.LikeIdea);
 
-router.post("/Dislike", interactController.DisLikeIdea);
+router.put("/dislike", interactController.DisLikeIdea);
+
+router.delete("/:id", IdeaController.deleteIdea);
 
 module.exports = router;

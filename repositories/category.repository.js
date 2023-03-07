@@ -50,6 +50,20 @@ const updateCategory = async (id, data) => {
   }
 };
 
+const updateStatusOfCategory = async (id) => {
+  try {
+    const statusCategory = await CategoryModel.findOneAndUpdate(
+      { _id: id },
+      { $push: { isUsed: true } },
+    );
+
+    return statusCategory;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
 const deleteCategory = async (id) => {
   try {
     // if (CategoryModel.id === true) {
@@ -99,6 +113,17 @@ const getCategoryActivated = async () => {
   }
 };
 
+const getCategoryByDepartmentId = async (id) => {
+  try {
+    const result = await CategoryModel.find({ idDepartment: id })
+      .populate("idDepartment")
+      .sort({ createdAt: -1 });
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   readCategories,
   createCategory,
@@ -108,4 +133,6 @@ module.exports = {
   deleteAllCategory,
   findByName,
   getCategoryActivated,
+  getCategoryByDepartmentId,
+  updateStatusOfCategory,
 };

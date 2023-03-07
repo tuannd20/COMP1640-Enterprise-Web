@@ -11,10 +11,10 @@
     }
   </style>
   <div
-    class="relative p-3 border-2 border-stone-700 rounded-2xl h-auto opacity-80 mb-10"
+    class="relative p-3 border-2 border-stone-700 rounded-2xl h-auto opacity-80 mb-10 overflow-auto"
   >
     <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
-      <a href="/admin/account">
+      <a href="javascript:history.back()">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -30,80 +30,34 @@
           />
         </svg>
       </a>
-
-      <div class="m-auto">Edit account of Staff</div>
+      <div class="m-auto">Create a new account for QA</div>
     </div>
     <% if (isSuccess === false) { %>
     <div class="mx-auto w-full max-w-[550px] mt-5">
-      <form
-        action="/admin/account/edit/<%= staffByID.id %>?_method=PUT"
-        method="POST"
-        id="edit-form-account"
-      >
+      <form action="/qam/qas" method="POST" id="create-form-account">
         <div class="flex flex-row justify-center gap-4 header-account">
           <div class="Department">
             <label for="product-type">
-              Department
-              <select
+              Department: <%= department.nameDepartment %>
+              <input
                 name="idDepartment"
-                form="edit-form-account"
                 id="idDepartment"
-                class="border rounded-lg py-[2px] border-slate-400"
-              >
-                <% departments.forEach(function(department) { %>
-                <option value="<%= department.id %>">
-                  <%= department.nameDepartment %>
-                </option>
-                <% }) %>
-              </select>
-            </label>
-          </div>
-          <div class="role">
-            <label for="type">
-              Role
-              <select
-                name="idRole"
-                id="idRole"
-                form="edit-form-account"
-                class="border rounded-lg py-[2px] border-slate-400"
-                style="
-                  appearance: none;
-                  -webkit-appearance: none;
-                  -moz-appearance: none;
-                  background-image: none;
-                  padding-right: 10px;
-                  padding-left: 8px;
-                "
-              >
-                <option value="63f069093057672cba67eb4b">Staff</option>
-                <!-- <% roles.forEach(function(role) { %>
-                <option value="<%= role.id %>"><%= role.nameRole %></option>
-                <% }) %> -->
-              </select>
+                value="<%= department.id %>"
+                hidden
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              />
             </label>
           </div>
           <!-- <div class="italic terms">
             <label for="myCheck"> Active</label>
-            <% if (staffByID.lockAccount === true) { %>
             <input
               type="checkbox"
               id="lockAccount"
+              name="lockAccount"
+              form="create-form-account"
+              class="border rounded-full"
               value="true"
-              name="lockAccount"
-              form="edit-form-account"
-              class="border rounded-full"
-              checked
             />
-            <%}else { %>
-            <input
-              type="checkbox"
-              id="lockAccount"
-              name="lockAccount"
-              form="edit-form-account"
-              class="border rounded-full"
-              value="false"
-            />
-            <% } %>
           </div> -->
         </div>
         <div class="mb-4">
@@ -117,7 +71,6 @@
             type="text"
             name="fullName"
             id="fullName"
-            value="<%= staffByID.fullName %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -134,7 +87,6 @@
             name="email"
             id="email"
             pattern=".+@gmail\.com"
-            value="<%= staffByID.email %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -151,7 +103,6 @@
             id="password"
             name="password"
             title="Click to change password"
-            value="<%= staffByID.password %>"
             onclick="generatePassword()"
             readonly
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -168,7 +119,6 @@
             type="text"
             name="address"
             id="address"
-            value="<%= staffByID.address %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -183,11 +133,10 @@
           <input
             type="tel"
             pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
             name="phoneNumber"
             id="phoneNumber"
-            value="<%= staffByID.phoneNumber %>"
             required
-            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
         </div>
         <div
@@ -199,78 +148,21 @@
     </div>
     <%} else { %>
     <div class="mx-auto w-full max-w-[550px] mt-5">
-      <form
-        action="/admin/account/edit/<%= staffByID.id %>?_method=PUT"
-        method="POST"
-        id="edit-form-account"
-      >
+      <form action="/qam/qas" method="POST" id="create-form-account">
         <div class="flex flex-row justify-center gap-4 header-account">
           <div class="Department">
             <label for="product-type">
-              Department
-              <select
+              Department: <%= department.nameDepartment %>
+              <input
                 name="idDepartment"
-                form="edit-form-account"
                 id="idDepartment"
-                class="border rounded-lg py-[2px] border-slate-400"
-              >
-                <% departments.forEach(function(department) { %>
-                <option value="<%= department.id %>">
-                  <%= department.nameDepartment %>
-                </option>
-                <% }) %>
-              </select>
+                value="<%= department.id %>"
+                hidden
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              />
             </label>
           </div>
-          <div class="role">
-            <label for="type">
-              Role
-              <select
-                name="idRole"
-                id="idRole"
-                form="edit-form-account"
-                class="border rounded-lg py-[2px] border-slate-400"
-                style="
-                  appearance: none;
-                  -webkit-appearance: none;
-                  -moz-appearance: none;
-                  background-image: none;
-                  padding-right: 10px;
-                  padding-left: 8px;
-                "
-              >
-                <option value="63f069093057672cba67eb4b">Staff</option>
-                <!-- <% roles.forEach(function(role) { %>
-                <option value="<%= role.id %>"><%= role.nameRole %></option>
-                <% }) %> -->
-              </select>
-            </label>
-          </div>
-          <!-- <div class="italic terms">
-            <label for="myCheck"> Active</label>
-            <% if (staffByID.lockAccount === true) { %>
-            <input
-              type="checkbox"
-              id="lockAccount"
-              value="true"
-              name="lockAccount"
-              form="edit-form-account"
-              class="border rounded-full"
-              checked
-            />
-            <%}else { %>
-            <input
-              type="checkbox"
-              id="lockAccount"
-              name="lockAccount"
-              form="edit-form-account"
-              class="border rounded-full"
-              value="false"
-            />
-            <% } %>
-          </div> -->
         </div>
-        <p class="text-red-600"><%= errorMessageSelect %></p>
         <div class="mb-4">
           <label
             for="name"
@@ -282,7 +174,6 @@
             type="text"
             name="fullName"
             id="fullName"
-            value="<%= fullName %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -299,12 +190,11 @@
             name="email"
             id="email"
             pattern=".+@gmail\.com"
-            value="<%= email %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
-          <p class="text-red-600"><%= errorMessageEmail %></p>
         </div>
+        <p class="text-red-600"><%= errorMessageEmail %></p>
         <div class="mb-4">
           <label
             for="password"
@@ -317,7 +207,6 @@
             id="password"
             name="password"
             title="Click to change password"
-            value="<%= staffByID.password %>"
             onclick="generatePassword()"
             readonly
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -334,7 +223,6 @@
             type="text"
             name="address"
             id="address"
-            value="<%= address %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -349,11 +237,10 @@
           <input
             type="tel"
             pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
             name="phoneNumber"
             id="phoneNumber"
-            value="<%= phoneNumber %>"
             required
-            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
         </div>
         <p class="text-red-600"><%= errorMessagePhoneNumber %></p>

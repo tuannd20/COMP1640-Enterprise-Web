@@ -3,7 +3,7 @@ const StaffService = require("../services/staff.service");
 const renderLoginPage = async (req, res) => {
   try {
     let staff = req.cookies.Staff;
-    if (typeof isLogin === "undefined") {
+    if (typeof staff === "undefined") {
       staff = "";
     }
 

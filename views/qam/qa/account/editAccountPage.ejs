@@ -14,7 +14,7 @@
     class="relative p-3 border-2 border-stone-700 rounded-2xl h-auto opacity-80 mb-10"
   >
     <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
-      <a href="/profile">
+      <a href="javascript:history.back()">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -31,48 +31,21 @@
         </svg>
       </a>
 
-      <div class="m-auto">Edit profile page</div>
+      <div class="m-auto">Edit account for QA</div>
     </div>
     <div class="mx-auto w-full max-w-[550px] mt-5">
       <form
-        action="/staff/editProfilePage/"
+        action="/qam/qas/<%= qa.id %>?_method=PUT"
         method="POST"
-        id="edit-form-profile"
+        id="edit-form-account"
       >
-        <div class="flex justify-center">
-        <form class="flex items-center space-x-6">
-          <% if(staffProfile.avatarImage === null) { %>
-          <div class="shrink-0">
-          <img
-            src="<%= process.env.BASE_URL %>image/avatar.png"
-            alt=""
-            class="h-24 w-24 object-cover rounded-full border-2 border-lime-700"
-          />
+        <div class="flex flex-row justify-center gap-4 header-account">
+          <div class="Department">
+            <label for="product-type">
+              Department: <%=qa.idDepartment.nameDepartment %>
+            </label>
           </div>
-          <%}else { %>
-          <!-- <div class="shrink-0">
-            <img class="h-16 w-16 object-cover rounded-full" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1361&q=80" alt="Current profile photo" />
-          </div> -->
-            <img
-              src="<%= staffProfile.avatarImage %>"
-              alt=""
-              class="w-24 h-24 border rounded-full"
-            />
-          <% } %>
-
-          <label class="block ml-3 mt-7">
-            <span class="sr-only">Choose profile photo</span>
-            <input type="file" class="block w-full text-sm text-slate-500
-              file:mr-4 file:py-2 file:px-4
-              file:rounded-full file:border-0
-              file:text-sm file:font-semibold
-              file:bg-violet-50 file:text-violet-700
-              hover:file:bg-violet-100
-            "/>
-          </label>
-        </form>
         </div>
-
         <div class="mb-4">
           <label
             for="name"
@@ -84,7 +57,7 @@
             type="text"
             name="fullName"
             id="fullName"
-            value="<%= staffProfile.fullName %>"
+            value="<%= qa.fullName %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -98,11 +71,10 @@
           </label>
           <input
             type="email"
-            readonly
             name="email"
             id="email"
             pattern=".+@gmail\.com"
-            value="<%= staffProfile.email %>"
+            value="<%= qa.email %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -112,14 +84,14 @@
             for="password"
             class="block mb-3 text-base font-medium text-black"
           >
-            Address
+            Password
           </label>
           <input
             type="text"
             id="password"
             name="password"
             title="Click to change password"
-            value="<%= staffProfile.address %>"
+            value="<%= qa.password %>"
             onclick="generatePassword()"
             readonly
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -130,13 +102,13 @@
             for="address"
             class="block mb-3 text-base font-medium text-black"
           >
-            Phone number
+            Address
           </label>
           <input
             type="text"
             name="address"
             id="address"
-            value="<%= staffProfile.phoneNumber %>"
+            value="<%= qa.address %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -146,27 +118,14 @@
             for="phone"
             class="block mb-3 text-base font-medium text-black"
           >
-            Old password
+            Phone number
           </label>
           <input
-            type="text"
-            name="password"
-            value="<%= staffProfile.password %>"
-            required
-            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-          />
-        </div>
-        <div class="mb-4">
-          <label
-            for="phone"
-            class="block mb-3 text-base font-medium text-black"
-          >
-            New password
-          </label>
-          <input
-            type="text"
-            name="password"
-            value=""
+            type="tel"
+            pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
+            name="phoneNumber"
+            id="phoneNumber"
+            value="<%= qa.phoneNumber %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -181,3 +140,24 @@
   </div>
 </Main>
 
+<script>
+  let selectDepartment = document.getElementById("idDepartment");
+  let selectRole = document.getElementById("idRole");
+  selectDepartment.value = "<%= qa.idDepartment.id %>";
+  selectRole.value = "<%= qa.idRole.id %>";
+  function generatePassword() {
+    // const length = 6;
+    let password = "";
+    const charText = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for (let i = 0; i < 3; i++) {
+      password += charText.charAt(Math.floor(Math.random() * charText.length));
+    }
+    const charNumber = "0123456789";
+    for (let i = 0; i < 3; i++) {
+      password += charNumber.charAt(
+        Math.floor(Math.random() * charNumber.length),
+      );
+    }
+    document.getElementById("password").value = password;
+  }
+</script>

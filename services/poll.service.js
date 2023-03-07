@@ -67,6 +67,15 @@ const getPollActivated = async () => {
   }
 };
 
+const getPollInactive = async () => {
+  try {
+    const result = await PollRepository.getPollInactive();
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 const findByName = async (name) => {
   try {
     const result = await PollRepository.findByName(name);
@@ -86,6 +95,30 @@ const findByNameExist = async (id, name) => {
   }
 };
 
+const checkPoll = async () => {
+  try {
+    const currentDate = new Date();
+    const condition = {
+      dateStart: { $lte: currentDate },
+      dateSubEnd: { $gt: currentDate },
+    };
+    const lastPoll = await PollRepository.lastPoll(condition);
+    return lastPoll;
+  } catch (error) {
+    return error;
+  }
+};
+
+const getPollNewest = async () => {
+  try {
+    const poll = await PollRepository.getPollNewest();
+
+    return poll;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   createPoll,
   getAllPoll,
@@ -96,4 +129,7 @@ module.exports = {
   getPollActivated,
   findByName,
   findByNameExist,
+  getPollInactive,
+  checkPoll,
+  getPollNewest,
 };

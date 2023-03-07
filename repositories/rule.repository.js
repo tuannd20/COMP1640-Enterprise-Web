@@ -30,11 +30,9 @@ const updateRule = async (id, data) => {
   }
 };
 
-const deleteOneRule = async (_id, body) => {
+const deleteOneRule = async (id) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = _id;
-    const rule = await RuleModel.findByIdAndRemove(id);
+    const rule = await RuleModel.delete({ _id: id });
     return rule;
   } catch (err) {
     console.log(err);
@@ -81,6 +79,19 @@ const findByTitle = async (titleTerm) => {
   }
 };
 
+const findByTitleExists = async (id, title) => {
+  try {
+    const checkTitleExists = await RuleModel.find()
+      .where("title")
+      .equals(title)
+      .where("_id")
+      .ne(id);
+    return checkTitleExists;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createRule,
   updateRule,
@@ -90,4 +101,5 @@ module.exports = {
   displayRuleById,
   displayAllRule,
   findByTitle,
+  findByTitleExists,
 };

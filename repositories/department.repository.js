@@ -58,7 +58,9 @@ const getDepartment = async (id) => {
 
 const findByName = async (name) => {
   try {
-    const result = await DepartmentModel.findOne({ nameDepartment: name });
+    const result = await DepartmentModel.find()
+      .where("nameDepartment")
+      .equals(name);
     return result;
   } catch (err) {
     return err;

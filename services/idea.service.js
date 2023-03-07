@@ -35,7 +35,7 @@ const deleteIdea = async (id) => {
     const result = await IdeaRepository.deleteIdea(id);
     return result;
   } catch (err) {
-    console.lerrorog("🚀 ~ file: idea.service.js:38 ~ deleteIdea ~ err", err);
+    console.log("🚀 ~ file: idea.service.js:38 ~ deleteIdea ~ err", err);
     return err;
   }
 };
@@ -60,6 +60,16 @@ const findByOptions = async (options) => {
   }
 };
 
+const getAllWithQuery = async (options, query) => {
+  try {
+    const Idea = await IdeaRepository.getAllWithQuery(options, query);
+    return Idea;
+  } catch (err) {
+    console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);
+    return err;
+  }
+};
+
 module.exports = {
   createIdea,
   getIdea,
@@ -67,4 +77,5 @@ module.exports = {
   deleteIdea,
   getALl,
   findByOptions,
+  getAllWithQuery,
 };

@@ -45,8 +45,15 @@ const displayStaffById = async (id) => {
 
 const updateStaff = async (id, data) => {
   try {
-    const staff = await StaffRepository.updateStaff(id, data);
-    return staff;
+    const departments = await DepartmentService.getAllDepartment();
+    const roles = await RoleService.getAllRole();
+    const staffResponse = await StaffRepository.updateStaff(
+      id,
+      data,
+      departments,
+      roles,
+    );
+    return staffResponse;
   } catch (err) {
     console.log(err);
     return err;
@@ -110,7 +117,6 @@ const createToken = async (data) => {
       fullName: data.fullName,
       email: data.email,
       role: data.idRole.nameRole,
-      department: data.idDepartment.nameDepartment,
     };
 
     const token = await createTokenJwt(staffDetail);

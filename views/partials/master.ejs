@@ -9,8 +9,60 @@
 
     <div><%- include(content) -%></div>
 
-    <%- include('footer') -%>
+    <div class="relative mt-20"><%- include('footer') -%></div>
   </body>
+
+  <!--Datatables -->
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var table = $("#table_list_account")
+        .DataTable({
+          responsive: true,
+        })
+        .columns.adjust()
+        .responsive.recalc();
+    });
+    $(document).ready(function () {
+      var table = $("#table_list_terms")
+        .DataTable({
+          responsive: true,
+        })
+        .columns.adjust()
+        .responsive.recalc();
+
+      var table2 = $("#table_list_department")
+        .DataTable({
+          responsive: true,
+        })
+        .columns.adjust()
+        .responsive.recalc();
+
+      var table3 = $("#table_list_poll")
+        .DataTable({
+          responsive: true,
+        })
+        .columns.adjust()
+        .responsive.recalc();
+
+      var table3 = $("#table_list_qa")
+        .DataTable({
+          responsive: true,
+        })
+        .columns.adjust()
+        .responsive.recalc();
+
+      var tableCategory = $("#table_list_category")
+        .DataTable({
+          responsive: true,
+        })
+        .columns.adjust()
+        .responsive.recalc();
+    });
+  </script>
+
   <script src="<%= process.env.BASE_URL %>javascript/homeStaff.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script> -->
 </html>
