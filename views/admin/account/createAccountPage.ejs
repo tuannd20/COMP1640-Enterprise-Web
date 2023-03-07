@@ -49,6 +49,7 @@
                 form="create-form-account"
                 id="idDepartment"
                 class="border rounded-lg py-[2px] border-slate-400"
+                required
               >
                 <option value="">Select</option>
                 <% departments.forEach(function(department) { %>
@@ -196,10 +197,9 @@
               <select
                 name="idDepartment"
                 form="create-form-account"
-                id="idDepartmentDefault"
+                id="idDepartment"
                 class="border rounded-lg py-[2px] border-slate-400"
               >
-                <% var departmentDefault = 'ValueDepartment' %>
                 <option value="">Select</option>
                 <% departments.forEach(function(department) { %>
                 <option value="<%= department._id %>">

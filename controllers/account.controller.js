@@ -87,10 +87,7 @@ const createStaff = async (req, res) => {
     const results = await StaffService.createStaff(formData);
     console.log(results);
 
-    const departmentDB = results.data.departmentRenders.map((department) => ({
-      _id: department._id,
-      nameDepartment: department.name,
-    }));
+    const departmentDB = await DepartmentService.getDepartmentActivated();
 
     const roleDB = results.data.roleRenders.map(
       (role) =>
@@ -192,10 +189,7 @@ const updateStaff = async (req, res) => {
     const staffByID = await StaffService.displayStaffById({ _id: id });
     // const updateObject = req.body;
     const results = await StaffService.updateStaff(id, req.body);
-    const departmentDB = results.data.departmentRenders.map((department) => ({
-      _id: department._id,
-      nameDepartment: department.name,
-    }));
+    const departmentDB = await DepartmentService.getDepartmentActivated();
 
     const roleDB = results.data.roleRenders.map(
       (role) =>
