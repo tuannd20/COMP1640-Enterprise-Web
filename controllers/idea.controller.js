@@ -174,16 +174,6 @@ const displayDetailIdea = async (req, res) => {
     if (!req.params.id) return res.redirect("/errors");
     const idea = await ideaService.getIdea(req.params.id);
     const comment = await commentService.getAllCommentOfIdea(idea._id);
-    console.log(
-      "🚀 -------------------------------------------------------------------------🚀",
-    );
-    console.log(
-      "🚀 ~ file: idea.controller.js:177 ~ displayDetailIdea ~ comment:",
-      comment,
-    );
-    console.log(
-      "🚀 -------------------------------------------------------------------------🚀",
-    );
     if (!idea || !comment) return res.redirect("/errors");
     if (idea.idStaffIdea == null) return res.redirect("/errors");
 
