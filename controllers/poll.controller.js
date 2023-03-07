@@ -209,6 +209,16 @@ const updatePollActive = async (req, res) => {
   }
 };
 
+const getPollNewest = async (req, res) => {
+  try {
+    const poll = await PollService.getPollNewest();
+
+    return res.json(poll);
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   getCreatePoll,
   createPoll,
@@ -220,4 +230,5 @@ module.exports = {
   getPollActivated,
   updatePollActive,
   getPollInactive,
+  getPollNewest,
 };

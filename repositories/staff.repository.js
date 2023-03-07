@@ -229,7 +229,6 @@ const getAllStaff = async () => {
     const staffs = await StaffModel.find()
       .sort({ createdAt: -1 })
       .populate(["idDepartment", "idRole"]);
-
     return staffs;
   } catch (err) {
     console.log(err);
@@ -289,14 +288,25 @@ const updateStaff = async (id, data, departments, roles) => {
 
     const { email, phoneNumber, idRole, idDepartment } = data;
 
-    const checkDataOfStaff = await findByEmail(email);
-    const checkDataOfStaffPhoneNumber = await findByPhoneNumber(phoneNumber);
+    const checkDataOfStaff = await findByEmailExist(id, email);
+    console.log(
+      "🚀 ~ file: staff.repository.js:292 ~ updateStaff ~ checkDataOfStaff:",
+      checkDataOfStaff,
+    );
+    const checkDataOfStaffPhoneNumber = await findByPhoneNumberExist(
+      id,
+      phoneNumber,
+    );
+    console.log(
+      "🚀 ~ file: staff.repository.js:294 ~ updateStaff ~ checkDataOfStaffPhoneNumber:",
+      checkDataOfStaffPhoneNumber,
+    );
 
     if (
       idRole === "" &&
       idDepartment === "" &&
-      checkDataOfStaff.email === email &&
-      checkDataOfStaffPhoneNumber.phoneNumber === phoneNumber
+      checkDataOfStaff[0].email === email &&
+      checkDataOfStaffPhoneNumber[0].phoneNumber === phoneNumber
     ) {
       const resultBody = {
         staffRenders: data,
@@ -317,8 +327,15 @@ const updateStaff = async (id, data, departments, roles) => {
     }
 
     // eslint-disable-next-line no-underscore-dangle, max-len
-    if (!checkDataOfStaff && !checkDataOfStaffPhoneNumber) {
-      const staff = await StaffModel.updateMany(id, data);
+    if (
+      checkDataOfStaff.length == 0 &&
+      checkDataOfStaffPhoneNumber.length == 0
+    ) {
+      const staff = await StaffModel.updateMany({ _id: id }, data);
+      console.log(
+        "🚀 ~ file: staff.repository.js:328 ~ updateStaff ~ staff:",
+        staff,
+      );
 
       const result = {
         staffRenders: staff,
@@ -335,7 +352,7 @@ const updateStaff = async (id, data, departments, roles) => {
       return response;
     }
 
-    if (checkDataOfStaffPhoneNumber.phoneNumber === phoneNumber) {
+    if (checkDataOfStaffPhoneNumber.length != 0) {
       const resultBody = {
         staffRenders: data,
         departmentRenders,
@@ -353,6 +370,7 @@ const updateStaff = async (id, data, departments, roles) => {
 
       return responseCheckEmail;
     }
+
     if (idRole === "" && idDepartment === "") {
       const resultBody = {
         staffRenders: data,
@@ -410,7 +428,7 @@ const updateStaff = async (id, data, departments, roles) => {
       return responseCheckEmail;
     }
 
-    if (checkDataOfStaff.email === email) {
+    if (checkDataOfStaff.length != 0) {
       const resultBody = {
         staffRenders: data,
         departmentRenders,
@@ -497,6 +515,32 @@ const findByPhoneNumber = async (phoneNumber) => {
   }
 };
 
+const findByEmailExist = async (id, email) => {
+  try {
+    const checkEmailExists = await StaffModel.find()
+      .where("email")
+      .equals(email)
+      .where("_id")
+      .ne(id);
+    return checkEmailExists;
+  } catch (err) {
+    return err;
+  }
+};
+
+const findByPhoneNumberExist = async (id, phoneNumber) => {
+  try {
+    const checkPhoneNumberExists = await StaffModel.find()
+      .where("phoneNumber")
+      .equals(phoneNumber)
+      .where("_id")
+      .ne(id);
+    return checkPhoneNumberExists;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createStaff,
   updateStaff,
@@ -507,4 +551,6 @@ module.exports = {
   findLeader,
   findByEmail,
   findByPhoneNumber,
+  findByPhoneNumberExist,
+  findByEmailExist,
 };

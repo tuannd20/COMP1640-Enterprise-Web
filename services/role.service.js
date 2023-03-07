@@ -22,7 +22,19 @@ const createRole = async (data) => {
   }
 };
 
+const findRoleStaff = async () => {
+  try {
+    const role = await RoleRepository.findRoleStaff();
+
+    return role;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 module.exports = {
+  findRoleStaff,
   createRole,
   getAllRole,
 };
