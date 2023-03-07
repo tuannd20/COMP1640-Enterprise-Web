@@ -14,7 +14,6 @@ const renderCreateAccountPage = async (req, res) => {
     department,
     staff,
     errorMessageEmail: null,
-    errorMessageSelect: null,
     errorMessagePhoneNumber: null,
     isSuccess: false,
     role: staff.idRole.nameRole,
@@ -52,6 +51,7 @@ const createStaff = async (req, res) => {
         title: "Create new account",
         content: "../qam/qa/account/createAccountPage",
         staff,
+        checkDepartment,
         email: results.data.staffRenders.email,
         fullName: results.data.staffRenders.fullName,
         phoneNumber: results.data.staffRenders.phoneNumber,
@@ -74,17 +74,58 @@ const createStaff = async (req, res) => {
 const renderEditAccountPage = async (req, res) => {
   const staff = req.cookies.Staff;
   const { id } = req.params;
+  try {
+    const qa = await ManageQaService.displayManageQaById({ _id: id });
+    return res.render("partials/master", {
+      title: "Edit account",
+      content: "../qam/qa/account/editAccountPage",
+      qa,
+      staff,
+      errorMessageEmail: null,
+      errorMessagePhoneNumber: null,
+      isSuccess: false,
+      role: staff.idRole.nameRole,
+    });
+    // return res.json(staff);
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
 
-  const qa = await ManageQaService.displayManageQaById({ _id: id });
+const updateStaff = async (req, res) => {
+  try {
+    const staff = req.cookies.Staff;
+    const { id } = req.params;
 
-  return res.render("partials/master", {
-    title: "Edit account",
-    content: "../qam/qa/account/editAccountPage",
-    qa,
-    staff,
-    role: staff.idRole.nameRole,
-  });
-  // return res.json(staff);
+    const staffByID = await StaffService.displayStaffById({ _id: id });
+
+    // const updateObject = req.body;
+    // console.log(updateObject);
+    const results = await StaffService.updateStaff(id, req.body);
+
+    if (results.statusCode === BAD_REQUEST) {
+      return res.status(400).render("partials/master", {
+        title: "Edit an account qa",
+        content: "../qam/qa/account/editAccountPage",
+        staff,
+        staffByID,
+        email: results.data.staffRenders.email,
+        fullName: results.data.staffRenders.fullName,
+        phoneNumber: results.data.staffRenders.phoneNumber,
+        address: results.data.staffRenders.address,
+        errorMessageEmail: results.messageErrorEmail,
+        errorMessagePhoneNumber: results.messageErrorPhone,
+        isSuccess: results.successStatus,
+        role: staff.idRole.nameRole,
+      });
+    }
+
+    return res.redirect("/qam/departments");
+    // return res.json(staff);
+  } catch (err) {
+    return err;
+  }
 };
 
 const displayStaffById = async (req, res) => {
@@ -121,22 +162,6 @@ const getAllStaff = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    return err;
-  }
-};
-
-const updateStaff = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const updateObject = req.body;
-    console.log(updateObject);
-    const staff = await ManageQaService.updateManageQa(
-      { _id: id },
-      { $set: req.body },
-    );
-    return res.redirect("/qam/departments");
-    // return res.json(staff);
-  } catch (err) {
     return err;
   }
 };
