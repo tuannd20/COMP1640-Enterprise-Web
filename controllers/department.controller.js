@@ -182,14 +182,14 @@ const deleteOneDepartment = async (req, res) => {
   }
 };
 
-const deleteAllDepartment = async (req, res) => {
-  try {
-    const departments = await DepartmentService.deleteAllDepartment();
-    return res.json(departments);
-  } catch (err) {
-    return err;
-  }
-};
+// const deleteAllDepartment = async (req, res) => {
+//   try {
+//     const departments = await DepartmentService.deleteAllDepartment();
+//     return res.json(departments);
+//   } catch (err) {
+//     return err;
+//   }
+// };
 
 const updateDepartmentActivated = async (req, res) => {
   const { id } = req.params;
@@ -214,7 +214,6 @@ module.exports = {
   getAllDepartment,
   getEditDepartment,
   updateDepartment,
-  deleteAllDepartment,
   deleteOneDepartment,
   getDepartmentActivated,
   updateDepartmentActivated,

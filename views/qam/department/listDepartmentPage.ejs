@@ -4,7 +4,7 @@
   >
     <div class="w-full select-none lg:w-5/6">
       <div class="relative mt-20 mb-10 create-btn flex justify-end">
-        <a href="account/qa">
+        <a href="qas">
           <button
             type="button"
             class="inline-block px-6 py-4 mr-5 bg-sky-900 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-sky-400 hover:shadow-lg focus:bg-blue-400 focus:shadow-lg focus:outline-none focus:ring-0 active: active:shadow-lg transition duration-150 ease-in-out"
@@ -12,7 +12,7 @@
             List QA
           </button>
         </a>
-        <a href="/qam/department/create">
+        <a href="/qam/departments/create-page">
           <button
             type="button"
             class="inline-block px-6 py-4 bg-sky-900 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-sky-400 hover:shadow-lg focus:bg-blue-400 focus:shadow-lg focus:outline-none focus:ring-0 active: active:shadow-lg transition duration-150 ease-in-out"
@@ -95,7 +95,7 @@
                     <% } %>
 
                     <a
-                      href="account/qa/edit/<%= staff._id%>"
+                      href="qas/edit-page/<%= staff._id%>"
                       class="text-sm text-sky-900 font-normal hover:text-gray-400"
                       ><%= staff.fullName %></a
                     >
@@ -110,7 +110,7 @@
                       class="w-8 h-8 border rounded-full"
                     />
                     <a
-                      href="account/qa/create/<%= department._id%>"
+                      href="qas/create-page/<%= department._id%>"
                       class="text-sm text-sky-900 font-normal hover:text-gray-400"
                       >Choose QA</a
                     >
@@ -160,7 +160,9 @@
                     <div
                       class="w-6 mr-2 transform hover:text-sky-900 hover:scale-110"
                     >
-                      <a href="/qam/department/edit/<%= department._id %>">
+                      <a
+                        href="/qam/departments/edit-page/<%= department._id %>"
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -338,7 +340,7 @@
       const id = idDepartment[i].value;
 
       btnDeleteCategory.onclick = function () {
-        deleteForm.action = "/qam/department/delete/" + id + "?_method=DELETE";
+        deleteForm.action = "/qam/departments/" + id + "?_method=DELETE";
         deleteForm.submit();
       };
     });
