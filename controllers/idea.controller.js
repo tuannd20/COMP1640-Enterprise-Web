@@ -285,6 +285,8 @@ const getIdeaForStaff = async (req, res) => {
     };
     const query = { idStaffIdea: StaffData._id };
 
+    const staffProfile = await staffService.displayStaffById(StaffData._id);
+
     const allIdea = await ideaService.getAllWithQuery(options, query);
 
     allIdea.docs.forEach((element) => {
@@ -311,6 +313,7 @@ const getIdeaForStaff = async (req, res) => {
       staff: staffPayload,
       role: staffPayload.idRole.nameRole,
       isHaveIdeas,
+      staffProfile,
     });
     // return res.status(200).send(data);
   } catch (err) {

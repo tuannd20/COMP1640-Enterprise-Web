@@ -2,23 +2,31 @@
   <div class="flex flex-col items-center w-1/3 mt-20 profile">
     <div>
       <div class="items-center">
+        <% if(staffProfile.avatarImage === null) { %>
         <img
-          src="https://img.freepik.com/free-vector/joystick-game-sport-technology_138676-2045.jpg?w=2000"
+          src="<%= process.env.BASE_URL %>image/avatar.png"
           alt=""
-          class="object-cover border-2 rounded-full border-lime-700 max-lg:w-48 max-lg:h-48 w-60 h-60"
+          class="object-cover cursor-pointer border-2 rounded-full border-lime-700 max-lg:w-48 max-lg:h-48 w-60 h-60 ml-8"
         />
+        <%}else { %>
+          <img
+                src="<%= process.env.BASE_URL %><%= staffProfile.avatarImage %>"
+                alt=""
+                class="object-cover cursor-pointer border-2 rounded-full border-lime-700 max-lg:w-48 max-lg:h-48 w-60 h-60 ml-8"
+              />
+        <% } %>
       </div>
       <div class="mt-2 leading-loose information text-zinc-800">
-        <p>Fullname: <%= data.staffPayload.fullName %></p>
-        <p>Role: <%= data.staffPayload.idRole.nameRole %></p>
+        <p>Fullname: <%= staffProfile.fullName %></p>
+        <p>Role: <%= staffProfile.idRole.nameRole %></p>
         <% if (data.staffPayload.idDepartment === null) { %>
         <p>Department: You do not have a Department</p>
         <%}else { %>
-        <p>Department: <%= data.staffPayload.idDepartment.nameDepartment %></p>
+        <p>Department: <%= staffProfile.idDepartment.nameDepartment %></p>
         <% } %>
-        <p>Email: <%= data.staffPayload.email %></p>
-        <p>Phone number: <%= data.staffPayload.phoneNumber %></p>
-        <p>Address: <%= data.staffPayload.address %></p>
+        <p>Email: <%= staffProfile.email %></p>
+        <p>Phone number: <%= staffProfile.phoneNumber %></p>
+        <p>Address: <%= staffProfile.address %></p>
       </div>
       <a href="/profile/edit/<%= staff._id %>">
         <div
