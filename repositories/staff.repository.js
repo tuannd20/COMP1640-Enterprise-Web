@@ -439,6 +439,21 @@ const updateStaff = async (id, data, departments, roles) => {
   }
 };
 
+const banAccountStaff = async (id, data) => {
+  try {
+    const { lockAccount } = data;
+    const staff = await StaffModel.updateMany(
+      { _id: id },
+      { lockAccount: false },
+    );
+
+    return staff;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 // const deleteOneStaff = async (_id) => {
 //   try {
 //     // eslint-disable-next-line no-underscore-dangle
@@ -542,4 +557,5 @@ module.exports = {
   findByPhoneNumber,
   findByPhoneNumberExist,
   findByEmailExist,
+  banAccountStaff,
 };

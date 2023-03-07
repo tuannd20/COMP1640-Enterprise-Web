@@ -240,16 +240,20 @@ const editProfilePage = async (req, res) => {
   }
 };
 
-// const deleteOneStaff = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const staff = await StaffService.deleteOneStaff(id);
-//     return res.redirect("/admin/account");
-//   } catch (err) {
-//     console.log(err);
-//     return err;
-//   }
-// };
+const banAccountStaff = async (req, res) => {
+  try {
+    const staff = req.cookies.Staff;
+    const { id, lockAccount } = req.params;
+    const staffByID = await StaffService.banAccountStaff(id, {
+      lockAccount: false,
+    });
+
+    return res.redirect("/admin/account");
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
 
 // const deleteAllStaff = async (req, res) => {
 //   try {
@@ -342,4 +346,5 @@ module.exports = {
   renderEditProfilePage,
   editProfilePage,
   renderExampleAccountPage,
+  banAccountStaff,
 };
