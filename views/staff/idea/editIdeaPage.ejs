@@ -63,6 +63,9 @@
                     class="py-[2px] border rounded-lg border-slate-400"
                     form="create-form"
                   >
+                    <option value="" selected disabled hidden>
+                      <%= idea.status %>
+                    </option>
                     <option value="Draff">Draff</option>
                     <option value="Public">Public</option>
                     <option value="Private">Incognito</option>
@@ -79,6 +82,9 @@
                   class="border rounded-lg py-[2px] border-slate-400"
                   id="department-select"
                 >
+                  <option value="" selected disabled hidden>
+                    <%= idea.idDepartment.nameDepartment %>
+                  </option>
                   <option><%= idea.idDepartment.nameDepartment %></option>
                   <% departments.forEach(function(department) { %>
                   <option value="<%= department._id %>">
@@ -94,6 +100,7 @@
                 <select
                   name="Category"
                   id="categoriesList"
+                  required
                   class="border rounded-lg py-[2px] border-slate-400"
                 >
                   <% if(idea.idCategory !== null) { %>
@@ -123,10 +130,6 @@
             <input type="file" name="filename" value="Upload" multiple />
           </div>
           <div class="flex flex-row items-center justify-between gap-5">
-            <div class="italic terms">
-              <input type="checkbox" id="myCheck" />
-              <a href="#">Agree to terms?</a>
-            </div>
             <div
               class="px-3 py-2 text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
             >
