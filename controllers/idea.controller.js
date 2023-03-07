@@ -32,19 +32,13 @@ const storage = multer.diskStorage({
 
 const renderCreateIdeaPage = async (req, res) => {
   const staff = req.cookies.Staff;
+  console.log(
+    "🚀 ~ file: idea.controller.js:35 ~ renderCreateIdeaPage ~ staff:",
+    staff,
+  );
   const newestPoll = await pollService.getPollNewest();
 
   const departments = await departmentService.getDepartmentActivated();
-  console.log(
-    "🚀 -----------------------------------------------------------------------------------🚀",
-  );
-  console.log(
-    "🚀 ~ file: idea.controller.js:37 ~ renderCreateIdeaPage ~ departments:",
-    newestPoll,
-  );
-  console.log(
-    "🚀 -----------------------------------------------------------------------------------🚀",
-  );
 
   return res.render("partials/master", {
     title: "Your Idea",
@@ -62,7 +56,7 @@ const renderEditIdeaPage = async (req, res) => {
     const staff = req.cookies.Staff;
     const departments = await departmentService.getAllDepartment();
     const idea = await ideaService.getIdea(id);
-    console.log(idea);
+    console.log(idea.status);
 
     return res.render("partials/master", {
       title: "Your Idea",
@@ -89,16 +83,7 @@ const createIdea = async (req, res) => {
       newFilePath = `public/uploads/${fileName}`;
       fs.renameSync(filePath, newFilePath);
     }
-    console.log(
-      "🚀 ---------------------------------------------------------------------------------------🚀",
-    );
-    console.log(
-      "🚀 ~ file: idea.controller.js:98 ~ createIdea ~ req.body.Category :",
-      req.body.Category,
-    );
-    console.log(
-      "🚀 ---------------------------------------------------------------------------------------🚀",
-    );
+
     if (
       !req.body.pool ||
       !req.body.department ||
@@ -174,16 +159,6 @@ const displayDetailIdea = async (req, res) => {
     if (!req.params.id) return res.redirect("/errors");
     const idea = await ideaService.getIdea(req.params.id);
     const comment = await commentService.getAllCommentOfIdea(idea._id);
-    console.log(
-      "🚀 -------------------------------------------------------------------------🚀",
-    );
-    console.log(
-      "🚀 ~ file: idea.controller.js:177 ~ displayDetailIdea ~ comment:",
-      comment,
-    );
-    console.log(
-      "🚀 -------------------------------------------------------------------------🚀",
-    );
     if (!idea || !comment) return res.redirect("/errors");
     if (idea.idStaffIdea == null) return res.redirect("/errors");
 
