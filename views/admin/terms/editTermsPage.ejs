@@ -27,7 +27,10 @@
     <div class="mt-10 content-idea">
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px]">
-          <form action="/admin/terms/edit/<%= term.id %>" method="POST">
+          <form
+            action="/admin/terms/edit/<%= term.id %>?_method=PUT"
+            method="POST"
+          >
             <div class="mb-4">
               <label
                 for="title"
@@ -58,7 +61,8 @@
                 id="contentRule"
                 required
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md min-h-[200px]"
-              ><%= term.contentRule %>
+              >
+<%= term.contentRule %>
               </textarea>
             </div>
 
@@ -141,7 +145,10 @@
     <div class="mt-10 content-idea">
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px]">
-          <form action="/admin/terms/edit/<%= term.id %>" method="POST">
+          <form
+            action="/admin/terms/edit/<%= term.id %>?_method=PUT"
+            method="POST"
+          >
             <div class="mb-4">
               <label
                 for="title"

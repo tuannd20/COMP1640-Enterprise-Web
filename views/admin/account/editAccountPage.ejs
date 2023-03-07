@@ -36,7 +36,7 @@
     <% if (isSuccess === false) { %>
     <div class="mx-auto w-full max-w-[550px] mt-5">
       <form
-        action="/admin/account/edit/<%= staffByID.id %>"
+        action="/admin/account/edit/<%= staffByID.id %>?_method=PUT"
         method="POST"
         id="edit-form-account"
       >
@@ -200,7 +200,7 @@
     <%} else { %>
     <div class="mx-auto w-full max-w-[550px] mt-5">
       <form
-        action="/admin/account/edit/<%= staffByID.id %>"
+        action="/admin/account/edit/<%= staffByID.id %>?_method=PUT"
         method="POST"
         id="edit-form-account"
       >

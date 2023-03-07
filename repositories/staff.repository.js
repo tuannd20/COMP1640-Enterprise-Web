@@ -289,17 +289,10 @@ const updateStaff = async (id, data, departments, roles) => {
     const { email, phoneNumber, idRole, idDepartment } = data;
 
     const checkDataOfStaff = await findByEmailExist(id, email);
-    console.log(
-      "🚀 ~ file: staff.repository.js:292 ~ updateStaff ~ checkDataOfStaff:",
-      checkDataOfStaff,
-    );
+
     const checkDataOfStaffPhoneNumber = await findByPhoneNumberExist(
       id,
       phoneNumber,
-    );
-    console.log(
-      "🚀 ~ file: staff.repository.js:294 ~ updateStaff ~ checkDataOfStaffPhoneNumber:",
-      checkDataOfStaffPhoneNumber,
     );
 
     if (
@@ -332,10 +325,6 @@ const updateStaff = async (id, data, departments, roles) => {
       checkDataOfStaffPhoneNumber.length == 0
     ) {
       const staff = await StaffModel.updateMany({ _id: id }, data);
-      console.log(
-        "🚀 ~ file: staff.repository.js:328 ~ updateStaff ~ staff:",
-        staff,
-      );
 
       const result = {
         staffRenders: staff,
