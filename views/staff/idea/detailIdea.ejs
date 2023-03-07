@@ -1,8 +1,8 @@
-    <Main class="pt-[70px] w-3/5 m-auto h-screen overflow-auto">
+    <Main class="pt-[70px] w-3/5 m-auto h-screen relative">
       <div
         class="border-2 idea border-stone-700 rounded-2xl h-[94%] opacity-80"
       >
-        <div class="header idea">
+        <div class="header idea drop-shadow-xl">
           <div class="flex flex-row justify-between header-idea">
             <div class="flex flex-row items-center justify-center gap-2 ml-3">
               <svg
@@ -19,39 +19,9 @@
                   d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
                 />
               </svg>
-              <p class="text-base font-medium"><%= data.ideas.staffName %></p>
+              <p class="text-base font-medium">Phan le chinh nhan</p>
             </div>
             <div class="flex flex-row items-center justify-center gap-3">
-              <svg
-                id="editIdea"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-8 h-8 text-sky-600 hover:text-sky-900 my-auto"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                />
-              </svg>
-              <svg
-                id="delIdea"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-8 h-8 mr-4 text-sky-600 hover:text-sky-900 my-auto"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-                />
-              </svg>
               <svg
                 id="close"
                 xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +29,7 @@
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-10 h-10 text-sky-600 hover:text-amber-800"
+                class="w-10 h-10 mr-3 text-sky-600 hover:text-amber-800"
               >
                 <path
                   stroke-linecap="round"
@@ -67,26 +37,15 @@
                   d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <script>
-                function removeComment(id) {
-                  const xhr = new XMLHttpRequest();
-                  xhr.open("DELETE", `/idea/deleteComment/${id}`, true);
-                  xhr.setRequestHeader("Content-Type", "application/json");
-                  xhr.send(JSON.stringify({ id }));
-                  xhr.onload = function () {
-                    if (xhr.status === 200) {
-                      location.reload();
-                    }
-                  };
-                }
-              </script>
             </div>
           </div>
         </div>
 
+        <div class="overflow-y-auto h-[85%]">
+
         <div class="content-idea">
           <div
-            class="w-full px-5 pt-2 mt-1 text-clip bg-zinc-300 h-60 sm:text-sm overflow-auto"
+            class="w-full px-5 pt-2 mt-1 overflow-auto text-clip bg-zinc-300 h-60 sm:text-sm"
           >
             <p
               class="leading-6 overflow-hidden indent-0.5 text-justify max-h-52"
@@ -201,9 +160,9 @@
             </div>
           </div>
         </div>
-        <div class="w-full border-b-2 border-gray-300 my-2"></div>
+        <div class="w-full my-2 border-b-2 border-gray-300"></div>
         <% if (data.comments.length = 0) { %>
-        <div class="h-48 overflow-auto">
+        <div class="h-48">
           <% data.comments.forEach(function(comment, target) { %>
           <div class="comment">
             <div class="flex right-5 w-[95%] m-auto mt-2 h-18">
@@ -224,7 +183,7 @@
                 </svg>
               </div>
               <div class="detail comment">
-                <div class="ml-4 w-full my-auto">
+                <div class="w-full my-auto ml-4">
                   <div class=""><%= comment.name %></div>
                   <div class="bg-zinc-300 rounded-lg w-[300px] pl-2 py-1">
                     <%= comment.Comment %>
@@ -232,23 +191,23 @@
                 </div>
               </div>
               <button
-                class="BTN ml-2 text-align-center text-4xl"
+                class="ml-2 text-4xl BTN text-align-center"
                 onclick="toggleVisibility('section-<%= comment.id %>')"
               >
                 ...
               </button>
               <div
                 id="section-<%= comment.id %>"
-                class="hidden flex items-center justify-center my-auto ml-2 mt-6"
+                class="flex items-center justify-center hidden my-auto mt-6 ml-2"
               >
                 <button
-                  class="hover:bg-green-400 border-2 border-slate-900 text-black rounded-l-full w-12 h-8 flex items-center justify-center"
+                  class="flex items-center justify-center w-12 h-8 text-black border-2 rounded-l-full hover:bg-green-400 border-slate-900"
                   onclick="edit( '<%= comment.id %>', '<%= comment.Comment %>' )"
                 >
                   Edit
                 </button>
                 <button
-                  class="remove-button hover:bg-red-400 border-2 border-slate-900 text-black rounded-r-full w-16 h-8 flex items-center justify-center"
+                  class="flex items-center justify-center w-16 h-8 text-black border-2 rounded-r-full remove-button hover:bg-red-400 border-slate-900"
                   onclick="removeComment( '<%= comment.id %>' )"
                 >
                   Delete
@@ -283,14 +242,17 @@
           <% }); %>
         </div>
         <% } else { %>
-          <div class="h-96"></div>
+          <div class="comment ">
+           
+          </div>
           <% } %>
-        <div class="form-input-comment">
-          <div class="flex mb-44">
+        </div>
+
+        <div class="absolute inset-x-0 flex px-3 bottom-16 form-input-comment">
             <input
               id="text-input"
-              class="ml-4 mr-2 bg-gray-50 border-2 border-gray-900 text-gray-900 sm:text-sm rounded-full focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="comment"
+              class="mx-2 bg-gray-50 border-2 border-gray-900 text-gray-900 sm:text-sm rounded-full focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Comment..."
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -298,7 +260,7 @@
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-8 h-8 text-sky-600 hover:text-sky-900 my-auto justify-items-end"
+              class="w-8 h-8 my-auto text-sky-600 hover:text-sky-900 justify-items-end"
             >
               <path
                 stroke-linecap="round"
@@ -306,8 +268,8 @@
                 d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
               />
             </svg>
-          </div>
         </div>
+
       </div>
     </Main>
   </body>
@@ -322,4 +284,18 @@
       window.location.href = "/idea/del";
     });
   </script>
+
+<script>
+  function removeComment(id) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("DELETE", `/idea/deleteComment/${id}`, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify({ id }));
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        location.reload();
+      }
+    };
+  }
+</script>
 
