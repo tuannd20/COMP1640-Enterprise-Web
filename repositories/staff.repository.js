@@ -584,6 +584,23 @@ const handleEditProfileWithAvatar = async (id, payload) => {
   }
 };
 
+const handleUpdatePassword = async (id, payload) => {
+  try {
+    const profile = await StaffModel.updateOne(
+      { _id: id },
+      {
+        $set: {
+          password: payload,
+        },
+      },
+    );
+
+    return profile;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   createStaff,
   updateStaff,
@@ -599,4 +616,5 @@ module.exports = {
   handleEditProfile,
   handleEditProfileWithAvatar,
   handleEditProfileWithPhone,
+  handleUpdatePassword,
 };
