@@ -121,7 +121,7 @@ const updateStaff = async (req, res) => {
       });
     }
 
-    return res.redirect("/qam/departments");
+    return res.redirect("/qam/qas");
     // return res.json(staff);
   } catch (err) {
     return err;
