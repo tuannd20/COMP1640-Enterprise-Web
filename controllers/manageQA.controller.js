@@ -37,7 +37,7 @@ const createStaff = async (req, res) => {
       _id: req.body.idDepartment,
     });
 
-    if (checkDepartment.isUsed === false) {
+    if (results.statusCode !== BAD_REQUEST && checkDepartment.isUsed === false) {
       const departments = await DepartmentService.updateDepartment(
         { _id: formData.idDepartment },
         { isUsed: true },
