@@ -236,10 +236,10 @@ const displayAllIdea = async (req, res) => {
         status: { $in: ["Private", "Public"] },
       },
     );
-    console.log(
-      "🚀 ~ file: idea.controller.js:235 ~ displayAllIdea ~ all:",
-      all,
-    );
+    // console.log(
+    //   "🚀 ~ file: idea.controller.js:235 ~ displayAllIdea ~ all:",
+    //   all,
+    // );
 
     if (!all.docs) return res.redirect("/errors");
     const idStaffIdeas = all.docs.map((obj) => obj.idStaffIdea);
@@ -252,6 +252,18 @@ const displayAllIdea = async (req, res) => {
       100
     ).toFixed(2)}%`;
 
+    const polls = await pollService.getPollActivated();
+    console.log(
+      "🚀 ~ file: idea.controller.js:256 ~ displayAllIdea ~ poll:",
+      polls,
+    );
+
+    const departments = await departmentService.getDepartmentActivated();
+    console.log(
+      "🚀 ~ file: idea.controller.js:260 ~ displayAllIdea ~ department:",
+      departments,
+    );
+
     // return res.json(allIdea.docs);
     return res.render("partials/master", {
       title: "Idea",
@@ -261,6 +273,8 @@ const displayAllIdea = async (req, res) => {
       ideas: allIdea,
       participants,
       percentage,
+      polls,
+      departments,
     });
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);

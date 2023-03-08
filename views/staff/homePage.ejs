@@ -2,83 +2,86 @@
   <div
     class="flex flex-row justify-between w-4/5 pb-6 m-auto border-b-2 mt-[60px] sort_filter"
   >
-    <div class="flex flex-row gap-10">
-      <div class="sort">
-        <div
-          class="flex flex-row items-center justify-between gap-3 sort_button"
-        >
+    <form action="">
+      <div class="flex flex-row gap-10">
+        <div class="sort">
+          <div
+            class="flex flex-row items-center justify-between gap-3 sort_button"
+          >
+            <label for="product-type">
+              Sort
+              <select
+                name="product-type"
+                id="product-type"
+                class="border-2 rounded-lg border-slate-400"
+              >
+                <option value="0">Recently</option>
+                <option value="1">Like high to low</option>
+                <option value="2">Like low to high</option>
+                <option value="3">View high to low</option>
+                <option value="4">View low to high</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="filter">
           <label for="product-type">
-            Sort
+            Filter
             <select
               name="product-type"
               id="product-type"
               class="border-2 rounded-lg border-slate-400"
             >
-              <option value="0">Recently</option>
-              <option value="1">Like high to low</option>
-              <option value="2">Like low to high</option>
-              <option value="3">View high to low</option>
-              <option value="4">View low to high</option>
+              <option value="0">All poll</option>
+              <% polls.forEach(function(poll) { %>
+              <option value="1" id="<%= poll._id %>" name="">
+                <%= poll.namePoll %>
+              </option>
+              <% }); %>
             </select>
           </label>
         </div>
+        <div class="filter">
+          <label for="product-type">
+            Filter
+            <select
+              name="product-type"
+              id="product-type"
+              class="border-2 rounded-lg border-slate-400"
+            >
+              <option value="0">All Department</option>
+              <% departments.forEach(function(department) { %>
+              <option value="1" id="<%= department._id %>" name="">
+                <%= department.nameDepartment %>
+              </option>
+              <% }); %>
+            </select>
+          </label>
+        </div>
+        <div class="Exception">
+          <label for="type">
+            Exception
+            <select
+              name="type"
+              id="type"
+              class="border-2 rounded-lg border-slate-400"
+            >
+              <option value="0">All</option>
+              <option value="1">Without comment</option>
+              <option value="2">Anonimous</option>
+            </select>
+          </label>
+        </div>
+        <button
+          id="filter-button"
+          type="submit"
+          class="p-2 my-auto border-2 rounded-lg cursor-pointer border-slate-700 hover:border-slate-400 hover:text-slate-400"
+        >
+          Find
+        </button>
       </div>
-      <div class="filter">
-        <label for="product-type">
-          Filter
-          <select
-            name="product-type"
-            id="product-type"
-            class="border-2 rounded-lg border-slate-400"
-          >
-            <option value="0">All poll</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
-        </label>
-      </div>
+    </form>
 
-      <div class="filter">
-        <label for="product-type">
-          Filter
-          <select
-            name="product-type"
-            id="product-type"
-            class="border-2 rounded-lg border-slate-400"
-          >
-            <option value="0">All Department</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
-        </label>
-      </div>
-
-      <div class="Exception">
-        <label for="type">
-          Exception
-          <select
-            name="type"
-            id="type"
-            class="border-2 rounded-lg border-slate-400"
-          >
-            <option value="0">All</option>
-            <option value="1">Without comment</option>
-            <option value="2">Anonimous</option>
-          </select>
-        </label>
-      </div>
-
-      <button
-        id="filter-button"
-        class="p-2 my-auto border-2 rounded-lg cursor-pointer border-slate-700 hover:border-slate-400 hover:text-slate-400"
-      >
-        Find
-      </button>
-    </div>
     <div>
       <div
         id="download-button"
