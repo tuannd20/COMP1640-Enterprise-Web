@@ -88,7 +88,7 @@
                 <td class="py-3 px-6 text-center">
                   <span class="font-medium"><%= staff.idRole.nameRole %></span>
                 </td>
-                <% if (staff.lockAccount === true) { %>
+                <% if (staff.lockAccount === false) { %>
                 <td class="py-3 px-6 text-center">
                   <span
                     class="bg-green-600 text-white py-1 px-3 rounded-full text-xs"
@@ -124,7 +124,7 @@
                         </svg>
                       </a>
                     </div>
-                    <% if (staff.lockAccount === false) { %>
+                    <% if (staff.lockAccount === true) { %>
                     <button
                       data-modal-target="popup-modal"
                       data-modal-toggle="popup-modal"
@@ -134,7 +134,7 @@
                     >
                       <input
                         type="text"
-                        class="getIdAccountStaff hidden"
+                        class="getIdUnbanAccountStaff hidden"
                         value="<%= staff._id%>"
                       />
                       <svg
@@ -223,8 +223,8 @@
                     </div>
                     <%}else { %>
                     <button
-                      data-modal-target="popup-modal"
-                      data-modal-toggle="popup-modal"
+                      data-modal-target="popup-modal-1"
+                      data-modal-toggle="popup-modal-1"
                       data-staff-id="<%= staff._id%>"
                       type="button"
                       class="banAccountStaff w-6 mr-2 transform hover:text-sky-900 hover:scale-110"
@@ -251,7 +251,7 @@
                       </svg>
                     </button>
                     <div
-                      id="popup-modal"
+                      id="popup-modal-1"
                       tabindex="-1"
                       class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
                     >
@@ -262,7 +262,7 @@
                           <button
                             type="button"
                             class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
-                            data-modal-hide="popup-modal"
+                            data-modal-hide="popup-modal-1"
                           >
                             <svg
                               aria-hidden="true"
@@ -308,7 +308,7 @@
                               Yes, I'm sure
                             </button>
                             <button
-                              data-modal-hide="popup-modal"
+                              data-modal-hide="popup-modal-1"
                               type="button"
                               class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
                             >
@@ -338,6 +338,9 @@
 ;
 <script>
   let idAccountStaff = document.getElementsByClassName("getIdAccountStaff");
+  let idUnbanAccountStaff = document.getElementsByClassName(
+    "getIdUnbanAccountStaff",
+  );
   let banAccountStaffBtn = document.getElementsByClassName("banAccountStaff");
   let btnBanAccountStaff = document.getElementById("btn-ban-account-staff");
   let banAccountStaffForm = document.forms["ban-account-staff-form"];
@@ -348,7 +351,15 @@
 
   for (let i = 0; i < banAccountStaffBtn.length; i++) {
     banAccountStaffBtn[i].addEventListener("click", () => {
+      console.log(
+        "🚀 ~ file: listAccountDataPage.ejs:354 ~ banAccountStaffBtn[i].addEventListener ~ banAccountStaffBtn[i]:",
+        banAccountStaffBtn[i],
+      );
       const id = idAccountStaff[i].value;
+      console.log(
+        "🚀 ~ file: listAccountDataPage.ejs:355 ~ banAccountStaffBtn[i].addEventListener ~ id:",
+        id,
+      );
 
       btnBanAccountStaff.onclick = function () {
         banAccountStaffForm.action =
@@ -359,9 +370,17 @@
   }
   for (let j = 0; j < unBanAccountStaffBtn.length; j++) {
     unBanAccountStaffBtn[j].addEventListener("click", () => {
-      const id = idAccountStaff[j].value;
+      const id = idUnbanAccountStaff[j].value;
+      console.log(
+        "🚀 ~ file: listAccountDataPage.ejs:367 ~ unBanAccountStaffBtn[j].addEventListener ~ id:",
+        id,
+      );
 
       btnUnBanAccountStaff.onclick = function () {
+        console.log(
+          "🚀 ~ file: listAccountDataPage.ejs:371 ~ unBanAccountStaffBtn[j].addEventListener ~  btnUnBanAccountStaff:",
+          btnUnBanAccountStaff,
+        );
         unBanAccountStaffForm.action =
           "/admin/account/unban/" + id + "?_method=PUT";
         unBanAccountStaffForm.submit();

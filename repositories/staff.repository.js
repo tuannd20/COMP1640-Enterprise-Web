@@ -444,7 +444,7 @@ const banAccountStaff = async (id, data) => {
     const { lockAccount } = data;
     const staff = await StaffModel.updateMany(
       { _id: id },
-      { lockAccount: false },
+      { lockAccount: true },
     );
 
     return staff;
@@ -459,7 +459,7 @@ const unBanAccountStaff = async (id, data) => {
     const { lockAccount } = data;
     const staff = await StaffModel.updateMany(
       { _id: id },
-      { lockAccount: true },
+      { lockAccount: false },
     );
 
     return staff;

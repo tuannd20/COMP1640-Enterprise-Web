@@ -244,7 +244,7 @@ const banAccountStaff = async (req, res) => {
   try {
     const { id } = req.params;
     const banStaff = await StaffService.banAccountStaff(id, {
-      lockAccount: false,
+      lockAccount: true,
     });
 
     return res.redirect("/admin/account");
@@ -258,7 +258,7 @@ const unBanAccountStaff = async (req, res) => {
   try {
     const { id } = req.params;
     const unbanStaff = await StaffService.unBanAccountStaff(id, {
-      lockAccount: true,
+      lockAccount: false,
     });
 
     return res.redirect("/admin/account");
