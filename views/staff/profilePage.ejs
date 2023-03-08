@@ -440,8 +440,11 @@
       </div>
     </div>
   </div>
+  <!-- Delete hidden form -->
+  <form class="hidden" name="delete-idea-form" method="POST"></form>
+  <% } %>
 
-  <!-- Main modal -->
+    <!-- Main modal Update Password -->
 <div id="authentication-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
   <div class="relative w-full h-full max-w-md md:h-auto">
       <!-- Modal content -->
@@ -455,7 +458,7 @@
               <form class="space-y-6" action="#">
                   <div>
                       <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Old password</label>
-                      <input type="email" name="email" id="oldPassword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="••••••••" required>
+                      <input type="password" id="oldPassword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="••••••••" required>
                       <i
                         class="bi bi-eye-slash float-right relative z-30 -mt-9 cursor-pointer mr-2 select-none"
                         id="toggleOldPassword"
@@ -463,7 +466,7 @@
                   </div>
                   <div>
                       <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New password</label>
-                      <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                      <input type="password" name="password" id="newPassword" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
                       <i
                         class="bi bi-eye-slash float-right relative z-30 -mt-9 cursor-pointer mr-2 select-none"
                         id="togglePassword"
@@ -471,18 +474,21 @@
                   </div>
                   <div>
                       <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
-                      <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                      <input type="password" name="password" id="confirmPassword" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
                   </div>
-                  <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                  <h3
+                    class="ml-3 text-sm font-medium"
+                    id="errorMessage"
+                    style="color: red; display:none"
+                  >
+                    
+                  </h3>
+                  <button type="submit" id="handleUpdatePassword" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
               </form>
           </div>
       </div>
   </div>
 </div> 
-
-  <!-- Delete hidden form -->
-  <form class="hidden" name="delete-idea-form" method="POST"></form>
-  <% } %>
 </Main>
 
 <script>
@@ -497,7 +503,7 @@
       const id = idIdea[i].value;
 
       btnDeleteIdea.onclick = function () {
-        deleteForm.action = "/";
+        deleteForm.action = "/ideas/" + id + "?_method=DELETE";
         deleteForm.submit();
       };
     });
@@ -513,20 +519,54 @@
   const oldPassword = document.getElementById("oldPassword");
 
   togglePassword.addEventListener("click", () => {
-    console.log("clicked");
     const type =
       password.getAttribute("type") === "password" ? "text" : "password";
     password.setAttribute("type", type);
-    // toggle the eye slash icon
     this.classList.toggle("fa-eye-slash");
   });
 
   toggleOldPassword.addEventListener("click", () => {
-    console.log("clicked");
     const type =
     oldPassword.getAttribute("type") === "password" ? "text" : "password";
     oldPassword.setAttribute("type", type);
-    // toggle the eye slash icon
     this.classList.toggle("fa-eye-slash");
   });
+
+  const btmSubmitUpdatePassword = document.getElementById("handleUpdatePassword")
+  btmSubmitUpdatePassword.addEventListener('click', changePassword);
+
+  function changePassword(event) {
+    event.preventDefault();
+  
+    const oldPasswordElement = document.getElementById("oldPassword").value;
+    const newPasswordElement = document.getElementById("newPassword").value;
+    const confirmPasswordElement = document.getElementById("confirmPassword").value;
+
+    let data = {
+      oldPassword: oldPasswordElement,
+      newPassword: newPasswordElement,
+      confirmPassword: confirmPasswordElement,
+    }
+
+    fetch("/auth/changePassword", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("Response from server:", data);
+      if (data.success === false) {
+        const errorMessageElement = document.getElementById("errorMessage");
+        errorMessageElement.style.display = "block";
+        errorMessageElement.textContent = data.message
+      }
+    })
+    .catch(error => {
+      console.error("Error occurred:", error);
+    });
+  }
+
 </script>

@@ -192,6 +192,19 @@ const handleUpdateProfileWithPhoneNumber = async (id, profile) => {
   }
 };
 
+const handleUpdatePasswordOfAccount = async (id, password) => {
+  try {
+    const profilePassword = await StaffRepository.handleUpdatePassword(
+      id,
+      password,
+    );
+
+    return profilePassword;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   findLeader,
   createStaff,
@@ -205,4 +218,5 @@ module.exports = {
   findByPhoneNumber,
   handleUpdateProfile,
   handleUpdateProfileWithPhoneNumber,
+  handleUpdatePasswordOfAccount,
 };

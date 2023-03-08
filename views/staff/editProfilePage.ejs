@@ -93,10 +93,17 @@
             <h4 class="block mb-3 text-base font-medium text-black">Email:</h4>
             <h4 class="block mb-3 text-base font-medium text-black"><%= staffProfile.email %></h4>
           </div>
+          <% if (staffProfile.idDepartment === null) { %>
           <div class="flex justify-between">
             <h4 class="block mb-3 text-base font-medium text-black">Department:</h4>
-            <h4 class="block mb-3 text-base font-medium text-black"><%= staffProfile.idDepartment.nameDepartment %></h4>
+            <h4 class="block mb-3 text-base font-medium text-black">You do not have a Department</h4>
           </div>
+          <%}else { %>
+            <div class="flex justify-between">
+              <h4 class="block mb-3 text-base font-medium text-black">Department:</h4>
+              <h4 class="block mb-3 text-base font-medium text-black"><%= staffProfile.idDepartment.nameDepartment %></h4>
+            </div>
+          <% } %>
           <div class="flex justify-between">
             <h4 class="block mb-3 text-base font-medium text-black">Role:</h4>
             <h4 class="block mb-3 text-base font-medium text-black"><%= staffProfile.idRole.nameRole%></h4>
@@ -169,6 +176,8 @@
 </Main>
 
 <script>
+  const input = document.getElementById("avatarUpload");
+  const avatarPreview = document.getElementById("avatar-preview")
 
   input.addEventListener("input", function() {
     if (input.value) {

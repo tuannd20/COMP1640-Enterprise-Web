@@ -7,6 +7,7 @@
 /* eslint-disable no-self-assign */
 /* eslint-disable object-curly-newline */
 const fs = require("fs");
+const bcrypt = require("bcrypt");
 const StaffService = require("../services/staff.service");
 const DepartmentService = require("../services/department.service");
 const RoleService = require("../services/role.service");
@@ -83,9 +84,21 @@ const createStaff = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
 
+    const salt = await bcrypt.genSalt(10);
+    const hashed = await bcrypt.hash(req.body.password, salt);
+
     const formData = req.body;
     console.log("body controller", formData);
-    const results = await StaffService.createStaff(formData);
+    const payload = {
+      email: req.body.email,
+      fullName: req.body.fullName,
+      idRole: req.body.idRole,
+      idDepartment: req.body.idDepartment,
+      phoneNumber: req.body.phoneNumber,
+      address: req.body.address,
+      password: hashed,
+    };
+    const results = await StaffService.createStaff(payload);
     console.log(results);
 
     const departmentDB = results.data.departmentRenders.map((department) => ({
