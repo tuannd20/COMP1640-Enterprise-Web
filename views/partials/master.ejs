@@ -11,7 +11,8 @@
 
     <div class="relative mt-20"><%- include('footer') -%></div>
   </body>
-
+  <script src="<%= process.env.BASE_URL %>javascript/homeStaff.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <!--Datatables -->
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
@@ -62,7 +63,5 @@
     });
   </script>
 
-  <script src="<%= process.env.BASE_URL %>javascript/homeStaff.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script> -->
 </html>

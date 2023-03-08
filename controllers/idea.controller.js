@@ -170,12 +170,38 @@ const displayDetailIdea = async (req, res) => {
     const staff = req.cookies.Staff;
     const role = staff.idRole.nameRole;
     const data = { ideas: "John", comments: [] };
-
+    const anonymous = {
+      fullName: "anonymous",
+      avatarImage: null,
+    };
     if (!req.params.id) return res.redirect("/errors");
     const idea = await ideaService.getIdea(req.params.id);
     const comment = await commentService.getAllCommentOfIdea(idea._id);
     if (!idea || !comment) return res.redirect("/errors");
     if (idea.idStaffIdea == null) return res.redirect("/errors");
+
+    const allStaffIdea = await staffIdeaService.getAllWithQuery({
+      idStaff: staff._id,
+      isLike: { $in: [true, false] },
+    });
+
+    if (allStaffIdea) {
+      const staffIdea = allStaffIdea.find(
+        (sIdea) => sIdea.IdIdea.toString() === idea._id.toString(),
+      );
+      if (staffIdea) {
+        idea.isLike = staffIdea.isLike;
+      } else {
+        idea.isLike = null;
+      }
+    }
+
+    if (idea.status === "Private") {
+      idea.idStaffIdea = anonymous;
+    }
+    if (typeof idea.urlFile === "undefined" || !isImageUrl(idea.urlFile)) {
+      idea.urlFile = null;
+    }
 
     data.ideas = idea;
     data.comments = comment;

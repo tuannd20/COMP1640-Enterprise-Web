@@ -16,7 +16,9 @@
             class="w-10 h-10 border rounded-full"
           />
           <% } %>
-          <p class="text-base font-medium">Phan le chinh nhan</p>
+          <p class="text-base font-medium">
+            <%= data.ideas.idStaffIdea.fullName %>
+          </p>
         </div>
         <div class="flex flex-row items-center justify-center gap-3">
           <svg
@@ -204,8 +206,8 @@
       <div class="h-40">
         <% data.comments.forEach(function(comment, target) { %>
         <div class="flex items-center my-4 comment">
-          <div class="max-w-[80%] flex">
-            <div>
+          <div class="max-w-[85%] flex">
+            <div class="min-w-[50px]">
               <% if(comment.idStaffComment.avatarImage === null) { %>
               <img
                 src="<%= process.env.BASE_URL %>image/avatar.png"
@@ -221,7 +223,7 @@
               <% } %>
             </div>
             <div class="flex detail-comment">
-              <div>
+              <div class="min-w-full">
                 <p class="font-bold"><%= comment.idStaffComment.fullName %></p>
                 <p class="w-auto p-2 rounded-lg bg-zinc-300">
                   <%= comment.contentComment %>
@@ -240,7 +242,10 @@
             </div>
           </div>
 
-          <div id="section-<%= comment._id %>" class="hidden ml-3 -mb-6">
+          <div
+            id="section-<%= comment._id %>"
+            class="hidden translate-x-10 translate-y-4"
+          >
             <button
               class="px-4 py-2 mb-2 mr-2 text-sm font-medium text-center text-white bg-red-700 rounded-full hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
               onclick="removeComment( '<%= comment._id %>' )"
@@ -307,11 +312,7 @@
 <script>
   function toggleVisibility(id) {
     var element = document.getElementById(id);
-    if (element.classList.contains("hidden")) {
-      element.classList.remove("hidden");
-    } else {
-      element.classList.add("hidden");
-    }
+    element.classList.toggle("hidden");
   }
   function removeComment(id) {
     const xhr = new XMLHttpRequest();
@@ -332,6 +333,8 @@
   const idIdea = document.getElementById("idIdea");
   const like = document.getElementById("like-icon");
   const dislike = document.getElementById("dislike-icon");
+  const dropMenu = document.getElementById("menu_icon");
+  const drop = document.getElementById("dropdown");
   submit.addEventListener("click", function (e) {
     e.preventDefault();
     const xhr = new XMLHttpRequest();
@@ -389,5 +392,21 @@
     }
     dislike.classList.toggle("text-sky-500");
     dislike.classList.toggle("text-slate-700");
+  });
+
+  function dropdown() {
+    drop.classList.toggle("hidden");
+  }
+
+  function dropdownDismiss() {
+    drop.classList.add("hidden");
+  }
+
+  dropMenu.addEventListener("click", () => {
+    dropdown();
+  });
+
+  drop.addEventListener("mouseleave", () => {
+    dropdownDismiss();
   });
 </script>
