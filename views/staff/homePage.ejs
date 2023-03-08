@@ -39,6 +39,24 @@
           </select>
         </label>
       </div>
+
+      <div class="filter">
+        <label for="product-type">
+          Filter
+          <select
+            name="product-type"
+            id="product-type"
+            class="border-2 rounded-lg border-slate-400"
+          >
+            <option value="0">All Department</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </label>
+      </div>
+
       <div class="Exception">
         <label for="type">
           Exception
@@ -53,6 +71,13 @@
           </select>
         </label>
       </div>
+
+      <button
+        id="filter-button"
+        class="p-2 my-auto border-2 rounded-lg cursor-pointer border-slate-700 hover:border-slate-400 hover:text-slate-400"
+      >
+        Find
+      </button>
     </div>
     <div>
       <div
@@ -69,7 +94,7 @@
     </div>
   </div>
 
-  <div class="flex flex-row w-4/5 gap-8 m-auto mt-2 statictis">
+  <!-- <div class="flex flex-row w-4/5 gap-8 m-auto mt-2 statictis">
     <p class="text-base font-normal text-gray-900 dark:text-white">
       Number of idea: <%= ideas.totalDocs %>
     </p>
@@ -77,6 +102,18 @@
       Number of participants: <%= participants %>
     </p>
     <p class="text-base font-normal text-gray-900 dark:text-white">
+      Number of participants: <%= percentage %>
+    </p>
+  </div> -->
+
+  <div class="flex flex-row w-4/5 gap-8 m-auto mt-2 statictis">
+    <p class="text-base font-normal text-gray-900">
+      Number of idea: <%= ideas.totalDocs %>
+    </p>
+    <p class="text-base font-normal text-gray-900">
+      Number of participants: <%= participants %>
+    </p>
+    <p class="text-base font-normal text-gray-900">
       Number of participants: <%= percentage %>
     </p>
   </div>
