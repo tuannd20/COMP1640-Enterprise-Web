@@ -18,8 +18,9 @@ router.get("/account/edit/:id", AccountController.renderEditAccountPage);
 router.put("/account/edit/:id", AccountController.updateStaff);
 // router.get("/account/delete/:id", AccountController.deleteOneStaff);
 
-// Router for Ban Account Staff
+// Router for Ban and Unban Account Staff
 router.put("/account/ban/:id", AccountController.banAccountStaff);
+router.put("/account/unban/:id", AccountController.unBanAccountStaff);
 
 // Router to display all terms
 router.get("/terms", RuleController.getAllRule);

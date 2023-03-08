@@ -242,10 +242,23 @@ const editProfilePage = async (req, res) => {
 
 const banAccountStaff = async (req, res) => {
   try {
-    const staff = req.cookies.Staff;
-    const { id, lockAccount } = req.params;
-    const staffByID = await StaffService.banAccountStaff(id, {
+    const { id } = req.params;
+    const banStaff = await StaffService.banAccountStaff(id, {
       lockAccount: false,
+    });
+
+    return res.redirect("/admin/account");
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+const unBanAccountStaff = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const unbanStaff = await StaffService.unBanAccountStaff(id, {
+      lockAccount: true,
     });
 
     return res.redirect("/admin/account");
@@ -347,4 +360,5 @@ module.exports = {
   editProfilePage,
   renderExampleAccountPage,
   banAccountStaff,
+  unBanAccountStaff,
 };
