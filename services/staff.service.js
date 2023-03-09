@@ -174,13 +174,62 @@ const findByEmail = async (emailAccount) => {
   }
 };
 
-const findByPhoneNumber = async (phoneNumber) => {
+const findByPhoneNumber = async (id, phoneNumber) => {
   try {
-    const phone = await StaffRepository.findByPhoneNumber(phoneNumber);
+    const phone = await StaffRepository.findByPhoneNumberExist(id, phoneNumber);
     return phone;
   } catch (err) {
     console.log(err);
     return err;
+  }
+};
+
+const handleUpdateProfile = async (id, profile) => {
+  try {
+    console.log(profile);
+
+    if (profile.avatarImage === null) {
+      const payload = {
+        address: profile.address,
+        phoneNumber: profile.phoneNumber,
+      };
+      const profileAccount = await StaffRepository.handleEditProfile(
+        id,
+        payload,
+      );
+      return profileAccount;
+    }
+
+    const profileAccountAvatar =
+      await StaffRepository.handleEditProfileWithAvatar(id, profile);
+
+    return profileAccountAvatar;
+  } catch (error) {
+    return error;
+  }
+};
+
+const handleUpdateProfileWithPhoneNumber = async (id, profile) => {
+  try {
+    const profileAccountAvatar =
+      await StaffRepository.handleEditProfileWithPhone(id, profile);
+
+    return profileAccountAvatar;
+  } catch (error) {
+    return error;
+  }
+};
+
+const handleUpdatePasswordOfAccount = async (id, password) => {
+  try {
+    const profilePassword = await StaffRepository.handleUpdatePassword(
+      id,
+      password,
+    );
+
+    return profilePassword;
+  } catch (error) {
+    return error;
   }
 };
 
@@ -197,4 +246,7 @@ module.exports = {
   findByPhoneNumber,
   banAccountStaff,
   unBanAccountStaff,
+  handleUpdateProfile,
+  handleUpdateProfileWithPhoneNumber,
+  handleUpdatePasswordOfAccount,
 };

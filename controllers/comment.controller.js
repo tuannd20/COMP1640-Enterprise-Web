@@ -43,8 +43,19 @@ const createComment = async (req, res) => {
   }
 };
 
+const deleteComment = async (req, res) => {
+  try {
+    const { idComment } = req.params;
+    await CommentService.deleteComment(idComment);
+    return res.send("Delete success");
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   displayAllComment,
   displayAllCommentOfIdea,
   createComment,
+  deleteComment,
 };

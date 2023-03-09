@@ -9,7 +9,10 @@ router.get("/", (req, res) => {
 
 router.get("/categories", CategoryController.renderListCategoryPage);
 // get
-router.get("/categories/create-page", CategoryController.rederCreateCategoryPage);
+router.get(
+  "/categories/create-page",
+  CategoryController.renderCreateCategoryPage,
+);
 
 router.post("/categories", CategoryController.createCategory);
 
@@ -21,6 +24,9 @@ router.delete("/categories/:id", CategoryController.deleteOneCategory);
 
 // router.get("/categories/delete-all", CategoryController.deleteAllCategory);
 
-router.get("/categories/department/:id", CategoryController.findCategoryByIdDepartment);
+router.get(
+  "/categories/department/:id",
+  CategoryController.findCategoryByIdDepartment,
+);
 
 module.exports = router;

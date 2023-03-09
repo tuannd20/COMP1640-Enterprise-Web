@@ -152,11 +152,11 @@
         <div class="flex flex-row justify-center gap-4 header-account">
           <div class="Department">
             <label for="product-type">
-              Department: <%= department.nameDepartment %>
+              Department: <%= checkDepartment.nameDepartment %>
               <input
                 name="idDepartment"
                 id="idDepartment"
-                value="<%= department.id %>"
+                value="<%= checkDepartment.id %>"
                 hidden
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
@@ -173,6 +173,7 @@
           <input
             type="text"
             name="fullName"
+            value="<%= fullName %>"
             id="fullName"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -189,6 +190,7 @@
             type="email"
             name="email"
             id="email"
+            value="<%= email %>"
             pattern=".+@gmail\.com"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -223,6 +225,7 @@
             type="text"
             name="address"
             id="address"
+            value="<%= address %>"
             required
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
@@ -240,6 +243,7 @@
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
             name="phoneNumber"
             id="phoneNumber"
+            value="<%= phoneNumber %>"
             required
           />
         </div>

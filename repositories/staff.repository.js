@@ -560,6 +560,77 @@ const findByPhoneNumberExist = async (id, phoneNumber) => {
   }
 };
 
+const handleEditProfile = async (id, payload) => {
+  try {
+    const profile = await StaffModel.updateOne(
+      { _id: id },
+      {
+        $set: {
+          address: payload.address,
+          phoneNumber: payload.phoneNumber,
+        },
+      },
+    );
+
+    return profile;
+  } catch (error) {
+    return error;
+  }
+};
+
+const handleEditProfileWithPhone = async (id, payload) => {
+  try {
+    const profile = await StaffModel.updateOne(
+      { _id: id },
+      {
+        $set: {
+          address: payload.address,
+        },
+      },
+    );
+
+    return profile;
+  } catch (error) {
+    return error;
+  }
+};
+
+const handleEditProfileWithAvatar = async (id, payload) => {
+  try {
+    const profile = await StaffModel.updateOne(
+      { _id: id },
+      {
+        $set: {
+          address: payload.address,
+          phoneNumber: payload.phoneNumber,
+          avatarImage: payload.avatarImage,
+        },
+      },
+    );
+
+    return profile;
+  } catch (error) {
+    return error;
+  }
+};
+
+const handleUpdatePassword = async (id, payload) => {
+  try {
+    const profile = await StaffModel.updateOne(
+      { _id: id },
+      {
+        $set: {
+          password: payload,
+        },
+      },
+    );
+
+    return profile;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   createStaff,
   updateStaff,
@@ -574,4 +645,8 @@ module.exports = {
   findByEmailExist,
   banAccountStaff,
   unBanAccountStaff,
+  handleEditProfile,
+  handleEditProfileWithAvatar,
+  handleEditProfileWithPhone,
+  handleUpdatePassword,
 };
