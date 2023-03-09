@@ -1,3 +1,6 @@
+const multer = require("multer");
+
+const upload = multer({ dest: "public/uploads/" });
 const express = require("express");
 
 const router = express.Router();
@@ -13,6 +16,11 @@ router.get("/idea", renderIdeaController.getIdeaForStaff);
 // router.put("/:idIdea", IdeaController.updateIdea);
 // router.delete("/:idIdea", IdeaController.deleteIdea);
 router.get("/edit/:id", AccountController.renderEditProfilePage);
-router.put("/profile/edit/:id", AccountController.editProfilePage);
+router.put("/edit-profile/:id", AccountController.updateStaff);
+router.put(
+  "/:idProfile",
+  upload.single("avatarImage"),
+  AccountController.handleUpdateProfileAccount,
+);
 
 module.exports = router;

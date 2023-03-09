@@ -5,6 +5,7 @@ const departmentService = require("../services/department.service");
 const pollService = require("../services/poll.service");
 const ideaService = require("../services/idea.service");
 const Staff = require("../database/models/Staff");
+const staffService = require("../services/staff.service");
 const staffIdeaService = require("../services/staffIdea.service");
 
 const renderCreateIdeaPage = async (req, res) => {
@@ -153,6 +154,7 @@ const getIdeaForStaff = async (req, res) => {
       sort: { createdAt: -1 },
     };
     const query = { idStaffIdea: StaffData._id };
+    const staffProfile = await staffService.displayStaffById(StaffData._id);
 
     const allIdea = await ideaService.getAllWithQuery(options, query);
 
@@ -180,6 +182,7 @@ const getIdeaForStaff = async (req, res) => {
       staff: staffPayload,
       role: staffPayload.idRole.nameRole,
       isHaveIdeas,
+      staffProfile,
     });
     // return res.status(200).send(data);
   } catch (err) {
