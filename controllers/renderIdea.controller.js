@@ -8,6 +8,7 @@ const Staff = require("../database/models/Staff");
 const staffService = require("../services/staff.service");
 const staffIdeaService = require("../services/staffIdea.service");
 const commentService = require("../services/comment.service");
+const PollService = require("../services/poll.service");
 
 const renderCreateIdeaPage = async (req, res) => {
   const staff = req.cookies.Staff;
@@ -223,7 +224,10 @@ const getIdeaForStaff = async (req, res) => {
     const options = {
       page,
       limit,
-      populate: { path: "idStaffIdea", select: "fullName avatarImage" },
+      populate: [
+        { path: "idStaffIdea", select: "fullName avatarImage" },
+        { path: "idPoll" },
+      ],
       sort: { createdAt: -1 },
     };
     const query = { idStaffIdea: StaffData._id };
@@ -234,7 +238,12 @@ const getIdeaForStaff = async (req, res) => {
     });
     const allIdea = await ideaService.getAllWithQuery(options, query);
 
-    allIdea.docs.forEach((element) => {
+    // Check Date of poll
+    const currentDate = new Date();
+    let isCreateNewIdea = true;
+    let isHandleAction;
+
+    await allIdea.docs.forEach(async (element) => {
       // eslint-disable-next-line valid-typeof
       if (element.urlFile != null) {
         for (let i = 0; i < element.urlFile.length; i += 1) {
@@ -245,6 +254,28 @@ const getIdeaForStaff = async (req, res) => {
             element.urlFile = null;
           }
         }
+      }
+
+      console.log("helololo: ", element.idPoll._id);
+      const poll = await PollService.getPoll({ _id: element.idPoll._id });
+      console.log(poll);
+      if (
+        poll.dateStart.getTime() < currentDate.getTime() &&
+        poll.dateSubEnd.getTime() <= currentDate.getTime()
+      ) {
+        isCreateNewIdea = false;
+      }
+
+      if (
+        poll.dateStart.getTime() <=
+        currentDate.getTime() <
+        poll.dateSubEnd.getTime()
+      ) {
+        isHandleAction = true;
+      }
+
+      if (poll.dateSubEnd.getTime() <= currentDate.getTime()) {
+        isHandleAction = false;
       }
     });
 
@@ -269,7 +300,16 @@ const getIdeaForStaff = async (req, res) => {
     if (data.allIdea.docs.toString() === "") {
       isHaveIdeas = false;
     }
-    // return res.status(200).send(data);
+
+    const poll = await PollService.getPollNewest();
+
+    if (
+      poll.dateStart.getTime() < currentDate.getTime() &&
+      poll.dateSubEnd.getTime() <= currentDate.getTime()
+    ) {
+      isCreateNewIdea = false;
+    }
+
     return res.render("partials/master", {
       title: "Your profile",
       content: "../staff/profilePage",
@@ -278,6 +318,8 @@ const getIdeaForStaff = async (req, res) => {
       role: staffPayload.idRole.nameRole,
       isHaveIdeas,
       staffProfile,
+      isHandleAction,
+      isCreateNewIdea,
     });
   } catch (err) {
     console.log(
