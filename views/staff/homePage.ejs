@@ -2,7 +2,7 @@
   <div
     class="flex flex-row justify-between w-4/5 pb-6 m-auto border-b-2 mt-[60px] sort_filter"
   >
-    <form action="">
+    <!-- <form action="/fill">
       <div class="flex flex-row gap-10">
         <div class="sort">
           <div
@@ -11,11 +11,11 @@
             <label for="product-type">
               Sort
               <select
-                name="product-type"
-                id="product-type"
+                name="Sort"
+                id="Sort"
                 class="border-2 rounded-lg border-slate-400"
               >
-                <option value="0">Recently</option>
+                <option value="">Recently</option>
                 <option value="1">Like high to low</option>
                 <option value="2">Like low to high</option>
                 <option value="3">View high to low</option>
@@ -28,15 +28,13 @@
           <label for="product-type">
             Filter
             <select
-              name="product-type"
-              id="product-type"
+              name="idPoll"
+              id="idPoll"
               class="border-2 rounded-lg border-slate-400"
             >
-              <option value="0">All poll</option>
+              <option value="">All poll</option>
               <% polls.forEach(function(poll) { %>
-              <option value="1" id="<%= poll._id %>" name="">
-                <%= poll.namePoll %>
-              </option>
+              <option value="<%= poll._id %>"><%= poll.namePoll %></option>
               <% }); %>
             </select>
           </label>
@@ -45,13 +43,13 @@
           <label for="product-type">
             Filter
             <select
-              name="product-type"
-              id="product-type"
+              name="idDepartment"
+              id="idDepartment"
               class="border-2 rounded-lg border-slate-400"
             >
-              <option value="0">All Department</option>
+              <option value="">All Department</option>
               <% departments.forEach(function(department) { %>
-              <option value="1" id="<%= department._id %>" name="">
+              <option value="<%= department._id %>">
                 <%= department.nameDepartment %>
               </option>
               <% }); %>
@@ -62,13 +60,13 @@
           <label for="type">
             Exception
             <select
-              name="type"
-              id="type"
+              name="Exception"
+              id="Exception"
               class="border-2 rounded-lg border-slate-400"
             >
-              <option value="0">All</option>
+              <option value="">All</option>
               <option value="1">Without comment</option>
-              <option value="2">Anonimous</option>
+              <option value="2">Anonymous</option>
             </select>
           </label>
         </div>
@@ -80,7 +78,8 @@
           Find
         </button>
       </div>
-    </form>
+    </form> -->
+    <a href="/filter">CLICK</a>
 
     <div>
       <div

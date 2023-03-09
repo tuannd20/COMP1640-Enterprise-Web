@@ -23,4 +23,6 @@ router.put("/dislike", interactController.DisLikeIdea);
 
 router.delete("/:id", IdeaController.deleteIdea);
 
+router.get("/filter", IdeaController.displayAllIdeaWithFilter);
+
 module.exports = router;
