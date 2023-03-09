@@ -22,112 +22,121 @@
 
       <div class="m-auto">Edit idea</div>
     </div>
-    <div class="flex flex-row justify-between header-idea">
-      <div class="flex flex-row items-center justify-center gap-2 mb-3">
-        <% if(idea.idStaffIdea.avatarImage === null) { %>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-20 h-20 text-sky-900"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+    <form
+      action="/ideas/updateIdea?_method=PUT"
+      method="POST"
+      id="edit-form"
+      enctype="multipart/form-data"
+    >
+      <div class="flex flex-row justify-between header-idea">
+        <div class="flex flex-row items-center justify-center gap-2 mb-3">
+          <% if(idea.idStaffIdea.avatarImage === null) { %>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-20 h-20 text-sky-900"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
+          <%}else { %>
+          <img
+            src="<%= idea.idStaffIdea.avatarImage %>"
+            alt=""
+            class="w-16 h-16 border rounded-full"
           />
-        </svg>
-        <%}else { %>
-        <img
-          src="<%= idea.idStaffIdea.avatarImage %>"
-          alt=""
-          class="w-16 h-16 border rounded-full"
-        />
-        <% } %>
-        <div>
-          <p class="mb-1 text-lg font-medium">
-            <%= idea.idStaffIdea.fullName %>
-          </p>
-          <div class="flex flex-row items-center gap-5">
-            <div class="sort">
-              <div
-                class="flex flex-row items-center justify-between gap-2 sort_button"
-              >
+          <% } %>
+          <div>
+            <p class="mb-1 text-lg font-medium">
+              <%= idea.idStaffIdea.fullName %>
+            </p>
+            <div class="flex flex-row items-center gap-5">
+              <!-- <input type="hidden" name="_method" value="PUT" hidden> -->
+              <div class="sort">
+                <div
+                  class="flex flex-row items-center justify-between gap-2 sort_button"
+                >
+                  <label for="product-type">
+                    Status
+                    <select
+                      name="status"
+                      id="statusType"
+                      class="py-[2px] border rounded-lg border-slate-400"
+                      form="edit-form"
+                    >
+                      <option value="" selected disabled hidden>
+                        <%= idea.status %>
+                      </option>
+                      <option value="Draff">Draff</option>
+                      <option value="Public">Public</option>
+                      <option value="Private">Incognito</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+              <div class="Department">
                 <label for="product-type">
-                  Status
+                  Department
                   <select
-                    name="status"
-                    id="statusType"
-                    class="py-[2px] border rounded-lg border-slate-400"
-                    form="create-form"
+                    name="idDepartment"
+                    form="edit-form"
+                    class="border rounded-lg py-[2px] border-slate-400"
+                    id="department-select"
                   >
                     <option value="" selected disabled hidden>
-                      <%= idea.status %>
+                      <%= idea.idDepartment.nameDepartment %>
                     </option>
-                    <option value="Draff">Draff</option>
-                    <option value="Public">Public</option>
-                    <option value="Private">Incognito</option>
+                    <% departments.forEach(function(department) { %>
+                    <option value="<%= department._id %>">
+                      <%= department.nameDepartment %>
+                    </option>
+                    <% }) %>
+                  </select>
+                </label>
+              </div>
+              <div class="Category">
+                <label for="type">
+                  Category
+                  <select
+                    name="idCategory"
+                    id="categoriesList"
+                    form="edit-form"
+                    required
+                    class="border rounded-lg py-[2px] border-slate-400"
+                  >
+                    <% if(idea.idCategory !== null) { %>
+                    <option><%= idea.idCategory.nameCategory %></option>
+                    <% } else { %>
+                    <option></option>
+                    <% } %>
                   </select>
                 </label>
               </div>
             </div>
-            <div class="Department">
-              <label for="product-type">
-                Department
-                <select
-                  name="department-type"
-                  form="create-form"
-                  class="border rounded-lg py-[2px] border-slate-400"
-                  id="department-select"
-                >
-                  <option value="" selected disabled hidden>
-                    <%= idea.idDepartment.nameDepartment %>
-                  </option>
-                  <option><%= idea.idDepartment.nameDepartment %></option>
-                  <% departments.forEach(function(department) { %>
-                  <option value="<%= department._id %>">
-                    <%= department.nameDepartment %>
-                  </option>
-                  <% }) %>
-                </select>
-              </label>
-            </div>
-            <div class="Category">
-              <label for="type">
-                Category
-                <select
-                  name="Category"
-                  id="categoriesList"
-                  required
-                  class="border rounded-lg py-[2px] border-slate-400"
-                >
-                  <% if(idea.idCategory !== null) { %>
-                  <option><%= idea.idCategory.nameCategory %></option>
-                  <%}else { %> <% } %>
-                </select>
-              </label>
-            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="content-idea mb-7">
-      <textarea
-        name="content-idea"
-        required
-        class="block w-full mt-1 border-gray-300 rounded-md shadow-sm min-h-[200px] focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-        placeholder="Your idea..."
-      >
-<%= idea.contentIdea%></textarea
-      >
-    </div>
-    <div class="w-[95%] m-auto">
-      <form action="/action" id="create-form">
+      <div class="content-idea mb-7">
+        <textarea
+          name="contentIdea"
+          required
+          disabled
+          class="block w-full mt-1 border-gray-300 rounded-md shadow-sm min-h-[200px] focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          placeholder="Your idea..."
+        >
+          <%= idea.contentIdea%></textarea
+        >
+      </div>
+      <div class="w-[95%] m-auto">
         <div class="flex flex-row justify-between footer-idea">
           <div class="px-3 py-2 border-2 rounded-lg upload-btn">
-            <input type="file" name="filename" value="Upload" multiple />
+            <input type="file" name="urlFile" multiple />
           </div>
           <div class="flex flex-row items-center justify-between gap-5">
             <div
@@ -137,8 +146,8 @@
             </div>
           </div>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 </Main>
 

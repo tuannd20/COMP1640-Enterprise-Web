@@ -30,7 +30,7 @@ const IdeaSchema = new Schema(
       require: true,
     },
     contentIdea: { type: String, require: true },
-    urlFile: { type: String, default: null },
+    urlFile: [{ type: String, default: null }],
     likeCount: { type: Number, default: 0 },
     disLikeCount: { type: Number, default: 0 },
     viewCount: { type: Number, default: 0 },
