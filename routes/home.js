@@ -18,8 +18,6 @@ const AuthMiddleWare = require("../middlerwares/auth.middleware");
 
 router.get("/", AuthMiddleWare.isLoggedIn, renderIdeaController.displayAllIdea);
 
-router.get("/idea/:idIdea", IdeaController.displayDetailIdea);
-
 router.get("/comments/:idIdea", CommentController.displayAllCommentOfIdea);
 
 router.post("/comments", CommentController.createComment);
@@ -30,7 +28,7 @@ router.get("/terms", TermsController.displayAllRule);
 
 // router.put("/idea/:idIdea&:idComment", CommentController.updateComment);
 
-// router.delete("/idea/:idIdea&:idComment", CommentController.deleteComment);
+router.delete("/comments/:idComment", CommentController.deleteComment);
 
 router.get("/errors", (req, res) => {
   let staff = req.cookies.Staff;

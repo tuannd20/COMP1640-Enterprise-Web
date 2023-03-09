@@ -8,7 +8,6 @@ const ideaService = require("../services/idea.service");
 const staffService = require("../services/staff.service");
 const categoryService = require("../services/category.service");
 const pollService = require("../services/poll.service");
-const commentService = require("../services/comment.service");
 const sendMail = require("../utilities/sendMail");
 
 const createIdea = async (req, res) => {
@@ -95,35 +94,6 @@ const createIdea = async (req, res) => {
   }
 };
 
-const displayDetailIdea = async (req, res) => {
-  try {
-    const staff = req.cookies.Staff;
-    const role = staff.idRole.nameRole;
-    const data = { ideas: "John", comments: [] };
-
-    if (!req.params.id) return res.redirect("/errors");
-    const idea = await ideaService.getIdea(req.params.id);
-    const comment = await commentService.getAllCommentOfIdea(idea._id);
-    if (!idea || !comment) return res.redirect("/errors");
-    if (idea.idStaffIdea == null) return res.redirect("/errors");
-
-    data.ideas = idea;
-    data.comments = comment;
-
-    // return res.status(200).send(data);
-    return res.render("partials/master", {
-      title: "Idea detail",
-      content: "../staff/idea/detailIdea",
-      data,
-      staff,
-      role,
-    });
-  } catch (err) {
-    console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
-    return err;
-  }
-};
-
 const deleteIdea = async (req, res) => {
   try {
     const { id } = req.params;
@@ -152,7 +122,6 @@ const updateIdea = async (req, res) => {
 
 module.exports = {
   createIdea,
-  displayDetailIdea,
   deleteIdea,
   updateIdea,
 };

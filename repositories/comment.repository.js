@@ -44,7 +44,7 @@ const getAllCommentsByIdIdea = async (id) => {
   try {
     const comment = await CommentModel.find({ idIdea: id }).populate({
       path: "idStaffComment",
-      select: "fullName",
+      select: "fullName avatarImage",
     });
 
     return comment;
@@ -54,8 +54,28 @@ const getAllCommentsByIdIdea = async (id) => {
   }
 };
 
+const deleteComment = async (id) => {
+  try {
+    const Idea = await CommentModel.delete({ _id: id });
+    return Idea;
+  } catch (err) {
+    console.log(
+      "🚀 ---------------------------------------------------------------🚀",
+    );
+    console.log(
+      "🚀 ~ file: comment.repository.js:62 ~ deleteComment ~ err:",
+      err,
+    );
+    console.log(
+      "🚀 ---------------------------------------------------------------🚀",
+    );
+    return err;
+  }
+};
+
 module.exports = {
   createComment,
   getAllComments,
   getAllCommentsByIdIdea,
+  deleteComment,
 };

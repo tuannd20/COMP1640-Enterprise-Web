@@ -43,8 +43,32 @@ const createComment = async (data) => {
   }
 };
 
+const deleteComment = async (id) => {
+  try {
+    const result = await CommentRepository.deleteComment(id);
+    console.log(
+      "🚀 ----------------------------------------------------------🚀",
+    );
+    console.log("🚀 ~ file: comment.service.js:49 ~ deleteComment ~ id:", id);
+    console.log(
+      "🚀 ----------------------------------------------------------🚀",
+    );
+    return result;
+  } catch (err) {
+    console.log(
+      "🚀 ------------------------------------------------------------🚀",
+    );
+    console.log("🚀 ~ file: comment.service.js:51 ~ deleteComment ~ err:", err);
+    console.log(
+      "🚀 ------------------------------------------------------------🚀",
+    );
+    return err;
+  }
+};
+
 module.exports = {
   getAllComment,
   getAllCommentOfIdea,
   createComment,
+  deleteComment,
 };

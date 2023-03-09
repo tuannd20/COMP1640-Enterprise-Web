@@ -7,6 +7,7 @@ const ideaService = require("../services/idea.service");
 const Staff = require("../database/models/Staff");
 const staffService = require("../services/staff.service");
 const staffIdeaService = require("../services/staffIdea.service");
+const commentService = require("../services/comment.service");
 
 const renderCreateIdeaPage = async (req, res) => {
   const staff = req.cookies.Staff;
@@ -77,16 +78,23 @@ const displayAllIdea = async (req, res) => {
     });
 
     allIdea.docs.forEach((element) => {
-      if (
-        typeof element.urlFile === "undefined" ||
-        !isImageUrl(element.urlFile)
-      ) {
-        element.urlFile = null;
+      // eslint-disable-next-line valid-typeof
+      if (element.urlFile != null) {
+        for (let i = 0; i < element.urlFile.length; i += 1) {
+          if (
+            typeof element.urlFile[i] === "undefined" ||
+            !isImageUrl(element.urlFile[i])
+          ) {
+            element.urlFile = null;
+          }
+        }
       }
+
       if (!element.idStaffIdea || element.status === "Private") {
         element.idStaffIdea = anonymous;
       }
     });
+
     if (allStaffIdea) {
       allIdea.docs.forEach((idea) => {
         const staffIdea = allStaffIdea.find(
@@ -138,6 +146,61 @@ const displayAllIdea = async (req, res) => {
   }
 };
 
+const displayDetailIdea = async (req, res) => {
+  try {
+    const staff = req.cookies.Staff;
+    const role = staff.idRole.nameRole;
+    const data = { ideas: "John", comments: [] };
+    const anonymous = {
+      fullName: "anonymous",
+      avatarImage: null,
+    };
+    if (!req.params.id) return res.redirect("/errors");
+    const idea = await ideaService.getIdea(req.params.id);
+    const comment = await commentService.getAllCommentOfIdea(idea._id);
+    if (!idea || !comment) return res.redirect("/errors");
+    if (idea.idStaffIdea == null) return res.redirect("/errors");
+
+    const allStaffIdea = await staffIdeaService.getAllWithQuery({
+      idStaff: staff._id,
+      isLike: { $in: [true, false] },
+    });
+
+    if (allStaffIdea) {
+      const staffIdea = allStaffIdea.find(
+        (sIdea) => sIdea.IdIdea.toString() === idea._id.toString(),
+      );
+      if (staffIdea) {
+        idea.isLike = staffIdea.isLike;
+      } else {
+        idea.isLike = null;
+      }
+    }
+
+    if (idea.status === "Private") {
+      idea.idStaffIdea = anonymous;
+    }
+    if (typeof idea.urlFile === "undefined" || !isImageUrl(idea.urlFile)) {
+      idea.urlFile = null;
+    }
+
+    data.ideas = idea;
+    data.comments = comment;
+
+    // return res.status(200).send(data);
+    return res.render("partials/master", {
+      title: "Idea detail",
+      content: "../staff/idea/detailIdea",
+      data,
+      staff,
+      role,
+    });
+  } catch (err) {
+    console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
+    return err;
+  }
+};
+
 const getIdeaForStaff = async (req, res) => {
   try {
     const staffPayload = req.cookies.Staff;
@@ -159,13 +222,19 @@ const getIdeaForStaff = async (req, res) => {
     const allIdea = await ideaService.getAllWithQuery(options, query);
 
     allIdea.docs.forEach((element) => {
-      if (
-        typeof element.urlFile === "undefined" ||
-        !isImageUrl(element.urlFile)
-      ) {
-        element.urlFile = null;
+      // eslint-disable-next-line valid-typeof
+      if (element.urlFile != null) {
+        for (let i = 0; i < element.urlFile.length; i += 1) {
+          if (
+            typeof element.urlFile[i] === "undefined" ||
+            !isImageUrl(element.urlFile[i])
+          ) {
+            element.urlFile = null;
+          }
+        }
       }
     });
+
     allIdea.docs = allIdea.docs.filter((doc) => doc.idStaffIdea !== null);
 
     const data = { allIdea, staffPayload };
@@ -198,4 +267,5 @@ module.exports = {
   renderEditIdeaPage,
   getIdeaForStaff,
   displayAllIdea,
+  displayDetailIdea,
 };
