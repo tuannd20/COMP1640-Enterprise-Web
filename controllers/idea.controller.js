@@ -192,9 +192,9 @@ const displayAllIdea = async (req, res) => {
 
     const sort = req.query.Sort;
 
-    const poll = req.query.idPoll;
+    const pollId = req.query.idPoll;
 
-    const department = req.query.idDepartment;
+    const departmentId = req.query.idDepartment;
 
     const exception = req.query.Exception;
 
@@ -215,8 +215,16 @@ const displayAllIdea = async (req, res) => {
       status: { $in: ["Private", "Public"] },
     };
 
-    if (exception === "Without comment") {
-      query.status = { $in: ["Private"] };
+    if (pollId) {
+      query.idPoll = pollId;
+    }
+
+    if (departmentId) {
+      query.idDepartment = departmentId;
+    }
+
+    if (exception === "Anonymous") {
+      query.status = ["Private"];
     }
 
     const { page = 1 } = req.query;
