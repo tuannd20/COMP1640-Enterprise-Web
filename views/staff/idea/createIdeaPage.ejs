@@ -61,7 +61,7 @@
                     >
                       <option value="Draft">Draft</option>
                       <option value="Public">Public</option>
-                      <option value="Private">Incognito</option>
+                      <option value="Private">Private</option>
                     </select>
                   </label>
                 </div>
@@ -72,6 +72,7 @@
                   <select
                     name="department"
                     form="create-form"
+                    required
                     id="department-select"
                     class="border rounded-lg py-[2px] border-slate-400"
                   >
@@ -89,6 +90,7 @@
                   <select
                     name="Category"
                     id="categoriesList"
+                    required
                     form="create-form"
                     class="border rounded-lg py-[2px] border-slate-400"
                   >
@@ -121,9 +123,13 @@
       </div>
       <div class="w-[95%] m-auto">
         <div class="flex flex-row justify-between footer-idea">
-          <div class="h-auto px-3 py-2 border-2 rounded-lg upload-btn">
-            <input type="file" name="file" value="Upload" multiple />
+          <div>
+            <div class="h-38 border-2 rounded-lg upload-btn">
+              <input id="fileUpload" type="file" name="file" value="Upload" multiple />
+            </div>
+            <div id="previewFileUpload"></div>
           </div>
+
           <div class="flex flex-row items-center justify-between gap-5">
             <div class="italic terms">
               <input type="checkbox" id="myCheck" required />
@@ -144,6 +150,35 @@
 </Main>
 
 <script>
+  const fileInput = document.getElementById('fileUpload');
+  const preview = document.getElementById('previewFileUpload');
+
+  fileInput.addEventListener('change', () => {
+    preview.innerHTML = '';
+    const files = fileInput.files;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (file.type === 'application/pdf' || file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        const name = document.createElement('p');
+        name.textContent = file.name;
+        preview.appendChild(name);
+      }
+
+      const reader = new FileReader();
+
+      reader.addEventListener('load', () => {
+        const img = new Image();
+        img.src = reader.result;
+        img.width = 200;
+        preview.appendChild(img);
+      });
+
+      reader.readAsDataURL(file);
+    }
+  });
+</script>
+
+<script>
   $(document).ready(function () {
     $("#department-select").click(async function () {
       const departmentId = await $("#department-select").val();
@@ -157,24 +192,41 @@
         );
         const categories = response.data;
 
-        const listNameCategory = [];
         if (categories.length === 0) {
           $("#categoriesList").empty();
           $("#categoriesList").append(
-            $("<option></option>").attr("value", "No").text("No category"),
+            $("<option></option>").attr("value", "").text("No category"),
           );
         } else {
-          categories.map((category) => {
-            listNameCategory.push(category.nameCategory);
-          });
-          console.log(listNameCategory);
           $("#categoriesList").empty();
-          $.each(listNameCategory, function (key, value) {
+          $.each(categories, function (key, category) {
             $("#categoriesList").append(
-              $("<option></option>").attr("value", value).text(value),
+              $("<option></option>")
+                .attr("value", category.id)
+                .text(category.nameCategory),
             );
           });
         }
+
+        // Add click event listener to categories
+        $("#categoriesList").off("change");
+        $("#categoriesList").on("change", async function () {
+          const categoryId = await $("#categoriesList").val();
+          console.log("Selected category from DB: ", categoryId);
+
+          // Fetch category details and reset the categoriesList dropdown
+          const response = await axios.get(`/api/v1/categories/${categoryId}`);
+          const category = response.data;
+          $("#categoriesList").empty();
+          $("#categoriesList").append(
+            $("<option></option>").attr("value", "").text("Select a category"),
+          );
+          $("#categoriesList").append(
+            $("<option></option>")
+              .attr("value", category.id)
+              .text(category.nameCategory),
+          );
+        });
       }
     });
   });

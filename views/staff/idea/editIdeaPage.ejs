@@ -22,102 +22,114 @@
 
       <div class="m-auto">Edit idea</div>
     </div>
-    <div class="flex flex-row justify-between header-idea">
-      <div class="flex flex-row items-center justify-center gap-2 mb-3">
-        <% if(idea.idStaffIdea.avatarImage === null) { %>
-        <img
-          src="<%= process.env.BASE_URL %>image/avatar.png"
-          alt=""
-          class="w-16 h-16 border rounded-full"
-        />
-        <%}else { %>
-        <img
-          src="<%= staff.avatarImage %>"
-          alt=""
-          class="w-24 h-24 border rounded-full"
-        />
-        <% } %>
-        <div>
-          <p class="mb-1 text-lg font-medium">
-            <%= idea.idStaffIdea.fullName %>
-          </p>
-          <div class="flex flex-row items-center gap-5">
-            <div class="sort">
-              <div
-                class="flex flex-row items-center justify-between gap-2 sort_button"
-              >
+    <form
+      action="/ideas/updateIdea?_method=PUT"
+      method="POST"
+      id="edit-form"
+      enctype="multipart/form-data"
+    >
+      <div class="flex flex-row justify-between header-idea">
+        <div class="flex flex-row items-center justify-center gap-2 mb-3">
+          <% if(idea.idStaffIdea.avatarImage === null) { %>
+          <img
+            src="<%= process.env.BASE_URL %>image/avatar.png"
+            alt=""
+            class="w-16 h-16 border rounded-full"
+          />
+          <%}else { %>
+          <img
+            src="<%= staff.avatarImage %>"
+            alt=""
+            class="w-24 h-24 border rounded-full"
+          />
+          <% } %>
+          <div>
+            <p class="mb-1 text-lg font-medium">
+              <%= idea.idStaffIdea.fullName %>
+            </p>
+            <div class="flex flex-row items-center gap-5">
+              <!-- <input type="hidden" name="_method" value="PUT" hidden> -->
+              <div class="sort">
+                <div
+                  class="flex flex-row items-center justify-between gap-2 sort_button"
+                >
+                  <label for="product-type">
+                    Status
+                    <select
+                      name="status"
+                      id="statusType"
+                      class="py-[2px] border rounded-lg border-slate-400"
+                      form="edit-form"
+                    >
+                      <option value="" selected disabled hidden>
+                        <%= idea.status %>
+                      </option>
+                      <option value="Draff">Draff</option>
+                      <option value="Public">Public</option>
+                      <option value="Private">Incognito</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+              <div class="Department">
                 <label for="product-type">
-                  Status
+                  Department
                   <select
-                    name="status"
-                    id="statusType"
-                    class="py-[2px] border rounded-lg border-slate-400"
-                    form="create-form"
+                    name="idDepartment"
+                    form="edit-form"
+                    class="border rounded-lg py-[2px] border-slate-400"
+                    id="department-select"
                   >
-                    <option value="Draff">Draff</option>
-                    <option value="Public">Public</option>
-                    <option value="Private">Incognito</option>
+                    <option value="" selected disabled hidden>
+                      <%= idea.idDepartment.nameDepartment %>
+                    </option>
+                    <% departments.forEach(function(department) { %>
+                    <option value="<%= department._id %>">
+                      <%= department.nameDepartment %>
+                    </option>
+                    <% }) %>
+                  </select>
+                </label>
+              </div>
+              <div class="Category">
+                <label for="type">
+                  Category
+                  <select
+                    name="idCategory"
+                    id="categoriesList"
+                    form="edit-form"
+                    required
+                    class="border rounded-lg py-[2px] border-slate-400"
+                  >
+                    <% if(idea.idCategory !== null) { %>
+                    <option><%= idea.idCategory.nameCategory %></option>
+                    <% } else { %>
+                    <option></option>
+                    <% } %>
                   </select>
                 </label>
               </div>
             </div>
-            <div class="Department">
-              <label for="product-type">
-                Department
-                <select
-                  name="department-type"
-                  form="create-form"
-                  class="border rounded-lg py-[2px] border-slate-400"
-                  id="department-select"
-                >
-                  <option><%= idea.idDepartment.nameDepartment %></option>
-                  <% departments.forEach(function(department) { %>
-                  <option value="<%= department._id %>">
-                    <%= department.nameDepartment %>
-                  </option>
-                  <% }) %>
-                </select>
-              </label>
-            </div>
-            <div class="Category">
-              <label for="type">
-                Category
-                <select
-                  name="Category"
-                  id="categoriesList"
-                  class="border rounded-lg py-[2px] border-slate-400"
-                >
-                  <% if(idea.idCategory !== null) { %>
-                  <option><%= idea.idCategory.nameCategory %></option>
-                  <%}else { %> <% } %>
-                </select>
-              </label>
-            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="content-idea mb-7">
-      <textarea
-        name="content-idea"
-        required
-        class="block w-full mt-1 border-gray-300 rounded-md shadow-sm min-h-[200px] focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-        placeholder="Your idea..."
-      >
-<%= idea.contentIdea%></textarea
-      >
-    </div>
-    <div class="w-[95%] m-auto">
-      <form action="/action" id="create-form">
+      <div class="content-idea mb-7">
+        <textarea
+          name="contentIdea"
+          required
+          disabled
+          class="block w-full mt-1 border-gray-300 rounded-md shadow-sm min-h-[200px] focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          placeholder="Your idea..."
+        >
+          <%= idea.contentIdea%></textarea
+        >
+      </div>
+      <div class="w-[95%] m-auto">
         <div class="flex flex-row justify-between footer-idea">
           <div class="px-3 py-2 border-2 rounded-lg upload-btn">
-            <input type="file" name="filename" value="Upload" multiple />
+            <input type="file" name="urlFile" multiple />
           </div>
           <div class="flex flex-row items-center justify-between gap-5">
-            <div class="italic terms">
-              <input type="checkbox" id="myCheck" />
-              <a href="#">Agree to terms?</a>
-            </div>
             <div
               class="px-3 py-2 text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
             >
@@ -125,15 +137,12 @@
             </div>
           </div>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 </Main>
 
 <script>
-  let selectElement = document.getElementById("statusType");
-  selectElement.value = "<%= idea.status %>";
-
   $(document).ready(function () {
     $("#department-select").click(async function () {
       const departmentId = await $("#department-select").val();
@@ -147,24 +156,41 @@
         );
         const categories = response.data;
 
-        const listNameCategory = [];
         if (categories.length === 0) {
           $("#categoriesList").empty();
           $("#categoriesList").append(
-            $("<option></option>").attr("value", "No").text("No category"),
+            $("<option></option>").attr("value", "").text("No category"),
           );
         } else {
-          categories.map((category) => {
-            listNameCategory.push(category.nameCategory);
-          });
-          console.log(listNameCategory);
           $("#categoriesList").empty();
-          $.each(listNameCategory, function (key, value) {
+          $.each(categories, function (key, category) {
             $("#categoriesList").append(
-              $("<option></option>").attr("value", value).text(value),
+              $("<option></option>")
+                .attr("value", category.id)
+                .text(category.nameCategory),
             );
           });
         }
+
+        // Add click event listener to categories
+        $("#categoriesList").off("change");
+        $("#categoriesList").on("change", async function () {
+          const categoryId = await $("#categoriesList").val();
+          console.log("Selected category from DB: ", categoryId);
+
+          // Fetch category details and reset the categoriesList dropdown
+          const response = await axios.get(`/api/v1/categories/${categoryId}`);
+          const category = response.data;
+          $("#categoriesList").empty();
+          $("#categoriesList").append(
+            $("<option></option>").attr("value", "").text("Select a category"),
+          );
+          $("#categoriesList").append(
+            $("<option></option>")
+              .attr("value", category.id)
+              .text(category.nameCategory),
+          );
+        });
       }
     });
   });

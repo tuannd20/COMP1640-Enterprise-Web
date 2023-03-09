@@ -3,6 +3,8 @@ const express = require("express");
 const router = express.Router();
 const CommentController = require("../controllers/comment.controller");
 const IdeaController = require("../controllers/idea.controller");
+const renderIdeaController = require("../controllers/renderIdea.controller");
+
 const TermsController = require("../controllers/rule.controller");
 const AuthMiddleWare = require("../middlerwares/auth.middleware");
 
@@ -14,9 +16,7 @@ const AuthMiddleWare = require("../middlerwares/auth.middleware");
 //   });
 // });
 
-router.get("/", AuthMiddleWare.isLoggedIn, IdeaController.displayAllIdea);
-
-router.get("/idea/:idIdea", IdeaController.displayDetailIdea);
+router.get("/", AuthMiddleWare.isLoggedIn, renderIdeaController.displayAllIdea);
 
 router.get("/comments/:idIdea", CommentController.displayAllCommentOfIdea);
 
