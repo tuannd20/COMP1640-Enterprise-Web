@@ -6,6 +6,16 @@ const LikeIdea = async (req, res) => {
   try {
     const myCookieData = req.cookies.Staff;
     const { IdIdea, isLike } = req.body;
+    console.log(
+      "🚀 --------------------------------------------------------------------🚀",
+    );
+    console.log(
+      "🚀 ~ file: interact.controller.js:9 ~ LikeIdea ~ req.body:",
+      req.body,
+    );
+    console.log(
+      "🚀 --------------------------------------------------------------------🚀",
+    );
     if (!IdIdea || !isLike) {
       return res.status(422).send("Missing required information");
     }

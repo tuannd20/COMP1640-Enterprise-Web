@@ -6,14 +6,14 @@
         <img
           src="<%= process.env.BASE_URL %>image/avatar.png"
           alt=""
-          class="object-cover cursor-pointer border-2 rounded-full border-lime-700 max-lg:w-48 max-lg:h-48 w-60 h-60 ml-8"
+          class="object-cover ml-8 border-2 rounded-full cursor-pointer border-lime-700 max-lg:w-48 max-lg:h-48 w-60 h-60"
         />
         <%}else { %>
-          <img
-                src="<%= process.env.BASE_URL %><%= staffProfile.avatarImage %>"
-                alt=""
-                class="object-cover cursor-pointer border-2 rounded-full border-lime-700 max-lg:w-48 max-lg:h-48 w-60 h-60 ml-8"
-              />
+        <img
+          src="<%= process.env.BASE_URL %><%= staffProfile.avatarImage %>"
+          alt=""
+          class="object-cover ml-8 border-2 rounded-full cursor-pointer border-lime-700 max-lg:w-48 max-lg:h-48 w-60 h-60"
+        />
         <% } %>
       </div>
       <div class="mt-2 leading-loose information text-zinc-800">
@@ -36,13 +36,17 @@
         </div>
       </a>
       <div
-      class="px-3 py-2 mt-2 text-center text-white ease-linear translate-x-0 border-2 rounded-lg select-none w-80 submit-btn bg-sky-900 hover:bg-green-500"
-    >
-      <!-- Modal toggle -->
-      <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button">
-        Change password
-      </button>
-    </div>
+        class="px-3 py-2 mt-2 text-center text-white ease-linear translate-x-0 border-2 rounded-lg select-none w-80 submit-btn bg-sky-900 hover:bg-green-500"
+      >
+        <!-- Modal toggle -->
+        <button
+          data-modal-target="authentication-modal"
+          data-modal-toggle="authentication-modal"
+          type="button"
+        >
+          Change password
+        </button>
+      </div>
     </div>
   </div>
 
@@ -106,7 +110,7 @@
               />
               <%}else { %>
               <img
-                src="<%= idea.idStaffIdea.avatarImage %>"
+                src="<%= process.env.BASE_URL %><%= idea.idStaffIdea.avatarImage %>"
                 alt=""
                 class="border rounded-full w-14 h-14 cursor-pointer"
               />
@@ -225,19 +229,16 @@
               <div
                 class="w-full px-5 pt-2 mt-1 border border-gray-300 rounded-md shadow-sm text-clip h-60 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               >
-                <p
-                  class="leading-6 overflow-hidden indent-0.5 text-justify max-h-52"
-                  style="
-                    -webkit-line-clamp: 7;
-                    -webkit-box-orient: vertical;
-                    overflow: hidden;
-                    display: -webkit-box;
-                  "
-                >
-                  <%= idea.contentIdea %>
-                </p>
+                <%= idea.contentIdea %>
+              </p>
               </div>
             </a>
+              <input
+                type="text"
+                name="id"
+                class="hidden id-idea"
+                value="<%= idea._id %>"
+              />
           </div>
 
           <div class="absolute bottom-3 w-[95%] m-auto">
@@ -280,62 +281,65 @@
                 class="flex flex-row items-center justify-center gap-5 like-dislike-view-icon"
               >
               <div class="flex flex-row items-center justify-center gap-1">
-                <% if(idea.isLike === true) { %>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  class="w-10 h-10 cursor-pointer like-icon text-sky-500"
+                  <% if(idea.isLike === true) { %>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="w-10 h-10 cursor-pointer like-icon text-sky-500"
+                  >
+                    <path
+                      d="M7.493 18.75c-.425 0-.82-.236-.975-.632A7.48 7.48 0 016 15.375c0-1.75.599-3.358 1.602-4.634.151-.192.373-.309.6-.397.473-.183.89-.514 1.212-.924a9.042 9.042 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75 2.25 2.25 0 012.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H14.23c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23h-.777zM2.331 10.977a11.969 11.969 0 00-.831 4.398 12 12 0 00.52 3.507c.26.85 1.084 1.368 1.973 1.368H4.9c.445 0 .72-.498.523-.898a8.963 8.963 0 01-.924-3.977c0-1.708.476-3.305 1.302-4.666.245-.403-.028-.959-.5-.959H4.25c-.832 0-1.612.453-1.918 1.227z"
+                    />
+                  </svg>
+                  <%}else { %>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="w-10 h-10 cursor-pointer like-icon text-slate-700"
+                  >
+                    <path
+                      d="M7.493 18.75c-.425 0-.82-.236-.975-.632A7.48 7.48 0 016 15.375c0-1.75.599-3.358 1.602-4.634.151-.192.373-.309.6-.397.473-.183.89-.514 1.212-.924a9.042 9.042 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75 2.25 2.25 0 012.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H14.23c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23h-.777zM2.331 10.977a11.969 11.969 0 00-.831 4.398 12 12 0 00.52 3.507c.26.85 1.084 1.368 1.973 1.368H4.9c.445 0 .72-.498.523-.898a8.963 8.963 0 01-.924-3.977c0-1.708.476-3.305 1.302-4.666.245-.403-.028-.959-.5-.959H4.25c-.832 0-1.612.453-1.918 1.227z"
+                    />
+                  </svg>
+                  <% } %>
+                  <p class="text-base font-medium like-moule">
+                    <%= idea.likeCount %>
+                  </p>
+                </div>
+
+                <div
+                  class="flex flex-row items-center justify-center gap-1 dislike"
                 >
-                  <path
-                    d="M7.493 18.75c-.425 0-.82-.236-.975-.632A7.48 7.48 0 016 15.375c0-1.75.599-3.358 1.602-4.634.151-.192.373-.309.6-.397.473-.183.89-.514 1.212-.924a9.042 9.042 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75 2.25 2.25 0 012.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H14.23c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23h-.777zM2.331 10.977a11.969 11.969 0 00-.831 4.398 12 12 0 00.52 3.507c.26.85 1.084 1.368 1.973 1.368H4.9c.445 0 .72-.498.523-.898a8.963 8.963 0 01-.924-3.977c0-1.708.476-3.305 1.302-4.666.245-.403-.028-.959-.5-.959H4.25c-.832 0-1.612.453-1.918 1.227z"
-                  />
-                </svg>
-                <%}else { %>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  class="w-10 h-10 cursor-pointer like-icon text-slate-700"
-                >
-                  <path
-                    d="M7.493 18.75c-.425 0-.82-.236-.975-.632A7.48 7.48 0 016 15.375c0-1.75.599-3.358 1.602-4.634.151-.192.373-.309.6-.397.473-.183.89-.514 1.212-.924a9.042 9.042 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75 2.25 2.25 0 012.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H14.23c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23h-.777zM2.331 10.977a11.969 11.969 0 00-.831 4.398 12 12 0 00.52 3.507c.26.85 1.084 1.368 1.973 1.368H4.9c.445 0 .72-.498.523-.898a8.963 8.963 0 01-.924-3.977c0-1.708.476-3.305 1.302-4.666.245-.403-.028-.959-.5-.959H4.25c-.832 0-1.612.453-1.918 1.227z"
-                  />
-                </svg>
-                <% } %>
-                <p class="text-base font-medium like-moule">
-                  <%= idea.likeCount %>
-                </p>
-              </div>
-  
-              <div class="flex flex-row items-center justify-center gap-1">
-                <% if(idea.isLike === false) { %>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  class="w-10 h-10 cursor-pointer dislike-icon text-sky-500"
-                >
-                  <path
-                    d="M15.73 5.25h1.035A7.465 7.465 0 0118 9.375a7.465 7.465 0 01-1.235 4.125h-.148c-.806 0-1.534.446-2.031 1.08a9.04 9.04 0 01-2.861 2.4c-.723.384-1.35.956-1.653 1.715a4.498 4.498 0 00-.322 1.672V21a.75.75 0 01-.75.75 2.25 2.25 0 01-2.25-2.25c0-1.152.26-2.243.723-3.218C7.74 15.724 7.366 15 6.748 15H3.622c-1.026 0-1.945-.694-2.054-1.715A12.134 12.134 0 011.5 12c0-2.848.992-5.464 2.649-7.521.388-.482.987-.729 1.605-.729H9.77a4.5 4.5 0 011.423.23l3.114 1.04a4.5 4.5 0 001.423.23zM21.669 13.773c.536-1.362.831-2.845.831-4.398 0-1.22-.182-2.398-.52-3.507-.26-.85-1.084-1.368-1.973-1.368H19.1c-.445 0-.72.498-.523.898.591 1.2.924 2.55.924 3.977a8.959 8.959 0 01-1.302 4.666c-.245.403.028.959.5.959h1.053c.832 0 1.612-.453 1.918-1.227z"
-                  />
-                </svg>
-                <%}else { %>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  class="w-10 h-10 cursor-pointer dislike-icon text-slate-700"
-                >
-                  <path
-                    d="M15.73 5.25h1.035A7.465 7.465 0 0118 9.375a7.465 7.465 0 01-1.235 4.125h-.148c-.806 0-1.534.446-2.031 1.08a9.04 9.04 0 01-2.861 2.4c-.723.384-1.35.956-1.653 1.715a4.498 4.498 0 00-.322 1.672V21a.75.75 0 01-.75.75 2.25 2.25 0 01-2.25-2.25c0-1.152.26-2.243.723-3.218C7.74 15.724 7.366 15 6.748 15H3.622c-1.026 0-1.945-.694-2.054-1.715A12.134 12.134 0 011.5 12c0-2.848.992-5.464 2.649-7.521.388-.482.987-.729 1.605-.729H9.77a4.5 4.5 0 011.423.23l3.114 1.04a4.5 4.5 0 001.423.23zM21.669 13.773c.536-1.362.831-2.845.831-4.398 0-1.22-.182-2.398-.52-3.507-.26-.85-1.084-1.368-1.973-1.368H19.1c-.445 0-.72.498-.523.898.591 1.2.924 2.55.924 3.977a8.959 8.959 0 01-1.302 4.666c-.245.403.028.959.5.959h1.053c.832 0 1.612-.453 1.918-1.227z"
-                  />
-                </svg>
-                <% } %>
-                <p class="text-base font-medium dislike-moule">
-                  <%= idea.disLikeCount %>
-                </p>
-              </div>
+                  <% if(idea.isLike === false) { %>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="w-10 h-10 cursor-pointer dislike-icon text-sky-500"
+                  >
+                    <path
+                      d="M15.73 5.25h1.035A7.465 7.465 0 0118 9.375a7.465 7.465 0 01-1.235 4.125h-.148c-.806 0-1.534.446-2.031 1.08a9.04 9.04 0 01-2.861 2.4c-.723.384-1.35.956-1.653 1.715a4.498 4.498 0 00-.322 1.672V21a.75.75 0 01-.75.75 2.25 2.25 0 01-2.25-2.25c0-1.152.26-2.243.723-3.218C7.74 15.724 7.366 15 6.748 15H3.622c-1.026 0-1.945-.694-2.054-1.715A12.134 12.134 0 011.5 12c0-2.848.992-5.464 2.649-7.521.388-.482.987-.729 1.605-.729H9.77a4.5 4.5 0 011.423.23l3.114 1.04a4.5 4.5 0 001.423.23zM21.669 13.773c.536-1.362.831-2.845.831-4.398 0-1.22-.182-2.398-.52-3.507-.26-.85-1.084-1.368-1.973-1.368H19.1c-.445 0-.72.498-.523.898.591 1.2.924 2.55.924 3.977a8.959 8.959 0 01-1.302 4.666c-.245.403.028.959.5.959h1.053c.832 0 1.612-.453 1.918-1.227z"
+                    />
+                  </svg>
+                  <%}else { %>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="w-10 h-10 cursor-pointer dislike-icon text-slate-700"
+                  >
+                    <path
+                      d="M15.73 5.25h1.035A7.465 7.465 0 0118 9.375a7.465 7.465 0 01-1.235 4.125h-.148c-.806 0-1.534.446-2.031 1.08a9.04 9.04 0 01-2.861 2.4c-.723.384-1.35.956-1.653 1.715a4.498 4.498 0 00-.322 1.672V21a.75.75 0 01-.75.75 2.25 2.25 0 01-2.25-2.25c0-1.152.26-2.243.723-3.218C7.74 15.724 7.366 15 6.748 15H3.622c-1.026 0-1.945-.694-2.054-1.715A12.134 12.134 0 011.5 12c0-2.848.992-5.464 2.649-7.521.388-.482.987-.729 1.605-.729H9.77a4.5 4.5 0 011.423.23l3.114 1.04a4.5 4.5 0 001.423.23zM21.669 13.773c.536-1.362.831-2.845.831-4.398 0-1.22-.182-2.398-.52-3.507-.26-.85-1.084-1.368-1.973-1.368H19.1c-.445 0-.72.498-.523.898.591 1.2.924 2.55.924 3.977a8.959 8.959 0 01-1.302 4.666c-.245.403.028.959.5.959h1.053c.832 0 1.612-.453 1.918-1.227z"
+                    />
+                  </svg>
+                  <% } %>
+                  <p class="text-base font-medium dislike-moule">
+                    <%= idea.disLikeCount %>
+                  </p>
+                </div>
+
                 <div
                   class="flex flex-row items-center justify-center gap-1 view"
                 >
@@ -361,6 +365,7 @@
                   <p class="text-base font-medium"><%= idea.viewCount %></p>
                 </div>
               </div>
+
               <div class="comment-icon">
                 <a href="/ideas/<%= idea._id %>/detail">
                   <svg
@@ -544,53 +549,164 @@
   <form class="hidden" name="delete-idea-form" method="POST"></form>
   <% } %>
 
-    <!-- Main modal Update Password -->
-<div id="authentication-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-  <div class="relative w-full h-full max-w-md md:h-auto">
+  <!-- Main modal Update Password -->
+  <div
+    id="authentication-modal"
+    tabindex="-1"
+    aria-hidden="true"
+    class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full"
+  >
+    <div class="relative w-full h-full max-w-md md:h-auto">
       <!-- Modal content -->
       <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-          <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="authentication-modal">
-              <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-              <span class="sr-only">Close modal</span>
-          </button>
-          <div class="px-6 py-6 lg:px-8">
-              <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Change your password</h3>
-              <form class="space-y-6" action="#">
-                  <div>
-                      <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Old password</label>
-                      <input type="password" id="oldPassword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="••••••••" required>
-                      <i
-                        class="bi bi-eye-slash float-right relative z-30 -mt-9 cursor-pointer mr-2 select-none"
-                        id="toggleOldPassword"
-                      ></i>
-                  </div>
-                  <div>
-                      <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New password</label>
-                      <input type="password" name="password" id="newPassword" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
-                      <i
-                        class="bi bi-eye-slash float-right relative z-30 -mt-9 cursor-pointer mr-2 select-none"
-                        id="togglePassword"
-                      ></i>
-                  </div>
-                  <div>
-                      <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
-                      <input type="password" name="password" id="confirmPassword" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
-                  </div>
-                  <h3
-                    class="ml-3 text-sm font-medium"
-                    id="errorMessage"
-                    style="color: red; display:none"
-                  >
-                    
-                  </h3>
-                  <button type="submit" id="handleUpdatePassword" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-              </form>
-          </div>
+        <button
+          type="button"
+          class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+          data-modal-hide="authentication-modal"
+        >
+          <svg
+            aria-hidden="true"
+            class="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+        <div class="px-6 py-6 lg:px-8">
+          <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+            Change your password
+          </h3>
+          <form class="space-y-6" action="#">
+            <div>
+              <label
+                for="email"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Old password</label
+              >
+              <input
+                type="password"
+                id="oldPassword"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                placeholder="••••••••"
+                required
+              />
+              <i
+                class="relative z-30 float-right mr-2 cursor-pointer select-none bi bi-eye-slash -mt-9"
+                id="toggleOldPassword"
+              ></i>
+            </div>
+            <div>
+              <label
+                for="password"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >New password</label
+              >
+              <input
+                type="password"
+                name="password"
+                id="newPassword"
+                placeholder="••••••••"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                required
+              />
+              <i
+                class="relative z-30 float-right mr-2 cursor-pointer select-none bi bi-eye-slash -mt-9"
+                id="togglePassword"
+              ></i>
+            </div>
+            <div>
+              <label
+                for="password"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Confirm password</label
+              >
+              <input
+                type="password"
+                name="password"
+                id="confirmPassword"
+                placeholder="••••••••"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                required
+              />
+            </div>
+            <h3
+              class="ml-3 text-sm font-medium"
+              id="errorMessage"
+              style="color: red; display: none"
+            ></h3>
+            <button
+              type="submit"
+              id="handleUpdatePassword"
+              class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
       </div>
+    </div>
   </div>
-</div> 
 </Main>
 
+
+<script>
+  const like = document.getElementsByClassName("like-icon");
+  const dislike = document.getElementsByClassName("dislike-icon");
+
+  for (let i = 0; i < like.length; i++) {
+    console.log("like");
+    // eslint-disable-next-line no-loop-func
+    like[i].addEventListener("click", () => {
+      $.ajax({
+        type: "PUT",
+        url: "http://localhost:3000/ideas/like",
+        data: { IdIdea: $(".id-idea").eq(i).val(), isLike: true },
+      }).then((response) => {
+        $(".like-moule").eq(i).empty();
+        $(".like-moule")[i].append(response.newLikeCount);
+        $(".dislike-moule").eq(i).empty();
+        $(".dislike-moule")[i].append(response.newDisLikeCount);
+      });
+
+      if (dislike[i].classList.contains("text-sky-500")) {
+        dislike[i].classList.remove("text-sky-500");
+        dislike[i].classList.add("text-slate-700");
+      }
+      like[i].classList.toggle("text-sky-500");
+      like[i].classList.toggle("text-slate-700");
+    });
+  }
+
+  for (let i = 0; i < dislike.length; i++) {
+    // eslint-disable-next-line no-loop-func
+    dislike[i].addEventListener("click", () => {
+      $.ajax({
+        type: "PUT",
+        url: "http://localhost:3000/ideas/dislike",
+        data: { IdIdea: $(".id-idea").eq(i).val(), isLike: false },
+      }).then((response) => {
+        $(".like-moule").eq(i).empty();
+        $(".dislike-moule").eq(i).empty();
+        $(".like-moule")[i].append(response.newLikeCount);
+        $(".dislike-moule")[i].append(response.newDisLikeCount);
+      });
+
+      if (like[i].classList.contains("text-sky-500")) {
+        like[i].classList.remove("text-sky-500");
+        like[i].classList.add("text-slate-700");
+      }
+      dislike[i].classList.toggle("text-sky-500");
+      dislike[i].classList.toggle("text-slate-700");
+    });
+  }
+</script>
 
 <script>
   let idIdea = document.getElementsByClassName("getIdIdea");
@@ -610,8 +726,8 @@
     });
   }
 
-  const input = document.getElementById('avatarUpload');
-  const avatarPreview = document.getElementById('avatar-preview');
+  const input = document.getElementById("avatarUpload");
+  const avatarPreview = document.getElementById("avatar-preview");
 
   const togglePassword = document.getElementById("togglePassword");
   const password = document.getElementById("password");
@@ -628,46 +744,48 @@
 
   toggleOldPassword.addEventListener("click", () => {
     const type =
-    oldPassword.getAttribute("type") === "password" ? "text" : "password";
+      oldPassword.getAttribute("type") === "password" ? "text" : "password";
     oldPassword.setAttribute("type", type);
     this.classList.toggle("fa-eye-slash");
   });
 
-  const btmSubmitUpdatePassword = document.getElementById("handleUpdatePassword")
-  btmSubmitUpdatePassword.addEventListener('click', changePassword);
+  const btmSubmitUpdatePassword = document.getElementById(
+    "handleUpdatePassword",
+  );
+  btmSubmitUpdatePassword.addEventListener("click", changePassword);
 
   function changePassword(event) {
     event.preventDefault();
-  
+
     const oldPasswordElement = document.getElementById("oldPassword").value;
     const newPasswordElement = document.getElementById("newPassword").value;
-    const confirmPasswordElement = document.getElementById("confirmPassword").value;
+    const confirmPasswordElement =
+      document.getElementById("confirmPassword").value;
 
     let data = {
       oldPassword: oldPasswordElement,
       newPassword: newPasswordElement,
       confirmPassword: confirmPasswordElement,
-    }
+    };
 
     fetch("/auth/changePassword", {
       method: "PATCH",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log("Response from server:", data);
-      if (data.success === false) {
-        const errorMessageElement = document.getElementById("errorMessage");
-        errorMessageElement.style.display = "block";
-        errorMessageElement.textContent = data.message
-      }
-    })
-    .catch(error => {
-      console.error("Error occurred:", error);
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Response from server:", data);
+        if (data.success === false) {
+          const errorMessageElement = document.getElementById("errorMessage");
+          errorMessageElement.style.display = "block";
+          errorMessageElement.textContent = data.message;
+        }
+      })
+      .catch((error) => {
+        console.error("Error occurred:", error);
+      });
   }
-
 </script>

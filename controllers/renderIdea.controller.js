@@ -12,6 +12,7 @@ const PollService = require("../services/poll.service");
 
 const renderCreateIdeaPage = async (req, res) => {
   const staff = req.cookies.Staff;
+  const account = await staffService.displayStaffById(staff._id);
   console.log(
     "🚀 ~ file: idea.controller.js:35 ~ renderCreateIdeaPage ~ staff:",
     staff,
@@ -26,6 +27,7 @@ const renderCreateIdeaPage = async (req, res) => {
     staff,
     newestPoll,
     departments,
+    account,
     role: staff.idRole.nameRole,
   });
 };
@@ -230,6 +232,10 @@ const getIdeaForStaff = async (req, res) => {
     };
     const query = { idStaffIdea: StaffData._id };
     const staffProfile = await staffService.displayStaffById(StaffData._id);
+    const allStaffIdea = await staffIdeaService.getAllWithQuery({
+      idStaff: StaffData._id,
+      isLike: { $in: [true, false] },
+    });
     const allIdea = await ideaService.getAllWithQuery(options, query);
 
     // Check Date of poll
@@ -273,6 +279,19 @@ const getIdeaForStaff = async (req, res) => {
       }
     });
 
+    if (allStaffIdea) {
+      allIdea.docs.forEach((idea) => {
+        const staffIdea = allStaffIdea.find(
+          (sIdea) => sIdea.IdIdea.toString() === idea._id.toString(),
+        );
+        if (staffIdea) {
+          idea.isLike = staffIdea.isLike;
+        } else {
+          idea.isLike = null;
+        }
+      });
+    }
+
     allIdea.docs = allIdea.docs.filter((doc) => doc.idStaffIdea !== null);
 
     const data = { allIdea, staffPayload };
@@ -302,7 +321,6 @@ const getIdeaForStaff = async (req, res) => {
       isHandleAction,
       isCreateNewIdea,
     });
-    // return res.status(200).send(data);
   } catch (err) {
     console.log(
       "🚀 ~ file: idea.controller.js:136 ~ displayAllIdea ~ err",
