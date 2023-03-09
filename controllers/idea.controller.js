@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-restricted-syntax */
@@ -21,6 +22,8 @@ const sendMail = require("../utilities/sendMail");
 const Staff = require("../database/models/Staff");
 const ideaModel = require("../database/models/Idea");
 const commentModel = require("../database/models/Comment");
+// eslint-disable-next-line import/order
+const console = require("console");
 
 // Set up the multer middleware to handle file uploads
 const storage = multer.diskStorage({
@@ -184,19 +187,15 @@ const displayDetailIdea = async (req, res) => {
 const displayAllIdea = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
+    const sort = req.query.Sort;
+    const pollId = req.query.idPoll;
+    const departmentId = req.query.idDepartment;
+    const exception = req.query.Exception;
 
     const anonymous = {
       fullName: "anonymous",
       avatarImage: null,
     };
-
-    const sort = req.query.Sort;
-
-    const pollId = req.query.idPoll;
-
-    const departmentId = req.query.idDepartment;
-
-    const exception = req.query.Exception;
 
     // const query = {
     //   status: { $in: ["Private", "Public"] },
@@ -248,8 +247,34 @@ const displayAllIdea = async (req, res) => {
       options.sort = { viewCount: 1 };
     }
 
-    const allIdea = await ideaService.getAllWithQuery(options, query);
-    if (!allIdea.docs) return res.redirect("/errors");
+    let allIdea;
+
+    if (exception === "Without comment") {
+      allIdea = await ideaService.getAllWithQuery(options, query);
+      // eslint-disable-next-line prefer-const
+      let ideasWithoutComment = [];
+
+      // eslint-disable-next-line prefer-const
+      for (let idea of allIdea.docs) {
+        const comments = await commentModel.find({ idIdea: idea._id });
+        if (comments.length === 0) {
+          ideasWithoutComment.push(idea);
+        }
+      }
+
+      allIdea.docs = ideasWithoutComment;
+      console.log(
+        "🚀 ~ file: idea.controller.js:266 ~ displayAllIdea ~ allIdea.docs:",
+        allIdea.docs,
+      );
+
+      if (!allIdea.docs) return res.redirect("/errors");
+    } else {
+      allIdea = await ideaService.getAllWithQuery(options, query);
+      if (!allIdea.docs) return res.redirect("/errors");
+    }
+
+    // if (!allIdea.docs) return res.redirect("/errors");
 
     const allStaffIdea = await staffIdeaService.getAllWithQuery({
       idStaff: staff._id,
@@ -318,7 +343,6 @@ const displayAllIdea = async (req, res) => {
       departments,
     });
   } catch (err) {
-    console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
     return err;
   }
 };
