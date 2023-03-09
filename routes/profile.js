@@ -3,11 +3,12 @@ const express = require("express");
 const router = express.Router();
 const AccountController = require("../controllers/account.controller");
 const IdeaController = require("../controllers/idea.controller");
+const renderIdeaController = require("../controllers/renderIdea.controller");
 
-router.get("/", IdeaController.getIdeaForStaff);
+router.get("/", renderIdeaController.getIdeaForStaff);
 
 // router.get("/:idAccount", AccountController.displayAccountById);
-router.get("/idea", IdeaController.getIdeaForStaff);
+router.get("/idea", renderIdeaController.getIdeaForStaff);
 // router.post("/idea", IdeaController.createIdea);
 // router.put("/:idIdea", IdeaController.updateIdea);
 // router.delete("/:idIdea", IdeaController.deleteIdea);
