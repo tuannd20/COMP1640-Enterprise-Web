@@ -190,6 +190,14 @@ const displayAllIdea = async (req, res) => {
       avatarImage: null,
     };
 
+    const sort = req.query.Sort;
+
+    const poll = req.query.idPoll;
+
+    const department = req.query.idDepartment;
+
+    const exception = req.query.Exception;
+
     const query = { status: { $in: ["Private", "Public"] } };
     const { page = 1 } = req.query;
     const limit = 5;
@@ -276,85 +284,6 @@ const displayAllIdea = async (req, res) => {
   }
 };
 
-const displayAllIdeaWithFilter = async (req, res) => {
-  try {
-    // const staff = req.cookies.Staff;
-    // console.log(
-    //   "🚀 ~ file: idea.controller.js:290 ~ displayAllIdeaWithFilter ~ staff:",
-    //   staff,
-    // );
-
-    // const show1 = req.query.Sort;
-    // console.log(
-    //   "🚀 ~ file: idea.controller.js:293 ~ displayAllIdeaWithFilter ~ show1:",
-    //   show1,
-    // );
-
-    // const show2 = req.query.idPoll;
-    // console.log(
-    //   "🚀 ~ file: idea.controller.js:296 ~ displayAllIdeaWithFilter ~ show2:",
-    //   show2,
-    // );
-
-    // const show3 = req.query.idDepartment;
-    // console.log(
-    //   "🚀 ~ file: idea.controller.js:299 ~ displayAllIdeaWithFilter ~ show3:",
-    //   show3,
-    // );
-
-    // const show4 = req.query.Exception;
-    // console.log(
-    //   "🚀 ~ file: idea.controller.js:302 ~ displayAllIdeaWithFilter ~ show4:",
-    //   show4,
-    // );
-
-    // const anonymous = {
-    //   fullName: "anonymous",
-    //   avatarImage: null,
-    // };
-
-    // const allIdea = await ideaModel.find();
-
-    // const IdeaFilled = await ideaModel.aggregate([
-    //   // Lấy các Idea theo trạng thái Public
-    //   { $match: { status: "PUBLIC" } },
-
-    //   // Thêm trường mới là số lượng Comment của mỗi Idea
-    //   {
-    //     $lookup: {
-    //       from: "comments",
-    //       localField: "_id",
-    //       foreignField: "idIdea",
-    //       as: "comments",
-    //     },
-    //   },
-    //   { $addFields: { commentCount: { $size: "$comments" } } },
-
-    //   // Lọc ra các Idea chưa có Comment
-    //   { $match: { commentCount: 0 } },
-
-    //   // Sắp xếp theo likeCount và viewCount giảm dần -1 giam dan 1 tang dan
-    //   { $sort: { likeCount: -1, viewCount: -1 } },
-    // ]);
-
-    // const polls = await pollService.getPollActivated();
-    // const departments = await departmentService.getDepartmentActivated();
-
-    return res.status(200).send("OK");
-    // return res.render("partials/master", {
-    //   title: "Idea",
-    //   content: "../staff/homePage",
-    //   staff,
-    //   role: staff.idRole.nameRole,
-    //   ideas: IdeaFilled,
-    //   polls,
-    //   departments,
-    // });
-  } catch (err) {
-    return res.status(500).send("Internal Server Error");
-  }
-};
-
 const getIdeaForStaff = async (req, res) => {
   try {
     const staffPayload = req.cookies.Staff;
@@ -433,5 +362,4 @@ module.exports = {
   getIdeaForStaff,
   renderEditIdeaPage,
   deleteIdea,
-  displayAllIdeaWithFilter,
 };
