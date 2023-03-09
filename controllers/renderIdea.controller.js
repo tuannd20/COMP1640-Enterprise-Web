@@ -11,6 +11,7 @@ const commentService = require("../services/comment.service");
 
 const renderCreateIdeaPage = async (req, res) => {
   const staff = req.cookies.Staff;
+  const account = await staffService.displayStaffById(staff._id);
   console.log(
     "🚀 ~ file: idea.controller.js:35 ~ renderCreateIdeaPage ~ staff:",
     staff,
@@ -25,6 +26,7 @@ const renderCreateIdeaPage = async (req, res) => {
     staff,
     newestPoll,
     departments,
+    account,
     role: staff.idRole.nameRole,
   });
 };
@@ -267,7 +269,7 @@ const getIdeaForStaff = async (req, res) => {
     if (data.allIdea.docs.toString() === "") {
       isHaveIdeas = false;
     }
-
+    // return res.status(200).send(data);
     return res.render("partials/master", {
       title: "Your profile",
       content: "../staff/profilePage",
@@ -277,7 +279,6 @@ const getIdeaForStaff = async (req, res) => {
       isHaveIdeas,
       staffProfile,
     });
-    // return res.status(200).send(data);
   } catch (err) {
     console.log(
       "🚀 ~ file: idea.controller.js:136 ~ displayAllIdea ~ err",

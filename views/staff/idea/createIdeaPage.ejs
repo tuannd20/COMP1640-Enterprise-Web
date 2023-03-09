@@ -31,7 +31,7 @@
     >
       <div class="flex flex-row justify-between header-idea">
         <div class="flex flex-row items-center justify-center gap-2 mb-3">
-          <% if(staff.avatarImage === null) { %>
+          <% if(account.avatarImage === null) { %>
           <img
             src="<%= process.env.BASE_URL %>image/avatar.png"
             alt=""
@@ -39,13 +39,13 @@
           />
           <%}else { %>
           <img
-            src="<%= staff.avatarImage %>"
+            src="<%= process.env.BASE_URL %><%= account.avatarImage %>"
             alt=""
             class="w-24 h-24 border rounded-full"
           />
           <% } %>
           <div>
-            <p class="mb-1 text-lg font-medium"><%= staff.fullName %></p>
+            <p class="mb-1 text-lg font-medium"><%= account.fullName %></p>
             <div class="flex flex-row items-center gap-5">
               <div class="sort">
                 <div
@@ -124,8 +124,14 @@
       <div class="w-[95%] m-auto">
         <div class="flex flex-row justify-between footer-idea">
           <div>
-            <div class="h-38 border-2 rounded-lg upload-btn">
-              <input id="fileUpload" type="file" name="file" value="Upload" multiple />
+            <div class="border-2 rounded-lg h-38 upload-btn">
+              <input
+                id="fileUpload"
+                type="file"
+                name="file"
+                value="Upload"
+                multiple
+              />
             </div>
             <div id="previewFileUpload"></div>
           </div>
@@ -150,23 +156,28 @@
 </Main>
 
 <script>
-  const fileInput = document.getElementById('fileUpload');
-  const preview = document.getElementById('previewFileUpload');
+  const fileInput = document.getElementById("fileUpload");
+  const preview = document.getElementById("previewFileUpload");
 
-  fileInput.addEventListener('change', () => {
-    preview.innerHTML = '';
+  fileInput.addEventListener("change", () => {
+    preview.innerHTML = "";
     const files = fileInput.files;
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      if (file.type === 'application/pdf' || file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-        const name = document.createElement('p');
+      if (
+        file.type === "application/pdf" ||
+        file.type === "application/msword" ||
+        file.type ===
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      ) {
+        const name = document.createElement("p");
         name.textContent = file.name;
         preview.appendChild(name);
       }
 
       const reader = new FileReader();
 
-      reader.addEventListener('load', () => {
+      reader.addEventListener("load", () => {
         const img = new Image();
         img.src = reader.result;
         img.width = 200;

@@ -97,7 +97,7 @@
               />
               <%}else { %>
               <img
-                src="<%= idea.idStaffIdea.avatarImage %>"
+                src="<%= process.env.BASE_URL %><%= idea.idStaffIdea.avatarImage %>"
                 alt=""
                 class="border rounded-full w-14 h-14"
               />
