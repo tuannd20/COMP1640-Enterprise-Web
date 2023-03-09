@@ -198,7 +198,27 @@ const displayAllIdea = async (req, res) => {
 
     const exception = req.query.Exception;
 
-    const query = { status: { $in: ["Private", "Public"] } };
+    // const query = {
+    //   status: { $in: ["Private", "Public"] },
+    // };
+    // const { page = 1 } = req.query;
+    // const limit = 5;
+    // const options = {
+    //   page,
+    //   limit,
+    //   populate: { path: "idStaffIdea", model: Staff },
+    //   sort: { createdAt: -1 },
+    // };
+
+    // eslint-disable-next-line prefer-const
+    let query = {
+      status: { $in: ["Private", "Public"] },
+    };
+
+    if (exception === "Without comment") {
+      query.status = { $in: ["Private"] };
+    }
+
     const { page = 1 } = req.query;
     const limit = 5;
     const options = {
@@ -207,6 +227,18 @@ const displayAllIdea = async (req, res) => {
       populate: { path: "idStaffIdea", model: Staff },
       sort: { createdAt: -1 },
     };
+
+    if (sort === "Recently") {
+      options.sort = { createdAt: -1 };
+    } else if (sort === "Like high to low") {
+      options.sort = { likeCount: -1 };
+    } else if (sort === "Like low to high") {
+      options.sort = { likeCount: 1 };
+    } else if (sort === "View high to low") {
+      options.sort = { viewCount: -1 };
+    } else if (sort === "View low to high") {
+      options.sort = { viewCount: 1 };
+    }
 
     const allIdea = await ideaService.getAllWithQuery(options, query);
     if (!allIdea.docs) return res.redirect("/errors");
