@@ -18,7 +18,7 @@ router.get("/:id/detail", IdeaController.displayDetailIdea);
 
 router.post("/uploadIdea", upload.single("file"), IdeaController.createIdea);
 
-router.put("/updateIdea", IdeaController.updateIdea);
+router.put("/updateIdea", upload.none(), IdeaController.updateIdea);
 
 router.put("/like", interactController.LikeIdea);
 

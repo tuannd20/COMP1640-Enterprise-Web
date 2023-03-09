@@ -132,9 +132,13 @@
       </div>
       <div class="w-[95%] m-auto">
         <div class="flex flex-row justify-between footer-idea">
-          <div class="h-auto px-3 py-2 border-2 rounded-lg upload-btn">
-            <input type="file" name="file" value="Upload" multiple />
+          <div>
+            <div class="h-38 border-2 rounded-lg upload-btn">
+              <input id="fileUpload" type="file" name="file" value="Upload" multiple />
+            </div>
+            <div id="previewFileUpload"></div>
           </div>
+
           <div class="flex flex-row items-center justify-between gap-5">
             <div class="italic terms">
               <input type="checkbox" id="myCheck" required />
@@ -153,6 +157,35 @@
     </form>
   </div>
 </Main>
+
+<script>
+  const fileInput = document.getElementById('fileUpload');
+  const preview = document.getElementById('previewFileUpload');
+
+  fileInput.addEventListener('change', () => {
+    preview.innerHTML = '';
+    const files = fileInput.files;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (file.type === 'application/pdf' || file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        const name = document.createElement('p');
+        name.textContent = file.name;
+        preview.appendChild(name);
+      }
+
+      const reader = new FileReader();
+
+      reader.addEventListener('load', () => {
+        const img = new Image();
+        img.src = reader.result;
+        img.width = 200;
+        preview.appendChild(img);
+      });
+
+      reader.readAsDataURL(file);
+    }
+  });
+</script>
 
 <script>
   $(document).ready(function () {

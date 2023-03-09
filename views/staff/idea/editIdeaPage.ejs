@@ -23,7 +23,7 @@
       <div class="m-auto">Edit idea</div>
     </div>
     <form
-      action="/ideas/updateIdea/?_method=PUT"
+      action="/ideas/updateIdea?_method=PUT"
       method="POST"
       id="edit-form"
       enctype="multipart/form-data"
@@ -57,6 +57,7 @@
               <%= idea.idStaffIdea.fullName %>
             </p>
             <div class="flex flex-row items-center gap-5">
+              <!-- <input type="hidden" name="_method" value="PUT" hidden> -->
               <div class="sort">
                 <div
                   class="flex flex-row items-center justify-between gap-2 sort_button"
@@ -83,7 +84,7 @@
                 <label for="product-type">
                   Department
                   <select
-                    name="department-type"
+                    name="idDepartment"
                     form="edit-form"
                     class="border rounded-lg py-[2px] border-slate-400"
                     id="department-select"
@@ -103,7 +104,7 @@
                 <label for="type">
                   Category
                   <select
-                    name="Category"
+                    name="idCategory"
                     id="categoriesList"
                     form="edit-form"
                     required
@@ -123,19 +124,19 @@
       </div>
       <div class="content-idea mb-7">
         <textarea
-          name="content-idea"
+          name="contentIdea"
           required
           disabled
           class="block w-full mt-1 border-gray-300 rounded-md shadow-sm min-h-[200px] focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           placeholder="Your idea..."
         >
-<%= idea.contentIdea%></textarea
+          <%= idea.contentIdea%></textarea
         >
       </div>
       <div class="w-[95%] m-auto">
         <div class="flex flex-row justify-between footer-idea">
           <div class="px-3 py-2 border-2 rounded-lg upload-btn">
-            <input type="file" name="_method" value="PUT" multiple />
+            <input type="file" name="urlFile" multiple />
           </div>
           <div class="flex flex-row items-center justify-between gap-5">
             <div
