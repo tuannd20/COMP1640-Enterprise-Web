@@ -297,10 +297,9 @@ const displayAllIdea = async (req, res) => {
     const uniqueIdStaffIdeas = new Set(idStaffIdeas);
     const participants = uniqueIdStaffIdeas.size;
 
-    const percentage = `${(
-      (allIdea.totalDocs / allIdea.totalDocs) *
-      100
-    ).toFixed(2)}%`;
+    const percentage = `${((allIdea.totalDocs / all.totalDocs) * 100).toFixed(
+      2,
+    )}%`;
 
     const polls = await pollService.getPollActivated();
 
