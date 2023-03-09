@@ -226,7 +226,10 @@ const getIdeaForStaff = async (req, res) => {
     };
     const query = { idStaffIdea: StaffData._id };
     const staffProfile = await staffService.displayStaffById(StaffData._id);
-
+    const allStaffIdea = await staffIdeaService.getAllWithQuery({
+      idStaff: StaffData._id,
+      isLike: { $in: [true, false] },
+    });
     const allIdea = await ideaService.getAllWithQuery(options, query);
 
     allIdea.docs.forEach((element) => {
@@ -242,6 +245,19 @@ const getIdeaForStaff = async (req, res) => {
         }
       }
     });
+
+    if (allStaffIdea) {
+      allIdea.docs.forEach((idea) => {
+        const staffIdea = allStaffIdea.find(
+          (sIdea) => sIdea.IdIdea.toString() === idea._id.toString(),
+        );
+        if (staffIdea) {
+          idea.isLike = staffIdea.isLike;
+        } else {
+          idea.isLike = null;
+        }
+      });
+    }
 
     allIdea.docs = allIdea.docs.filter((doc) => doc.idStaffIdea !== null);
 
