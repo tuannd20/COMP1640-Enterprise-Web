@@ -180,8 +180,16 @@ const displayDetailIdea = async (req, res) => {
     if (idea.status === "Private") {
       idea.idStaffIdea = anonymous;
     }
-    if (typeof idea.urlFile === "undefined" || !isImageUrl(idea.urlFile)) {
-      idea.urlFile = null;
+
+    if (idea.urlFile != null) {
+      for (let i = 0; i < idea.urlFile.length; i += 1) {
+        if (
+          typeof idea.urlFile[i] === "undefined" ||
+          !isImageUrl(idea.urlFile[i])
+        ) {
+          idea.urlFile = null;
+        }
+      }
     }
 
     data.ideas = idea;
