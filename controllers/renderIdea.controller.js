@@ -222,41 +222,22 @@ const getIdeaForStaff = async (req, res) => {
     const options = {
       page,
       limit,
-      populate: { path: "idStaffIdea", select: "fullName avatarImage" },
+      populate: [
+        { path: "idStaffIdea", select: "fullName avatarImage" },
+        { path: "idPoll" },
+      ],
       sort: { createdAt: -1 },
     };
     const query = { idStaffIdea: StaffData._id };
     const staffProfile = await staffService.displayStaffById(StaffData._id);
+    const allIdea = await ideaService.getAllWithQuery(options, query);
 
     // Check Date of poll
     const currentDate = new Date();
-    const poll = await PollService.getPollNewest();
-
     let isCreateNewIdea = true;
     let isHandleAction;
 
-    if (
-      poll.dateStart.getTime() < currentDate.getTime() &&
-      poll.dateSubEnd.getTime() <= currentDate.getTime()
-    ) {
-      isCreateNewIdea = false;
-    }
-
-    if (
-      poll.dateStart.getTime() <=
-      currentDate.getTime() <
-      poll.dateSubEnd.getTime()
-    ) {
-      isHandleAction = true;
-    }
-
-    if (poll.dateSubEnd.getTime() <= currentDate.getTime()) {
-      isHandleAction = false;
-    }
-
-    const allIdea = await ideaService.getAllWithQuery(options, query);
-
-    allIdea.docs.forEach((element) => {
+    await allIdea.docs.forEach(async (element) => {
       // eslint-disable-next-line valid-typeof
       if (element.urlFile != null) {
         for (let i = 0; i < element.urlFile.length; i += 1) {
@@ -268,6 +249,28 @@ const getIdeaForStaff = async (req, res) => {
           }
         }
       }
+
+      console.log("helololo: ", element.idPoll._id);
+      const poll = await PollService.getPoll({ _id: element.idPoll._id });
+      console.log(poll);
+      if (
+        poll.dateStart.getTime() < currentDate.getTime() &&
+        poll.dateSubEnd.getTime() <= currentDate.getTime()
+      ) {
+        isCreateNewIdea = false;
+      }
+
+      if (
+        poll.dateStart.getTime() <=
+        currentDate.getTime() <
+        poll.dateSubEnd.getTime()
+      ) {
+        isHandleAction = true;
+      }
+
+      if (poll.dateSubEnd.getTime() <= currentDate.getTime()) {
+        isHandleAction = false;
+      }
     });
 
     allIdea.docs = allIdea.docs.filter((doc) => doc.idStaffIdea !== null);
@@ -277,6 +280,15 @@ const getIdeaForStaff = async (req, res) => {
     let isHaveIdeas = true;
     if (data.allIdea.docs.toString() === "") {
       isHaveIdeas = false;
+    }
+
+    const poll = await PollService.getPollNewest();
+
+    if (
+      poll.dateStart.getTime() < currentDate.getTime() &&
+      poll.dateSubEnd.getTime() <= currentDate.getTime()
+    ) {
+      isCreateNewIdea = false;
     }
 
     return res.render("partials/master", {
