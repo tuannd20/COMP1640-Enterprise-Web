@@ -8,6 +8,7 @@ const Staff = require("../database/models/Staff");
 const staffService = require("../services/staff.service");
 const staffIdeaService = require("../services/staffIdea.service");
 const commentService = require("../services/comment.service");
+const PollService = require("../services/poll.service");
 
 const renderCreateIdeaPage = async (req, res) => {
   const staff = req.cookies.Staff;
@@ -227,6 +228,32 @@ const getIdeaForStaff = async (req, res) => {
     const query = { idStaffIdea: StaffData._id };
     const staffProfile = await staffService.displayStaffById(StaffData._id);
 
+    // Check Date of poll
+    const currentDate = new Date();
+    const poll = await PollService.getPollNewest();
+
+    let isCreateNewIdea = true;
+    let isHandleAction;
+
+    if (
+      poll.dateStart.getTime() < currentDate.getTime() &&
+      poll.dateSubEnd.getTime() <= currentDate.getTime()
+    ) {
+      isCreateNewIdea = false;
+    }
+
+    if (
+      poll.dateStart.getTime() <=
+      currentDate.getTime() <
+      poll.dateSubEnd.getTime()
+    ) {
+      isHandleAction = true;
+    }
+
+    if (poll.dateSubEnd.getTime() <= currentDate.getTime()) {
+      isHandleAction = false;
+    }
+
     const allIdea = await ideaService.getAllWithQuery(options, query);
 
     allIdea.docs.forEach((element) => {
@@ -260,6 +287,8 @@ const getIdeaForStaff = async (req, res) => {
       role: staffPayload.idRole.nameRole,
       isHaveIdeas,
       staffProfile,
+      isHandleAction,
+      isCreateNewIdea,
     });
     // return res.status(200).send(data);
   } catch (err) {
