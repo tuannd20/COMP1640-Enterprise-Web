@@ -369,6 +369,8 @@
 </Main>
 
 <script>
+  let selectDepartment = document.getElementById("idDepartment");
+  selectDepartment.value = "<%= staffByID.idDepartment.id %>";
   function generatePassword() {
     // const length = 6;
     let password = "";

@@ -101,10 +101,7 @@ const createStaff = async (req, res) => {
     const results = await StaffService.createStaff(payload);
     console.log(results);
 
-    const departmentDB = results.data.departmentRenders.map((department) => ({
-      _id: department._id,
-      nameDepartment: department.name,
-    }));
+    const departmentDB = await DepartmentService.getDepartmentActivated();
 
     const roleDB = results.data.roleRenders.map(
       (role) =>
@@ -206,10 +203,7 @@ const updateStaff = async (req, res) => {
     const staffByID = await StaffService.displayStaffById({ _id: id });
     // const updateObject = req.body;
     const results = await StaffService.updateStaff(id, req.body);
-    const departmentDB = results.data.departmentRenders.map((department) => ({
-      _id: department._id,
-      nameDepartment: department.name,
-    }));
+    const departmentDB = await DepartmentService.getDepartmentActivated();
 
     const roleDB = results.data.roleRenders.map(
       (role) =>
@@ -260,16 +254,33 @@ const editProfilePage = async (req, res) => {
   }
 };
 
-// const deleteOneStaff = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const staff = await StaffService.deleteOneStaff(id);
-//     return res.redirect("/admin/account");
-//   } catch (err) {
-//     console.log(err);
-//     return err;
-//   }
-// };
+const banAccountStaff = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const banStaff = await StaffService.banAccountStaff(id, {
+      lockAccount: true,
+    });
+
+    return res.redirect("/admin/account");
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+const unBanAccountStaff = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const unbanStaff = await StaffService.unBanAccountStaff(id, {
+      lockAccount: false,
+    });
+
+    return res.redirect("/admin/account");
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
 
 // const deleteAllStaff = async (req, res) => {
 //   try {
@@ -420,5 +431,7 @@ module.exports = {
   renderEditProfilePage,
   editProfilePage,
   renderExampleAccountPage,
+  banAccountStaff,
+  unBanAccountStaff,
   handleUpdateProfileAccount,
 };

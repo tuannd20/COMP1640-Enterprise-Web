@@ -226,14 +226,14 @@
   let idTerm = document.getElementsByClassName("getIdTerm");
   let trashTermBtn = document.getElementsByClassName("trashTerm");
 
-  let btnDeleteCategory = document.getElementById("btn-delete-term");
+  let btnDeleteTerm = document.getElementById("btn-delete-term");
   let deleteForm = document.forms["delete-term-form"];
 
   for (let i = 0; i < trashTermBtn.length; i++) {
     trashTermBtn[i].addEventListener("click", () => {
       const id = idTerm[i].value;
 
-      btnDeleteCategory.onclick = function () {
+      btnDeleteTerm.onclick = function () {
         deleteForm.action = "/admin/terms/delete/" + id + "?_method=DELETE";
         deleteForm.submit();
       };
