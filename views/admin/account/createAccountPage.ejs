@@ -49,6 +49,7 @@
                 form="create-form-account"
                 id="idDepartment"
                 class="border rounded-lg py-[2px] border-slate-400"
+                required
               >
                 <option value="">Select</option>
                 <% departments.forEach(function(department) { %>
@@ -82,18 +83,6 @@
                 <% }) %> -->
               </select>
             </label>
-          </div>
-          <div class="italic terms">
-            <label for="myCheck"> Active</label>
-            <input
-              type="checkbox"
-              id="lockAccount"
-              name="lockAccount"
-              form="create-form-account"
-              class="border rounded-full"
-              value="true"
-              onchange="handleChange()"
-            />
           </div>
         </div>
         <div class="mb-4">
@@ -196,10 +185,9 @@
               <select
                 name="idDepartment"
                 form="create-form-account"
-                id="idDepartmentDefault"
+                id="idDepartment"
                 class="border rounded-lg py-[2px] border-slate-400"
               >
-                <% var departmentDefault = 'ValueDepartment' %>
                 <option value="">Select</option>
                 <% departments.forEach(function(department) { %>
                 <option value="<%= department._id %>">
@@ -234,17 +222,6 @@
                 <% }) %> -->
               </select>
             </label>
-          </div>
-          <div class="italic terms">
-            <label for="myCheck"> Active</label>
-            <input
-              type="checkbox"
-              id="lockAccount"
-              name="lockAccount"
-              form="create-form-account"
-              class="border rounded-full"
-              value="true"
-            />
           </div>
         </div>
         <p class="text-red-600"><%= errorMessageSelect %></p>

@@ -19,7 +19,7 @@ const createRule = async (req, res) => {
     const staff = req.cookies.Staff;
 
     const titleTerms = req.body.title;
-    // const { titleRule, contentRule } = req.body;
+    const { titleRule, contentRule } = req.body;
     // localStorage.setItem("title", titleRule);
 
     const checkTitle = await RuleService.findByTitle(titleTerms);
@@ -41,6 +41,8 @@ const createRule = async (req, res) => {
       code: errorCode,
       isFailed: true,
       staff,
+      titleRule,
+      contentRule,
       role: staff.idRole.nameRole,
     });
 
