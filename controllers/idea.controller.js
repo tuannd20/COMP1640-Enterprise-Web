@@ -17,7 +17,7 @@ const createIdea = async (req, res) => {
     const filepaths = [];
 
     if (req.files) {
-      for (let i = 0; i < req.files.length; i++) {
+      for (let i = 0; i < req.files.length; i + 1) {
         const filePath = req.files[i].path;
         const fileName = req.files[i].originalname;
         const newFilePath = `public/uploads/${fileName}`;
