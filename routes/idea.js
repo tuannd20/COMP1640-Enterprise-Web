@@ -16,7 +16,7 @@ router.get("/:id", renderIdeaController.renderEditIdeaPage);
 
 router.get("/:id/detail", renderIdeaController.displayDetailIdea);
 
-router.post("/uploadIdea", upload.single("file"), IdeaController.createIdea);
+router.post("/uploadIdea", upload.array("file"), IdeaController.createIdea);
 
 router.put("/updateIdea", upload.none(), IdeaController.updateIdea);
 

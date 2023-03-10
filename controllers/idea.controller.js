@@ -12,20 +12,18 @@ const sendMail = require("../utilities/sendMail");
 
 const createIdea = async (req, res) => {
   try {
-    console.log(
-      "🚀 ~ file: idea.controller.js:33 ~ createIdea ~ req.body:",
-      req.body,
-    );
-
     const StaffData = req.cookies.Staff;
     const id = StaffData._id;
-    let newFilePath;
-    if (req.file) {
-      const filePath = req.file.path;
+    const filepaths = [];
 
-      const fileName = req.file.originalname;
-      newFilePath = `public/uploads/${fileName}`;
-      fs.renameSync(filePath, newFilePath);
+    if (req.files) {
+      for (let i = 0; i < req.files.length; i++) {
+        const filePath = req.files[i].path;
+        const fileName = req.files[i].originalname;
+        const newFilePath = `public/uploads/${fileName}`;
+        fs.renameSync(filePath, newFilePath);
+        filepaths.push(newFilePath);
+      }
     }
 
     if (
@@ -57,8 +55,8 @@ const createIdea = async (req, res) => {
       status: "Draft",
       idStaffIdea: id,
     };
-    if (newFilePath) {
-      data.urlFile = newFilePath;
+    if (filepaths.length > 0) {
+      data.urlFile = filepaths;
     }
     if (req.body.status) {
       data.status = req.body.status;

@@ -13,10 +13,7 @@ const PollService = require("../services/poll.service");
 const renderCreateIdeaPage = async (req, res) => {
   const staff = req.cookies.Staff;
   const account = await staffService.displayStaffById(staff._id);
-  console.log(
-    "🚀 ~ file: idea.controller.js:35 ~ renderCreateIdeaPage ~ staff:",
-    staff,
-  );
+
   const newestPoll = await pollService.getPollNewest();
 
   const departments = await departmentService.getDepartmentActivated();
@@ -81,7 +78,6 @@ const displayAllIdea = async (req, res) => {
     });
 
     allIdea.docs.forEach((element) => {
-      // eslint-disable-next-line valid-typeof
       if (element.urlFile != null) {
         for (let i = 0; i < element.urlFile.length; i += 1) {
           if (
@@ -133,7 +129,6 @@ const displayAllIdea = async (req, res) => {
       100
     ).toFixed(2)}%`;
 
-    // return res.json(allIdea.docs);
     return res.render("partials/master", {
       title: "Idea",
       content: "../staff/homePage",
@@ -198,7 +193,6 @@ const displayDetailIdea = async (req, res) => {
     data.ideas = idea;
     data.comments = comment;
 
-    // return res.status(200).send(data);
     return res.render("partials/master", {
       title: "Idea detail",
       content: "../staff/idea/detailIdea",
@@ -207,7 +201,10 @@ const displayDetailIdea = async (req, res) => {
       role,
     });
   } catch (err) {
-    console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
+    console.error(
+      "🚀 ~ file: renderIdea.controller.js:204 ~ displayDetailIdea ~ err:",
+      err,
+    );
     return err;
   }
 };
@@ -238,13 +235,11 @@ const getIdeaForStaff = async (req, res) => {
     });
     const allIdea = await ideaService.getAllWithQuery(options, query);
 
-    // Check Date of poll
     const currentDate = new Date();
     let isCreateNewIdea = true;
     let isHandleAction;
 
     await allIdea.docs.forEach(async (element) => {
-      // eslint-disable-next-line valid-typeof
       if (element.urlFile != null) {
         for (let i = 0; i < element.urlFile.length; i += 1) {
           if (
@@ -322,10 +317,11 @@ const getIdeaForStaff = async (req, res) => {
       isCreateNewIdea,
     });
   } catch (err) {
-    console.log(
-      "🚀 ~ file: idea.controller.js:136 ~ displayAllIdea ~ err",
+    console.error(
+      "🚀 ~ file: renderIdea.controller.js:317 ~ getIdeaForStaff ~ err:",
       err,
     );
+
     return err;
   }
 };
