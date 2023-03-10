@@ -4,20 +4,11 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-underscore-dangle */
 const fs = require("fs");
-const multer = require("multer");
-const isImageUrl = require("is-image-url");
-const mongoose = require("mongoose");
-
-const upload = multer({ dest: "public/uploads/" });
 
 const ideaService = require("../services/idea.service");
 const staffService = require("../services/staff.service");
 const categoryService = require("../services/category.service");
-const departmentService = require("../services/department.service");
 const pollService = require("../services/poll.service");
-const staffIdeaService = require("../services/staffIdea.service");
-const commentService = require("../services/comment.service");
-const StaffIdeaModel = require("../database/models/StaffIdea");
 const sendMail = require("../utilities/sendMail");
 const Staff = require("../database/models/Staff");
 const ideaModel = require("../database/models/Idea");
@@ -25,68 +16,20 @@ const commentModel = require("../database/models/Comment");
 // eslint-disable-next-line import/order
 const console = require("console");
 
-// Set up the multer middleware to handle file uploads
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, "../public/uploads");
-  },
-  filename(req, file, cb) {
-    cb(null, file.originalname);
-  },
-});
-
-const renderCreateIdeaPage = async (req, res) => {
-  const staff = req.cookies.Staff;
-  console.log(
-    "🚀 ~ file: idea.controller.js:35 ~ renderCreateIdeaPage ~ staff:",
-    staff,
-  );
-  const newestPoll = await pollService.getPollNewest();
-
-  const departments = await departmentService.getDepartmentActivated();
-
-  return res.render("partials/master", {
-    title: "Your Idea",
-    content: "../staff/idea/createIdeaPage",
-    staff,
-    newestPoll,
-    departments,
-    role: staff.idRole.nameRole,
-  });
-};
-
-const renderEditIdeaPage = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const staff = req.cookies.Staff;
-    const departments = await departmentService.getAllDepartment();
-    const idea = await ideaService.getIdea(id);
-    console.log(idea.status);
-
-    return res.render("partials/master", {
-      title: "Your Idea",
-      content: "../staff/idea/editIdeaPage",
-      staff,
-      idea,
-      departments,
-      role: staff.idRole.nameRole,
-    });
-  } catch (error) {
-    return error;
-  }
-};
-
 const createIdea = async (req, res) => {
   try {
     const StaffData = req.cookies.Staff;
     const id = StaffData._id;
-    let newFilePath;
-    if (req.file) {
-      const filePath = req.file.path;
+    const filepaths = [];
 
-      const fileName = req.file.originalname;
-      newFilePath = `public/uploads/${fileName}`;
-      fs.renameSync(filePath, newFilePath);
+    if (req.files) {
+      for (let i = 0; i < req.files.length; i + 1) {
+        const filePath = req.files[i].path;
+        const fileName = req.files[i].originalname;
+        const newFilePath = `public/uploads/${fileName}`;
+        fs.renameSync(filePath, newFilePath);
+        filepaths.push(newFilePath);
+      }
     }
 
     if (
@@ -118,8 +61,8 @@ const createIdea = async (req, res) => {
       status: "Draft",
       idStaffIdea: id,
     };
-    if (newFilePath) {
-      data.urlFile = newFilePath;
+    if (filepaths.length > 0) {
+      data.urlFile = filepaths;
     }
     if (req.body.status) {
       data.status = req.body.status;
@@ -155,255 +98,6 @@ const createIdea = async (req, res) => {
   }
 };
 
-const displayDetailIdea = async (req, res) => {
-  try {
-    const staff = req.cookies.Staff;
-    const role = staff.idRole.nameRole;
-    const data = { ideas: "John", comments: [] };
-
-    if (!req.params.id) return res.redirect("/errors");
-    const idea = await ideaService.getIdea(req.params.id);
-    const comment = await commentService.getAllCommentOfIdea(idea._id);
-    if (!idea || !comment) return res.redirect("/errors");
-    if (idea.idStaffIdea == null) return res.redirect("/errors");
-
-    data.ideas = idea;
-    data.comments = comment;
-
-    // return res.status(200).send(data);
-    return res.render("partials/master", {
-      title: "Idea detail",
-      content: "../staff/idea/detailIdea",
-      data,
-      staff,
-      role,
-    });
-  } catch (err) {
-    console.log("🚀 ~ file: idea.controller.js:15 ~ createIdea ~ err", err);
-    return err;
-  }
-};
-
-const displayAllIdea = async (req, res) => {
-  try {
-    const staff = req.cookies.Staff;
-    const sort = req.query.Sort;
-    const pollId = req.query.idPoll;
-    const departmentId = req.query.idDepartment;
-    const exception = req.query.Exception;
-
-    const anonymous = {
-      fullName: "anonymous",
-      avatarImage: null,
-    };
-
-    // const query = {
-    //   status: { $in: ["Private", "Public"] },
-    // };
-    // const { page = 1 } = req.query;
-    // const limit = 5;
-    // const options = {
-    //   page,
-    //   limit,
-    //   populate: { path: "idStaffIdea", model: Staff },
-    //   sort: { createdAt: -1 },
-    // };
-
-    // eslint-disable-next-line prefer-const
-    let query = {
-      status: { $in: ["Private", "Public"] },
-    };
-
-    if (pollId) {
-      query.idPoll = pollId;
-    }
-
-    if (departmentId) {
-      query.idDepartment = departmentId;
-    }
-
-    if (exception === "Anonymous") {
-      query.status = ["Private"];
-    }
-
-    const { page = 1 } = req.query;
-    const limit = 5;
-    const options = {
-      page,
-      limit,
-      populate: { path: "idStaffIdea", model: Staff },
-      sort: { createdAt: -1 },
-    };
-
-    if (sort === "Recently") {
-      options.sort = { createdAt: -1 };
-    } else if (sort === "Like high to low") {
-      options.sort = { likeCount: -1 };
-    } else if (sort === "Like low to high") {
-      options.sort = { likeCount: 1 };
-    } else if (sort === "View high to low") {
-      options.sort = { viewCount: -1 };
-    } else if (sort === "View low to high") {
-      options.sort = { viewCount: 1 };
-    }
-
-    let allIdea;
-
-    if (exception === "Without comment") {
-      allIdea = await ideaService.getAllWithQuery(options, query);
-      // eslint-disable-next-line prefer-const
-      let ideasWithoutComment = [];
-
-      // eslint-disable-next-line prefer-const
-      for (let idea of allIdea.docs) {
-        const comments = await commentModel.find({ idIdea: idea._id });
-        if (comments.length === 0) {
-          ideasWithoutComment.push(idea);
-        }
-      }
-
-      allIdea.docs = ideasWithoutComment;
-      console.log(
-        "🚀 ~ file: idea.controller.js:266 ~ displayAllIdea ~ allIdea.docs:",
-        allIdea.docs,
-      );
-
-      if (!allIdea.docs) return res.redirect("/errors");
-    } else {
-      allIdea = await ideaService.getAllWithQuery(options, query);
-      if (!allIdea.docs) return res.redirect("/errors");
-    }
-
-    // if (!allIdea.docs) return res.redirect("/errors");
-
-    const allStaffIdea = await staffIdeaService.getAllWithQuery({
-      idStaff: staff._id,
-      isLike: { $in: [true, false] },
-    });
-
-    allIdea.docs.forEach((element, index) => {
-      if (
-        typeof element.urlFile === "undefined" ||
-        !isImageUrl(element.urlFile)
-      ) {
-        element.urlFile = null;
-      }
-      if (!element.idStaffIdea || element.status === "Private") {
-        element.idStaffIdea = anonymous;
-      }
-    });
-    if (allStaffIdea) {
-      allIdea.docs.forEach((idea) => {
-        const staffIdea = allStaffIdea.find(
-          (sIdea) => sIdea.IdIdea.toString() === idea._id.toString(),
-        );
-        if (staffIdea) {
-          idea.isLike = staffIdea.isLike;
-        } else {
-          idea.isLike = null;
-        }
-      });
-    }
-
-    const all = await ideaService.getAllWithQuery(
-      {},
-      {
-        status: { $in: ["Private", "Public"] },
-      },
-    );
-    // console.log(
-    //   "🚀 ~ file: idea.controller.js:235 ~ displayAllIdea ~ all:",
-    //   all,
-    // );
-
-    if (!all.docs) return res.redirect("/errors");
-    const idStaffIdeas = all.docs.map((obj) => obj.idStaffIdea);
-
-    const uniqueIdStaffIdeas = new Set(idStaffIdeas);
-    const participants = uniqueIdStaffIdeas.size;
-
-    const percentage = `${((allIdea.totalDocs / all.totalDocs) * 100).toFixed(
-      2,
-    )}%`;
-
-    const polls = await pollService.getPollActivated();
-
-    const departments = await departmentService.getDepartmentActivated();
-
-    // return res.json(allIdea.docs);
-    return res.render("partials/master", {
-      title: "Idea",
-      content: "../staff/homePage",
-      staff,
-      role: staff.idRole.nameRole,
-      ideas: allIdea,
-      participants,
-      percentage,
-      polls,
-      departments,
-    });
-  } catch (err) {
-    return err;
-  }
-};
-
-const getIdeaForStaff = async (req, res) => {
-  try {
-    const staffPayload = req.cookies.Staff;
-    const StaffData = req.cookies.Staff;
-    if (!mongoose.Types.ObjectId.isValid(StaffData._id)) {
-      return res.redirect("/Error");
-    }
-    const { page = 1 } = req.query;
-    const limit = 5;
-    const options = {
-      page,
-      limit,
-      populate: { path: "idStaffIdea", select: "fullName avatarImage" },
-      sort: { createdAt: -1 },
-    };
-    const query = { idStaffIdea: StaffData._id };
-
-    const staffProfile = await staffService.displayStaffById(StaffData._id);
-
-    const allIdea = await ideaService.getAllWithQuery(options, query);
-
-    allIdea.docs.forEach((element) => {
-      if (
-        typeof element.urlFile === "undefined" ||
-        !isImageUrl(element.urlFile)
-      ) {
-        element.urlFile = null;
-      }
-    });
-    allIdea.docs = allIdea.docs.filter((doc) => doc.idStaffIdea !== null);
-
-    const data = { allIdea, staffPayload };
-
-    let isHaveIdeas = true;
-    if (data.allIdea.docs.toString() === "") {
-      isHaveIdeas = false;
-    }
-
-    return res.render("partials/master", {
-      title: "Your profile",
-      content: "../staff/profilePage",
-      data,
-      staff: staffPayload,
-      role: staffPayload.idRole.nameRole,
-      isHaveIdeas,
-      staffProfile,
-    });
-    // return res.status(200).send(data);
-  } catch (err) {
-    console.log(
-      "🚀 ~ file: idea.controller.js:136 ~ displayAllIdea ~ err",
-      err,
-    );
-    return err;
-  }
-};
-
 const deleteIdea = async (req, res) => {
   try {
     const { id } = req.params;
@@ -417,12 +111,21 @@ const deleteIdea = async (req, res) => {
   }
 };
 
+const updateIdea = async (req, res) => {
+  try {
+    console.log(
+      "🚀 ~ file: idea.controller.js:136 ~ updateIdea ~ req:",
+      req.body,
+    );
+
+    return res.status(200).send("oke");
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
-  renderCreateIdeaPage,
   createIdea,
-  displayDetailIdea,
-  displayAllIdea,
-  getIdeaForStaff,
-  renderEditIdeaPage,
   deleteIdea,
+  updateIdea,
 };

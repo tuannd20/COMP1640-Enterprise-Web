@@ -88,7 +88,7 @@
                 <td class="py-3 px-6 text-center">
                   <span class="font-medium"><%= staff.idRole.nameRole %></span>
                 </td>
-                <% if (staff.lockAccount === true) { %>
+                <% if (staff.lockAccount === false) { %>
                 <td class="py-3 px-6 text-center">
                   <span
                     class="bg-green-600 text-white py-1 px-3 rounded-full text-xs"
@@ -124,6 +124,201 @@
                         </svg>
                       </a>
                     </div>
+                    <% if (staff.lockAccount === true) { %>
+                    <button
+                      data-modal-target="popup-modal"
+                      data-modal-toggle="popup-modal"
+                      data-staff-id="<%= staff._id%>"
+                      type="button"
+                      class="unBanAccountStaff w-6 mr-2 transform hover:text-sky-900 hover:scale-110"
+                    >
+                      <input
+                        type="text"
+                        class="getIdUnbanAccountStaff hidden"
+                        value="<%= staff._id%>"
+                      />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="{1.5}"
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </button>
+                    <div
+                      id="popup-modal"
+                      tabindex="-1"
+                      class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
+                    >
+                      <div class="relative w-full h-full max-w-md md:h-auto">
+                        <div
+                          class="relative bg-white rounded-lg shadow dark:bg-gray-700"
+                        >
+                          <button
+                            type="button"
+                            class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                            data-modal-hide="popup-modal"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="w-5 h-5"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                clip-rule="evenodd"
+                              ></path>
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                          </button>
+                          <div class="p-6 text-center">
+                            <svg
+                              aria-hidden="true"
+                              class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              ></path>
+                            </svg>
+                            <h3
+                              class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"
+                            >
+                              Are you sure you want to unban this account?
+                            </h3>
+                            <button
+                              id="btn-unban-account-staff"
+                              type="button"
+                              class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
+                            >
+                              Yes, I'm sure
+                            </button>
+                            <button
+                              data-modal-hide="popup-modal"
+                              type="button"
+                              class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                            >
+                              No, cancel
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <%}else { %>
+                    <button
+                      data-modal-target="popup-modal-1"
+                      data-modal-toggle="popup-modal-1"
+                      data-staff-id="<%= staff._id%>"
+                      type="button"
+                      class="banAccountStaff w-6 mr-2 transform hover:text-sky-900 hover:scale-110"
+                    >
+                      <input
+                        type="text"
+                        class="getIdAccountStaff hidden"
+                        value="<%= staff._id%>"
+                      />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="{1.5}"
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+                        />
+                      </svg>
+                    </button>
+                    <div
+                      id="popup-modal-1"
+                      tabindex="-1"
+                      class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
+                    >
+                      <div class="relative w-full h-full max-w-md md:h-auto">
+                        <div
+                          class="relative bg-white rounded-lg shadow dark:bg-gray-700"
+                        >
+                          <button
+                            type="button"
+                            class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                            data-modal-hide="popup-modal-1"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="w-5 h-5"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"
+                              ></path>
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                          </button>
+                          <div class="p-6 text-center">
+                            <svg
+                              aria-hidden="true"
+                              class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              ></path>
+                            </svg>
+                            <h3
+                              class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"
+                            >
+                              Are you sure you want to ban this account?
+                            </h3>
+                            <button
+                              id="btn-ban-account-staff"
+                              type="button"
+                              class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
+                            >
+                              Yes, I'm sure
+                            </button>
+                            <button
+                              data-modal-hide="popup-modal-1"
+                              type="button"
+                              class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                            >
+                              No, cancel
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <% } %>
                   </div>
                 </td>
               </tr>
@@ -137,3 +332,59 @@
     </div>
   </div>
 </div>
+<form class="hidden" name="ban-account-staff-form" method="POST"></form>
+;
+<form class="hidden" name="unban-account-staff-form" method="POST"></form>
+;
+<script>
+  let idAccountStaff = document.getElementsByClassName("getIdAccountStaff");
+  let idUnbanAccountStaff = document.getElementsByClassName(
+    "getIdUnbanAccountStaff",
+  );
+  let banAccountStaffBtn = document.getElementsByClassName("banAccountStaff");
+  let btnBanAccountStaff = document.getElementById("btn-ban-account-staff");
+  let banAccountStaffForm = document.forms["ban-account-staff-form"];
+  let unBanAccountStaffBtn =
+    document.getElementsByClassName("unBanAccountStaff");
+  let btnUnBanAccountStaff = document.getElementById("btn-unban-account-staff");
+  let unBanAccountStaffForm = document.forms["unban-account-staff-form"];
+
+  for (let i = 0; i < banAccountStaffBtn.length; i++) {
+    banAccountStaffBtn[i].addEventListener("click", () => {
+      console.log(
+        "🚀 ~ file: listAccountDataPage.ejs:354 ~ banAccountStaffBtn[i].addEventListener ~ banAccountStaffBtn[i]:",
+        banAccountStaffBtn[i],
+      );
+      const id = idAccountStaff[i].value;
+      console.log(
+        "🚀 ~ file: listAccountDataPage.ejs:355 ~ banAccountStaffBtn[i].addEventListener ~ id:",
+        id,
+      );
+
+      btnBanAccountStaff.onclick = function () {
+        banAccountStaffForm.action =
+          "/admin/account/ban/" + id + "?_method=PUT";
+        banAccountStaffForm.submit();
+      };
+    });
+  }
+  for (let j = 0; j < unBanAccountStaffBtn.length; j++) {
+    unBanAccountStaffBtn[j].addEventListener("click", () => {
+      const id = idUnbanAccountStaff[j].value;
+      console.log(
+        "🚀 ~ file: listAccountDataPage.ejs:367 ~ unBanAccountStaffBtn[j].addEventListener ~ id:",
+        id,
+      );
+
+      btnUnBanAccountStaff.onclick = function () {
+        console.log(
+          "🚀 ~ file: listAccountDataPage.ejs:371 ~ unBanAccountStaffBtn[j].addEventListener ~  btnUnBanAccountStaff:",
+          btnUnBanAccountStaff,
+        );
+        unBanAccountStaffForm.action =
+          "/admin/account/unban/" + id + "?_method=PUT";
+        unBanAccountStaffForm.submit();
+      };
+    });
+  }
+</script>

@@ -31,7 +31,7 @@ const renderListCategoryPage = async (req, res, next) => {
   }
 };
 
-const rederCreateCategoryPage = async (req, res, next) => {
+const renderCreateCategoryPage = async (req, res, next) => {
   try {
     const staff = req.cookies.Staff;
     const Departments = await DepartmentService.getAllDepartment();
@@ -249,7 +249,7 @@ module.exports = {
   deleteAllCategory,
   deleteOneCategory,
   renderListCategoryPage,
-  rederCreateCategoryPage,
+  renderCreateCategoryPage,
   getCategoryActivated,
   findCategoryByIdDepartment,
 };

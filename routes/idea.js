@@ -7,15 +7,18 @@ const express = require("express");
 const router = express.Router();
 const interactController = require("../controllers/interact.controller");
 const IdeaController = require("../controllers/idea.controller");
+const renderIdeaController = require("../controllers/renderIdea.controller");
 
 // router.get("/createNewIdea", IdeaController.createIdea);
-router.get("/", IdeaController.renderCreateIdeaPage);
+router.get("/", renderIdeaController.renderCreateIdeaPage);
 
-router.get("/:id", IdeaController.renderEditIdeaPage);
+router.get("/:id", renderIdeaController.renderEditIdeaPage);
 
-router.get("/:id/detail", IdeaController.displayDetailIdea);
+router.get("/:id/detail", renderIdeaController.displayDetailIdea);
 
-router.post("/uploadIdea", upload.single("file"), IdeaController.createIdea);
+router.post("/uploadIdea", upload.array("file"), IdeaController.createIdea);
+
+router.put("/updateIdea", upload.none(), IdeaController.updateIdea);
 
 router.put("/like", interactController.LikeIdea);
 
