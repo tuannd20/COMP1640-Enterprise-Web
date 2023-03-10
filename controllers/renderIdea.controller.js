@@ -51,103 +51,10 @@ const renderEditIdeaPage = async (req, res) => {
   }
 };
 
-// const displayAllIdea = async (req, res) => {
-//   try {
-//     const staff = req.cookies.Staff;
-
-//     const anonymous = {
-//       fullName: "anonymous",
-//       avatarImage: null,
-//     };
-
-//     const query = { status: { $in: ["Private", "Public"] } };
-//     const { page = 1 } = req.query;
-//     const limit = 5;
-//     const options = {
-//       page,
-//       limit,
-//       populate: { path: "idStaffIdea", model: Staff },
-//       sort: { createdAt: -1 },
-//     };
-
-//     const allIdea = await ideaService.getAllWithQuery(options, query);
-//     if (!allIdea.docs) return res.redirect("/errors");
-
-//     const allStaffIdea = await staffIdeaService.getAllWithQuery({
-//       idStaff: staff._id,
-//       isLike: { $in: [true, false] },
-//     });
-
-//     allIdea.docs.forEach((element) => {
-//       if (element.urlFile != null) {
-//         for (let i = 0; i < element.urlFile.length; i += 1) {
-//           if (
-//             typeof element.urlFile[i] === "undefined" ||
-//             !isImageUrl(element.urlFile[i])
-//           ) {
-//             element.urlFile = null;
-//           }
-//         }
-//       }
-
-//       if (!element.idStaffIdea || element.status === "Private") {
-//         element.idStaffIdea = anonymous;
-//       }
-//     });
-
-//     if (allStaffIdea) {
-//       allIdea.docs.forEach((idea) => {
-//         const staffIdea = allStaffIdea.find(
-//           (sIdea) => sIdea.IdIdea.toString() === idea._id.toString(),
-//         );
-//         if (staffIdea) {
-//           idea.isLike = staffIdea.isLike;
-//         } else {
-//           idea.isLike = null;
-//         }
-//       });
-//     }
-
-//     const all = await ideaService.getAllWithQuery(
-//       {},
-//       {
-//         status: { $in: ["Private", "Public"] },
-//       },
-//     );
-//     console.log(
-//       "🚀 ~ file: idea.controller.js:235 ~ displayAllIdea ~ all:",
-//       all,
-//     );
-
-//     if (!all.docs) return res.redirect("/errors");
-//     const idStaffIdeas = all.docs.map((obj) => obj.idStaffIdea);
-
-//     const uniqueIdStaffIdeas = new Set(idStaffIdeas);
-//     const participants = uniqueIdStaffIdeas.size;
-
-//     const percentage = `${(
-//       (allIdea.totalDocs / allIdea.totalDocs) *
-//       100
-//     ).toFixed(2)}%`;
-
-//     return res.render("partials/master", {
-//       title: "Idea",
-//       content: "../staff/homePage",
-//       staff,
-//       role: staff.idRole.nameRole,
-//       ideas: allIdea,
-//       participants,
-//       percentage,
-//     });
-//   } catch (err) {
-//     console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
-//     return err;
-//   }
-// };
-
 const displayAllIdea = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
+
     const sort = req.query.Sort;
     const pollId = req.query.idPoll;
     const departmentId = req.query.idDepartment;
@@ -158,10 +65,7 @@ const displayAllIdea = async (req, res) => {
       avatarImage: null,
     };
 
-    // eslint-disable-next-line prefer-const
-    let query = {
-      status: { $in: ["Private", "Public"] },
-    };
+    const query = { status: { $in: ["Private", "Public"] } };
 
     if (pollId) {
       query.idPoll = pollId;
@@ -217,13 +121,12 @@ const displayAllIdea = async (req, res) => {
         "🚀 ~ file: idea.controller.js:266 ~ displayAllIdea ~ allIdea.docs:",
         allIdea.docs,
       );
-
-      if (!allIdea.docs) return res.redirect("/errors");
     } else {
       allIdea = await ideaService.getAllWithQuery(options, query);
       if (!allIdea.docs) return res.redirect("/errors");
     }
 
+    // const allIdea = await ideaService.getAllWithQuery(options, query);
     // if (!allIdea.docs) return res.redirect("/errors");
 
     const allStaffIdea = await staffIdeaService.getAllWithQuery({
@@ -231,17 +134,23 @@ const displayAllIdea = async (req, res) => {
       isLike: { $in: [true, false] },
     });
 
-    allIdea.docs.forEach((element, index) => {
-      if (
-        typeof element.urlFile === "undefined" ||
-        !isImageUrl(element.urlFile)
-      ) {
-        element.urlFile = null;
+    allIdea.docs.forEach((element) => {
+      if (element.urlFile != null) {
+        for (let i = 0; i < element.urlFile.length; i += 1) {
+          if (
+            typeof element.urlFile[i] === "undefined" ||
+            !isImageUrl(element.urlFile[i])
+          ) {
+            element.urlFile = null;
+          }
+        }
       }
+
       if (!element.idStaffIdea || element.status === "Private") {
         element.idStaffIdea = anonymous;
       }
     });
+
     if (allStaffIdea) {
       allIdea.docs.forEach((idea) => {
         const staffIdea = allStaffIdea.find(
@@ -261,10 +170,10 @@ const displayAllIdea = async (req, res) => {
         status: { $in: ["Private", "Public"] },
       },
     );
-    // console.log(
-    //   "🚀 ~ file: idea.controller.js:235 ~ displayAllIdea ~ all:",
-    //   all,
-    // );
+    console.log(
+      "🚀 ~ file: idea.controller.js:235 ~ displayAllIdea ~ all:",
+      all,
+    );
 
     if (!all.docs) return res.redirect("/errors");
     const idStaffIdeas = all.docs.map((obj) => obj.idStaffIdea);
@@ -272,15 +181,15 @@ const displayAllIdea = async (req, res) => {
     const uniqueIdStaffIdeas = new Set(idStaffIdeas);
     const participants = uniqueIdStaffIdeas.size;
 
-    const percentage = `${((allIdea.totalDocs / all.totalDocs) * 100).toFixed(
-      2,
-    )}%`;
+    const percentage = `${(
+      (allIdea.totalDocs / allIdea.totalDocs) *
+      100
+    ).toFixed(2)}%`;
 
     const polls = await pollService.getPollActivated();
 
     const departments = await departmentService.getDepartmentActivated();
 
-    // return res.json(allIdea.docs);
     return res.render("partials/master", {
       title: "Idea",
       content: "../staff/homePage",
@@ -293,6 +202,7 @@ const displayAllIdea = async (req, res) => {
       departments,
     });
   } catch (err) {
+    console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
     return err;
   }
 };
