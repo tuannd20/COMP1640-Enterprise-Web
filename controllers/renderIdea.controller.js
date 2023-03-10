@@ -158,18 +158,6 @@ const displayAllIdea = async (req, res) => {
       avatarImage: null,
     };
 
-    // const query = {
-    //   status: { $in: ["Private", "Public"] },
-    // };
-    // const { page = 1 } = req.query;
-    // const limit = 5;
-    // const options = {
-    //   page,
-    //   limit,
-    //   populate: { path: "idStaffIdea", model: Staff },
-    //   sort: { createdAt: -1 },
-    // };
-
     // eslint-disable-next-line prefer-const
     let query = {
       status: { $in: ["Private", "Public"] },
