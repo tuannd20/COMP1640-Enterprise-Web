@@ -54,34 +54,11 @@ const renderEditIdeaPage = async (req, res) => {
 const displayAllIdea = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
-    console.log(
-      "🚀 ~ file: renderIdea.controller.js:57 ~ displayAllIdea ~ staff:",
-      staff,
-    );
 
     const sort = req.query.Sort;
-    console.log(
-      "🚀 ~ file: renderIdea.controller.js:60 ~ displayAllIdea ~ sort:",
-      sort,
-    );
-
     const pollId = req.query.idPoll;
-    console.log(
-      "🚀 ~ file: renderIdea.controller.js:63 ~ displayAllIdea ~ pollId:",
-      pollId,
-    );
-
     const departmentId = req.query.idDepartment;
-    console.log(
-      "🚀 ~ file: renderIdea.controller.js:66 ~ displayAllIdea ~ departmentId:",
-      departmentId,
-    );
-
     const exception = req.query.Exception;
-    console.log(
-      "🚀 ~ file: renderIdea.controller.js:69 ~ displayAllIdea ~ exception:",
-      exception,
-    );
 
     const polls = await pollService.getPollActivated();
 
@@ -137,8 +114,7 @@ const displayAllIdea = async (req, res) => {
     }
     if (exception === "Without comment") {
       allIdea = await ideaService.getAllWithQuery(options, query);
-      // eslint-disable-next-line prefer-const
-      let ideasWithoutComment = [];
+      const ideasWithoutComment = [];
 
       // eslint-disable-next-line prefer-const, no-restricted-syntax
       for (let idea of allIdea.docs) {
@@ -150,10 +126,6 @@ const displayAllIdea = async (req, res) => {
       }
 
       allIdea.docs = ideasWithoutComment;
-      console.log(
-        "🚀 ~ file: idea.controller.js:266 ~ displayAllIdea ~ allIdea.docs:",
-        allIdea.docs,
-      );
     } else {
       allIdea = await ideaService.getAllWithQuery(options, query);
       if (!allIdea.docs) return res.redirect("/errors");
@@ -203,10 +175,6 @@ const displayAllIdea = async (req, res) => {
         status: { $in: ["Private", "Public"] },
       },
     );
-    console.log(
-      "🚀 ~ file: idea.controller.js:235 ~ displayAllIdea ~ all:",
-      all,
-    );
 
     if (!all.docs) return res.redirect("/errors");
     const idStaffIdeas = all.docs.map((obj) => obj.idStaffIdea);
@@ -229,8 +197,6 @@ const displayAllIdea = async (req, res) => {
       polls,
       departments,
       exception,
-      departmentId,
-      pollId,
       sort,
       foundPoll,
       foundDepartment,

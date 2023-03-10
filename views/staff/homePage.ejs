@@ -10,39 +10,14 @@
           >
             <label for="product-type">
               Sort
-              <!-- <select
-                name="Sort"
-                id="Sort"
-                class="border-2 rounded-lg border-slate-400"
-              >
-                <% if(sort != null ) { %>
-                <option value="<%= sort %>" selected disabled hidden>
-                  <%= sort %>
-                </option>
-                <%}else { %>
-                <option value="Recently" selected disabled hidden>
-                  Recently
-                </option>
-                <% } %>
-                <option value="Recently">Recently</option>
-                <option value="Like high to low">Like high to low</option>
-                <option value="Like low to high">Like low to high</option>
-                <option value="View high to low">View high to low</option>
-                <option value="View low to high">View low to high</option>
-              </select> -->
-
               <select
                 name="Sort"
                 id="Sort"
                 class="border-2 rounded-lg border-slate-400"
               >
-                <% if (sort != null) { %>
-                <option value="<%= sort %>" selected disabled hidden>
-                  <%= sort %>
-                </option>
-                <% } else { %>
-                <option value="Recently" disabled hidden>Recently</option>
-                <% } %>
+                <% if (sort) { %>
+                <option value="<%= sort %>" selected hidden><%= sort %></option>
+                <% }%>
                 <option value="Recently">Recently</option>
                 <option value="Like high to low">Like high to low</option>
                 <option value="Like low to high">Like low to high</option>
@@ -63,7 +38,7 @@
               <% if (foundPoll == null) { %>
               <option value="">All poll</option>
               <% } else { %>
-              <option value="<%= pollId %>" selected disabled hidden>
+              <option value="<%= foundPoll._id %>" selected hidden>
                 <%= foundPoll.namePoll %>
               </option>
               <option value="">All poll</option>
@@ -84,7 +59,7 @@
               <% if (foundDepartment == null) { %>
               <option value="">All Department</option>
               <% } else { %>
-              <option value="<%= departmentId %>" selected disabled hidden>
+              <option value="<%= foundDepartment._id %>" selected hidden>
                 <%= foundDepartment.nameDepartment %>
               </option>
               <option value="">All Department</option>
@@ -105,7 +80,7 @@
               class="border-2 rounded-lg border-slate-400"
             >
               <% if (exception != null) { %>
-              <option value="<%= exception %>" selected disabled hidden>
+              <option value="<%= exception %>" selected hidden>
                 <%= exception %>
               </option>
               <% } %>
