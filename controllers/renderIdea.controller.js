@@ -54,12 +54,34 @@ const renderEditIdeaPage = async (req, res) => {
 const displayAllIdea = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
+    console.log(
+      "🚀 ~ file: renderIdea.controller.js:57 ~ displayAllIdea ~ staff:",
+      staff,
+    );
 
     const sort = req.query.Sort;
+    console.log(
+      "🚀 ~ file: renderIdea.controller.js:60 ~ displayAllIdea ~ sort:",
+      sort,
+    );
 
     const pollId = req.query.idPoll;
+    console.log(
+      "🚀 ~ file: renderIdea.controller.js:63 ~ displayAllIdea ~ pollId:",
+      pollId,
+    );
+
     const departmentId = req.query.idDepartment;
+    console.log(
+      "🚀 ~ file: renderIdea.controller.js:66 ~ displayAllIdea ~ departmentId:",
+      departmentId,
+    );
+
     const exception = req.query.Exception;
+    console.log(
+      "🚀 ~ file: renderIdea.controller.js:69 ~ displayAllIdea ~ exception:",
+      exception,
+    );
 
     const polls = await pollService.getPollActivated();
 
@@ -87,10 +109,6 @@ const displayAllIdea = async (req, res) => {
       );
     }
 
-    if (exception === "Anonymous") {
-      query.status = ["Private"];
-    }
-
     const { page = 1 } = req.query;
     const limit = 5;
     const options = {
@@ -114,6 +132,9 @@ const displayAllIdea = async (req, res) => {
 
     let allIdea;
 
+    if (exception === "Anonymous") {
+      query.status = ["Private"];
+    }
     if (exception === "Without comment") {
       allIdea = await ideaService.getAllWithQuery(options, query);
       // eslint-disable-next-line prefer-const

@@ -60,10 +60,10 @@
               id="idPoll"
               class="border-2 rounded-lg border-slate-400"
             >
-              <% if (pollId == null) { %>
+              <% if (foundPoll == null) { %>
               <option value="">All poll</option>
               <% } else { %>
-              <option value="<%= foundPoll._id %>" selected disabled hidden>
+              <option value="<%= pollId %>" selected disabled hidden>
                 <%= foundPoll.namePoll %>
               </option>
               <option value="">All poll</option>
@@ -81,15 +81,10 @@
               id="idDepartment"
               class="border-2 rounded-lg border-slate-400"
             >
-              <% if (departmentId == null) { %>
+              <% if (foundDepartment == null) { %>
               <option value="">All Department</option>
               <% } else { %>
-              <option
-                value="<%= foundDepartment._id %>"
-                selected
-                disabled
-                hidden
-              >
+              <option value="<%= departmentId %>" selected disabled hidden>
                 <%= foundDepartment.nameDepartment %>
               </option>
               <option value="">All Department</option>
@@ -109,14 +104,12 @@
               id="Exception"
               class="border-2 rounded-lg border-slate-400"
             >
-              <% if (exception == null) { %>
-              <option value="" disabled hidden>All poll</option>
-              <% } else { %>
+              <% if (exception != null) { %>
               <option value="<%= exception %>" selected disabled hidden>
                 <%= exception %>
               </option>
               <% } %>
-              <option value="">All poll</option>
+              <option value="All">All</option>
               <option value="Without comment">Without comment</option>
               <option value="Anonymous">Anonymous</option>
             </select>
