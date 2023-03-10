@@ -10,11 +10,39 @@
           >
             <label for="product-type">
               Sort
+              <!-- <select
+                name="Sort"
+                id="Sort"
+                class="border-2 rounded-lg border-slate-400"
+              >
+                <% if(sort != null ) { %>
+                <option value="<%= sort %>" selected disabled hidden>
+                  <%= sort %>
+                </option>
+                <%}else { %>
+                <option value="Recently" selected disabled hidden>
+                  Recently
+                </option>
+                <% } %>
+                <option value="Recently">Recently</option>
+                <option value="Like high to low">Like high to low</option>
+                <option value="Like low to high">Like low to high</option>
+                <option value="View high to low">View high to low</option>
+                <option value="View low to high">View low to high</option>
+              </select> -->
+
               <select
                 name="Sort"
                 id="Sort"
                 class="border-2 rounded-lg border-slate-400"
               >
+                <% if (sort != null) { %>
+                <option value="<%= sort %>" selected disabled hidden>
+                  <%= sort %>
+                </option>
+                <% } else { %>
+                <option value="Recently" disabled hidden>Recently</option>
+                <% } %>
                 <option value="Recently">Recently</option>
                 <option value="Like high to low">Like high to low</option>
                 <option value="Like low to high">Like low to high</option>
@@ -32,8 +60,14 @@
               id="idPoll"
               class="border-2 rounded-lg border-slate-400"
             >
+              <% if (pollId == null) { %>
               <option value="">All poll</option>
-              <% polls.forEach(function(poll) { %>
+              <% } else { %>
+              <option value="<%= foundPoll._id %>" selected disabled hidden>
+                <%= foundPoll.namePoll %>
+              </option>
+              <option value="">All poll</option>
+              <% } %> <% polls.forEach(function(poll) { %>
               <option value="<%= poll._id %>"><%= poll.namePoll %></option>
               <% }); %>
             </select>
@@ -47,8 +81,19 @@
               id="idDepartment"
               class="border-2 rounded-lg border-slate-400"
             >
+              <% if (departmentId == null) { %>
               <option value="">All Department</option>
-              <% departments.forEach(function(department) { %>
+              <% } else { %>
+              <option
+                value="<%= foundDepartment._id %>"
+                selected
+                disabled
+                hidden
+              >
+                <%= foundDepartment.nameDepartment %>
+              </option>
+              <option value="">All Department</option>
+              <% } %> <% departments.forEach(function(department) { %>
               <option value="<%= department._id %>">
                 <%= department.nameDepartment %>
               </option>
@@ -64,7 +109,14 @@
               id="Exception"
               class="border-2 rounded-lg border-slate-400"
             >
-              <option value="">All</option>
+              <% if (exception == null) { %>
+              <option value="" disabled hidden>All poll</option>
+              <% } else { %>
+              <option value="<%= exception %>" selected disabled hidden>
+                <%= exception %>
+              </option>
+              <% } %>
+              <option value="">All poll</option>
               <option value="Without comment">Without comment</option>
               <option value="Anonymous">Anonymous</option>
             </select>
