@@ -9,6 +9,7 @@ const staffService = require("../services/staff.service");
 const staffIdeaService = require("../services/staffIdea.service");
 const commentService = require("../services/comment.service");
 const PollService = require("../services/poll.service");
+const commentModel = require("../database/models/Comment");
 
 const renderCreateIdeaPage = async (req, res) => {
   const staff = req.cookies.Staff;
@@ -54,12 +55,37 @@ const displayAllIdea = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
 
+    const sort = req.query.Sort;
+    const pollId = req.query.idPoll;
+    const departmentId = req.query.idDepartment;
+    const exception = req.query.Exception;
+
+    const polls = await pollService.getPollActivated();
+
+    const departments = await departmentService.getDepartmentActivated();
+
+    let foundPoll;
+    let foundDepartment;
+
     const anonymous = {
       fullName: "anonymous",
       avatarImage: null,
     };
 
     const query = { status: { $in: ["Private", "Public"] } };
+
+    if (pollId) {
+      query.idPoll = pollId;
+      foundPoll = polls.find((poll) => poll._id.toString() === pollId);
+    }
+
+    if (departmentId) {
+      query.idDepartment = departmentId;
+      foundDepartment = departments.find(
+        (department) => department._id.toString() === departmentId,
+      );
+    }
+
     const { page = 1 } = req.query;
     const limit = 5;
     const options = {
@@ -69,8 +95,44 @@ const displayAllIdea = async (req, res) => {
       sort: { createdAt: -1 },
     };
 
-    const allIdea = await ideaService.getAllWithQuery(options, query);
-    if (!allIdea.docs) return res.redirect("/errors");
+    if (sort === "Recently") {
+      options.sort = { createdAt: -1 };
+    } else if (sort === "Like high to low") {
+      options.sort = { likeCount: -1 };
+    } else if (sort === "Like low to high") {
+      options.sort = { likeCount: 1 };
+    } else if (sort === "View high to low") {
+      options.sort = { viewCount: -1 };
+    } else if (sort === "View low to high") {
+      options.sort = { viewCount: 1 };
+    }
+
+    let allIdea;
+
+    if (exception === "Anonymous") {
+      query.status = ["Private"];
+    }
+    if (exception === "Without comment") {
+      allIdea = await ideaService.getAllWithQuery(options, query);
+      const ideasWithoutComment = [];
+
+      // eslint-disable-next-line prefer-const, no-restricted-syntax
+      for (let idea of allIdea.docs) {
+        // eslint-disable-next-line no-await-in-loop
+        const comments = await commentModel.find({ idIdea: idea._id });
+        if (comments.length === 0) {
+          ideasWithoutComment.push(idea);
+        }
+      }
+
+      allIdea.docs = ideasWithoutComment;
+    } else {
+      allIdea = await ideaService.getAllWithQuery(options, query);
+      if (!allIdea.docs) return res.redirect("/errors");
+    }
+
+    // const allIdea = await ideaService.getAllWithQuery(options, query);
+    // if (!allIdea.docs) return res.redirect("/errors");
 
     const allStaffIdea = await staffIdeaService.getAllWithQuery({
       idStaff: staff._id,
@@ -113,10 +175,6 @@ const displayAllIdea = async (req, res) => {
         status: { $in: ["Private", "Public"] },
       },
     );
-    console.log(
-      "🚀 ~ file: idea.controller.js:235 ~ displayAllIdea ~ all:",
-      all,
-    );
 
     if (!all.docs) return res.redirect("/errors");
     const idStaffIdeas = all.docs.map((obj) => obj.idStaffIdea);
@@ -124,10 +182,9 @@ const displayAllIdea = async (req, res) => {
     const uniqueIdStaffIdeas = new Set(idStaffIdeas);
     const participants = uniqueIdStaffIdeas.size;
 
-    const percentage = `${(
-      (allIdea.totalDocs / allIdea.totalDocs) *
-      100
-    ).toFixed(2)}%`;
+    const percentage = `${((allIdea.totalDocs / all.totalDocs) * 100).toFixed(
+      2,
+    )}%`;
 
     return res.render("partials/master", {
       title: "Idea",
@@ -137,12 +194,170 @@ const displayAllIdea = async (req, res) => {
       ideas: allIdea,
       participants,
       percentage,
+      polls,
+      departments,
+      exception,
+      sort,
+      foundPoll,
+      foundDepartment,
     });
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
     return err;
   }
 };
+
+// const displayAllIdea = async (req, res) => {
+//   try {
+//     const staff = req.cookies.Staff;
+//     const sort = req.query.Sort;
+//     const pollId = req.query.idPoll;
+//     const departmentId = req.query.idDepartment;
+//     const exception = req.query.Exception;
+
+//     const anonymous = {
+//       fullName: "anonymous",
+//       avatarImage: null,
+//     };
+
+//     // eslint-disable-next-line prefer-const
+//     let query = {
+//       status: { $in: ["Private", "Public"] },
+//     };
+
+//     if (pollId) {
+//       query.idPoll = pollId;
+//     }
+
+//     if (departmentId) {
+//       query.idDepartment = departmentId;
+//     }
+
+//     if (exception === "Anonymous") {
+//       query.status = ["Private"];
+//     }
+
+//     const { page = 1 } = req.query;
+//     const limit = 5;
+//     const options = {
+//       page,
+//       limit,
+//       populate: { path: "idStaffIdea", model: Staff },
+//       sort: { createdAt: -1 },
+//     };
+
+//     if (sort === "Recently") {
+//       options.sort = { createdAt: -1 };
+//     } else if (sort === "Like high to low") {
+//       options.sort = { likeCount: -1 };
+//     } else if (sort === "Like low to high") {
+//       options.sort = { likeCount: 1 };
+//     } else if (sort === "View high to low") {
+//       options.sort = { viewCount: -1 };
+//     } else if (sort === "View low to high") {
+//       options.sort = { viewCount: 1 };
+//     }
+
+//     let allIdea;
+
+//     if (exception === "Without comment") {
+//       allIdea = await ideaService.getAllWithQuery(options, query);
+//       // eslint-disable-next-line prefer-const
+//       let ideasWithoutComment = [];
+
+//       // eslint-disable-next-line prefer-const, no-restricted-syntax
+//       for (let idea of allIdea.docs) {
+//         // eslint-disable-next-line no-await-in-loop
+//         const comments = await commentModel.find({ idIdea: idea._id });
+//         if (comments.length === 0) {
+//           ideasWithoutComment.push(idea);
+//         }
+//       }
+
+//       allIdea.docs = ideasWithoutComment;
+//       console.log(
+//         "🚀 ~ file: idea.controller.js:266 ~ displayAllIdea ~ allIdea.docs:",
+//         allIdea.docs,
+//       );
+
+//       if (!allIdea.docs) return res.redirect("/errors");
+//     } else {
+//       allIdea = await ideaService.getAllWithQuery(options, query);
+//       if (!allIdea.docs) return res.redirect("/errors");
+//     }
+
+//     // if (!allIdea.docs) return res.redirect("/errors");
+
+//     const allStaffIdea = await staffIdeaService.getAllWithQuery({
+//       idStaff: staff._id,
+//       isLike: { $in: [true, false] },
+//     });
+
+//     allIdea.docs.forEach((element, index) => {
+//       if (
+//         typeof element.urlFile === "undefined" ||
+//         !isImageUrl(element.urlFile)
+//       ) {
+//         element.urlFile = null;
+//       }
+//       if (!element.idStaffIdea || element.status === "Private") {
+//         element.idStaffIdea = anonymous;
+//       }
+//     });
+//     if (allStaffIdea) {
+//       allIdea.docs.forEach((idea) => {
+//         const staffIdea = allStaffIdea.find(
+//           (sIdea) => sIdea.IdIdea.toString() === idea._id.toString(),
+//         );
+//         if (staffIdea) {
+//           idea.isLike = staffIdea.isLike;
+//         } else {
+//           idea.isLike = null;
+//         }
+//       });
+//     }
+
+//     const all = await ideaService.getAllWithQuery(
+//       {},
+//       {
+//         status: { $in: ["Private", "Public"] },
+//       },
+//     );
+//     // console.log(
+//     //   "🚀 ~ file: idea.controller.js:235 ~ displayAllIdea ~ all:",
+//     //   all,
+//     // );
+
+//     if (!all.docs) return res.redirect("/errors");
+//     const idStaffIdeas = all.docs.map((obj) => obj.idStaffIdea);
+
+//     const uniqueIdStaffIdeas = new Set(idStaffIdeas);
+//     const participants = uniqueIdStaffIdeas.size;
+
+//     const percentage = `${((allIdea.totalDocs / all.totalDocs) * 100).toFixed(
+//       2,
+//     )}%`;
+
+//     const polls = await pollService.getPollActivated();
+
+//     const departments = await departmentService.getDepartmentActivated();
+
+//     // return res.json(allIdea.docs);
+//     return res.render("partials/master", {
+//       title: "Idea",
+//       content: "../staff/homePage",
+//       staff,
+//       role: staff.idRole.nameRole,
+//       ideas: allIdea,
+//       participants,
+//       percentage,
+//       polls,
+//       departments,
+//     });
+//   } catch (err) {
+//     return err;
+//   }
+// };
 
 const displayDetailIdea = async (req, res) => {
   try {

@@ -5,6 +5,11 @@ const staffService = require("../services/staff.service");
 const categoryService = require("../services/category.service");
 const pollService = require("../services/poll.service");
 const sendMail = require("../utilities/sendMail");
+const Staff = require("../database/models/Staff");
+const ideaModel = require("../database/models/Idea");
+const commentModel = require("../database/models/Comment");
+// eslint-disable-next-line import/order
+const console = require("console");
 
 const createIdea = async (req, res) => {
   try {
