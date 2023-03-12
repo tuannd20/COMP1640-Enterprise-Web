@@ -119,6 +119,16 @@ const getPollNewest = async () => {
   }
 };
 
+const updateHandleActionIdea = async (id) => {
+  try {
+    const poll = await PollRepository.handleActionIdea(id);
+
+    return poll;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   createPoll,
   getAllPoll,
@@ -132,4 +142,5 @@ module.exports = {
   getPollInactive,
   checkPoll,
   getPollNewest,
+  updateHandleActionIdea,
 };

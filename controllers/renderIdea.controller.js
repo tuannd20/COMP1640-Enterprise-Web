@@ -455,8 +455,6 @@ const getIdeaForStaff = async (req, res) => {
     );
 
     const currentDate = new Date();
-    let isCreateNewIdea = true;
-    let isHandleAction;
 
     await allIdea.docs.forEach(async (element) => {
       if (element.urlFile != null) {
@@ -473,23 +471,12 @@ const getIdeaForStaff = async (req, res) => {
       console.log("helololo: ", element.idPoll._id);
       const poll = await PollService.getPoll({ _id: element.idPoll._id });
       console.log(poll);
-      if (
-        poll.dateStart.getTime() < currentDate.getTime() &&
-        poll.dateSubEnd.getTime() <= currentDate.getTime()
-      ) {
-        isCreateNewIdea = false;
-      }
-
-      if (
-        poll.dateStart.getTime() <=
-        currentDate.getTime() <
-        poll.dateSubEnd.getTime()
-      ) {
-        isHandleAction = true;
-      }
 
       if (poll.dateSubEnd.getTime() <= currentDate.getTime()) {
-        isHandleAction = false;
+        const pollUpdateAction = await PollService.updateHandleActionIdea({
+          _id: element.idPoll._id,
+        });
+        console.log("upadeac hua", pollUpdateAction);
       }
     });
 
@@ -515,11 +502,12 @@ const getIdeaForStaff = async (req, res) => {
       isHaveIdeas = false;
     }
 
+    let isCreateNewIdea = true;
     const poll = await PollService.getPollNewest();
 
     if (
       poll.dateStart.getTime() < currentDate.getTime() &&
-      poll.dateSubEnd.getTime() <= currentDate.getTime()
+      poll.dateEnd.getTime() <= currentDate.getTime()
     ) {
       isCreateNewIdea = false;
     }
@@ -532,7 +520,6 @@ const getIdeaForStaff = async (req, res) => {
       role: staffPayload.idRole.nameRole,
       isHaveIdeas,
       staffProfile,
-      isHandleAction,
       isCreateNewIdea,
     });
   } catch (err) {
