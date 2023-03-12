@@ -449,6 +449,10 @@ const getIdeaForStaff = async (req, res) => {
       isLike: { $in: [true, false] },
     });
     const allIdea = await ideaService.getAllWithQuery(options, query);
+    console.log(
+      "🚀 ~ file: renderIdea.controller.js:452 ~ getIdeaForStaff ~ allIdea:",
+      allIdea,
+    );
 
     const currentDate = new Date();
     let isCreateNewIdea = true;
