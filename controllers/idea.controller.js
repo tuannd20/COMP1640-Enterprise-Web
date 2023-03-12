@@ -1,15 +1,11 @@
 const fs = require("fs");
+const console = require("console");
 
 const ideaService = require("../services/idea.service");
 const staffService = require("../services/staff.service");
 const categoryService = require("../services/category.service");
 const pollService = require("../services/poll.service");
 const sendMail = require("../utilities/sendMail");
-const Staff = require("../database/models/Staff");
-const ideaModel = require("../database/models/Idea");
-const commentModel = require("../database/models/Comment");
-// eslint-disable-next-line import/order
-const console = require("console");
 
 const createIdea = async (req, res) => {
   try {
@@ -45,8 +41,6 @@ const createIdea = async (req, res) => {
     ];
 
     const [Category, Poll] = await Promise.all(promises);
-    console.log(req.body.department);
-
     const data = {
       idPoll: Poll._id,
       idDepartment: req.body.department,
@@ -87,7 +81,7 @@ const createIdea = async (req, res) => {
 
     return res.redirect("/profile");
   } catch (err) {
-    console.log("🚀 ~ file: idea.controller.js:107 ~ createIdea ~ err:", err);
+    console("🚀 ~ file: idea.controller.js:107 ~ createIdea ~ err:", err);
     return err;
   }
 };
@@ -96,8 +90,7 @@ const deleteIdea = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const deleteIdeaById = await ideaService.deleteIdea(id);
-    console.log(deleteIdeaById);
+    await ideaService.deleteIdea(id);
 
     return res.redirect("/profile");
   } catch (error) {
@@ -107,13 +100,14 @@ const deleteIdea = async (req, res) => {
 
 const updateIdea = async (req, res) => {
   try {
-    if (!req.body.idIDea) {
+    if (!req.body.ideaId) {
       return res.redirect("/errors");
     }
     const filepaths = [];
 
     if (req.files) {
-      for (let i = 0; i < req.files.length; i + 1) {
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < req.files.length; i++) {
         const filePath = req.files[i].path;
         const fileName = req.files[i].originalname;
         const newFilePath = `public/uploads/${fileName}`;
@@ -122,15 +116,9 @@ const updateIdea = async (req, res) => {
       }
     }
 
-    const promises = [
-      categoryService.findByName(req.body.Category),
-      pollService.findByName(req.body.pool),
-    ];
-
-    const [Category, Poll] = await Promise.all(promises);
+    const Category = await categoryService.findByName(req.body.idCategory);
 
     const data = {
-      idPoll: Poll._id,
       idDepartment: req.body.department,
       idCategory: Category._id,
       contentIdea: req.body.content,
@@ -143,7 +131,7 @@ const updateIdea = async (req, res) => {
     if (req.body.status) {
       data.status = req.body.status;
     }
-    const newIdea = await ideaService.updateIdea(req.body.idIDea, data);
+    const newIdea = await ideaService.updateIdea(req.body.ideaId, data);
 
     if (!newIdea) {
       return res.redirect("/errors");
