@@ -41,6 +41,7 @@ const createStaff = async (req, res) => {
       idDepartment: req.body.idDepartment,
       phoneNumber: req.body.phoneNumber,
       address: req.body.address,
+      lockAccount: req.body.lockAccount,
       password: hashed,
     };
     const results = await StaffService.createStaff(payload);
