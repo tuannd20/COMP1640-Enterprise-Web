@@ -62,11 +62,14 @@
                       form="edit-form"
                     >
                       <option value="" selected disabled hidden>
+                        <% if(idea.status === "Private") { %>Incognito
+                        <% } else { %>
                         <%= idea.status %>
+                        <% } %>
                       </option>
                       <option value="Draff">Draff</option>
                       <option value="Public">Public</option>
-                      <option value="Private">Incognito</option>
+                      <option value="Incognito">Incognito</option>
                     </select>
                   </label>
                 </div>

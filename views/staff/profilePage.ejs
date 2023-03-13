@@ -133,9 +133,13 @@
                 <p class="text-base font-medium">
                   <%= idea.idStaffIdea.fullName %>
                 </p>
-                <div class="w-16 mt-2 border rounded bg-slate-500">
+                <div class="w-20 mt-2 border rounded bg-slate-500">
                   <p class="text-center text-white">
-                    <%= idea.status %>
+                    <% if(idea.status === 'Private') { %>
+                      Incognito
+                    <% }else { %>
+                      <%= idea.status %>
+                    <% } %>
                   </p>
                 </div>
               </div>
