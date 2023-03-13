@@ -30,7 +30,7 @@ const createStaff = async (req, res) => {
     const hashed = await bcrypt.hash(req.body.password, salt);
 
     req.body.idRole = "63f066f996329eb058cc3095";
-    req.body.lockAccount = true;
+    req.body.lockAccount = false;
 
     const formData = req.body;
     console.log("body controller", formData);
