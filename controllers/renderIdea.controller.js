@@ -374,8 +374,34 @@ const displayDetailIdea = async (req, res) => {
       fullName: "anonymous",
       avatarImage: null,
     };
+
+    const find = await staffIdeaService.findOne({
+      idStaff: staff._id,
+      IdIdea: req.params.id,
+    });
+    console.log(
+      "🚀 ~ file: renderIdea.controller.js:224 ~ displayDetailIdea ~ find:",
+      find,
+    );
     if (!req.params.id) return res.redirect("/errors");
     const idea = await ideaService.getIdea(req.params.id);
+    if (!find) {
+      await Promise.all([
+        staffIdeaService.createNew({
+          idStaff: staff._id,
+          IdIdea: req.params.id,
+          isView: true,
+        }),
+        ideaService.updateIdea(idea._id, {
+          viewCount: idea.viewCount + 1,
+        }),
+      ]);
+    } else if (find.isView === false || !find.isView) {
+      await Promise.all([
+        staffIdeaService.updateIdea(find._id, { isView: true }),
+        ideaService.updateIdea(idea._id, { viewCount: idea.viewCount + 1 }),
+      ]);
+    }
     const comment = await commentService.getAllCommentOfIdea(idea._id);
     if (!idea || !comment) return res.redirect("/errors");
     if (idea.idStaffIdea == null) return res.redirect("/errors");
@@ -513,7 +539,7 @@ const getIdeaForStaff = async (req, res) => {
 
     if (
       (poll.dateStart.getTime() < currentDate.getTime() &&
-        poll.dateEnd.getTime() <= currentDate.getTime()) ||
+        poll.dateSubEnd.getTime() <= currentDate.getTime()) ||
       currentDate.getTime() < poll.dateStart.getTime()
     ) {
       isCreateNewIdea = false;

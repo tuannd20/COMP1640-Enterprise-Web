@@ -81,7 +81,7 @@ const createIdea = async (req, res) => {
 
     return res.redirect("/profile");
   } catch (err) {
-    console("🚀 ~ file: idea.controller.js:107 ~ createIdea ~ err:", err);
+    console.log("🚀 ~ file: idea.controller.js:107 ~ createIdea ~ err:", err);
     return err;
   }
 };
