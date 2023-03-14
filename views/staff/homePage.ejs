@@ -336,7 +336,7 @@
 
 <div class="flex justify-center my-10 pagination">
   <!-- pagination -->
-  <% if( ideas.totalPages > 0) { %>
+  <% if( ideas.totalPage > 0) { %>
   <nav aria-label="Page navigation example">
     <ul class="inline-flex items-center -space-x-px">
       <!-- FIRST ITEM -->
@@ -365,7 +365,7 @@
           >...</a
         >
       </li>
-      <% } %> <% for(; i <= (Number(ideas.page) + 2) && i <= ideas.totalPages;
+      <% } %> <% for(; i <= (Number(ideas.page) + 2) && i <= ideas.totalPage;
       i++) { %> <% if(i == ideas.page) { %>
       <li>
         <a
@@ -384,7 +384,7 @@
           <%= i %>
         </a>
       </li>
-      <% } %> <% if (i == Number(ideas.page) + 2 && i < ideas.totalPages) { %>
+      <% } %> <% if (i == Number(ideas.page) + 2 && i < ideas.totalPage) { %>
 
       <li class="">
         <a
@@ -395,7 +395,7 @@
       </li>
       <% } %> <% } %>
       <!-- LAST ITEM -->
-      <% if(ideas.page == ideas.totalPages) { %>
+      <% if(ideas.page == ideas.totalPage) { %>
       <li
         class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
       >
@@ -405,7 +405,7 @@
       <li
         class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
       >
-        <a class="" href="?page=<%= ideas.totalPages %>"> Last </a>
+        <a class="" href="?page=<%= ideas.totalPage %>"> Last </a>
       </li>
       <% } %>
     </ul>
@@ -449,4 +449,113 @@
   </div>
 </div>
 
-<script src="<%= process.env.BASE_URL %>javascript/homeStaff.js"></script>
+<script>
+  const dropMenu = document.getElementById("menu_icon");
+  const drop = document.getElementById("dropdown");
+  const download = document.getElementById("download-button");
+  const downloadModel = document.getElementById("modal");
+  const no = document.getElementById("no");
+  const yes = document.getElementById("yes");
+  const like = document.getElementsByClassName("like-icon");
+  const dislike = document.getElementsByClassName("dislike-icon");
+
+  function dropdown() {
+    drop.classList.toggle("hidden");
+  }
+
+  function dropdownDismiss() {
+    drop.classList.add("hidden");
+  }
+
+  dropMenu.addEventListener("click", () => {
+    dropdown();
+  });
+
+  drop.addEventListener("mouseleave", () => {
+    dropdownDismiss();
+  });
+
+  download.addEventListener("click", () => {
+    downloadModel.style.display = "flex";
+  });
+
+  no.addEventListener("click", () => {
+    downloadModel.style.display = "none";
+  });
+  yes.addEventListener("click", () => {
+    downloadModel.style.display = "none";
+  });
+
+  for (let i = 0; i < like.length; i++) {
+    // eslint-disable-next-line no-loop-func
+    like[i].addEventListener("click", () => {
+      $.ajax({
+        type: "PUT",
+        url: "http://localhost:3000/ideas/like",
+        data: { IdIdea: $(".id-idea").eq(i).val(), isLike: true },
+      }).then((response) => {
+        $(".like-moule").eq(i).empty();
+        $(".like-moule")[i].append(response.newLikeCount);
+        $(".dislike-moule").eq(i).empty();
+        $(".dislike-moule")[i].append(response.newDisLikeCount);
+      });
+
+      if (dislike[i].classList.contains("text-sky-500")) {
+        dislike[i].classList.remove("text-sky-500");
+        dislike[i].classList.add("text-slate-700");
+      }
+      like[i].classList.toggle("text-sky-500");
+      like[i].classList.toggle("text-slate-700");
+    });
+  }
+
+  for (let i = 0; i < dislike.length; i++) {
+    // eslint-disable-next-line no-loop-func
+    dislike[i].addEventListener("click", () => {
+      $.ajax({
+        type: "PUT",
+        url: "http://localhost:3000/ideas/dislike",
+        data: { IdIdea: $(".id-idea").eq(i).val(), isLike: false },
+      }).then((response) => {
+        $(".like-moule").eq(i).empty();
+        $(".dislike-moule").eq(i).empty();
+        $(".like-moule")[i].append(response.newLikeCount);
+        $(".dislike-moule")[i].append(response.newDisLikeCount);
+      });
+
+      if (like[i].classList.contains("text-sky-500")) {
+        like[i].classList.remove("text-sky-500");
+        like[i].classList.add("text-slate-700");
+      }
+      dislike[i].classList.toggle("text-sky-500");
+      dislike[i].classList.toggle("text-slate-700");
+    });
+  }
+</script>
+
+<!-- <script>
+  const sort = document.getElementById("Sort");
+  const Exception = document.getElementById("Exception");
+  const idDepartment = document.getElementById("idDepartment");
+  const idPoll = document.getElementById("idPoll");
+
+  const tagLi = document.getElementsByTagName("li");
+  for (i = 0; i < tagLi.length; i++) {
+    tagLi[i].addEventListener("click", (e) => {
+      pagination(e);
+    });
+  }
+
+  const pagination = (e) => {
+    console.log(sort.value);
+    console.log(Exception.value);
+    console.log(idDepartment.value);
+    console.log(idPoll.value);
+    axios({
+      method: "get",
+      url: `http://localhost:3000/?Sort=${sort.value}&idPoll=${idPoll.value}&idDepartment=${idDepartment.value}&Exception=${Exception.value}`,
+    }).then(function (response) {
+      document.getElementsByTagName("html").append(response.data);
+    });
+  };
+</script> -->
