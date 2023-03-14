@@ -75,6 +75,18 @@ const getAllWithQuery = async (options, query) => {
   }
 };
 
+const getAllNotPaginate = async (filter) => {
+  try {
+    const Idea = await ideaModel.find(filter);
+    return Idea;
+  } catch (err) {
+    console.error(
+      "🚀 ~ file: idea.repository.js:83 ~ getAllNotPaginate ~ err:",
+      err,
+    );
+    return err;
+  }
+};
 module.exports = {
   findByOptions,
   createIdea,
@@ -83,4 +95,5 @@ module.exports = {
   deleteIdea,
   getAll,
   getAllWithQuery,
+  getAllNotPaginate,
 };
