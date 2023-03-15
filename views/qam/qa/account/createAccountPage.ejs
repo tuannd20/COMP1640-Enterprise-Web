@@ -11,7 +11,7 @@
     }
   </style>
   <div
-    class="relative p-3 border-2 border-stone-700 rounded-2xl h-auto opacity-80 mb-10 overflow-auto"
+    class="relative h-auto p-3 mb-10 overflow-auto border-2 border-stone-700 rounded-2xl opacity-80"
   >
     <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
       <a href="javascript:history.back()">
@@ -275,4 +275,24 @@
     }
     document.getElementById("password").value = password;
   }
+</script>
+
+<script>
+  const dropMenu = document.getElementById("menu_icon");
+  const drop = document.getElementById("dropdown");
+  function dropdown() {
+    drop.classList.toggle("hidden");
+  }
+
+  function dropdownDismiss() {
+    drop.classList.add("hidden");
+  }
+
+  dropMenu.addEventListener("click", () => {
+    dropdown();
+  });
+
+  drop.addEventListener("mouseleave", () => {
+    dropdownDismiss();
+  });
 </script>

@@ -26,7 +26,10 @@
     <div class="content-idea">
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px]">
-          <form action="/qa/categories/<%= category.id %>?_method=PUT" method="POST">
+          <form
+            action="/qa/categories/<%= category.id %>?_method=PUT"
+            method="POST"
+          >
             <div class="mt-14">
               <label
                 for="name"
@@ -95,7 +98,10 @@
     <div class="content-idea">
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px]">
-          <form action="/qa/categories/<%= category.id %>?_method=PUT" method="POST">
+          <form
+            action="/qa/categories/<%= category.id %>?_method=PUT"
+            method="POST"
+          >
             <div class="mt-14">
               <label
                 for="name"
@@ -146,3 +152,23 @@
   </div>
   <% } %>
 </Main>
+
+<script>
+  const dropMenu = document.getElementById("menu_icon");
+  const drop = document.getElementById("dropdown");
+  function dropdown() {
+    drop.classList.toggle("hidden");
+  }
+
+  function dropdownDismiss() {
+    drop.classList.add("hidden");
+  }
+
+  dropMenu.addEventListener("click", () => {
+    dropdown();
+  });
+
+  drop.addEventListener("mouseleave", () => {
+    dropdownDismiss();
+  });
+</script>
