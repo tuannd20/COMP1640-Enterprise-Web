@@ -31,7 +31,7 @@ const renderListCategoryPage = async (req, res, next) => {
   }
 };
 
-const rederCreateCategoryPage = async (req, res, next) => {
+const renderCreateCategoryPage = async (req, res, next) => {
   try {
     const staff = req.cookies.Staff;
     const Departments = await DepartmentService.getAllDepartment();
@@ -50,21 +50,6 @@ const rederCreateCategoryPage = async (req, res, next) => {
     console.log(error);
   }
 };
-
-// const createCategory = async (req, res, next) => {
-//   try {
-//     const formData = req.body;
-//     const name = req.body.nameCategory;
-//     // Validation logic
-//     if (!formData.nameCategory) {
-//       return res.redirect("/qa/category/create");
-//     }
-//     const category = await CategoryService.createCategory(formData);
-//     return res.redirect("/qa/categories");
-//   } catch (err) {
-//     return err;
-//   }
-// };
 
 const createCategory = async (req, res) => {
   try {
@@ -163,30 +148,6 @@ const updateCategory = async (req, res, next) => {
   }
 };
 
-// const deleteOneCategory = async (req, res, next) => {
-//   const { id } = req.params;
-//   try {
-//     const checkCategory = await CategoryService.getCategory({
-//       _id: id,
-//     });
-
-//     const checkDepartment = await DepartmentService.getDepartment({
-//       _id: checkCategory.idDepartment,
-//     });
-
-//     if (checkCategory.isUsed == false && checkDepartment.isUsed == false) {
-//       const category = await CategoryService.deleteOneCategory({
-//         _id: id,
-//       });
-//       return res.json(category);
-//     }
-
-//     return res.send("This category is used");
-//   } catch (err) {
-//     return err;
-//   }
-// };
-
 const deleteOneCategory = async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -249,7 +210,7 @@ module.exports = {
   deleteAllCategory,
   deleteOneCategory,
   renderListCategoryPage,
-  rederCreateCategoryPage,
+  renderCreateCategoryPage,
   getCategoryActivated,
   findCategoryByIdDepartment,
 };

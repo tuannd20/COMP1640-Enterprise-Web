@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
 
 router.get("/categories", CategoryController.renderListCategoryPage);
 // get
-router.get("/categories/create-page", CategoryController.rederCreateCategoryPage);
+router.get("/categories/create-page", CategoryController.renderCreateCategoryPage);
 
 router.post("/categories", CategoryController.createCategory);
 
