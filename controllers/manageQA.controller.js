@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const ManageQaService = require("../services/manageQA.service");
 const DepartmentService = require("../services/department.service");
 const { BAD_REQUEST } = require("../constants/http.status.code");
@@ -25,19 +26,37 @@ const createStaff = async (req, res) => {
     // const account = req.body;
     const staff = req.cookies.Staff;
 
+    const salt = await bcrypt.genSalt(10);
+    const hashed = await bcrypt.hash(req.body.password, salt);
+
     req.body.idRole = "63f066f996329eb058cc3095";
-    req.body.lockAccount = true;
 
     const formData = req.body;
     console.log("body controller", formData);
-    const results = await StaffService.createStaff(formData);
-    console.log(results);
+    const payload = {
+      email: req.body.email,
+      fullName: req.body.fullName,
+      idRole: req.body.idRole,
+      idDepartment: req.body.idDepartment,
+      phoneNumber: req.body.phoneNumber,
+      address: req.body.address,
+      password: hashed,
+    };
+    const results = await StaffService.createStaff(payload);
+
+    // const formData = req.body;
+    // console.log("body controller", formData);
+    // const results = await StaffService.createStaff(formData);
+    // console.log(results);
 
     const checkDepartment = await DepartmentService.getDepartment({
       _id: req.body.idDepartment,
     });
 
-    if (results.statusCode !== BAD_REQUEST && checkDepartment.isUsed === false) {
+    if (
+      results.statusCode !== BAD_REQUEST &&
+      checkDepartment.isUsed === false
+    ) {
       const departments = await DepartmentService.updateDepartment(
         { _id: formData.idDepartment },
         { isUsed: true },
