@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const CommentRepository = require("../comment.repository");
+const CommentRepository = require("../comments.repository");
 
 beforeEach(async () => {
   await mongoose.connect(process.env.MONGODB_URI);

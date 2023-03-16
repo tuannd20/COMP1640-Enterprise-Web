@@ -1,4 +1,4 @@
-const CommentRepository = require("../repositories/comment.repository");
+const CommentRepository = require("../repositories/comments.repository");
 
 const getAllComment = async () => {
   try {
