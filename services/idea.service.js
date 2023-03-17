@@ -60,9 +60,9 @@ const findByOptions = async (options) => {
   }
 };
 
-const getAllWithQuery = async (page, query) => {
+const getAllWithQuery = async (query, options) => {
   try {
-    const Idea = await IdeaRepository.getAllWithQuery(page, query);
+    const Idea = await IdeaRepository.getAllWithQuery(query, options);
     return Idea;
   } catch (err) {
     console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);

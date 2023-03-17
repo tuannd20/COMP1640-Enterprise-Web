@@ -53,14 +53,17 @@ const renderEditIdeaPage = async (req, res) => {
 
 const displayAllIdea = async (req, res) => {
   try {
-    const staff = req.cookies.Staff;
+    // eslint-disable-next-line radix
+    const page = parseInt(req.query.page) || 1;
+    // eslint-disable-next-line radix
+    const limit = 5;
 
+    const staff = req.cookies.Staff;
     const sort = req.query.Sort;
     const pollId = req.query.idPoll;
     const departmentId = req.query.idDepartment;
     const exception = req.query.Exception;
-    const { page = 1 } = req.query;
-    let querySort = {};
+
     const polls = await pollService.getPollActivated();
 
     const departments = await departmentService.getDepartmentActivated();
@@ -87,55 +90,61 @@ const displayAllIdea = async (req, res) => {
       );
     }
 
+    const options = {
+      page,
+      limit,
+      populate: { path: "idStaffIdea", model: Staff },
+      sort: { createdAt: -1 },
+    };
+
     if (sort === "Recently") {
-      querySort = { createdAt: -1 };
+      options.sort = { createdAt: -1 };
     } else if (sort === "Like high to low") {
-      querySort = { likeCount: -1 };
+      options.sort = { likeCount: -1 };
     } else if (sort === "Like low to high") {
-      querySort = { likeCount: 1 };
+      options.sort = { likeCount: 1 };
     } else if (sort === "View high to low") {
-      querySort = { viewCount: -1 };
+      options.sort = { viewCount: -1 };
     } else if (sort === "View low to high") {
-      // eslint-disable-next-line no-unused-vars
-      querySort = { viewCount: 1 };
+      options.sort = { viewCount: 1 };
     }
 
     let allIdea;
-    let amountIdea;
 
     if (exception === "Anonymous") {
       query.status = ["Private"];
     }
     if (exception === "Without comment") {
-      allIdea = await ideaService.getAllWithQuery(page, query);
+      allIdea = await ideaService.getAllWithQuery(query, options);
       const ideasWithoutComment = [];
-      // eslint-disable-next-line no-restricted-syntax
-      for (const idea of allIdea) {
+
+      // eslint-disable-next-line prefer-const, no-restricted-syntax
+      for (let idea of allIdea.docs) {
         // eslint-disable-next-line no-await-in-loop
         const comments = await commentModel.find({ idIdea: idea._id });
         if (comments.length === 0) {
           ideasWithoutComment.push(idea);
         }
       }
-      amountIdea = await ideaService.getAllByQuery(query);
 
-      allIdea = ideasWithoutComment;
+      console.log(allIdea);
+      // allIdea.totalDocs = ideasWithoutComment.length;
+      // allIdea.totalPages = Math.ceil(ideasWithoutComment.length / limit);
+      allIdea.docs = ideasWithoutComment;
     } else {
-      amountIdea = await ideaService.getAllByQuery(query);
-      allIdea = await ideaService.getAllWithQuery(page, query);
+      allIdea = await ideaService.getAllWithQuery(query, options);
+      if (!allIdea.docs) return res.redirect("/errors");
     }
-    amountIdea = Math.ceil(Object.keys(amountIdea).length / 5);
-    const data = {
-      docs: allIdea,
-      totalPage: amountIdea,
-      page,
-    };
+
+    // const allIdea = await ideaService.getAllWithQuery(options, query);
+    // if (!allIdea.docs) return res.redirect("/errors");
+
     const allStaffIdea = await staffIdeaService.getAllWithQuery({
       idStaff: staff._id,
       isLike: { $in: [true, false] },
     });
 
-    data.docs.forEach((element) => {
+    allIdea.docs.forEach((element) => {
       if (element.urlFile != null) {
         for (let i = 0; i < element.urlFile.length; i += 1) {
           if (
@@ -153,7 +162,7 @@ const displayAllIdea = async (req, res) => {
     });
 
     if (allStaffIdea) {
-      data.docs.forEach((idea) => {
+      allIdea.docs.forEach((idea) => {
         const staffIdea = allStaffIdea.find(
           (sIdea) => sIdea.IdIdea.toString() === idea._id.toString(),
         );
@@ -166,13 +175,14 @@ const displayAllIdea = async (req, res) => {
     }
 
     const all = await ideaService.getAllWithQuery(
-      {},
       {
         status: { $in: ["Private", "Public"] },
       },
+      {},
     );
 
-    const idStaffIdeas = all.map((obj) => obj.idStaffIdea);
+    if (!all.docs) return res.redirect("/errors");
+    const idStaffIdeas = all.docs.map((obj) => obj.idStaffIdea);
 
     const uniqueIdStaffIdeas = new Set(idStaffIdeas);
     const participants = uniqueIdStaffIdeas.size;
@@ -180,12 +190,15 @@ const displayAllIdea = async (req, res) => {
     const percentage = `${((allIdea.totalDocs / all.totalDocs) * 100).toFixed(
       2,
     )}%`;
+
     return res.render("partials/master", {
       title: "Idea",
       content: "../staff/homePage",
       staff,
       role: staff.idRole.nameRole,
-      ideas: data,
+      totalProducts: allIdea.totalDocs,
+      totalPages: allIdea.totalPages,
+      ideas: allIdea,
       participants,
       percentage,
       polls,
@@ -196,10 +209,7 @@ const displayAllIdea = async (req, res) => {
       foundDepartment,
     });
   } catch (err) {
-    console.log(
-      "🚀 ~ file: renderIdea.controller.js:199 ~ displayAllIdea ~ err:",
-      err,
-    );
+    console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
     return err;
   }
 };
