@@ -1,3 +1,4 @@
+const { query } = require("express");
 const PollModel = require("../database/models/Poll");
 
 const createPoll = async (data) => {
@@ -69,6 +70,15 @@ const getPollActivated = async () => {
   }
 };
 
+const getPollInactive = async () => {
+  try {
+    const result = await PollModel.find({ isUsed: false });
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 const findByName = async (name) => {
   try {
     const result = await PollModel.findOne({ namePoll: name });
@@ -78,14 +88,48 @@ const findByName = async (name) => {
   }
 };
 
-const findByNameExist = async (name) => {
+const findByNameExist = async (id, name) => {
   try {
-    const result = await PollModel.distinct("namePoll")
+    const result = await PollModel.find()
       .where("namePoll")
-      .ne(name);
+      .equals(name)
+      .where("_id")
+      .ne(id);
     return result;
   } catch (err) {
     return err;
+  }
+};
+
+const lastPoll = async (condition) => {
+  try {
+    const result = await PollModel.find(condition);
+    return result;
+  } catch (error) {
+    return error;
+  }
+};
+
+const getPollNewest = async () => {
+  try {
+    const newestPoll = await PollModel.findOne().sort({ dateSubEnd: -1 });
+
+    return newestPoll;
+  } catch (error) {
+    return error;
+  }
+};
+
+const handleActionIdea = async (id) => {
+  try {
+    const resultAction = await PollModel.findOneAndUpdate(
+      { _id: id },
+      { isHandleActionIdea: false },
+    );
+
+    return resultAction;
+  } catch (error) {
+    return error;
   }
 };
 
@@ -99,4 +143,8 @@ module.exports = {
   getPollActivated,
   findByName,
   findByNameExist,
+  getPollInactive,
+  lastPoll,
+  getPollNewest,
+  handleActionIdea,
 };

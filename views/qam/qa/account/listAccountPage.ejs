@@ -1,0 +1,156 @@
+<div class="m-1 overflow-x-auto">
+  <div
+    class="flex justify-center min-h-screen overflow-hidden font-sans min-w-screen"
+  >
+    <div class="w-full ml-10 mr-10">
+      <div class="relative flex justify-start mt-20 mb-10 create-btn">
+        <a href="/qam/departments">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="font-extrabold w-7 h-7 text-sky-900 hover:text-sky-400"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+            />
+          </svg>
+        </a>
+        <div class="m-auto text-2xl font-semibold">LIST OF QA</div>
+      </div>
+      <div class="my-6 bg-white rounded shadow-md">
+        <div
+          id="recipients"
+          class="p-8 my-6 mt-6 bg-white rounded shadow lg:mt-0"
+        >
+          <table
+            id="table_list_qa"
+            style="width: 100%; padding-top: 1em; padding-bottom: 1em"
+          >
+            <thead>
+              <tr
+                class="text-sm leading-normal text-gray-600 uppercase bg-gray-200"
+              >
+                <th data-priority="1" class="px-6 py-3 text-left">ID</th>
+                <th data-priority="2" class="px-6 py-3 text-left">Full Name</th>
+                <th data-priority="3" class="px-6 py-3 text-left">Email</th>
+                <th data-priority="4" class="px-6 py-3 text-left">Address</th>
+                <th data-priority="5" class="px-6 py-3 text-center">
+                  Phone Number
+                </th>
+                <th data-priority="6" class="px-6 py-3 text-left">
+                  Department
+                </th>
+                <th data-priority="7" class="px-6 py-3 text-left">Role</th>
+                <th data-priority="8" class="px-6 py-3 text-center">Active</th>
+                <th data-priority="9" class="px-6 py-3 text-center">Actions</th>
+              </tr>
+            </thead>
+            <% if (staffs.length === 0) { %>
+            <tbody class="text-sm font-light text-gray-600">
+              <tr class="border-b border-gray-200 hover:bg-gray-100">
+                <td class="px-6 py-3 text-center" colspan="9">
+                  <span class="font-medium">No data</span>
+                </td>
+              </tr>
+            </tbody>
+            <% } else { %>
+            <tbody class="text-sm font-light text-gray-600">
+              <% let count = staffs.length %> <% staffs.forEach(function(staff,
+              index) { %>
+              <tr class="border-b border-gray-200 hover:bg-gray-100">
+                <td class="px-6 py-3 text-left">
+                  <span class="font-medium"><%= ++index %></span>
+                </td>
+                <td class="px-6 py-3 text-left">
+                  <span class="font-medium"><%= staff.fullName %></span>
+                </td>
+                <td class="px-6 py-3 text-left">
+                  <span class="font-medium"><%= staff.email %></span>
+                </td>
+                <td class="px-6 py-3 text-left">
+                  <span class="font-medium"><%= staff.address %></span>
+                </td>
+                <td class="px-6 py-3 text-center">
+                  <span class="font-medium"><%= staff.phoneNumber %></span>
+                </td>
+                <td class="px-6 py-3 text-left">
+                  <span class="font-medium"
+                    ><%= staff.idDepartment.nameDepartment %></span
+                  >
+                </td>
+                <td class="px-6 py-3 text-left">
+                  <span class="font-medium"><%= staff.idRole.nameRole %></span>
+                </td>
+                <% if (staff.lockAccount === false) { %>
+                <td class="px-6 py-3 text-center">
+                  <span
+                    class="px-3 py-1 text-xs text-white bg-green-600 rounded-full"
+                    >Active</span
+                  >
+                </td>
+                <%}else { %>
+                <td class="px-6 py-3 text-center">
+                  <span
+                    class="px-3 py-1 text-xs text-white bg-red-600 rounded-full"
+                    >Block</span
+                  >
+                </td>
+                <% } %>
+                <td class="px-6 py-3 text-center">
+                  <div class="flex justify-center item-center">
+                    <div
+                      class="w-6 mr-2 transform hover:text-sky-900 hover:scale-110"
+                    >
+                      <a href="qas/edit-page/<%= staff.id %>">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+            <% } %>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const dropMenu = document.getElementById("menu_icon");
+  const drop = document.getElementById("dropdown");
+  function dropdown() {
+    drop.classList.toggle("hidden");
+  }
+
+  function dropdownDismiss() {
+    drop.classList.add("hidden");
+  }
+
+  dropMenu.addEventListener("click", () => {
+    dropdown();
+  });
+
+  drop.addEventListener("mouseleave", () => {
+    dropdownDismiss();
+  });
+</script>

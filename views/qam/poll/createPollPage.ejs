@@ -4,7 +4,7 @@
     class="relative h-auto p-3 overflow-y-auto border-2 idea border-stone-700 rounded-2xl opacity-80"
   >
     <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
-      <a href="/qam/poll">
+      <a href="/qam/polls">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -27,7 +27,7 @@
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px]">
           <form
-            action="/qam/poll/create"
+            action="/qam/polls"
             onsubmit="return validateForm()"
             method="POST"
           >
@@ -69,7 +69,7 @@
               style="color: red"
               hidden
             >
-              Ngày bắt đầu phải lớn hơn ngày hiện tại
+              *Start date must be than current date
             </div>
 
             <div class="mb-4">
@@ -94,7 +94,7 @@
               style="color: red"
               hidden
             >
-              Ngày kết thúc tạm thời phải lớn hơn ngày bắt đầu
+              *Sub end date must be than start date and current date
             </div>
 
             <div class="mb-4">
@@ -119,7 +119,16 @@
               style="color: red"
               hidden
             >
-              Ngày kết thúc phải lớn hơn ngày kết thúc tạm thời
+              *End date must than sub end date and current date
+            </div>
+
+            <div
+              class="ml-3 text-sm font-medium"
+              id="alert-error-dateEquality"
+              style="color: red"
+              hidden
+            >
+              *start date , sub end date and end date not be equal
             </div>
 
             <div
@@ -138,7 +147,7 @@
     class="relative h-auto p-3 overflow-y-auto border-2 idea border-stone-700 rounded-2xl opacity-80"
   >
     <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
-      <a href="/qam/poll">
+      <a href="/qam/polls">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -161,7 +170,7 @@
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px]">
           <form
-            action="/qam/poll/create"
+            action="/qam/polls"
             onsubmit="return validateForm()"
             method="POST"
           >
@@ -183,46 +192,11 @@
             </div>
 
             <div
-              id="alert-border-2"
-              class="flex p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
-              role="alert"
+              class="ml-3 text-sm font-medium"
+              id="alert-error-endDate"
+              style="color: red"
             >
-              <svg
-                class="flex-shrink-0 w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              <div class="ml-3 text-sm font-medium">
-                The <%= errorMessage %>
-              </div>
-              <button
-                type="button"
-                class="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
-                data-dismiss-target="#alert-border-2"
-                aria-label="Close"
-              >
-                <span class="sr-only">Dismiss</span>
-                <svg
-                  aria-hidden="true"
-                  class="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </button>
+              *The <%= errorMessage %>
             </div>
 
             <div class="mb-4">
@@ -242,6 +216,15 @@
               />
             </div>
 
+            <div
+              class="ml-3 text-sm font-medium"
+              id="alert-error-endDate"
+              style="color: red"
+              hidden
+            >
+              *Start date must be than current date
+            </div>
+
             <div class="mb-4">
               <label
                 for="subEndDate"
@@ -257,6 +240,15 @@
                 required
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
+            </div>
+
+            <div
+              class="ml-3 text-sm font-medium"
+              id="alert-error-endDate"
+              style="color: red"
+              hidden
+            >
+              *Sub end date must be than start date and current date
             </div>
 
             <div class="mb-4">
@@ -277,6 +269,23 @@
             </div>
 
             <div
+              class="ml-3 text-sm font-medium"
+              id="alert-error-endDate"
+              style="color: red"
+              hidden
+            >
+              *End date must than sub end date and current date
+            </div>
+            <div
+              class="ml-3 text-sm font-medium"
+              id="alert-error-dateEquality"
+              style="color: red"
+              hidden
+            >
+              *start date , sub end date and end date not be equal
+            </div>
+
+            <div
               class="w-1/6 px-3 py-2 m-auto text-center text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
             >
               <input type="submit" />
@@ -289,10 +298,10 @@
   <% } %>
 
   <script>
+    const startDateInput = document.getElementById("dateStart");
+    const endSubDateInput = document.getElementById("dateSubEnd");
+    const endDateInput = document.getElementById("dateEnd");
     function validateForm() {
-      const startDateInput = document.getElementById("dateStart");
-      const endSubDateInput = document.getElementById("dateSubEnd");
-      const endDateInput = document.getElementById("dateEnd");
       const startDate = new Date(startDateInput.value);
       // alert(startDate);
       const endSubDate = new Date(endSubDateInput.value);
@@ -301,27 +310,9 @@
       // alert(endDate);
       // Lấy ngày hiện tại
       const currentDate = new Date();
-      // alert(currentDate);
-      // Check if start date is empty or not a valid date
-      // if (startDateInput.value === "" || isNaN(startDate)) {
-      //   alert("Please enter a valid start date");
-      //   return false;
-      // }
-
-      // // Check if end date is empty or not a valid date
-      // if (endSubDateInput.value === "" || isNaN(endSubDate)) {
-      //   alert("Please enter a valid end sub date");
-      //   return false;
-      // }
-
-      // // Check if end date is empty or not a valid date
-      // if (endDateInput.value === "" || isNaN(endDate)) {
-      //   alert("Please enter a valid end date");
-      //   return false;
-      // }
 
       // Check if start date is earlier than start date
-      if (startDate < currentDate) {
+      if (startDate <= currentDate) {
         let myDiv1 = document.getElementById("alert-error-startDate");
         myDiv1.removeAttribute("hidden");
         return false;
@@ -340,9 +331,38 @@
         myDiv3.removeAttribute("hidden");
         return false;
       }
+      if (
+        startDate.getDate() === endSubDate.getDate() ||
+        endSubDate.getDate() === endDate.getDate() ||
+        startDate.getDate() === endDate.getDate()
+      ) {
+        let myDiv4 = document.getElementById("alert-error-dateEquality");
+        myDiv4.removeAttribute("hidden");
+        return false;
+      }
 
       // Validation passed
       return true;
     }
   </script>
 </Main>
+
+<script>
+  const dropMenu = document.getElementById("menu_icon");
+  const drop = document.getElementById("dropdown");
+  function dropdown() {
+    drop.classList.toggle("hidden");
+  }
+
+  function dropdownDismiss() {
+    drop.classList.add("hidden");
+  }
+
+  dropMenu.addEventListener("click", () => {
+    dropdown();
+  });
+
+  drop.addEventListener("mouseleave", () => {
+    dropdownDismiss();
+  });
+</script>

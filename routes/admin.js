@@ -5,20 +5,35 @@ const RuleController = require("../controllers/rule.controller");
 
 const router = express.Router();
 
-// Router for Account
+// Router to display all accounts for staff
 router.get("/account", AccountController.getAllStaff);
+
+// Router for Create Account Staff and Render Account Staff Page
+router.get("/accounts/example", AccountController.renderExampleAccountPage);
 router.get("/account/create", AccountController.renderCreateAccountPage);
 router.post("/account/create", AccountController.createStaff);
+
+// Router for Create Account Staff and Render Account Staff Page
 router.get("/account/edit/:id", AccountController.renderEditAccountPage);
-router.post("/account/edit/:id", AccountController.updateStaff);
+router.put("/account/edit/:id", AccountController.updateStaff);
 // router.get("/account/delete/:id", AccountController.deleteOneStaff);
 
-// Router for Terms
+// Router for Ban and Unban Account Staff
+router.put("/account/ban/:id", AccountController.banAccountStaff);
+router.put("/account/unban/:id", AccountController.unBanAccountStaff);
+
+// Router to display all terms
 router.get("/terms", RuleController.getAllRule);
+
+// Router for Create Terms and Render Create Terms Page
 router.get("/terms/create", RuleController.renderCreateTermsPage);
 router.post("/terms/create", RuleController.createRule);
+
+// Router for Edit Terms and Render Edit Terms Page
 router.get("/terms/edit/:id", RuleController.renderEditTermsPage);
-router.post("/terms/edit/:id", RuleController.updateRule);
-router.get("/terms/delete/:id", RuleController.deleteOneRule);
+router.put("/terms/edit/:id", RuleController.updateRule);
+
+// Router for Delete Terms
+router.delete("/terms/delete/:id", RuleController.deleteOneRule);
 
 module.exports = router;

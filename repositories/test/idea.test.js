@@ -13,10 +13,10 @@ afterEach(async () => {
 });
 
 const mockIdea = {
-  idStaffIdea: "63f0718f5fd3e1c2d3f75f04",
-  idPoll: "63f06f1a73af73fb75984dd7",
-  idDepartment: "63f069d3ebc00d7c6f011edd",
-  idCategory: "63f06bfda21296c767a69cac",
+  idStaffIdea: "64035f66bc97e96e0abcd52d",
+  idPoll: "64058b7717392fa8ffef88a8",
+  idDepartment: "64035f2cbc97e96e0abcd515",
+  idCategory: "640596b68c6c2546c81575c0",
   contentIdea: "Nhanh PO will invite all members go to eat chicken ++",
   urlFile: "https://wallpaper.dog/large/3372.jpg",
   likeCount: 0,
@@ -26,30 +26,21 @@ const mockIdea = {
 };
 
 describe("Good case: Unit test for idea", () => {
-  // it("Should create a new idea", async () => {
-  //   const idea = await ideaRepository.createIdea(mockIdea);
-  //   console.log("🚀 ~ file: idea.test.js:31 ~ it ~ idea", idea);
-  //   // expect(idea.contentIdea).toEqual(mockIdea.contentIdea);
-  //   // expect(idea.likeCount).toEqual(mockIdea.likeCount);
-  //   // expect(idea.disLikeCount).toEqual(mockIdea.disLikeCount);
-  //   // expect(idea.viewCount).toEqual(mockIdea.viewCount);
-  //   // expect(idea.status).toEqual(mockIdea.status);
-  //   // const ideaId = idea._id;
-  //   // console.log("🚀 ~ file: idea.test.js:39 ~ it ~ ideaId", ideaId);
-  //   // await ideaRepository.deleteIdea(ideaId);
-  // });
+  it("Should create a new idea", async () => {
+    const idea = await ideaRepository.createIdea(mockIdea);
+    console.log("🚀 ~ file: idea.test.js:31 ~ it ~ idea", idea);
+    // expect(idea.contentIdea).toEqual(mockIdea.contentIdea);
+    // expect(idea.likeCount).toEqual(mockIdea.likeCount);
+    // expect(idea.disLikeCount).toEqual(mockIdea.disLikeCount);
+    // expect(idea.viewCount).toEqual(mockIdea.viewCount);
+    // expect(idea.status).toEqual(mockIdea.status);
+    // const ideaId = idea._id;
+    // console.log("🚀 ~ file: idea.test.js:39 ~ it ~ ideaId", ideaId);
+    // await ideaRepository.deleteIdea(ideaId);
+  });
   // it("Should read a idea", async () => {
-  //   const query = { status: { $in: ["Private", "Public"] } };
-  //   const page = 1,
-  //     limit = 5;
-  //   const options = {
-  //     page,
-  //     limit,
-  //     populate: { path: "idStaffIdea", model: Staff },
-  //     sort: { createdAt: -1 },
-  //   };
-  //   const idea = await ideaRepository.getAllWithQuery(options, query);
-  //   console.log("🚀 ~ file: idea.test.js:50 ~ it ~ idea:", idea);
+  //   const idea = await ideaRepository.readIdea("63f071cbb3d20cf76f8c153d");
+  //   console.log("🚀 ~ file: idea.test.js:43 ~ it ~ idea:", idea);
   // });
   // it("Should update a idea", async () => {
   //   const idea = await ideaRepository.updateIdea(

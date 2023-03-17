@@ -5,19 +5,23 @@ const createCategory = async (data) => {
     const category = await CategoryModel.create(data);
     return category;
   } catch (err) {
+    console.error(
+      "🚀 ~ file: categories.repository.js:8 ~ createCategory ~ err:",
+      err,
+    );
     return err;
   }
 };
 
-const readCategories = async (id) => {
+const readCategories = async (options) => {
   try {
-    const category = await CategoryModel.find()
+    const category = await CategoryModel.find(options)
       .populate("idDepartment")
       .sort({ createdAt: -1 });
     return category;
   } catch (err) {
     console.error(
-      "🚀 ~ file: category.repository.js:18 ~ readCategory ~ err",
+      "🚀 ~ file: categories.repository.js:23 ~ readCategories ~ err:",
       err,
     );
     return err;
@@ -30,7 +34,7 @@ const readCategoryById = async (id) => {
     return category;
   } catch (err) {
     console.error(
-      "🚀 ~ file: category.repository.js:18 ~ readCategory ~ err",
+      "🚀 ~ file: categories.repository.js:36 ~ readCategoryById ~ err:",
       err,
     );
     return err;
@@ -50,18 +54,30 @@ const updateCategory = async (id, data) => {
   }
 };
 
+const updateStatusOfCategory = async (id) => {
+  try {
+    const statusCategory = await CategoryModel.findOneAndUpdate(
+      { _id: id },
+      { $push: { isUsed: true } },
+    );
+
+    return statusCategory;
+  } catch (error) {
+    console.error(
+      "🚀 ~ file: categories.repository.js:66 ~ updateStatusOfCategory ~ error:",
+      error,
+    );
+    return error;
+  }
+};
+
 const deleteCategory = async (id) => {
   try {
-    // if (CategoryModel.id === true) {
-    //   const reasult = "Can not delete a category";
-    //   console.log("you can't delete a category");
-    //   return reasult;
-    // }
     const category = await CategoryModel.findOneAndRemove(id);
     return category;
   } catch (err) {
     console.error(
-      "🚀 ~ file: category.repository.js:38 ~ deleteCategory ~ err",
+      "🚀 ~ file: categories.repository.js:79 ~ deleteCategory ~ err:",
       err,
     );
     return err;
@@ -74,7 +90,7 @@ const deleteAllCategory = async () => {
     return category;
   } catch (err) {
     console.error(
-      "🚀 ~ file: category.repository.js:38 ~ deleteCategory ~ err",
+      "🚀 ~ file: categories.repository.js:92 ~ deleteAllCategory ~ err:",
       err,
     );
     return err;
@@ -86,6 +102,10 @@ const findByName = async (name) => {
     const result = await CategoryModel.findOne({ nameCategory: name });
     return result;
   } catch (err) {
+    console.error(
+      "🚀 ~ file: categories.repository.js:105 ~ findByName ~ err:",
+      err,
+    );
     return err;
   }
 };
@@ -95,6 +115,25 @@ const getCategoryActivated = async () => {
     const result = await CategoryModel.find({ isUsed: true });
     return result;
   } catch (err) {
+    console.error(
+      "🚀 ~ file: categories.repository.js:118 ~ getCategoryActivated ~ err:",
+      err,
+    );
+    return err;
+  }
+};
+
+const getCategoryByDepartmentId = async (id) => {
+  try {
+    const result = await CategoryModel.find({ idDepartment: id })
+      .populate("idDepartment")
+      .sort({ createdAt: -1 });
+    return result;
+  } catch (err) {
+    console.error(
+      "🚀 ~ file: categories.repository.js:133 ~ getCategoryByDepartmentId ~ err:",
+      err,
+    );
     return err;
   }
 };
@@ -108,4 +147,6 @@ module.exports = {
   deleteAllCategory,
   findByName,
   getCategoryActivated,
+  getCategoryByDepartmentId,
+  updateStatusOfCategory,
 };

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const paginate = require("mongoose-paginate-v2");
 
 const { Schema } = mongoose;
 
@@ -14,11 +15,6 @@ const StaffIdeaSchema = new Schema(
     },
     isLike: {
       type: Boolean,
-      default: false,
-    },
-    isDissLike: {
-      type: Boolean,
-      default: false,
     },
     isView: {
       type: Boolean,
@@ -28,6 +24,7 @@ const StaffIdeaSchema = new Schema(
   { timestamps: true },
 );
 
+StaffIdeaSchema.plugin(paginate);
 const StaffIdea = mongoose.model("StaffIdea", StaffIdeaSchema);
 
 module.exports = StaffIdea;

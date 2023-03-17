@@ -12,6 +12,13 @@ afterEach(async () => {
 });
 
 describe("Good case: Unit test for Staff", () => {
+  it("Should find staff", async () => {
+    const find = await StaffRepository.findLeader({
+      idRole: "63f066f996329eb058cc3095",
+      idDepartment: "63f069d3ebc00d7c6f011ee0",
+    });
+    console.log("🚀 ~ file: staff.test.js:17 ~ it ~ find:", find);
+  });
   it("Should create a new staff", async () => {
     // eslint-disable-next-line camelcase
     const id_Department = "63e9aa122b4cc9ab8e700951";

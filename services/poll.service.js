@@ -67,6 +67,15 @@ const getPollActivated = async () => {
   }
 };
 
+const getPollInactive = async () => {
+  try {
+    const result = await PollRepository.getPollInactive();
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
 const findByName = async (name) => {
   try {
     const result = await PollRepository.findByName(name);
@@ -76,13 +85,61 @@ const findByName = async (name) => {
   }
 };
 
-const findByNameExist = async (name) => {
+const findByNameExist = async (id, name) => {
   try {
-    const result = await PollRepository.findByNameExist(name);
+    const result = await PollRepository.findByNameExist(id, name);
 
     return result;
   } catch (err) {
     return err;
+  }
+};
+
+const checkPoll = async () => {
+  try {
+    const currentDate = new Date();
+    const condition = {
+      dateStart: { $lte: currentDate },
+      dateSubEnd: { $gt: currentDate },
+    };
+    const lastPoll = await PollRepository.lastPoll(condition);
+    return lastPoll;
+  } catch (error) {
+    return error;
+  }
+};
+
+const getPollNewest = async () => {
+  try {
+    const poll = await PollRepository.getPollNewest();
+
+    return poll;
+  } catch (error) {
+    return error;
+  }
+};
+
+const updateHandleActionIdea = async (id) => {
+  try {
+    const poll = await PollRepository.handleActionIdea(id);
+
+    return poll;
+  } catch (error) {
+    return error;
+  }
+};
+
+const checkPollDateEnd = async () => {
+  try {
+    const currentDate = new Date();
+    const condition = {
+      dateStart: { $lte: currentDate },
+      dateEnd: { $gt: currentDate },
+    };
+    const lastPoll = await PollRepository.lastPoll(condition);
+    return lastPoll;
+  } catch (error) {
+    return error;
   }
 };
 
@@ -96,4 +153,9 @@ module.exports = {
   getPollActivated,
   findByName,
   findByNameExist,
+  getPollInactive,
+  checkPoll,
+  getPollNewest,
+  updateHandleActionIdea,
+  checkPollDateEnd,
 };

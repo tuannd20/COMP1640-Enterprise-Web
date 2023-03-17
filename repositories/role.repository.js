@@ -22,7 +22,19 @@ const createRole = async (data) => {
   }
 };
 
+const findRoleStaff = async () => {
+  try {
+    const role = await RoleModel.find({ _id: "63f069093057672cba67eb4b" });
+
+    return role;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 module.exports = {
   createRole,
   getAllRole,
+  findRoleStaff,
 };

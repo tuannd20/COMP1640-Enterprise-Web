@@ -35,7 +35,7 @@ const deleteIdea = async (id) => {
     const result = await IdeaRepository.deleteIdea(id);
     return result;
   } catch (err) {
-    console.lerrorog("🚀 ~ file: idea.service.js:38 ~ deleteIdea ~ err", err);
+    console.log("🚀 ~ file: idea.service.js:38 ~ deleteIdea ~ err", err);
     return err;
   }
 };
@@ -50,21 +50,63 @@ const getALl = async (options) => {
   }
 };
 
-const getAllWithQuery = async (options, query) => {
+const findByOptions = async (options) => {
   try {
-    const Idea = await IdeaRepository.getAllWithQuery(options, query);
+    const Idea = await IdeaRepository.findByOptions(options);
+    return Idea;
+  } catch (err) {
+    console.error("🚀 ~ file: idea.service.js:58 ~ findByOptions ~ err:", err);
+    return err;
+  }
+};
+
+const getAllWithQuery = async (query, options) => {
+  try {
+    const Idea = await IdeaRepository.getAllWithQuery(query, options);
     return Idea;
   } catch (err) {
     console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);
     return err;
   }
 };
+const getAllByQuery = async (query) => {
+  try {
+    const Idea = await IdeaRepository.getAllByQuery(query);
+    return Idea;
+  } catch (err) {
+    return err;
+  }
+};
+const getIdeaProfileWithQuery = async (options, query) => {
+  try {
+    const Idea = await IdeaRepository.getIdeaProfileWithQuery(options, query);
+    return Idea;
+  } catch (err) {
+    return err;
+  }
+};
 
+const getAllNotPaginate = async (query) => {
+  try {
+    const result = await IdeaRepository.getAllNotPaginate(query);
+    return result;
+  } catch (err) {
+    console.error(
+      "🚀 ~ file: idea.service.js:78 ~ getAllNotPaginate ~ err:",
+      err,
+    );
+    return err;
+  }
+};
 module.exports = {
-  getAllWithQuery,
   createIdea,
   getIdea,
   updateIdea,
   deleteIdea,
   getALl,
+  findByOptions,
+  getAllWithQuery,
+  getAllByQuery,
+  getIdeaProfileWithQuery,
+  getAllNotPaginate,
 };

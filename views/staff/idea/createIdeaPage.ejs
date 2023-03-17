@@ -1,119 +1,147 @@
 <Main class="pt-[100px] w-3/5 m-auto min-h-screen mb-5">
   <div
-    class="relative p-3 border-2 idea border-stone-700 rounded-2xl h-auto opacity-80"
+    class="relative h-auto p-3 border-2 idea border-stone-700 rounded-2xl opacity-80"
   >
     <div class="flex p-3 mb-5 text-2xl font-semibold border-b-2 title-create">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="font-extrabold w-7 h-7 text-sky-900 hover:text-sky-400"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
-        />
-      </svg>
-
-      <div class="m-auto">Create a new idea</div>
-    </div>
-    <div class="flex flex-row justify-between header-idea">
-      <div class="flex flex-row items-center justify-center gap-2 mb-3">
+      <a href="/profile">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="w-20 h-20 text-sky-900"
+          class="font-extrabold w-7 h-7 text-sky-900 hover:text-sky-400"
         >
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
-            d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+            d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
           />
         </svg>
-        <div>
-          <p class="mb-1 text-lg font-medium">nhan phan</p>
-          <div class="flex flex-row items-center gap-5">
-            <div class="sort">
-              <div
-                class="flex flex-row items-center justify-between gap-2 sort_button"
-              >
+      </a>
+
+      <div class="m-auto">Create a new idea</div>
+    </div>
+
+    <form
+      action="/ideas/uploadIdea"
+      method="post"
+      id="create-form"
+      enctype="multipart/form-data"
+    >
+      <div class="flex flex-row justify-between header-idea">
+        <div class="flex flex-row items-center justify-center gap-2 mb-3">
+          <% if(account.avatarImage === "" || account.avatarImage === null) { %>
+          <img
+            src="<%= process.env.BASE_URL %>image/avatar.png"
+            alt=""
+            class="w-16 h-16 border rounded-full"
+          />
+          <%}else { %>
+          <img
+            src="<%= process.env.BASE_URL %><%= account.avatarImage %>"
+            alt=""
+            class="w-24 h-24 border rounded-full"
+          />
+          <% } %>
+          <div>
+            <p class="mb-1 text-lg font-medium"><%= account.fullName %></p>
+            <div class="flex flex-row items-center gap-5">
+              <div class="sort">
+                <div
+                  class="flex flex-row items-center justify-between gap-2 sort_button"
+                >
+                  <label for="product-type">
+                    Status
+                    <select
+                      name="status"
+                      id="product-type"
+                      class="py-[2px] border rounded-lg border-slate-400"
+                      form="create-form"
+                    >
+                      <option value="Draft">Draft</option>
+                      <option value="Public">Public</option>
+                      <option value="Private">Incognito</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+              <div class="Department">
                 <label for="product-type">
-                  Status
+                  Department
                   <select
-                    name="status"
-                    id="product-type"
-                    class="py-[2px] border rounded-lg border-slate-400"
+                    name="department"
                     form="create-form"
+                    required
+                    id="department-select"
+                    class="border rounded-lg py-[2px] border-slate-400"
                   >
-                    <option value="Draff">Draff</option>
-                    <option value="Public">Public</option>
-                    <option value="Private">Incognito</option>
+                    <% departments.forEach(function(department) { %>
+                    <option value="<%= department._id %>">
+                      <%= department.nameDepartment %>
+                    </option>
+                    <% }) %>
+                  </select>
+                </label>
+              </div>
+              <div class="Category">
+                <label for="type">
+                  Category
+                  <select
+                    name="Category"
+                    id="categoriesList"
+                    required
+                    form="create-form"
+                    class="border rounded-lg py-[2px] border-slate-400"
+                  >
+                    <!-- <option value="0">All</option>
+                    <option value="1">Without comment</option>
+                    <option value="2">Anonimous</option> -->
                   </select>
                 </label>
               </div>
             </div>
-            <div class="Department">
-              <label for="product-type">
-                Department
-                <select
-                  name="department-type"
-                  form="create-form"
-                  id="product-type"
-                  class="border rounded-lg py-[2px] border-slate-400"
-                >
-                  <option value="0">0</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                </select>
-              </label>
-            </div>
-            <div class="Category">
-              <label for="type">
-                Category
-                <select
-                  name="Category"
-                  id="type"
-                  form="create-form"
-                  class="border rounded-lg py-[2px] border-slate-400"
-                >
-                  <option value="0">All</option>
-                  <option value="1">Without comment</option>
-                  <option value="2">Anonimous</option>
-                </select>
-              </label>
-            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="content-idea mb-8">
-      <textarea
-        rows="8"
-        name="content-idea"
-        form="create-form"
-        required
-        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md min-h-[200px]"
-        placeholder="Your idea..."
-      ></textarea>
-    </div>
-    <div class="w-[95%] m-auto">
-      <form action="/action" method="post" id="create-form">
+      <div class="mb-8 content-idea">
+        <input
+          type="text"
+          name="pool"
+          hidden
+          value="<%= newestPoll.namePoll %>"
+          class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+        />
+        <textarea
+          rows="8"
+          name="content"
+          form="create-form"
+          required
+          class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md min-h-[200px]"
+          placeholder="Your idea..."
+        ></textarea>
+      </div>
+      <div class="w-[95%] m-auto">
         <div class="flex flex-row justify-between footer-idea">
-          <div class="px-3 py-2 border-2 rounded-lg upload-btn h-auto">
-            <input type="file" name="filename" value="Upload" multiple />
+          <div>
+            <div class="border-2 rounded-lg h-38 upload-btn">
+              <input
+                id="fileUpload"
+                type="file"
+                name="file"
+                value="Upload"
+                multiple
+              />
+            </div>
+            <div id="previewFileUpload"></div>
           </div>
+
           <div class="flex flex-row items-center justify-between gap-5">
             <div class="italic terms">
               <input type="checkbox" id="myCheck" required />
-              <label for="myCheck"> Agree to terms?</label>
+              <a href="/terms" target="_blank"
+                ><label> Agree to terms?</label></a
+              >
             </div>
             <div
               class="px-3 py-2 text-white border-2 rounded-lg submit-btn bg-sky-900 hover:bg-sky-400"
@@ -122,7 +150,115 @@
             </div>
           </div>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 </Main>
+
+<script>
+  const fileInput = document.getElementById("fileUpload");
+  const preview = document.getElementById("previewFileUpload");
+
+  fileInput.addEventListener("change", () => {
+    preview.innerHTML = "";
+    const files = fileInput.files;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (
+        file.type === "application/pdf" ||
+        file.type === "application/msword" ||
+        file.type ===
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      ) {
+        const name = document.createElement("p");
+        name.textContent = file.name;
+        preview.appendChild(name);
+      }
+
+      const reader = new FileReader();
+
+      reader.addEventListener("load", () => {
+        const img = new Image();
+        img.src = reader.result;
+        img.width = 200;
+        preview.appendChild(img);
+      });
+
+      reader.readAsDataURL(file);
+    }
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+    $("#department-select").click(async function () {
+      const departmentId = await $("#department-select").val();
+
+      if (departmentId === "0") {
+        console.log("Select default!!!!!!!!!!", departmentId);
+      } else {
+        console.log("Select department from DB: ", departmentId);
+        const response = await axios.get(
+          `/api/v1/categories/department/${departmentId}`,
+        );
+        const categories = response.data;
+
+        if (categories.length === 0) {
+          $("#categoriesList").empty();
+          $("#categoriesList").append(
+            $("<option></option>").attr("value", "").text("No category"),
+          );
+        } else {
+          $("#categoriesList").empty();
+          $.each(categories, function (key, category) {
+            $("#categoriesList").append(
+              $("<option></option>")
+                .attr("value", category.id)
+                .text(category.nameCategory),
+            );
+          });
+        }
+
+        // Add click event listener to categories
+        $("#categoriesList").off("change");
+        $("#categoriesList").on("change", async function () {
+          const categoryId = await $("#categoriesList").val();
+          console.log("Selected category from DB: ", categoryId);
+
+          // Fetch category details and reset the categoriesList dropdown
+          const response = await axios.get(`/api/v1/categories/${categoryId}`);
+          const category = response.data;
+          $("#categoriesList").empty();
+          $("#categoriesList").append(
+            $("<option></option>").attr("value", "").text("Select a category"),
+          );
+          $("#categoriesList").append(
+            $("<option></option>")
+              .attr("value", category.id)
+              .text(category.nameCategory),
+          );
+        });
+      }
+    });
+  });
+</script>
+
+<script>
+  const dropMenu = document.getElementById("menu_icon");
+  const drop = document.getElementById("dropdown");
+  function dropdown() {
+    drop.classList.toggle("hidden");
+  }
+
+  function dropdownDismiss() {
+    drop.classList.add("hidden");
+  }
+
+  dropMenu.addEventListener("click", () => {
+    dropdown();
+  });
+
+  drop.addEventListener("mouseleave", () => {
+    dropdownDismiss();
+  });
+</script>

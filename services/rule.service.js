@@ -30,10 +30,8 @@ const displayRuleById = async (id) => {
     return err;
   }
 };
-const deleteOneRule = async (_id) => {
+const deleteOneRule = async (id) => {
   try {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = _id;
     const rule = await RuleRepository.deleteOneRule(id);
     return rule;
   } catch (err) {
