@@ -52,6 +52,18 @@ const getAll = async (options) => {
   }
 };
 
+const getAllToDownload = async () => {
+  try {
+    const Idea = await ideaModel
+      .find({})
+      .populate(["idStaffIdea", "idDepartment", "idCategory", "idPoll"]);
+    return Idea;
+  } catch (err) {
+    console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);
+    return err;
+  }
+};
+
 const findByOptions = async (options) => {
   try {
     const Idea = await ideaModel.findOne(options);
@@ -65,7 +77,7 @@ const findByOptions = async (options) => {
   }
 };
 
-const getAllWithQuery = async (options, query) => {
+const getAllWithQuery = async (query, options) => {
   try {
     const Idea = await ideaModel.paginate(query, options);
     return Idea;
@@ -75,6 +87,38 @@ const getAllWithQuery = async (options, query) => {
   }
 };
 
+const getIdeaProfileWithQuery = async (options, query) => {
+  try {
+    const Idea = await ideaModel.paginate(query, options);
+    return Idea;
+  } catch (err) {
+    console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);
+    return err;
+  }
+};
+
+const getAllByQuery = async (query) => {
+  try {
+    const Idea = await ideaModel.find(query);
+    return Idea;
+  } catch (err) {
+    console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);
+    return err;
+  }
+};
+
+const getAllNotPaginate = async (query) => {
+  try {
+    const Idea = await ideaModel.find(query);
+    return Idea;
+  } catch (err) {
+    console.error(
+      "🚀 ~ file: idea.repository.js:83 ~ getAllNotPaginate ~ err:",
+      err,
+    );
+    return err;
+  }
+};
 module.exports = {
   findByOptions,
   createIdea,
@@ -83,4 +127,8 @@ module.exports = {
   deleteIdea,
   getAll,
   getAllWithQuery,
+  getAllByQuery,
+  getIdeaProfileWithQuery,
+  getAllNotPaginate,
+  getAllToDownload,
 };

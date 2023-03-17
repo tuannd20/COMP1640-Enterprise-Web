@@ -2,22 +2,23 @@
   <div class="border-2 idea border-stone-700 rounded-2xl h-[94%] opacity-80">
     <div class="header idea drop-shadow-xl">
       <div class="flex flex-row justify-between header-idea">
-        <div class="flex flex-row items-center justify-center gap-2 ml-3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-12 h-12 text-sky-600"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-          </svg>
-          <p class="text-base font-medium">Phan le chinh nhan</p>
+        <div class="flex flex-row items-center justify-center gap-2 mt-2 ml-3">
+          <% if(data.ideas.idStaffIdea.avatarImage === "" || data.ideas.idStaffIdea.avatarImage === null) { %>
+          <img
+            src="<%= process.env.BASE_URL %>image/avatar.png"
+            alt=""
+            class="w-10 h-10 border rounded-full"
+          />
+          <%}else { %>
+          <img
+            src="<%= data.ideas.idStaffIdea.avatarImage %>"
+            alt=""
+            class="w-10 h-10 border rounded-full"
+          />
+          <% } %>
+          <p class="text-base font-medium">
+            <%= data.ideas.idStaffIdea.fullName %>
+          </p>
         </div>
         <div class="flex flex-row items-center justify-center gap-3">
           <svg
@@ -42,7 +43,7 @@
     <div class="overflow-y-auto h-[82%]">
       <div class="content-idea">
         <div
-          class="w-full px-5 pt-2 mt-1 overflow-auto text-clip bg-zinc-300 h-60 sm:text-sm"
+          class="w-full px-5 pt-2 mt-1 mb-3 overflow-auto text-clip bg-zinc-300 h-20 sm:text-sm"
         >
           <p
             class="leading-6 overflow-hidden indent-0.5 text-justify max-h-52"
@@ -56,18 +57,27 @@
             <%= data.ideas.contentIdea %>
           </p>
         </div>
+        <div class="w-full h-30 flex items-center justify-center gap-3">
+            <video class="w-64 items-center" autoplay controls>
+              <source src="https://res.cloudinary.com/dd9ain71r/video/upload/v1679070857/Idea/r6xu87uyojulnmwypiic.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+
+          <img class="h-auto max-w-xs" src="https://res.cloudinary.com/dd9ain71r/image/upload/v1679070588/Idea/rhwltzmxmj9ekzu13ob2.jpg" alt="image description">
+        </div>
       </div>
 
       <div class="mt-4 right-5 w-[95%] m-auto">
         <div class="flex flex-row justify-between footer-idea">
           <div class="file-icon">
+            <% if(data.ideas.urlFile == null) { %>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-10 h-10 text-sky-600 hover:text-sky-900"
+              class="w-10 h-10 text-slate-700"
             >
               <path
                 stroke-linecap="round"
@@ -75,46 +85,87 @@
                 d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
               />
             </svg>
+            <%}else { %>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-10 h-10 text-sky-500"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
+              />
+            </svg>
+            <% } %>
           </div>
+
           <div
             class="flex flex-row items-center justify-center gap-5 like-dislike-view-icon"
           >
-            <div class="flex flex-row items-center justify-center gap-1 like">
+            <div class="flex flex-row items-center justify-center gap-1">
+              <% if(data.ideas.isLike === true) { %>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-10 h-10 text-sky-600 hover:text-sky-900"
+                fill="currentColor"
+                class="w-10 h-10 cursor-pointer text-sky-500"
+                id="like-icon"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z"
+                  d="M7.493 18.75c-.425 0-.82-.236-.975-.632A7.48 7.48 0 016 15.375c0-1.75.599-3.358 1.602-4.634.151-.192.373-.309.6-.397.473-.183.89-.514 1.212-.924a9.042 9.042 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75 2.25 2.25 0 012.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H14.23c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23h-.777zM2.331 10.977a11.969 11.969 0 00-.831 4.398 12 12 0 00.52 3.507c.26.85 1.084 1.368 1.973 1.368H4.9c.445 0 .72-.498.523-.898a8.963 8.963 0 01-.924-3.977c0-1.708.476-3.305 1.302-4.666.245-.403-.028-.959-.5-.959H4.25c-.832 0-1.612.453-1.918 1.227z"
                 />
               </svg>
-              <p class="text-base font-medium">1000</p>
+              <%}else { %>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-10 h-10 cursor-pointer text-slate-700"
+                id="like-icon"
+              >
+                <path
+                  d="M7.493 18.75c-.425 0-.82-.236-.975-.632A7.48 7.48 0 016 15.375c0-1.75.599-3.358 1.602-4.634.151-.192.373-.309.6-.397.473-.183.89-.514 1.212-.924a9.042 9.042 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75 2.25 2.25 0 012.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H14.23c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23h-.777zM2.331 10.977a11.969 11.969 0 00-.831 4.398 12 12 0 00.52 3.507c.26.85 1.084 1.368 1.973 1.368H4.9c.445 0 .72-.498.523-.898a8.963 8.963 0 01-.924-3.977c0-1.708.476-3.305 1.302-4.666.245-.403-.028-.959-.5-.959H4.25c-.832 0-1.612.453-1.918 1.227z"
+                />
+              </svg>
+              <% } %>
+              <p class="text-base font-medium" id="like-moule">
+                <%= data.ideas.likeCount %>
+              </p>
             </div>
 
-            <div
-              class="flex flex-row items-center justify-center gap-1 dislike"
-            >
+            <div class="flex flex-row items-center justify-center gap-1">
+              <% if(data.ideas.isLike === false) { %>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-10 h-10 text-sky-600 hover:text-sky-900"
+                fill="currentColor"
+                class="w-10 h-10 cursor-pointer text-sky-500"
+                id="dislike-icon"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M7.5 15h2.25m8.024-9.75c.011.05.028.1.052.148.591 1.2.924 2.55.924 3.977a8.96 8.96 0 01-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398C20.613 14.547 19.833 15 19 15h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 00.303-.54m.023-8.25H16.48a4.5 4.5 0 01-1.423-.23l-3.114-1.04a4.5 4.5 0 00-1.423-.23H6.504c-.618 0-1.217.247-1.605.729A11.95 11.95 0 002.25 12c0 .434.023.863.068 1.285C2.427 14.306 3.346 15 4.372 15h3.126c.618 0 .991.724.725 1.282A7.471 7.471 0 007.5 19.5a2.25 2.25 0 002.25 2.25.75.75 0 00.75-.75v-.633c0-.573.11-1.14.322-1.672.304-.76.93-1.33 1.653-1.715a9.04 9.04 0 002.86-2.4c.498-.634 1.226-1.08 2.032-1.08h.384"
+                  d="M15.73 5.25h1.035A7.465 7.465 0 0118 9.375a7.465 7.465 0 01-1.235 4.125h-.148c-.806 0-1.534.446-2.031 1.08a9.04 9.04 0 01-2.861 2.4c-.723.384-1.35.956-1.653 1.715a4.498 4.498 0 00-.322 1.672V21a.75.75 0 01-.75.75 2.25 2.25 0 01-2.25-2.25c0-1.152.26-2.243.723-3.218C7.74 15.724 7.366 15 6.748 15H3.622c-1.026 0-1.945-.694-2.054-1.715A12.134 12.134 0 011.5 12c0-2.848.992-5.464 2.649-7.521.388-.482.987-.729 1.605-.729H9.77a4.5 4.5 0 011.423.23l3.114 1.04a4.5 4.5 0 001.423.23zM21.669 13.773c.536-1.362.831-2.845.831-4.398 0-1.22-.182-2.398-.52-3.507-.26-.85-1.084-1.368-1.973-1.368H19.1c-.445 0-.72.498-.523.898.591 1.2.924 2.55.924 3.977a8.959 8.959 0 01-1.302 4.666c-.245.403.028.959.5.959h1.053c.832 0 1.612-.453 1.918-1.227z"
                 />
               </svg>
-              <p class="text-base font-medium">900</p>
+              <%}else { %>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-10 h-10 cursor-pointer text-slate-700"
+                id="dislike-icon"
+              >
+                <path
+                  d="M15.73 5.25h1.035A7.465 7.465 0 0118 9.375a7.465 7.465 0 01-1.235 4.125h-.148c-.806 0-1.534.446-2.031 1.08a9.04 9.04 0 01-2.861 2.4c-.723.384-1.35.956-1.653 1.715a4.498 4.498 0 00-.322 1.672V21a.75.75 0 01-.75.75 2.25 2.25 0 01-2.25-2.25c0-1.152.26-2.243.723-3.218C7.74 15.724 7.366 15 6.748 15H3.622c-1.026 0-1.945-.694-2.054-1.715A12.134 12.134 0 011.5 12c0-2.848.992-5.464 2.649-7.521.388-.482.987-.729 1.605-.729H9.77a4.5 4.5 0 011.423.23l3.114 1.04a4.5 4.5 0 001.423.23zM21.669 13.773c.536-1.362.831-2.845.831-4.398 0-1.22-.182-2.398-.52-3.507-.26-.85-1.084-1.368-1.973-1.368H19.1c-.445 0-.72.498-.523.898.591 1.2.924 2.55.924 3.977a8.959 8.959 0 01-1.302 4.666c-.245.403.028.959.5.959h1.053c.832 0 1.612-.453 1.918-1.227z"
+                />
+              </svg>
+              <% } %>
+              <p class="text-base font-medium" id="dislike-moule">
+                <%= data.ideas.disLikeCount %>
+              </p>
             </div>
             <div class="flex flex-row items-center justify-center gap-1 view">
               <svg
@@ -123,7 +174,7 @@
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-10 h-10 text-sky-600 hover:text-sky-900"
+                class="w-10 h-10 cursor-pointer text-sky-600 hover:text-sky-900"
               >
                 <path
                   stroke-linecap="round"
@@ -136,7 +187,7 @@
                   d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                 />
               </svg>
-              <p class="text-base font-medium">3000</p>
+              <p class="text-base font-medium"><%= data.ideas.viewCount %></p>
             </div>
           </div>
           <div class="comment-icon">
@@ -157,54 +208,60 @@
           </div>
         </div>
       </div>
+
       <div class="w-full my-2 border-b-2 border-gray-300"></div>
       <% if (data.comments.length != 0) { %>
       <div class="h-40">
         <% data.comments.forEach(function(comment, target) { %>
         <div class="flex items-center my-4 comment">
-          <div class="max-w-[80%] flex">
-            <div class="">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-10 h-10 text-sky-600"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
+          <div class="max-w-[85%] flex">
+            <div class="min-w-[50px]">
+              <% if(comment.idStaffComment.avatarImage === null ||
+              comment.isPublic === false) { %>
+              <img
+                src="<%= process.env.BASE_URL %>image/avatar.png"
+                alt=""
+                class="w-10 h-10 mx-2 border rounded-full"
+              />
+              <%}else { %>
+              <img
+                src="<%= comment.idStaffComment.avatarImage %>"
+                alt=""
+                class="w-10 h-10 mx-2 border rounded-full"
+              />
+              <% } %>
             </div>
             <div class="flex detail-comment">
-              <div class="">
+              <div class="min-w-full">
+                <% if( comment.isPublic === false) { %>
+                <p class="font-bold">Anonymous</p>
+                <%}else { %>
                 <p class="font-bold"><%= comment.idStaffComment.fullName %></p>
+                <% } %>
                 <p class="w-auto p-2 rounded-lg bg-zinc-300">
                   <%= comment.contentComment %>
                 </p>
               </div>
+              <% if ( comment.idStaffComment._id != staff._id) { %>
+              <div></div>
+              <% } else{ %>
               <button
                 class="ml-2 text-4xl BTN"
-                onclick="toggleVisibility('section-<%= comment.id %>')"
+                onclick="toggleVisibility('section-<%= comment._id %>')"
               >
                 ...
               </button>
+              <% } %>
             </div>
           </div>
 
-          <div id="section-<%= comment.id %>" class="flex hidden -mb-4">
+          <div
+            id="section-<%= comment._id %>"
+            class="hidden translate-x-10 translate-y-4"
+          >
             <button
-              class="w-12 h-8 ml-5 text-black border-2 rounded-l-full hover:bg-green-400 border-slate-900"
-              onclick="edit( '<%= comment.id %>', '<%= comment.Comment %>' )"
-            >
-              Edit
-            </button>
-            <button
-              class="w-16 h-8 text-black border-2 rounded-r-full remove-button hover:bg-red-400 border-slate-900"
-              onclick="removeComment( '<%= comment.id %>' )"
+              class="px-4 py-2 mb-2 mr-2 text-sm font-medium text-center text-white bg-red-700 rounded-full hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+              onclick="removeComment( '<%= comment._id %>' )"
             >
               Delete
             </button>
@@ -217,18 +274,40 @@
       <div class="comment"></div>
       <% } %>
     </div>
-
-    <form action="/comments" method="POST">
+    <% if ( checkPoll.length > 0) { %>
+    <form>
       <div class="absolute inset-x-0 flex px-3 bottom-14 form-input-comment">
-        <input name="idIdea" class="hidden" value="<%= data.ideas._id %>" />
         <input
-          id="text-input"
+          name="idIdea"
+          id="idIdea"
+          class="hidden"
+          value="<%= data.ideas._id %>"
+        />
+        <input name="isPublic" id="isPublic" class="hidden" value="true" />
+        <div class="my-auto">
+          <svg
+            id="Incognito"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="w-8 h-8"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="m4.736 1.968-.892 3.269-.014.058C2.113 5.568 1 6.006 1 6.5 1 7.328 4.134 8 8 8s7-.672 7-1.5c0-.494-1.113-.932-2.83-1.205a1.032 1.032 0 0 0-.014-.058l-.892-3.27c-.146-.533-.698-.849-1.239-.734C9.411 1.363 8.62 1.5 8 1.5c-.62 0-1.411-.136-2.025-.267-.541-.115-1.093.2-1.239.735Zm.015 3.867a.25.25 0 0 1 .274-.224c.9.092 1.91.143 2.975.143a29.58 29.58 0 0 0 2.975-.143.25.25 0 0 1 .05.498c-.918.093-1.944.145-3.025.145s-2.107-.052-3.025-.145a.25.25 0 0 1-.224-.274ZM3.5 10h2a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 1-3 0v-1a.5.5 0 0 1 .5-.5Zm-1.5.5c0-.175.03-.344.085-.5H2a.5.5 0 0 1 0-1h3.5a1.5 1.5 0 0 1 1.488 1.312 3.5 3.5 0 0 1 2.024 0A1.5 1.5 0 0 1 10.5 9H14a.5.5 0 0 1 0 1h-.085c.055.156.085.325.085.5v1a2.5 2.5 0 0 1-5 0v-.14l-.21-.07a2.5 2.5 0 0 0-1.58 0l-.21.07v.14a2.5 2.5 0 0 1-5 0v-1Zm8.5-.5h2a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 1-3 0v-1a.5.5 0 0 1 .5-.5Z"
+            />
+          </svg>
+        </div>
+        <input
+          id="comment"
           name="comment"
           class="mx-2 bg-gray-50 border-2 border-gray-900 text-gray-900 sm:text-sm rounded-full focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Comment..."
           required
         />
-        <button type="submit">
+        <button id="submit-comment">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -246,6 +325,7 @@
         </button>
       </div>
     </form>
+    <% } %>
   </div>
 </Main>
 <script>
@@ -261,9 +341,13 @@
 </script>
 
 <script>
+  function toggleVisibility(id) {
+    var element = document.getElementById(id);
+    element.classList.toggle("hidden");
+  }
   function removeComment(id) {
     const xhr = new XMLHttpRequest();
-    xhr.open("DELETE", `/idea/deleteComment/${id}`, true);
+    xhr.open("DELETE", `/comments/${id}`, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(JSON.stringify({ id }));
     xhr.onload = function () {
@@ -275,26 +359,98 @@
 </script>
 
 <script>
-  function toggleVisibility(id) {
-    var element = document.getElementById(id);
-    if (element.classList.contains("hidden")) {
-      element.classList.remove("hidden");
-    } else {
-      element.classList.add("hidden");
-    }
-  }
-  function edit(id, Comment) {
-    document.getElementById("text-input").value = Comment;
-  }
-  function removeComment(id) {
+  const submit = document.getElementById("submit-comment");
+  const comment = document.getElementById("comment");
+  const idIdea = document.getElementById("idIdea");
+  const like = document.getElementById("like-icon");
+  const dislike = document.getElementById("dislike-icon");
+  const dropMenu = document.getElementById("menu_icon");
+  const drop = document.getElementById("dropdown");
+  const Incognito = document.getElementById("Incognito");
+  const isPublic = document.getElementById("isPublic");
+  submit.addEventListener("click", function (e) {
+    e.preventDefault();
     const xhr = new XMLHttpRequest();
-    xhr.open("DELETE", `/idea/deleteComment/${id}`, true);
+    xhr.open("POST", "/comments", true);
     xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send(JSON.stringify({ id }));
+    xhr.send(
+      JSON.stringify({
+        idIdea: idIdea.value,
+        comment: comment.value,
+        isPublic: isPublic.value,
+      }),
+    );
     xhr.onload = function () {
       if (xhr.status === 200) {
         location.reload();
       }
     };
+  });
+
+  like.addEventListener("click", function (e) {
+    console.log("like");
+    $.ajax({
+      type: "PUT",
+      url: "http://localhost:3000/ideas/like",
+      data: { IdIdea: $("#idIdea").val(), isLike: true },
+    }).then((response) => {
+      $("#like-moule").empty();
+      $("#like-moule").append(response.newLikeCount);
+      $("#dislike-moule").empty();
+      $("#dislike-moule").append(response.newDisLikeCount);
+    });
+
+    if (dislike.classList.contains("text-sky-500")) {
+      dislike.classList.remove("text-sky-500");
+      dislike.classList.add("text-slate-700");
+    }
+    like.classList.toggle("text-sky-500");
+    like.classList.toggle("text-slate-700");
+  });
+
+  dislike.addEventListener("click", function (e) {
+    $.ajax({
+      type: "PUT",
+      url: "http://localhost:3000/ideas/dislike",
+      data: { IdIdea: $("#idIdea").val(), isLike: false },
+    }).then((response) => {
+      $("#like-moule").empty();
+      $("#like-moule").append(response.newLikeCount);
+      $("#dislike-moule").empty();
+      $("#dislike-moule").append(response.newDisLikeCount);
+    });
+
+    if (like.classList.contains("text-sky-500")) {
+      like.classList.remove("text-sky-500");
+      like.classList.add("text-slate-700");
+    }
+    dislike.classList.toggle("text-sky-500");
+    dislike.classList.toggle("text-slate-700");
+  });
+
+  function dropdown() {
+    drop.classList.toggle("hidden");
   }
+
+  function dropdownDismiss() {
+    drop.classList.add("hidden");
+  }
+
+  dropMenu.addEventListener("click", () => {
+    dropdown();
+  });
+
+  drop.addEventListener("mouseleave", () => {
+    dropdownDismiss();
+  });
+
+  Incognito.addEventListener("click", () => {
+    if (Incognito.classList.contains("text-sky-500")) {
+      Incognito.classList.remove("text-sky-500");
+      isPublic.value = "true";
+    } else {
+      Incognito.classList.add("text-sky-500");
+      isPublic.value = "false";
+    }
+  });
 </script>

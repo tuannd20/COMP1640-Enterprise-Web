@@ -2,59 +2,105 @@
   <div
     class="flex flex-row justify-between w-4/5 pb-6 m-auto border-b-2 mt-[60px] sort_filter"
   >
-    <div class="flex flex-row gap-10">
-      <div class="sort">
-        <div
-          class="flex flex-row items-center justify-between gap-3 sort_button"
-        >
+    <form action="/" method="get">
+      <div class="flex flex-row gap-10">
+        <div class="sort">
+          <div
+            class="flex flex-row items-center justify-between gap-3 sort_button"
+          >
+            <label for="product-type">
+              Sort
+              <select
+                name="Sort"
+                id="Sort"
+                class="border-2 rounded-lg border-slate-400"
+              >
+                <% if (sort) { %>
+                <option value="<%= sort %>" selected hidden><%= sort %></option>
+                <% }%>
+                <option value="Recently">Recently</option>
+                <option value="Like high to low">Like high to low</option>
+                <option value="Like low to high">Like low to high</option>
+                <option value="View high to low">View high to low</option>
+                <option value="View low to high">View low to high</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="filter">
           <label for="product-type">
-            Sort
+            Filter
             <select
-              name="product-type"
-              id="product-type"
+              name="idPoll"
+              id="idPoll"
               class="border-2 rounded-lg border-slate-400"
             >
-              <option value="0">Recently</option>
-              <option value="1">Like high to low</option>
-              <option value="2">Like low to high</option>
-              <option value="3">View high to low</option>
-              <option value="4">View low to high</option>
+              <% if (foundPoll == null) { %>
+              <option value="">All poll</option>
+              <% } else { %>
+              <option value="<%= foundPoll._id %>" selected hidden>
+                <%= foundPoll.namePoll %>
+              </option>
+              <option value="">All poll</option>
+              <% } %> <% polls.forEach(function(poll) { %>
+              <option value="<%= poll._id %>"><%= poll.namePoll %></option>
+              <% }); %>
             </select>
           </label>
         </div>
+        <div class="filter">
+          <label for="product-type">
+            Filter
+            <select
+              name="idDepartment"
+              id="idDepartment"
+              class="border-2 rounded-lg border-slate-400"
+            >
+              <% if (foundDepartment == null) { %>
+              <option value="">All Department</option>
+              <% } else { %>
+              <option value="<%= foundDepartment._id %>" selected hidden>
+                <%= foundDepartment.nameDepartment %>
+              </option>
+              <option value="">All Department</option>
+              <% } %> <% departments.forEach(function(department) { %>
+              <option value="<%= department._id %>">
+                <%= department.nameDepartment %>
+              </option>
+              <% }); %>
+            </select>
+          </label>
+        </div>
+        <div class="Exception">
+          <label for="type">
+            Exception
+            <select
+              name="Exception"
+              id="Exception"
+              class="border-2 rounded-lg border-slate-400"
+            >
+              <% if (exception) { %>
+              <option value="<%= exception %>" selected hidden>
+                <%= exception %>
+              </option>
+              <% } %>
+              <option value="">All</option>
+              <option value="Without comment">Without comment</option>
+              <option value="Anonymous">Anonymous</option>
+            </select>
+          </label>
+        </div>
+        <button
+          id="filter-button"
+          type="submit"
+          class="mt-6 p-2 w-28 my-auto mr-4 border-2 rounded-lg cursor-pointer border-slate-700 hover:border-slate-400 hover:text-slate-400"
+        >
+          Find
+        </button>
       </div>
-      <div class="filter">
-        <label for="product-type">
-          Filter
-          <select
-            name="product-type"
-            id="product-type"
-            class="border-2 rounded-lg border-slate-400"
-          >
-            <option value="0">All poll</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
-        </label>
-      </div>
-      <div class="Exception">
-        <label for="type">
-          Exception
-          <select
-            name="type"
-            id="type"
-            class="border-2 rounded-lg border-slate-400"
-          >
-            <option value="0">All</option>
-            <option value="1">Without comment</option>
-            <option value="2">Anonimous</option>
-          </select>
-        </label>
-      </div>
-    </div>
-    <div>
+    </form>
+    <% if(role === "QAM") { %>
+    <div class="mt-6 ml-4">
       <div
         id="download-button"
         class="p-2 my-auto border-2 rounded-lg cursor-pointer border-slate-700 hover:border-slate-400 hover:text-slate-400"
@@ -67,9 +113,12 @@
       <div>No</div>
     </div> -->
     </div>
+    <% } else { %>
+      <!-- <div></div> -->
+    <%}%>
   </div>
 
-  <div class="flex flex-row w-4/5 gap-8 m-auto mt-2 statictis">
+  <!-- <div class="flex flex-row w-4/5 gap-8 m-auto mt-2 statictis">
     <p class="text-base font-normal text-gray-900 dark:text-white">
       Number of idea: <%= ideas.totalDocs %>
     </p>
@@ -77,6 +126,18 @@
       Number of participants: <%= participants %>
     </p>
     <p class="text-base font-normal text-gray-900 dark:text-white">
+      Number of participants: <%= percentage %>
+    </p>
+  </div> -->
+
+  <div class="flex flex-row w-4/5 gap-8 m-auto mt-2 statictis">
+    <p class="text-base font-normal text-gray-900">
+      Number of idea: <%= ideas.totalDocs %>
+    </p>
+    <p class="text-base font-normal text-gray-900">
+      Number of participants: <%= participants %>
+    </p>
+    <p class="text-base font-normal text-gray-900">
       Number of participants: <%= percentage %>
     </p>
   </div>
@@ -177,7 +238,7 @@
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                class="w-10 h-10 like-icon text-sky-500"
+                class="w-10 h-10 cursor-pointer like-icon text-sky-500"
               >
                 <path
                   d="M7.493 18.75c-.425 0-.82-.236-.975-.632A7.48 7.48 0 016 15.375c0-1.75.599-3.358 1.602-4.634.151-.192.373-.309.6-.397.473-.183.89-.514 1.212-.924a9.042 9.042 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75 2.25 2.25 0 012.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H14.23c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23h-.777zM2.331 10.977a11.969 11.969 0 00-.831 4.398 12 12 0 00.52 3.507c.26.85 1.084 1.368 1.973 1.368H4.9c.445 0 .72-.498.523-.898a8.963 8.963 0 01-.924-3.977c0-1.708.476-3.305 1.302-4.666.245-.403-.028-.959-.5-.959H4.25c-.832 0-1.612.453-1.918 1.227z"
@@ -188,7 +249,7 @@
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                class="w-10 h-10 like-icon text-slate-700"
+                class="w-10 h-10 cursor-pointer like-icon text-slate-700"
               >
                 <path
                   d="M7.493 18.75c-.425 0-.82-.236-.975-.632A7.48 7.48 0 016 15.375c0-1.75.599-3.358 1.602-4.634.151-.192.373-.309.6-.397.473-.183.89-.514 1.212-.924a9.042 9.042 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75 2.25 2.25 0 012.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H14.23c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23h-.777zM2.331 10.977a11.969 11.969 0 00-.831 4.398 12 12 0 00.52 3.507c.26.85 1.084 1.368 1.973 1.368H4.9c.445 0 .72-.498.523-.898a8.963 8.963 0 01-.924-3.977c0-1.708.476-3.305 1.302-4.666.245-.403-.028-.959-.5-.959H4.25c-.832 0-1.612.453-1.918 1.227z"
@@ -206,7 +267,7 @@
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                class="w-10 h-10 dislike-icon text-sky-500"
+                class="w-10 h-10 cursor-pointer dislike-icon text-sky-500"
               >
                 <path
                   d="M15.73 5.25h1.035A7.465 7.465 0 0118 9.375a7.465 7.465 0 01-1.235 4.125h-.148c-.806 0-1.534.446-2.031 1.08a9.04 9.04 0 01-2.861 2.4c-.723.384-1.35.956-1.653 1.715a4.498 4.498 0 00-.322 1.672V21a.75.75 0 01-.75.75 2.25 2.25 0 01-2.25-2.25c0-1.152.26-2.243.723-3.218C7.74 15.724 7.366 15 6.748 15H3.622c-1.026 0-1.945-.694-2.054-1.715A12.134 12.134 0 011.5 12c0-2.848.992-5.464 2.649-7.521.388-.482.987-.729 1.605-.729H9.77a4.5 4.5 0 011.423.23l3.114 1.04a4.5 4.5 0 001.423.23zM21.669 13.773c.536-1.362.831-2.845.831-4.398 0-1.22-.182-2.398-.52-3.507-.26-.85-1.084-1.368-1.973-1.368H19.1c-.445 0-.72.498-.523.898.591 1.2.924 2.55.924 3.977a8.959 8.959 0 01-1.302 4.666c-.245.403.028.959.5.959h1.053c.832 0 1.612-.453 1.918-1.227z"
@@ -217,7 +278,7 @@
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                class="w-10 h-10 dislike-icon text-slate-700"
+                class="w-10 h-10 cursor-pointer dislike-icon text-slate-700"
               >
                 <path
                   d="M15.73 5.25h1.035A7.465 7.465 0 0118 9.375a7.465 7.465 0 01-1.235 4.125h-.148c-.806 0-1.534.446-2.031 1.08a9.04 9.04 0 01-2.861 2.4c-.723.384-1.35.956-1.653 1.715a4.498 4.498 0 00-.322 1.672V21a.75.75 0 01-.75.75 2.25 2.25 0 01-2.25-2.25c0-1.152.26-2.243.723-3.218C7.74 15.724 7.366 15 6.748 15H3.622c-1.026 0-1.945-.694-2.054-1.715A12.134 12.134 0 011.5 12c0-2.848.992-5.464 2.649-7.521.388-.482.987-.729 1.605-.729H9.77a4.5 4.5 0 011.423.23l3.114 1.04a4.5 4.5 0 001.423.23zM21.669 13.773c.536-1.362.831-2.845.831-4.398 0-1.22-.182-2.398-.52-3.507-.26-.85-1.084-1.368-1.973-1.368H19.1c-.445 0-.72.498-.523.898.591 1.2.924 2.55.924 3.977a8.959 8.959 0 01-1.302 4.666c-.245.403.028.959.5.959h1.053c.832 0 1.612-.453 1.918-1.227z"
@@ -259,7 +320,7 @@
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-10 h-10 text-sky-600 hover:text-sky-900"
+                class="w-10 h-10 cursor-pointer text-sky-600 hover:text-sky-900"
               >
                 <path
                   stroke-linecap="round"
@@ -286,7 +347,7 @@
       <li>
         <a
           class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          href="/"
+          href="/?Sort=<%= sort %>&idPoll=<%= pollId %>&idDepartment=<%= departmentId %>&Exception=<%= exception %>"
           >First</a
         >
       </li>
@@ -294,7 +355,7 @@
       <li>
         <a
           class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          href="/"
+          href="/?page=1&Sort=<%= sort %>&idPoll=<%= pollId %>&idDepartment=<%= departmentId %>&Exception=<%= exception %>"
           >First</a
         >
       </li>
@@ -312,7 +373,7 @@
       <li>
         <a
           class="px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-          href="/?page=<%= i %>"
+          href="/?page=<%= i %>&Sort=<%= sort %>&idPoll=<%= pollId %>&idDepartment=<%= departmentId %>&Exception=<%= exception %>"
         >
           <%= i %>
         </a>
@@ -321,7 +382,7 @@
       <li class="">
         <a
           class="px-4 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          href="/?page=<%= i %>"
+          href="/?page=<%= i %>&Sort=<%= sort %>&idPoll=<%= pollId %>&idDepartment=<%= departmentId %>&Exception=<%= exception %>"
         >
           <%= i %>
         </a>
@@ -347,7 +408,12 @@
       <li
         class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
       >
-        <a class="" href="?page=<%= ideas.totalPages %>"> Last </a>
+        <a
+          class=""
+          href="?page=<%= totalPages %>&Sort=<%= sort %>&idPoll=<%= pollId %>&idDepartment=<%= departmentId %>&Exception=<%= exception %>"
+        >
+          Last
+        </a>
       </li>
       <% } %>
     </ul>
@@ -390,3 +456,5 @@
     </div>
   </div>
 </div>
+
+<script src="<%= process.env.BASE_URL %>javascript/homeStaff.js"></script>

@@ -3,6 +3,7 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable array-callback-return */
+const bcrypt = require("bcrypt");
 const StaffModel = require("../database/models/Staff");
 const ResponseHandler = require("../common/response.handle");
 const {
@@ -286,7 +287,7 @@ const updateStaff = async (id, data, departments, roles) => {
     }));
     roleRenders = roles.map((role) => ({ _id: role._id, name: role.nameRole }));
 
-    const { email, phoneNumber, idRole, idDepartment } = data;
+    const { email, phoneNumber, idRole, idDepartment, password } = data;
 
     const checkDataOfStaff = await findByEmailExist(id, email);
 
@@ -324,7 +325,17 @@ const updateStaff = async (id, data, departments, roles) => {
       checkDataOfStaff.length == 0 &&
       checkDataOfStaffPhoneNumber.length == 0
     ) {
-      const staff = await StaffModel.updateMany({ _id: id }, data);
+      const salt = await bcrypt.genSalt(10);
+      const hashed = await bcrypt.hash(password, salt);
+      const payload = {
+        idDepartment,
+        email,
+        fullName: data.fullName,
+        address: data.address,
+        phoneNumber,
+        password: hashed,
+      };
+      const staff = await StaffModel.updateMany({ _id: id }, payload);
 
       const result = {
         staffRenders: staff,
@@ -439,6 +450,36 @@ const updateStaff = async (id, data, departments, roles) => {
   }
 };
 
+const banAccountStaff = async (id, data) => {
+  try {
+    const { lockAccount } = data;
+    const staff = await StaffModel.updateMany(
+      { _id: id },
+      { lockAccount: true },
+    );
+
+    return staff;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+const unBanAccountStaff = async (id, data) => {
+  try {
+    const { lockAccount } = data;
+    const staff = await StaffModel.updateMany(
+      { _id: id },
+      { lockAccount: false },
+    );
+
+    return staff;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 // const deleteOneStaff = async (_id) => {
 //   try {
 //     // eslint-disable-next-line no-underscore-dangle
@@ -530,6 +571,77 @@ const findByPhoneNumberExist = async (id, phoneNumber) => {
   }
 };
 
+const handleEditProfile = async (id, payload) => {
+  try {
+    const profile = await StaffModel.updateOne(
+      { _id: id },
+      {
+        $set: {
+          address: payload.address,
+          phoneNumber: payload.phoneNumber,
+        },
+      },
+    );
+
+    return profile;
+  } catch (error) {
+    return error;
+  }
+};
+
+const handleEditProfileWithPhone = async (id, payload) => {
+  try {
+    const profile = await StaffModel.updateOne(
+      { _id: id },
+      {
+        $set: {
+          address: payload.address,
+        },
+      },
+    );
+
+    return profile;
+  } catch (error) {
+    return error;
+  }
+};
+
+const handleEditProfileWithAvatar = async (id, payload) => {
+  try {
+    const profile = await StaffModel.updateOne(
+      { _id: id },
+      {
+        $set: {
+          address: payload.address,
+          phoneNumber: payload.phoneNumber,
+          avatarImage: payload.avatarImage,
+        },
+      },
+    );
+
+    return profile;
+  } catch (error) {
+    return error;
+  }
+};
+
+const handleUpdatePassword = async (id, payload) => {
+  try {
+    const profile = await StaffModel.updateOne(
+      { _id: id },
+      {
+        $set: {
+          password: payload,
+        },
+      },
+    );
+
+    return profile;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   createStaff,
   updateStaff,
@@ -542,4 +654,10 @@ module.exports = {
   findByPhoneNumber,
   findByPhoneNumberExist,
   findByEmailExist,
+  banAccountStaff,
+  unBanAccountStaff,
+  handleEditProfile,
+  handleEditProfileWithAvatar,
+  handleEditProfileWithPhone,
+  handleUpdatePassword,
 };

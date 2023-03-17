@@ -159,3 +159,23 @@
   </div>
      <% } %>
 </Main>
+
+<script>
+  const dropMenu = document.getElementById("menu_icon");
+  const drop = document.getElementById("dropdown");
+  function dropdown() {
+    drop.classList.toggle("hidden");
+  }
+
+  function dropdownDismiss() {
+    drop.classList.add("hidden");
+  }
+
+  dropMenu.addEventListener("click", () => {
+    dropdown();
+  });
+
+  drop.addEventListener("mouseleave", () => {
+    dropdownDismiss();
+  });
+</script>

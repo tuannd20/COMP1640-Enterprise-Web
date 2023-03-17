@@ -30,7 +30,14 @@ const IdeaSchema = new Schema(
       require: true,
     },
     contentIdea: { type: String, require: true },
-    urlFile: { type: String, default: null },
+    fileName: [{ type: String, default: null }],
+    urlFile: [{ type: String, default: null }],
+    cloudinary_id: [
+      {
+        type: String,
+        default: null,
+      },
+    ],
     likeCount: { type: Number, default: 0 },
     disLikeCount: { type: Number, default: 0 },
     viewCount: { type: Number, default: 0 },

@@ -60,16 +60,44 @@ const findByOptions = async (options) => {
   }
 };
 
-const getAllWithQuery = async (options, query) => {
+const getAllWithQuery = async (query, options) => {
   try {
-    const Idea = await IdeaRepository.getAllWithQuery(options, query);
+    const Idea = await IdeaRepository.getAllWithQuery(query, options);
     return Idea;
   } catch (err) {
     console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);
     return err;
   }
 };
+const getAllByQuery = async (query) => {
+  try {
+    const Idea = await IdeaRepository.getAllByQuery(query);
+    return Idea;
+  } catch (err) {
+    return err;
+  }
+};
+const getIdeaProfileWithQuery = async (options, query) => {
+  try {
+    const Idea = await IdeaRepository.getIdeaProfileWithQuery(options, query);
+    return Idea;
+  } catch (err) {
+    return err;
+  }
+};
 
+const getAllNotPaginate = async (query) => {
+  try {
+    const result = await IdeaRepository.getAllNotPaginate(query);
+    return result;
+  } catch (err) {
+    console.error(
+      "🚀 ~ file: idea.service.js:78 ~ getAllNotPaginate ~ err:",
+      err,
+    );
+    return err;
+  }
+};
 module.exports = {
   createIdea,
   getIdea,
@@ -78,4 +106,7 @@ module.exports = {
   getALl,
   findByOptions,
   getAllWithQuery,
+  getAllByQuery,
+  getIdeaProfileWithQuery,
+  getAllNotPaginate,
 };

@@ -8,11 +8,12 @@
   </div>
   <div class="mr-16 home_right">
     <div class="flex flex-row gap-2">
-      <% if(staff.avatarImage === null) { %>
+      <% if(staff) {%>
+        <% if(staff.avatarImage === "" || staff.avatarImage === null) { %>
           <div class="shrink-0">
           <img
             src="<%= process.env.BASE_URL %>image/avatar.png"
-            alt=""
+            alt="avatar"
             class="w-9 h-9 border rounded-full"
           />
           </div>
@@ -23,8 +24,6 @@
               class="w-9 h-9 border rounded-full" 
             />
         <% } %>
-
-      <% if(staff) {%>
           <a href="/profile">
             <p class="text-base font-medium mt-2 text-white hover:text-sky-900"><%= staff.fullName %></p>
           </a>
