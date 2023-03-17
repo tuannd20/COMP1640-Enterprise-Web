@@ -60,7 +60,7 @@ const displayAllIdea = async (req, res) => {
     const departmentId = req.query.idDepartment;
     const exception = req.query.Exception;
     const { page = 1 } = req.query;
-    let querySort = {};
+    let querySort;
     const polls = await pollService.getPollActivated();
 
     const departments = await departmentService.getDepartmentActivated();
@@ -107,7 +107,7 @@ const displayAllIdea = async (req, res) => {
       query.status = ["Private"];
     }
     if (exception === "Without comment") {
-      allIdea = await ideaService.getAllWithQuery(page, query);
+      allIdea = await ideaService.getAllWithQuery(page, query, querySort);
       const ideasWithoutComment = [];
       // eslint-disable-next-line no-restricted-syntax
       for (const idea of allIdea) {
@@ -122,7 +122,7 @@ const displayAllIdea = async (req, res) => {
       allIdea = ideasWithoutComment;
     } else {
       amountIdea = await ideaService.getAllByQuery(query);
-      allIdea = await ideaService.getAllWithQuery(page, query);
+      allIdea = await ideaService.getAllWithQuery(page, query, querySort);
     }
     amountIdea = Math.ceil(Object.keys(amountIdea).length / 5);
     const data = {
