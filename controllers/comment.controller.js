@@ -29,12 +29,13 @@ const createComment = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
     const idStaffComment = staff._id;
-    const { comment, idIdea } = req.body;
+    const { comment, idIdea, isPublic = true } = req.body;
     if (!comment || !idIdea) return res.redirect("/errors");
     const comments = await CommentService.createComment({
       idIdea,
       idStaffComment,
       contentComment: comment,
+      isPublic,
     });
 
     const idea = await IdeaService.getIdea(idIdea);

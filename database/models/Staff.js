@@ -27,6 +27,10 @@ const StaffSchema = new Schema(
       type: String,
       default: null,
     },
+    cloudinary_id: {
+      type: String,
+      default: "",
+    },
     address: String,
     phoneNumber: {
       type: String,

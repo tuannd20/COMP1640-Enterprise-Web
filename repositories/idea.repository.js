@@ -65,16 +65,9 @@ const findByOptions = async (options) => {
   }
 };
 
-const getAllWithQuery = async (page, query, querySort) => {
+const getAllWithQuery = async (query, options) => {
   try {
-    const limit = 5;
-    const drop = (page - 1) * limit;
-    const Idea = await ideaModel
-      .find(query)
-      .populate("idStaffIdea")
-      .sort(querySort)
-      .limit(limit)
-      .skip(drop);
+    const Idea = await ideaModel.paginate(query, options);
     return Idea;
   } catch (err) {
     console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);
@@ -102,9 +95,9 @@ const getAllByQuery = async (query) => {
   }
 };
 
-const getAllNotPaginate = async (filter) => {
+const getAllNotPaginate = async (query) => {
   try {
-    const Idea = await ideaModel.find(filter);
+    const Idea = await ideaModel.find(query);
     return Idea;
   } catch (err) {
     console.error(

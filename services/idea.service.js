@@ -60,9 +60,9 @@ const findByOptions = async (options) => {
   }
 };
 
-const getAllWithQuery = async (page, query, querySort) => {
+const getAllWithQuery = async (query, options) => {
   try {
-    const Idea = await IdeaRepository.getAllWithQuery(page, query, querySort);
+    const Idea = await IdeaRepository.getAllWithQuery(query, options);
     return Idea;
   } catch (err) {
     console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);
@@ -77,18 +77,18 @@ const getAllByQuery = async (query) => {
     return err;
   }
 };
-const getIdeaProfileWithQuery = async (query) => {
+const getIdeaProfileWithQuery = async (options, query) => {
   try {
-    const Idea = await IdeaRepository.getIdeaProfileWithQuery(query);
+    const Idea = await IdeaRepository.getIdeaProfileWithQuery(options, query);
     return Idea;
   } catch (err) {
     return err;
   }
 };
 
-const getAllNotPaginate = async (options) => {
+const getAllNotPaginate = async (query) => {
   try {
-    const result = await IdeaRepository.getAllNotPaginate(options);
+    const result = await IdeaRepository.getAllNotPaginate(query);
     return result;
   } catch (err) {
     console.error(

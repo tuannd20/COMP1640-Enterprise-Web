@@ -6,21 +6,64 @@ const staffService = require("../services/staff.service");
 const categoryService = require("../services/category.service");
 const pollService = require("../services/poll.service");
 const sendMail = require("../utilities/sendMail");
+const cloudinary = require("../utilities/cloudinary");
+
+const handleUploadFile = async (path) => {
+  const folder = "Idea";
+  const cloudinaryResponse = await cloudinary.uploader.upload(path, {
+    folder,
+  });
+  const result = {
+    url: cloudinaryResponse.url,
+    cloudinaryId: cloudinaryResponse.public_id,
+  };
+
+  return result;
+};
 
 const createIdea = async (req, res) => {
   try {
+    const file = req.files;
     const StaffData = req.cookies.Staff;
     const id = StaffData._id;
-    const filepaths = [];
+    const fileNameUpload = [];
+    const cloudinaryId = [];
+    const urlFile = [];
+    const uploadData = [];
 
-    if (req.files) {
-      for (let i = 0; i < req.files.length; i + 1) {
-        const filePath = req.files[i].path;
-        const fileName = req.files[i].originalname;
-        const newFilePath = `public/uploads/${fileName}`;
-        fs.renameSync(filePath, newFilePath);
-        filepaths.push(newFilePath);
+    console.log(file);
+    console.log(req.body);
+
+    // if (req.files) {
+    //   for (let i = 0; i < req.files.length; i + 1) {
+    //     const fileName = req.files[i].originalname;
+    //     fileNameUpload.push(fileName);
+    //   }
+    // }
+
+    if (file) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const fileUpload of file) {
+        const { path, originalname } = fileUpload;
+        console.log(path);
+        fileNameUpload.push(originalname);
+
+        // eslint-disable-next-line no-await-in-loop
+        const newPath = await handleUploadFile(path);
+        console.log("dataaa :", newPath);
+
+        uploadData.push(newPath);
+
+        // cloudinaryId.push(newPath.cloudinaryId);
+        // urlFile.push(newPath.url);
+        fs.unlinkSync(path);
       }
+
+      // eslint-disable-next-line array-callback-return
+      uploadData.map((item) => {
+        cloudinaryId.push(item.cloudinaryId);
+        urlFile.push(item.url);
+      });
     }
 
     if (
@@ -50,8 +93,10 @@ const createIdea = async (req, res) => {
       status: "Draft",
       idStaffIdea: id,
     };
-    if (filepaths.length > 0) {
-      data.urlFile = filepaths;
+    if (fileNameUpload.length > 0) {
+      data.fileName = fileNameUpload;
+      data.urlFile = urlFile;
+      data.cloudinary_id = cloudinaryId;
     }
     if (req.body.status) {
       data.status = req.body.status;

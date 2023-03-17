@@ -12,8 +12,8 @@ function route(app) {
   app.use("/api/v1", ApiRouter);
   app.use(
     "/qa",
-    // AuthMiddleWare.isHaveToken,
-    // AuthMiddleWare.checkCurrentRoleQA,
+    AuthMiddleWare.isHaveToken,
+    AuthMiddleWare.checkCurrentRoleQA,
     QARouter,
   );
   app.use(
@@ -28,9 +28,9 @@ function route(app) {
     AuthMiddleWare.checkCurrentRoleAdmin,
     AdminRouter,
   );
-  app.use("/profile", ProfileRouter);
+  app.use("/profile", AuthMiddleWare.isLoggedIn, ProfileRouter);
   app.use("/auth", AuthRouter);
-  app.use("/ideas", IdeaRouter);
+  app.use("/ideas", AuthMiddleWare.isLoggedIn, IdeaRouter);
   app.use("/", AuthMiddleWare.isLoggedIn, HomeRouter);
 }
 
