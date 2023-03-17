@@ -80,12 +80,20 @@ const displayAllIdea = async (req, res) => {
     if (pollId) {
       query.idPoll = pollId;
       foundPoll = polls.find((poll) => poll._id.toString() === pollId);
+      console.log(
+        "🚀 ~ file: renderIdea.controller.js:83 ~ displayAllIdea ~ foundPoll:",
+        foundPoll,
+      );
     }
 
     if (departmentId) {
       query.idDepartment = departmentId;
       foundDepartment = departments.find(
         (department) => department._id.toString() === departmentId,
+      );
+      console.log(
+        "🚀 ~ file: renderIdea.controller.js:92 ~ displayAllIdea ~ foundDepartment:",
+        foundDepartment,
       );
     }
 
@@ -132,7 +140,6 @@ const displayAllIdea = async (req, res) => {
       allIdea.docs = ideasWithoutComment;
     } else {
       allIdea = await ideaService.getAllWithQuery(query, options);
-      if (!allIdea.docs) return res.redirect("/errors");
     }
 
     // const allIdea = await ideaService.getAllWithQuery(options, query);
@@ -214,6 +221,8 @@ const displayAllIdea = async (req, res) => {
       sort,
       foundPoll,
       foundDepartment,
+      departmentId,
+      pollId,
     });
   } catch (err) {
     console.log("🚀 ~ file: idea.controller.js:68 ~ displayAllIdea ~ err", err);
