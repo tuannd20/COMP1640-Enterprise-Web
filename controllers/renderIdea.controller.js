@@ -117,6 +117,7 @@ const displayAllIdea = async (req, res) => {
     if (exception === "Without comment") {
       allIdea = await ideaService.getAllWithQuery(query, options);
       const ideasWithoutComment = [];
+      const ideasWithoutCommentCheck = [];
 
       // eslint-disable-next-line prefer-const, no-restricted-syntax
       for (let idea of allIdea.docs) {
@@ -127,9 +128,8 @@ const displayAllIdea = async (req, res) => {
         }
       }
 
-      console.log(allIdea);
-      // allIdea.totalDocs = ideasWithoutComment.length;
-      // allIdea.totalPages = Math.ceil(ideasWithoutComment.length / limit);
+      allIdea.totalDocs = ideasWithoutComment.length;
+      allIdea.totalPages = Math.ceil(ideasWithoutComment.length / limit);
       allIdea.docs = ideasWithoutComment;
     } else {
       allIdea = await ideaService.getAllWithQuery(query, options);
@@ -182,10 +182,18 @@ const displayAllIdea = async (req, res) => {
     );
 
     if (!all.docs) return res.redirect("/errors");
-    const idStaffIdeas = all.docs.map((obj) => obj.idStaffIdea);
 
-    const uniqueIdStaffIdeas = new Set(idStaffIdeas);
-    const participants = uniqueIdStaffIdeas.size;
+    // const idStaffIdeas = all.docs.map((obj) => obj.idStaffIdea);
+    // const uniqueIdStaffIdeas = new Set(idStaffIdeas);
+    // const participants = uniqueIdStaffIdeas.size;
+    const findAllIdea = await ideaService.getAllNotPaginate(query);
+
+    const uniqueStaffIdeaIds = new Set();
+    findAllIdea.forEach((idea) => {
+      uniqueStaffIdeaIds.add(idea.idStaffIdea.toString());
+    });
+    const participants = uniqueStaffIdeaIds.size;
+    console.log(participants);
 
     const percentage = `${((allIdea.totalDocs / all.totalDocs) * 100).toFixed(
       2,

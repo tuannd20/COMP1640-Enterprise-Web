@@ -95,9 +95,9 @@ const getAllByQuery = async (query) => {
   }
 };
 
-const getAllNotPaginate = async (filter) => {
+const getAllNotPaginate = async (query) => {
   try {
-    const Idea = await ideaModel.find(filter);
+    const Idea = await ideaModel.find(query);
     return Idea;
   } catch (err) {
     console.error(

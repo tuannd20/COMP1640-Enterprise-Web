@@ -86,9 +86,9 @@ const getIdeaProfileWithQuery = async (query) => {
   }
 };
 
-const getAllNotPaginate = async (options) => {
+const getAllNotPaginate = async (query) => {
   try {
-    const result = await IdeaRepository.getAllNotPaginate(options);
+    const result = await IdeaRepository.getAllNotPaginate(query);
     return result;
   } catch (err) {
     console.error(
