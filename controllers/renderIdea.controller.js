@@ -381,7 +381,7 @@ const getIdeaForStaff = async (req, res) => {
 
     if (
       (poll.dateStart.getTime() < currentDate.getTime() &&
-        poll.dateEnd.getTime() <= currentDate.getTime()) ||
+        poll.dateSubEnd.getTime() <= currentDate.getTime()) ||
       currentDate.getTime() < poll.dateStart.getTime()
     ) {
       isCreateNewIdea = false;
