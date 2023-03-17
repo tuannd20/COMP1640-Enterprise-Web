@@ -60,7 +60,7 @@ const displayAllIdea = async (req, res) => {
     const departmentId = req.query.idDepartment;
     const exception = req.query.Exception;
     const { page = 1 } = req.query;
-    let querySort = {};
+    let querySort;
     const polls = await pollService.getPollActivated();
 
     const departments = await departmentService.getDepartmentActivated();
@@ -107,7 +107,7 @@ const displayAllIdea = async (req, res) => {
       query.status = ["Private"];
     }
     if (exception === "Without comment") {
-      allIdea = await ideaService.getAllWithQuery(page, query);
+      allIdea = await ideaService.getAllWithQuery(page, query, querySort);
       const ideasWithoutComment = [];
 
       // eslint-disable-next-line prefer-const, no-restricted-syntax
@@ -124,7 +124,7 @@ const displayAllIdea = async (req, res) => {
     } else {
       // eslint-disable-next-line no-unused-vars
       amountIdea = await ideaService.getAllByQuery(query);
-      allIdea = await ideaService.getAllWithQuery(page, query);
+      allIdea = await ideaService.getAllWithQuery(page, query, querySort);
     }
     amountIdea = Math.ceil(Object.keys(amountIdea).length / 5);
     console.log(

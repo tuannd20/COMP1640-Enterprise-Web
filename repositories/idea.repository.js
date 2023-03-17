@@ -65,14 +65,14 @@ const findByOptions = async (options) => {
   }
 };
 
-const getAllWithQuery = async (page, query) => {
+const getAllWithQuery = async (page, query, querySort) => {
   try {
     const limit = 5;
     const drop = (page - 1) * limit;
     const Idea = await ideaModel
       .find(query)
       .populate("idStaffIdea")
-      .sort({ createdAt: -1 })
+      .sort(querySort)
       .limit(limit)
       .skip(drop);
     return Idea;
