@@ -63,7 +63,6 @@ const displayAllIdea = async (req, res) => {
     const pollId = req.query.idPoll;
     const departmentId = req.query.idDepartment;
     const exception = req.query.Exception;
-
     const polls = await pollService.getPollActivated();
 
     const departments = await departmentService.getDepartmentActivated();
