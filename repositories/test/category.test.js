@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const DB = require("../../database/connection");
 
-const CategoryRepository = require("../category.repository");
+const CategoryRepository = require("../categories.repository");
 
 beforeEach(async () => {
   await DB.connectionDatabase();

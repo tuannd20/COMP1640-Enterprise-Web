@@ -86,6 +86,18 @@ const getIdeaProfileWithQuery = async (query) => {
   }
 };
 
+const getAllNotPaginate = async (options) => {
+  try {
+    const result = await IdeaRepository.getAllNotPaginate(options);
+    return result;
+  } catch (err) {
+    console.error(
+      "🚀 ~ file: idea.service.js:78 ~ getAllNotPaginate ~ err:",
+      err,
+    );
+    return err;
+  }
+};
 module.exports = {
   createIdea,
   getIdea,
@@ -96,4 +108,5 @@ module.exports = {
   getAllWithQuery,
   getAllByQuery,
   getIdeaProfileWithQuery,
+  getAllNotPaginate,
 };

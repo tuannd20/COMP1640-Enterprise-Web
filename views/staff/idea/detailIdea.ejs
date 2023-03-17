@@ -261,7 +261,7 @@
       <div class="comment"></div>
       <% } %>
     </div>
-
+    <% if ( checkPoll.length > 0) { %>
     <form action="/comments" method="POST">
       <div class="absolute inset-x-0 flex px-3 bottom-14 form-input-comment">
         <input
@@ -295,6 +295,7 @@
         </button>
       </div>
     </form>
+    <% } %>
   </div>
 </Main>
 <script>
