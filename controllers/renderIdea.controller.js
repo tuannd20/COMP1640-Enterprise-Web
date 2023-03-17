@@ -323,13 +323,17 @@ const getIdeaForStaff = async (req, res) => {
     });
     const allIdea = await ideaService.getIdeaProfileWithQuery(options, query);
     console.log(
-      "🚀 ~ file: renderIdea.controller.js:452 ~ getIdeaForStaff ~ allIdea:",
+      "🚀 ~ file: renderIdea.controller.js:325 ~ getIdeaForStaff ~ allIdea:",
       allIdea,
     );
 
     const currentDate = new Date();
 
     await allIdea.docs.forEach(async (element) => {
+      console.log(
+        "🚀 ~ file: renderIdea.controller.js:333 ~ awaitallIdea.docs.forEach ~ element:",
+        element,
+      );
       if (element.urlFile != null) {
         for (let i = 0; i < element.urlFile.length; i += 1) {
           if (

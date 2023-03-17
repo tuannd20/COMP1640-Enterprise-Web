@@ -77,9 +77,9 @@ const getAllByQuery = async (query) => {
     return err;
   }
 };
-const getIdeaProfileWithQuery = async (query) => {
+const getIdeaProfileWithQuery = async (options, query) => {
   try {
-    const Idea = await IdeaRepository.getIdeaProfileWithQuery(query);
+    const Idea = await IdeaRepository.getIdeaProfileWithQuery(options, query);
     return Idea;
   } catch (err) {
     return err;
