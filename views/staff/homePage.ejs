@@ -93,14 +93,14 @@
         <button
           id="filter-button"
           type="submit"
-          class="p-2 my-auto border-2 rounded-lg cursor-pointer border-slate-700 hover:border-slate-400 hover:text-slate-400"
+          class="mt-6 p-2 w-28 my-auto mr-4 border-2 rounded-lg cursor-pointer border-slate-700 hover:border-slate-400 hover:text-slate-400"
         >
           Find
         </button>
       </div>
     </form>
-
-    <div>
+    <% if(role === "QAM") { %>
+    <div class="mt-6 ml-4">
       <div
         id="download-button"
         class="p-2 my-auto border-2 rounded-lg cursor-pointer border-slate-700 hover:border-slate-400 hover:text-slate-400"
@@ -113,6 +113,9 @@
       <div>No</div>
     </div> -->
     </div>
+    <% } else { %>
+      <!-- <div></div> -->
+    <%}%>
   </div>
 
   <!-- <div class="flex flex-row w-4/5 gap-8 m-auto mt-2 statictis">

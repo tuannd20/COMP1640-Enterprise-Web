@@ -155,8 +155,8 @@ const displayAllIdea = async (req, res) => {
       if (element.fileName != null) {
         for (let i = 0; i < element.fileName.length; i += 1) {
           if (
-            typeof element.urlFile[i] === "undefined" ||
-            !isImageUrl(element.urlFile[i])
+            typeof element.fileName[i] === "undefined" ||
+            !isImageUrl(element.fileName[i])
           ) {
             element.urlFile = null;
           }
@@ -311,6 +311,7 @@ const displayDetailIdea = async (req, res) => {
       title: "Idea detail",
       content: "../staff/idea/detailIdea",
       data,
+      urlFile: data.ideas.urlFile,
       staff,
       role,
       checkPoll,
@@ -364,8 +365,8 @@ const getIdeaForStaff = async (req, res) => {
       if (element.fileName != null) {
         for (let i = 0; i < element.fileName.length; i += 1) {
           if (
-            typeof element.urlFile[i] === "undefined" ||
-            !isImageUrl(element.urlFile[i])
+            typeof element.fileName[i] === "undefined" ||
+            !isImageUrl(element.fileName[i])
           ) {
             element.urlFile = null;
           }

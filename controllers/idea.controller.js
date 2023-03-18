@@ -1,5 +1,7 @@
 const fs = require("fs");
 const console = require("console");
+const archiver = require("archiver");
+const ExcelJS = require("exceljs");
 
 const ideaService = require("../services/idea.service");
 const staffService = require("../services/staff.service");
@@ -7,6 +9,7 @@ const categoryService = require("../services/category.service");
 const pollService = require("../services/poll.service");
 const sendMail = require("../utilities/sendMail");
 const cloudinary = require("../utilities/cloudinary");
+const IdeaRepository = require("../repositories/idea.repository");
 
 const handleUploadFile = async (path, type) => {
   const folder = "Idea";
@@ -207,8 +210,63 @@ const updateIdea = async (req, res) => {
   }
 };
 
+// eslint-disable-next-line consistent-return
+const downloadAllIdea = async (req, res) => {
+  try {
+    const data = await IdeaRepository.getAllToDownload();
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Users");
+
+    worksheet.addRow([
+      "Full Name",
+      "Email",
+      "Content",
+      "File name",
+      "Department",
+      "Category",
+      "Status",
+    ]);
+
+    data.forEach((item) => {
+      worksheet.addRow([
+        item.idStaffIdea.fullName,
+        item.idStaffIdea.email,
+        item.contentIdea,
+        item.fileName,
+        item.idDepartment.nameDepartment,
+        item.idCategory.nameCategory,
+        item.status,
+      ]);
+    });
+
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    );
+    res.setHeader(
+      "Content-Disposition",
+      // eslint-disable-next-line prefer-template
+      "attachment; filename=" + encodeURIComponent("data.xlsx"),
+    );
+
+    workbook.xlsx
+      .write(res)
+      .then(() => {
+        res.end();
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send("Error exporting data to Excel");
+      });
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   createIdea,
   deleteIdea,
   updateIdea,
+  downloadAllIdea,
 };

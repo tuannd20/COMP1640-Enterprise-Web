@@ -34,7 +34,7 @@ router.post("/cloud", upload.single("files"), async (req, res) => {
     // Upload image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path, {
       folder,
-      resource_type: "video",
+      resource_type: "auto",
     });
 
     res.json(result);

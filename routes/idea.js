@@ -23,5 +23,6 @@ router.put("/like", interactController.LikeIdea);
 router.put("/dislike", interactController.DisLikeIdea);
 
 router.delete("/:id", IdeaController.deleteIdea);
+router.get("/export-ideas", IdeaController.downloadAllIdea);
 
 module.exports = router;

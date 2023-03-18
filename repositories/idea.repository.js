@@ -52,6 +52,18 @@ const getAll = async (options) => {
   }
 };
 
+const getAllToDownload = async () => {
+  try {
+    const Idea = await ideaModel
+      .find({})
+      .populate(["idStaffIdea", "idDepartment", "idCategory", "idPoll"]);
+    return Idea;
+  } catch (err) {
+    console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);
+    return err;
+  }
+};
+
 const findByOptions = async (options) => {
   try {
     const Idea = await ideaModel.findOne(options);
@@ -118,4 +130,5 @@ module.exports = {
   getAllByQuery,
   getIdeaProfileWithQuery,
   getAllNotPaginate,
+  getAllToDownload,
 };
