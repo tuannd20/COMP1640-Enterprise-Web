@@ -348,14 +348,18 @@ const getIdeaForStaff = async (req, res) => {
       isLike: { $in: [true, false] },
     });
     const allIdea = await ideaService.getIdeaProfileWithQuery(options, query);
-    console.log(
-      "🚀 ~ file: renderIdea.controller.js:452 ~ getIdeaForStaff ~ allIdea:",
-      allIdea,
-    );
+    // console.log(
+    //   "🚀 ~ file: renderIdea.controller.js:452 ~ getIdeaForStaff ~ allIdea:",
+    //   allIdea,
+    // );
 
     const currentDate = new Date();
 
     await allIdea.docs.forEach(async (element) => {
+      console.log(
+        "🚀 ~ file: renderIdea.controller.js:333 ~ awaitallIdea.docs.forEach ~ element:",
+        element,
+      );
       if (element.urlFile != null) {
         for (let i = 0; i < element.urlFile.length; i += 1) {
           if (
@@ -367,15 +371,14 @@ const getIdeaForStaff = async (req, res) => {
         }
       }
 
-      console.log("helololo: ", element.idPoll._id);
+      // console.log("helololo: ", element.idPoll._id);
       const poll = await PollService.getPoll({ _id: element.idPoll._id });
-      console.log(poll);
 
       if (poll.dateSubEnd.getTime() <= currentDate.getTime()) {
         const pollUpdateAction = await PollService.updateHandleActionIdea({
           _id: element.idPoll._id,
         });
-        console.log("upadeac hua", pollUpdateAction);
+        console.log("IDea of staff poll ", pollUpdateAction);
       }
     });
 

@@ -1,7 +1,7 @@
 const multer = require("multer");
 
-const upload = multer({ dest: "public/uploads/" });
 const express = require("express");
+const upload = require("../utilities/multer");
 
 const router = express.Router();
 const AccountController = require("../controllers/account.controller");
