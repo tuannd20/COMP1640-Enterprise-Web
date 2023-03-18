@@ -12,6 +12,7 @@ const StaffService = require("../services/staff.service");
 const DepartmentService = require("../services/department.service");
 const RoleService = require("../services/role.service");
 const { BAD_REQUEST } = require("../constants/http.status.code");
+const cloudinary = require("../utilities/cloudinary");
 
 const index = async (req, res) => {
   res.render("home/login");
@@ -367,12 +368,20 @@ const handleUpdateProfileAccount = async (req, res) => {
     const staffProfile = await StaffService.displayStaffById(idProfile);
 
     let newFilePath;
+    let cloudinaryId;
     if (req.file) {
-      const filePath = req.file.path;
-
       const fileName = req.file.originalname;
       newFilePath = `public/uploads/${fileName}`;
-      fs.renameSync(filePath, newFilePath);
+      const folder = "Avatar";
+      const cloudinaryResponse = await cloudinary.uploader.upload(
+        req.file.path,
+        {
+          folder,
+        },
+      );
+
+      newFilePath = cloudinaryResponse.url;
+      cloudinaryId = cloudinaryResponse.public_id;
     }
 
     const checkPhoneNumber = await StaffService.findByPhoneNumber(
@@ -387,7 +396,7 @@ const handleUpdateProfileAccount = async (req, res) => {
         avatarImage: null,
       };
       if (newFilePath) {
-        data.avatarImage = newFilePath.slice(7);
+        data.avatarImage = newFilePath;
       }
 
       const staffsProfile = await StaffService.handleUpdateProfile(
