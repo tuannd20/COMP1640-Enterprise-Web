@@ -3,6 +3,7 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable array-callback-return */
+const bcrypt = require("bcrypt");
 const StaffModel = require("../database/models/Staff");
 const ResponseHandler = require("../common/response.handle");
 const {
@@ -286,7 +287,7 @@ const updateStaff = async (id, data, departments, roles) => {
     }));
     roleRenders = roles.map((role) => ({ _id: role._id, name: role.nameRole }));
 
-    const { email, phoneNumber, idRole, idDepartment } = data;
+    const { email, phoneNumber, idRole, idDepartment, password } = data;
 
     const checkDataOfStaff = await findByEmailExist(id, email);
 
@@ -324,7 +325,17 @@ const updateStaff = async (id, data, departments, roles) => {
       checkDataOfStaff.length == 0 &&
       checkDataOfStaffPhoneNumber.length == 0
     ) {
-      const staff = await StaffModel.updateMany({ _id: id }, data);
+      const salt = await bcrypt.genSalt(10);
+      const hashed = await bcrypt.hash(password, salt);
+      const payload = {
+        idDepartment,
+        email,
+        fullName: data.fullName,
+        address: data.address,
+        phoneNumber,
+        password: hashed,
+      };
+      const staff = await StaffModel.updateMany({ _id: id }, payload);
 
       const result = {
         staffRenders: staff,
