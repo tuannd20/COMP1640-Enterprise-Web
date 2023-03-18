@@ -1,15 +1,17 @@
 const RuleService = require("../services/rule.service");
 const RuleRepository = require("../repositories/rule.repository");
+const StaffService = require("../services/staff.service");
 
 const renderCreateTermsPage = async (req, res) => {
   const staff = req.cookies.Staff;
+  const staffProfile = await StaffService.displayStaffById(staff._id);
 
   res.render("partials/master", {
     title: "Create new terms",
     content: "../admin/terms/createTermsPage",
     errorMessage: null,
     isFailed: false,
-    staff,
+    staff: staffProfile,
     role: staff.idRole.nameRole,
   });
 };
@@ -58,6 +60,7 @@ const createRule = async (req, res) => {
 const renderEditTermsPage = async (req, res) => {
   const { id } = req.params;
   const staff = req.cookies.Staff;
+  const staffProfile = await StaffService.displayStaffById(staff._id);
 
   const term = await RuleService.displayRuleById({ _id: id });
   try {
@@ -65,7 +68,7 @@ const renderEditTermsPage = async (req, res) => {
       title: "Edit term",
       content: "../admin/terms/editTermsPage",
       term,
-      staff,
+      staff: staffProfile,
       errorMessage: null,
       isFailed: false,
       role: staff.idRole.nameRole,
@@ -168,6 +171,7 @@ const deleteAllRule = async (req, res) => {
 const getAllRule = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
+    const staffProfile = await StaffService.displayStaffById(staff._id);
 
     const rules = await RuleService.getAllRule();
     let isHaveData = true;
@@ -179,7 +183,7 @@ const getAllRule = async (req, res) => {
       title: "List of terms",
       content: "../admin/terms/listTermsPage",
       rules,
-      staff,
+      staff: staffProfile,
       role: staff.idRole.nameRole,
       isHaveData,
     });

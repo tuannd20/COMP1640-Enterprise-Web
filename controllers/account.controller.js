@@ -22,12 +22,13 @@ const renderCreateAccountPage = async (req, res) => {
   const staff = req.cookies.Staff;
   const departments = await DepartmentService.getDepartmentActivated();
   const roles = await RoleService.getAllRole();
+  const staffProfile = await StaffService.displayStaffById(staff._id);
   res.render("partials/master", {
     title: "Create new account",
     content: "../admin/account/createAccountPage",
     departments,
     roles,
-    staff,
+    staff: staffProfile,
     errorMessageEmail: null,
     errorMessageSelect: null,
     errorMessagePhoneNumber: null,
@@ -42,6 +43,7 @@ const renderEditAccountPage = async (req, res) => {
   const staffByID = await StaffService.displayStaffById({ _id: id });
   const departments = await DepartmentService.getDepartmentActivated();
   const roles = await RoleService.getAllRole();
+  const staffProfile = await StaffService.displayStaffById(staff._id);
 
   let isHaveDepartments = true;
   if (departments.toString() === " ") {
@@ -54,7 +56,7 @@ const renderEditAccountPage = async (req, res) => {
     title: "Edit account",
     content: "../admin/account/editAccountPage",
     staffByID,
-    staff,
+    staff: staffProfile,
     role: staff.idRole.nameRole,
     departments,
     roles,
@@ -162,7 +164,7 @@ const renderEditProfilePage = async (req, res) => {
     return res.render("partials/master", {
       title: "Edit profile",
       content: "../staff/editProfilePage",
-      staff,
+      staff: staffProfile,
       staffProfile,
       isFailed: false,
       role: staff.idRole.nameRole,
@@ -177,6 +179,7 @@ const getAllStaff = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
     const allStaff = await StaffService.getAllStaff();
+    const staffProfile = await StaffService.displayStaffById(staff._id);
     const staffs = allStaff.filter((item) => item.idRole.nameRole === "Staff");
     // console.log(roleStaff);
     // console.log(
@@ -188,7 +191,7 @@ const getAllStaff = async (req, res) => {
       title: "List of accounts",
       content: "../admin/account/listAccountDataPage",
       staffs,
-      staff,
+      staff: staffProfile,
       role: staff.idRole.nameRole,
     });
   } catch (err) {

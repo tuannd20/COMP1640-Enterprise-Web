@@ -30,7 +30,7 @@
     >
       <div class="flex flex-row justify-between header-idea">
         <div class="flex flex-row items-center justify-center gap-2 mb-3">
-          <% if(idea.idStaffIdea.avatarImage === null) { %>
+          <% if(idea.idStaffIdea.avatarImage === "" || idea.idStaffIdea.avatarImage === null) { %>
           <img
             src="<%= process.env.BASE_URL %>image/avatar.png"
             alt=""

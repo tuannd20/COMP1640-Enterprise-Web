@@ -9,11 +9,11 @@
   <div class="mr-16 home_right">
     <div class="flex flex-row gap-2">
       <% if(staff) {%>
-        <% if(staff.avatarImage === null) { %>
+        <% if(staff.avatarImage === "" || staff.avatarImage === null) { %>
           <div class="shrink-0">
           <img
             src="<%= process.env.BASE_URL %>image/avatar.png"
-            alt=""
+            alt="avatar"
             class="w-9 h-9 border rounded-full"
           />
           </div>

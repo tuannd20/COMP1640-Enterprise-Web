@@ -64,6 +64,7 @@ const displayAllIdea = async (req, res) => {
     const departmentId = req.query.idDepartment;
     const exception = req.query.Exception;
     const polls = await pollService.getPollActivated();
+    const account = await staffService.displayStaffById(staff._id);
 
     const departments = await departmentService.getDepartmentActivated();
 
@@ -151,8 +152,8 @@ const displayAllIdea = async (req, res) => {
     });
 
     allIdea.docs.forEach((element) => {
-      if (element.urlFile != null) {
-        for (let i = 0; i < element.urlFile.length; i += 1) {
+      if (element.fileName != null) {
+        for (let i = 0; i < element.fileName.length; i += 1) {
           if (
             typeof element.urlFile[i] === "undefined" ||
             !isImageUrl(element.urlFile[i])
@@ -208,7 +209,7 @@ const displayAllIdea = async (req, res) => {
     return res.render("partials/master", {
       title: "Idea",
       content: "../staff/homePage",
-      staff,
+      staff: account,
       role: staff.idRole.nameRole,
       totalProducts: allIdea.totalDocs,
       totalPages: allIdea.totalPages,
@@ -291,8 +292,8 @@ const displayDetailIdea = async (req, res) => {
       idea.idStaffIdea = anonymous;
     }
 
-    if (idea.urlFile != null) {
-      for (let i = 0; i < idea.urlFile.length; i += 1) {
+    if (idea.fileName != null) {
+      for (let i = 0; i < idea.fileName.length; i += 1) {
         if (
           typeof idea.urlFile[i] === "undefined" ||
           !isImageUrl(idea.urlFile[i])
@@ -360,8 +361,8 @@ const getIdeaForStaff = async (req, res) => {
         "🚀 ~ file: renderIdea.controller.js:333 ~ awaitallIdea.docs.forEach ~ element:",
         element,
       );
-      if (element.urlFile != null) {
-        for (let i = 0; i < element.urlFile.length; i += 1) {
+      if (element.fileName != null) {
+        for (let i = 0; i < element.fileName.length; i += 1) {
           if (
             typeof element.urlFile[i] === "undefined" ||
             !isImageUrl(element.urlFile[i])
@@ -419,7 +420,7 @@ const getIdeaForStaff = async (req, res) => {
       title: "Your profile",
       content: "../staff/profilePage",
       data,
-      staff: staffPayload,
+      staff: staffProfile,
       role: staffPayload.idRole.nameRole,
       isHaveIdeas,
       staffProfile,

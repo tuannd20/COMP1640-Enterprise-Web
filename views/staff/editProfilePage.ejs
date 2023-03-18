@@ -42,7 +42,7 @@
       >
         <div class="flex justify-center">
           <div class="flex items-center space-x-6">
-            <% if(staffProfile.avatarImage === null) { %>
+            <% if(staffProfile.avatarImage === "" || staff.avatarImage === null) { %>
             <div class="shrink-0">
               <img
                 src="<%= process.env.BASE_URL %>image/avatar.png"

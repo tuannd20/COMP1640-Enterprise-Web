@@ -8,8 +8,22 @@ const pollService = require("../services/poll.service");
 const sendMail = require("../utilities/sendMail");
 const cloudinary = require("../utilities/cloudinary");
 
-const handleUploadFile = async (path) => {
+const handleUploadFile = async (path, type) => {
   const folder = "Idea";
+  if (type === "mp4") {
+    const cloudinaryResponse = await cloudinary.uploader.upload(path, {
+      folder,
+      resource_type: "video",
+    });
+
+    const resultVideo = {
+      url: cloudinaryResponse.url,
+      cloudinaryId: cloudinaryResponse.public_id,
+    };
+
+    return resultVideo;
+  }
+
   const cloudinaryResponse = await cloudinary.uploader.upload(path, {
     folder,
   });
@@ -48,8 +62,14 @@ const createIdea = async (req, res) => {
         console.log(path);
         fileNameUpload.push(originalname);
 
+        const fileExtension = originalname.slice(
+          // eslint-disable-next-line no-bitwise
+          ((originalname.lastIndexOf(".") - 1) >>> 0) + 2,
+        );
+        console.log("Get the extension of the uploaded file: ", fileExtension);
+
         // eslint-disable-next-line no-await-in-loop
-        const newPath = await handleUploadFile(path);
+        const newPath = await handleUploadFile(path, fileExtension);
         console.log("dataaa :", newPath);
 
         uploadData.push(newPath);

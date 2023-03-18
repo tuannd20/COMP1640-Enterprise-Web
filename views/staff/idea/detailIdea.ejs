@@ -3,7 +3,7 @@
     <div class="header idea drop-shadow-xl">
       <div class="flex flex-row justify-between header-idea">
         <div class="flex flex-row items-center justify-center gap-2 mt-2 ml-3">
-          <% if(data.ideas.idStaffIdea.avatarImage === null) { %>
+          <% if(data.ideas.idStaffIdea.avatarImage === "" || data.ideas.idStaffIdea.avatarImage === null) { %>
           <img
             src="<%= process.env.BASE_URL %>image/avatar.png"
             alt=""
@@ -43,7 +43,7 @@
     <div class="overflow-y-auto h-[82%]">
       <div class="content-idea">
         <div
-          class="w-full px-5 pt-2 mt-1 overflow-auto text-clip bg-zinc-300 h-60 sm:text-sm"
+          class="w-full px-5 pt-2 mt-1 mb-3 overflow-auto text-clip bg-zinc-300 h-20 sm:text-sm"
         >
           <p
             class="leading-6 overflow-hidden indent-0.5 text-justify max-h-52"
@@ -56,6 +56,12 @@
           >
             <%= data.ideas.contentIdea %>
           </p>
+        </div>
+        <div>
+          <video class="w-64 h-34 items-center" autoplay controls>
+            <source src="https://res.cloudinary.com/dd9ain71r/video/upload/v1679070857/Idea/r6xu87uyojulnmwypiic.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
 
