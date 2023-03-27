@@ -114,6 +114,18 @@ const findCategoryByIdDepartment = async (id) => {
   }
 };
 
+const getCategoryByFilter = async (filter) => {
+  try {
+    const result = await CategoryRepository.getCategoryByFilter(filter);
+    return result;
+  } catch (err) {
+    console.error(
+      "🚀 ~ file: category.service.js:122 ~ getCategoryByFilter ~ err:",
+      err,
+    );
+    return err;
+  }
+};
 module.exports = {
   createCategory,
   getAllCategory,
@@ -124,4 +136,5 @@ module.exports = {
   findByName,
   findCategoryByIdDepartment,
   updateStatusCategory,
+  getCategoryByFilter,
 };
