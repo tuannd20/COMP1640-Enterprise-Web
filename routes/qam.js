@@ -4,6 +4,7 @@ const router = express.Router();
 const PollController = require("../controllers/poll.controller");
 const DepartmentController = require("../controllers/department.controller");
 const AccountController = require("../controllers/manageQA.controller");
+const CategoryController = require("../controllers/category.controller");
 
 router.get("/", (req, res) => {
   res.render("homeStaff", { title: "Express" });
@@ -39,5 +40,6 @@ router.put("/polls/:id", PollController.updatePoll);
 router.delete("/polls/:id", PollController.deleteOnePoll);
 // router.get("/polls/delete-all", PollController.deleteAllPoll);
 // router.get("/polls/activated", PollController.getPollActivated);
+router.get("/categories", CategoryController.renderListCategoryPage);
 
 module.exports = router;

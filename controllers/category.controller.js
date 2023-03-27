@@ -4,10 +4,16 @@ const DepartmentService = require("../services/department.service");
 const renderListCategoryPage = async (req, res, next) => {
   try {
     const staff = req.cookies.Staff;
-    const departmentId = staff.idDepartment._id;
-    const categories = await CategoryService.findCategoryByIdDepartment(
-      departmentId,
-    );
+
+    let categories;
+    if (staff.idDepartment) {
+      const departmentId = staff.idDepartment._id;
+      categories = await CategoryService.findCategoryByIdDepartment(
+        departmentId,
+      );
+    } else {
+      categories = await CategoryService.getCategoryByFilter();
+    }
 
     let isHaveData = true;
     if (categories.toString() === "") {

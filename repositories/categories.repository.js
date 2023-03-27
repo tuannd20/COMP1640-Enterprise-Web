@@ -138,6 +138,20 @@ const getCategoryByDepartmentId = async (id) => {
   }
 };
 
+const getCategoryByFilter = async (filter) => {
+  try {
+    const result = await CategoryModel.find(filter)
+      .populate("idDepartment")
+      .sort({ createdAt: -1 });
+    return result;
+  } catch (err) {
+    console.error(
+      "🚀 ~ file: categories.repository.js:133 ~ getCategoryByDepartmentId ~ err:",
+      err,
+    );
+    return err;
+  }
+};
 module.exports = {
   readCategories,
   createCategory,
@@ -149,4 +163,5 @@ module.exports = {
   getCategoryActivated,
   getCategoryByDepartmentId,
   updateStatusOfCategory,
+  getCategoryByFilter,
 };
