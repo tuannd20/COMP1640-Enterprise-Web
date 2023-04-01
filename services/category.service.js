@@ -1,5 +1,14 @@
 const CategoryRepository = require("../repositories/categories.repository");
 
+const getAllCategories = async () => {
+  try {
+    const result = await CategoryRepository.getAllCategories();
+    return result;
+  } catch (error) {
+    return error;
+  }
+};
+
 const createCategory = async (data) => {
   try {
     const result = await CategoryRepository.createCategory(data);
@@ -127,6 +136,7 @@ const getCategoryByFilter = async (filter) => {
   }
 };
 module.exports = {
+  getAllCategories,
   createCategory,
   getAllCategory,
   updateCategory,

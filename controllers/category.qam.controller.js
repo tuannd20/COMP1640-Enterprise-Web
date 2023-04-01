@@ -4,16 +4,12 @@ const DepartmentService = require("../services/department.service");
 const renderListCategoryPage = async (req, res, next) => {
   try {
     const staff = req.cookies.Staff;
-
-    let categories;
-    if (staff.idDepartment) {
-      const departmentId = staff.idDepartment._id;
-      categories = await CategoryService.findCategoryByIdDepartment(
-        departmentId,
-      );
-    } else {
-      categories = await CategoryService.getCategoryByFilter();
-    }
+    // const departmentId = staff.idDepartment._id;
+    // const categories = await CategoryService.findCategoryByIdDepartment(
+    //   departmentId,
+    // );
+    const categories = await CategoryService.getAllCategories();
+    console.log(categories);
 
     let isHaveData = true;
     if (categories.toString() === "") {
@@ -24,13 +20,12 @@ const renderListCategoryPage = async (req, res, next) => {
 
     return res.render("partials/master", {
       title: "Category",
-      content: "../qa/category/listCategoryPage",
+      content: "../qam/qa/category/listCategoryPage",
       categories,
       staff,
       isHaveData,
       role: staff.idRole.nameRole,
     });
-    // return res.json(categories);
   } catch (err) {
     console.log(err);
     return err;
@@ -44,13 +39,11 @@ const renderCreateCategoryPage = async (req, res, next) => {
 
     res.render("partials/master", {
       title: "Category",
-      content: "../qa/category/createCategoryPage",
+      content: "../qam/qa/category/createCategoryPage",
       Departments,
       staff,
       isFailed: false,
       role: staff.idRole.nameRole,
-      idDepartment: staff.idDepartment._id,
-      nameDepartment: staff.idDepartment.nameDepartment,
     });
   } catch (error) {
     console.log(error);
@@ -75,7 +68,10 @@ const renderCreateCategoryPage = async (req, res, next) => {
 const createCategory = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
-    const formData = req.body;
+    const formData = {
+      idDepartment: req.body.department,
+      nameCategory: req.body.nameCategory,
+    };
     const name = req.body.nameCategory;
 
     const checkCategoryResit = await CategoryService.findByName(name);
@@ -83,7 +79,7 @@ const createCategory = async (req, res) => {
     if (!checkCategoryResit) {
       const category = await CategoryService.createCategory(formData);
       console.log(category);
-      return res.redirect("/qa/categories");
+      return res.redirect("/qam/categories");
     }
 
     const errorCategory = "Title is already exists";
@@ -91,7 +87,7 @@ const createCategory = async (req, res) => {
 
     return res.status(errorCode).render("partials/master", {
       title: "Create new Category",
-      content: "../qa/category/createCategoryPage",
+      content: "../qam/qa/category/createCategoryPage",
       errorMessage: errorCategory,
       code: errorCode,
       isFailed: true,
@@ -121,8 +117,6 @@ const getEditCategory = async (req, res, next) => {
       staff,
       isFailed: false,
       role: staff.idRole.nameRole,
-      idDepartment: staff.idDepartment._id,
-      nameDepartment: staff.idDepartment.nameDepartment,
     });
   } catch (err) {
     return err;
@@ -145,7 +139,7 @@ const updateCategory = async (req, res, next) => {
         { _id: id },
         { $set: updateObject },
       );
-      return res.redirect("/qa/categories");
+      return res.redirect("/qam/categories");
     }
     // return res.json(categories);
     const errorCategory = "Title is already exists";
@@ -153,7 +147,7 @@ const updateCategory = async (req, res, next) => {
 
     return res.render("partials/master", {
       title: "Edit Category",
-      content: "../qa/category/editCategoryPage",
+      content: "../qam/qa/category/editCategoryPage",
       errorMessage: errorCategory,
       code: errorCode,
       isFailed: true,
@@ -205,9 +199,9 @@ const deleteOneCategory = async (req, res, next) => {
         _id: id,
       });
       // return res.json(category);
-      return res.redirect("/qa/categories");
+      return res.redirect("/qam/categories");
     }
-    return res.redirect("/qa/categories");
+    return res.redirect("/qam/categories");
   } catch (err) {
     return err;
   }
@@ -216,7 +210,7 @@ const deleteOneCategory = async (req, res, next) => {
 const deleteAllCategory = async (req, res, next) => {
   try {
     const departments = await CategoryService.deleteAllCategory();
-    return res.redirect("/qa/categories");
+    return res.redirect("/qam/categories");
   } catch (err) {
     return err;
   }

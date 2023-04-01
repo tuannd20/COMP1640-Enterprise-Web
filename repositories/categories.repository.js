@@ -1,5 +1,18 @@
 const CategoryModel = require("../database/models/Category");
 
+const getAllCategories = async () => {
+  try {
+    const categories = await CategoryModel.find()
+      .populate("idDepartment")
+      .sort({ createdAt: -1 });
+
+    return categories;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
 const createCategory = async (data) => {
   try {
     const category = await CategoryModel.create(data);
@@ -30,7 +43,7 @@ const readCategories = async (options) => {
 
 const readCategoryById = async (id) => {
   try {
-    const category = await CategoryModel.findById(id);
+    const category = await CategoryModel.findById(id).populate("idDepartment");
     return category;
   } catch (err) {
     console.error(
@@ -153,6 +166,7 @@ const getCategoryByFilter = async (filter) => {
   }
 };
 module.exports = {
+  getAllCategories,
   readCategories,
   createCategory,
   readCategoryById,

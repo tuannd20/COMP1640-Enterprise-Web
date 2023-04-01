@@ -7,6 +7,8 @@ const DepartmentController = require("../controllers/department.controller");
 const CategoryController = require("../controllers/category.controller");
 const PollController = require("../controllers/poll.controller");
 
+router.get("/all-departments", DepartmentController.getAllDepartment);
+
 router.get(
   "/departments/activated",
   DepartmentController.getDepartmentActivated,
