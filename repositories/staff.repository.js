@@ -439,6 +439,36 @@ const updateStaff = async (id, data, departments, roles) => {
   }
 };
 
+const banAccountStaff = async (id, data) => {
+  try {
+    const { lockAccount } = data;
+    const staff = await StaffModel.updateMany(
+      { _id: id },
+      { lockAccount: true },
+    );
+
+    return staff;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+const unBanAccountStaff = async (id, data) => {
+  try {
+    const { lockAccount } = data;
+    const staff = await StaffModel.updateMany(
+      { _id: id },
+      { lockAccount: false },
+    );
+
+    return staff;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 // const deleteOneStaff = async (_id) => {
 //   try {
 //     // eslint-disable-next-line no-underscore-dangle
@@ -530,6 +560,77 @@ const findByPhoneNumberExist = async (id, phoneNumber) => {
   }
 };
 
+const handleEditProfile = async (id, payload) => {
+  try {
+    const profile = await StaffModel.updateOne(
+      { _id: id },
+      {
+        $set: {
+          address: payload.address,
+          phoneNumber: payload.phoneNumber,
+        },
+      },
+    );
+
+    return profile;
+  } catch (error) {
+    return error;
+  }
+};
+
+const handleEditProfileWithPhone = async (id, payload) => {
+  try {
+    const profile = await StaffModel.updateOne(
+      { _id: id },
+      {
+        $set: {
+          address: payload.address,
+        },
+      },
+    );
+
+    return profile;
+  } catch (error) {
+    return error;
+  }
+};
+
+const handleEditProfileWithAvatar = async (id, payload) => {
+  try {
+    const profile = await StaffModel.updateOne(
+      { _id: id },
+      {
+        $set: {
+          address: payload.address,
+          phoneNumber: payload.phoneNumber,
+          avatarImage: payload.avatarImage,
+        },
+      },
+    );
+
+    return profile;
+  } catch (error) {
+    return error;
+  }
+};
+
+const handleUpdatePassword = async (id, payload) => {
+  try {
+    const profile = await StaffModel.updateOne(
+      { _id: id },
+      {
+        $set: {
+          password: payload,
+        },
+      },
+    );
+
+    return profile;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   createStaff,
   updateStaff,
@@ -542,4 +643,10 @@ module.exports = {
   findByPhoneNumber,
   findByPhoneNumberExist,
   findByEmailExist,
+  banAccountStaff,
+  unBanAccountStaff,
+  handleEditProfile,
+  handleEditProfileWithAvatar,
+  handleEditProfileWithPhone,
+  handleUpdatePassword,
 };

@@ -1,10 +1,10 @@
-<div class="overflow-x-auto m-1">
+<div class="m-1 overflow-x-auto">
   <div
-    class="min-w-screen min-h-screen flex justify-center font-sans overflow-hidden"
+    class="flex justify-center min-h-screen overflow-hidden font-sans min-w-screen"
   >
     <div class="w-full ml-10 mr-10">
-      <div class="relative mt-20 mb-10 create-btn flex justify-start">
-        <a href="javascript:history.back()">
+      <div class="relative flex justify-start mt-20 mb-10 create-btn">
+        <a href="/qam/departments">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -22,10 +22,10 @@
         </a>
         <div class="m-auto text-2xl font-semibold">LIST OF QA</div>
       </div>
-      <div class="bg-white shadow-md rounded my-6">
+      <div class="my-6 bg-white rounded shadow-md">
         <div
           id="recipients"
-          class="p-8 mt-6 lg:mt-0 rounded shadow bg-white rounded my-6"
+          class="p-8 my-6 mt-6 bg-white rounded shadow lg:mt-0"
         >
           <table
             id="table_list_qa"
@@ -33,21 +33,21 @@
           >
             <thead>
               <tr
-                class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal"
+                class="text-sm leading-normal text-gray-600 uppercase bg-gray-200"
               >
-                <th data-priority="1" class="py-3 px-6 text-left">ID</th>
-                <th data-priority="2" class="py-3 px-6 text-left">Full Name</th>
-                <th data-priority="3" class="py-3 px-6 text-left">Email</th>
-                <th data-priority="4" class="py-3 px-6 text-left">Address</th>
-                <th data-priority="5" class="py-3 px-6 text-center">
+                <th data-priority="1" class="px-6 py-3 text-left">ID</th>
+                <th data-priority="2" class="px-6 py-3 text-left">Full Name</th>
+                <th data-priority="3" class="px-6 py-3 text-left">Email</th>
+                <th data-priority="4" class="px-6 py-3 text-left">Address</th>
+                <th data-priority="5" class="px-6 py-3 text-center">
                   Phone Number
                 </th>
-                <th data-priority="6" class="py-3 px-6 text-left">
+                <th data-priority="6" class="px-6 py-3 text-left">
                   Department
                 </th>
-                <th data-priority="7" class="py-3 px-6 text-left">Role</th>
-                <th data-priority="8" class="py-3 px-6 text-center">Active</th>
-                <th data-priority="9" class="py-3 px-6 text-center">Actions</th>
+                <th data-priority="7" class="px-6 py-3 text-left">Role</th>
+                <th data-priority="8" class="px-6 py-3 text-center">Active</th>
+                <th data-priority="9" class="px-6 py-3 text-center">Actions</th>
               </tr>
             </thead>
             <% if (staffs.length === 0) { %>
@@ -59,50 +59,50 @@
               </tr>
             </tbody>
             <% } else { %>
-            <tbody class="text-gray-600 text-sm font-light">
+            <tbody class="text-sm font-light text-gray-600">
               <% let count = staffs.length %> <% staffs.forEach(function(staff,
               index) { %>
               <tr class="border-b border-gray-200 hover:bg-gray-100">
-                <td class="py-3 px-6 text-left">
+                <td class="px-6 py-3 text-left">
                   <span class="font-medium"><%= ++index %></span>
                 </td>
-                <td class="py-3 px-6 text-left">
+                <td class="px-6 py-3 text-left">
                   <span class="font-medium"><%= staff.fullName %></span>
                 </td>
-                <td class="py-3 px-6 text-left">
+                <td class="px-6 py-3 text-left">
                   <span class="font-medium"><%= staff.email %></span>
                 </td>
-                <td class="py-3 px-6 text-left">
+                <td class="px-6 py-3 text-left">
                   <span class="font-medium"><%= staff.address %></span>
                 </td>
-                <td class="py-3 px-6 text-center">
+                <td class="px-6 py-3 text-center">
                   <span class="font-medium"><%= staff.phoneNumber %></span>
                 </td>
-                <td class="py-3 px-6 text-left">
+                <td class="px-6 py-3 text-left">
                   <span class="font-medium"
                     ><%= staff.idDepartment.nameDepartment %></span
                   >
                 </td>
-                <td class="py-3 px-6 text-left">
+                <td class="px-6 py-3 text-left">
                   <span class="font-medium"><%= staff.idRole.nameRole %></span>
                 </td>
-                <% if (staff.lockAccount === true) { %>
-                <td class="py-3 px-6 text-center">
+                <% if (staff.lockAccount === false) { %>
+                <td class="px-6 py-3 text-center">
                   <span
-                    class="bg-green-600 text-white py-1 px-3 rounded-full text-xs"
+                    class="px-3 py-1 text-xs text-white bg-green-600 rounded-full"
                     >Active</span
                   >
                 </td>
                 <%}else { %>
-                <td class="py-3 px-6 text-center">
+                <td class="px-6 py-3 text-center">
                   <span
-                    class="bg-red-600 text-white py-1 px-3 rounded-full text-xs"
+                    class="px-3 py-1 text-xs text-white bg-red-600 rounded-full"
                     >Block</span
                   >
                 </td>
                 <% } %>
-                <td class="py-3 px-6 text-center">
-                  <div class="flex item-center justify-center">
+                <td class="px-6 py-3 text-center">
+                  <div class="flex justify-center item-center">
                     <div
                       class="w-6 mr-2 transform hover:text-sky-900 hover:scale-110"
                     >
@@ -134,3 +134,23 @@
     </div>
   </div>
 </div>
+
+<script>
+  const dropMenu = document.getElementById("menu_icon");
+  const drop = document.getElementById("dropdown");
+  function dropdown() {
+    drop.classList.toggle("hidden");
+  }
+
+  function dropdownDismiss() {
+    drop.classList.add("hidden");
+  }
+
+  dropMenu.addEventListener("click", () => {
+    dropdown();
+  });
+
+  drop.addEventListener("mouseleave", () => {
+    dropdownDismiss();
+  });
+</script>

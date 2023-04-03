@@ -12,6 +12,10 @@ const PollSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    isHandleActionIdea: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true },
 );

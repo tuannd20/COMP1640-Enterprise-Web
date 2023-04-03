@@ -1,4 +1,6 @@
 const CommentService = require("../services/comment.service");
+const IdeaService = require("../services/idea.service");
+const sendMail = require("../utilities/sendMail");
 
 const displayAllComment = async (req, res) => {
   try {
@@ -29,12 +31,18 @@ const createComment = async (req, res) => {
     const idStaffComment = staff._id;
     const { comment, idIdea } = req.body;
     if (!comment || !idIdea) return res.redirect("/errors");
-
     const comments = await CommentService.createComment({
       idIdea,
       idStaffComment,
       contentComment: comment,
     });
+
+    const idea = await IdeaService.getIdea(idIdea);
+    sendMail.sendConfirmationEmail(
+      idea.idStaffIdea.email,
+      "<h1> you has new comment</h1>",
+      "new comment",
+    );
 
     return res.send(comments);
   } catch (err) {
@@ -43,8 +51,19 @@ const createComment = async (req, res) => {
   }
 };
 
+const deleteComment = async (req, res) => {
+  try {
+    const { idComment } = req.params;
+    await CommentService.deleteComment(idComment);
+    return res.send("Delete success");
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   displayAllComment,
   displayAllCommentOfIdea,
   createComment,
+  deleteComment,
 };

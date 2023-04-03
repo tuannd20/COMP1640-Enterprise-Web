@@ -65,7 +65,24 @@ const findByOptions = async (options) => {
   }
 };
 
-const getAllWithQuery = async (options, query) => {
+const getAllWithQuery = async (page, query) => {
+  try {
+    const limit = 5;
+    const drop = (page - 1) * limit;
+    const Idea = await ideaModel
+      .find(query)
+      .populate("idStaffIdea")
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .skip(drop);
+    return Idea;
+  } catch (err) {
+    console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);
+    return err;
+  }
+};
+
+const getIdeaProfileWithQuery = async (options, query) => {
   try {
     const Idea = await ideaModel.paginate(query, options);
     return Idea;
@@ -75,6 +92,28 @@ const getAllWithQuery = async (options, query) => {
   }
 };
 
+const getAllByQuery = async (query) => {
+  try {
+    const Idea = await ideaModel.find(query);
+    return Idea;
+  } catch (err) {
+    console.error("🚀 ~ file: idea.repository.js:47 ~ readIdea ~ err", err);
+    return err;
+  }
+};
+
+const getAllNotPaginate = async (filter) => {
+  try {
+    const Idea = await ideaModel.find(filter);
+    return Idea;
+  } catch (err) {
+    console.error(
+      "🚀 ~ file: idea.repository.js:83 ~ getAllNotPaginate ~ err:",
+      err,
+    );
+    return err;
+  }
+};
 module.exports = {
   findByOptions,
   createIdea,
@@ -83,4 +122,7 @@ module.exports = {
   deleteIdea,
   getAll,
   getAllWithQuery,
+  getAllByQuery,
+  getIdeaProfileWithQuery,
+  getAllNotPaginate,
 };

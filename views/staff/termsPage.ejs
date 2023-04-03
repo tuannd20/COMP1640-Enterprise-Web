@@ -1,6 +1,6 @@
 <Main class="pt-[100px] w-3/5 m-auto min-h-screen">
   <div
-    class="mb-10 relative p-3 border-2 idea border-stone-700 rounded-2xl h-auto opacity-80 overflow-y-auto"
+    class="relative h-auto p-3 mb-10 overflow-y-auto border-2 idea border-stone-700 rounded-2xl opacity-80"
   >
     <div class="flex p-3 text-2xl font-semibold border-b-2 mb- title-create">
       <a href="/">
@@ -26,9 +26,11 @@
       <div class="flex items-center justify-center">
         <div class="mx-auto w-full max-w-[550px]">
           <% rules?.forEach(function(rule,index) { %>
-        <div class="mb-5">
-            <p class="text-xl font-extrabold text-gray-900 dark:text-black"> <%= index + 1 %>. <%= rule.title %>  </p>
-            <p class="text-start"> <%= rule.contentRule %> </p>
+          <div class="mb-5">
+            <p class="text-xl font-extrabold text-gray-900 dark:text-black">
+              <%= index + 1 %>. <%= rule.title %>
+            </p>
+            <p class="text-start"><%= rule.contentRule %></p>
           </div>
           <% }) %>
         </div>
@@ -36,3 +38,22 @@
     </div>
   </div>
 </Main>
+<script>
+  const dropMenu = document.getElementById("menu_icon");
+  const drop = document.getElementById("dropdown");
+  function dropdown() {
+    drop.classList.toggle("hidden");
+  }
+
+  function dropdownDismiss() {
+    drop.classList.add("hidden");
+  }
+
+  dropMenu.addEventListener("click", () => {
+    dropdown();
+  });
+
+  drop.addEventListener("mouseleave", () => {
+    dropdownDismiss();
+  });
+</script>

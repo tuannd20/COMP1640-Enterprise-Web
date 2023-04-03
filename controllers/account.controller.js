@@ -6,6 +6,8 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-self-assign */
 /* eslint-disable object-curly-newline */
+const fs = require("fs");
+const bcrypt = require("bcrypt");
 const StaffService = require("../services/staff.service");
 const DepartmentService = require("../services/department.service");
 const RoleService = require("../services/role.service");
@@ -82,15 +84,24 @@ const createStaff = async (req, res) => {
   try {
     const staff = req.cookies.Staff;
 
+    const salt = await bcrypt.genSalt(10);
+    const hashed = await bcrypt.hash(req.body.password, salt);
+
     const formData = req.body;
     console.log("body controller", formData);
-    const results = await StaffService.createStaff(formData);
+    const payload = {
+      email: req.body.email,
+      fullName: req.body.fullName,
+      idRole: req.body.idRole,
+      idDepartment: req.body.idDepartment,
+      phoneNumber: req.body.phoneNumber,
+      address: req.body.address,
+      password: hashed,
+    };
+    const results = await StaffService.createStaff(payload);
     console.log(results);
 
-    const departmentDB = results.data.departmentRenders.map((department) => ({
-      _id: department._id,
-      nameDepartment: department.name,
-    }));
+    const departmentDB = await DepartmentService.getDepartmentActivated();
 
     const roleDB = results.data.roleRenders.map(
       (role) =>
@@ -147,12 +158,12 @@ const renderEditProfilePage = async (req, res) => {
   const { id } = req.params;
   try {
     const staffProfile = await StaffService.displayStaffById(id);
-    console.log(staffProfile);
     return res.render("partials/master", {
       title: "Edit profile",
       content: "../staff/editProfilePage",
       staff,
       staffProfile,
+      isFailed: false,
       role: staff.idRole.nameRole,
     });
   } catch (err) {
@@ -192,10 +203,7 @@ const updateStaff = async (req, res) => {
     const staffByID = await StaffService.displayStaffById({ _id: id });
     // const updateObject = req.body;
     const results = await StaffService.updateStaff(id, req.body);
-    const departmentDB = results.data.departmentRenders.map((department) => ({
-      _id: department._id,
-      nameDepartment: department.name,
-    }));
+    const departmentDB = await DepartmentService.getDepartmentActivated();
 
     const roleDB = results.data.roleRenders.map(
       (role) =>
@@ -246,16 +254,33 @@ const editProfilePage = async (req, res) => {
   }
 };
 
-// const deleteOneStaff = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const staff = await StaffService.deleteOneStaff(id);
-//     return res.redirect("/admin/account");
-//   } catch (err) {
-//     console.log(err);
-//     return err;
-//   }
-// };
+const banAccountStaff = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const banStaff = await StaffService.banAccountStaff(id, {
+      lockAccount: true,
+    });
+
+    return res.redirect("/admin/account");
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+const unBanAccountStaff = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const unbanStaff = await StaffService.unBanAccountStaff(id, {
+      lockAccount: false,
+    });
+
+    return res.redirect("/admin/account");
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
 
 // const deleteAllStaff = async (req, res) => {
 //   try {
@@ -333,6 +358,64 @@ const renderExampleAccountPage = async (req, res) => {
   // return res.json(staff);
 };
 
+const handleUpdateProfileAccount = async (req, res) => {
+  try {
+    const staff = req.cookies.Staff;
+    const { idProfile } = req.params;
+    const profileBody = req.body;
+
+    const staffProfile = await StaffService.displayStaffById(idProfile);
+
+    let newFilePath;
+    if (req.file) {
+      const filePath = req.file.path;
+
+      const fileName = req.file.originalname;
+      newFilePath = `public/uploads/${fileName}`;
+      fs.renameSync(filePath, newFilePath);
+    }
+
+    const checkPhoneNumber = await StaffService.findByPhoneNumber(
+      idProfile,
+      profileBody.phoneNumber,
+    );
+
+    if (checkPhoneNumber.length === 0) {
+      const data = {
+        address: profileBody.address,
+        phoneNumber: profileBody.phoneNumber,
+        avatarImage: null,
+      };
+      if (newFilePath) {
+        data.avatarImage = newFilePath.slice(7);
+      }
+
+      const staffsProfile = await StaffService.handleUpdateProfile(
+        idProfile,
+        data,
+      );
+
+      return res.redirect(`/profile/edit/${idProfile}`);
+      // return res.json(staffsProfile);
+    }
+
+    const errorProfilePhoneNumber = "* The phone number is already exists";
+
+    return res.status(400).render("partials/master", {
+      title: "Edit profile",
+      content: "../staff/editProfilePage",
+      staff,
+      errorMessage: errorProfilePhoneNumber,
+      currentPhone: profileBody.phoneNumber,
+      isFailed: true,
+      staffProfile,
+      role: staff.idRole.nameRole,
+    });
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   index,
   renderCreateAccountPage,
@@ -348,4 +431,7 @@ module.exports = {
   renderEditProfilePage,
   editProfilePage,
   renderExampleAccountPage,
+  banAccountStaff,
+  unBanAccountStaff,
+  handleUpdateProfileAccount,
 };

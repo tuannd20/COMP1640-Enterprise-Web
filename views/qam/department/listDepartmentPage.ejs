@@ -1,13 +1,13 @@
-<div class="overflow-x-auto m-1">
+<div class="m-1 overflow-x-auto">
   <div
     class="flex justify-center min-h-screen overflow-hidden font-sans min-w-screen"
   >
     <div class="w-full select-none lg:w-5/6">
-      <div class="relative mt-20 mb-10 create-btn flex justify-end">
+      <div class="relative flex justify-end mt-20 mb-10 create-btn">
         <a href="qas">
           <button
             type="button"
-            class="inline-block px-6 py-4 mr-5 bg-sky-900 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-sky-400 hover:shadow-lg focus:bg-blue-400 focus:shadow-lg focus:outline-none focus:ring-0 active: active:shadow-lg transition duration-150 ease-in-out"
+            class="inline-block px-6 py-4 mr-5 text-xs font-medium leading-tight text-white uppercase transition duration-150 ease-in-out rounded shadow-md bg-sky-900 hover:bg-sky-400 hover:shadow-lg focus:bg-blue-400 focus:shadow-lg focus:outline-none focus:ring-0 active: active:shadow-lg"
           >
             List QA
           </button>
@@ -15,7 +15,7 @@
         <a href="/qam/departments/create-page">
           <button
             type="button"
-            class="inline-block px-6 py-4 bg-sky-900 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-sky-400 hover:shadow-lg focus:bg-blue-400 focus:shadow-lg focus:outline-none focus:ring-0 active: active:shadow-lg transition duration-150 ease-in-out"
+            class="inline-block px-6 py-4 text-xs font-medium leading-tight text-white uppercase transition duration-150 ease-in-out rounded shadow-md bg-sky-900 hover:bg-sky-400 hover:shadow-lg focus:bg-blue-400 focus:shadow-lg focus:outline-none focus:ring-0 active: active:shadow-lg"
           >
             New Department
           </button>
@@ -25,7 +25,7 @@
       <div class="">
         <div
           id="recipients"
-          class="p-8 mt-6 lg:mt-0 rounded shadow bg-white rounded my-6"
+          class="p-8 my-6 mt-6 bg-white rounded shadow lg:mt-0"
         >
           <table
             id="table_list_department"
@@ -33,7 +33,7 @@
           >
             <thead>
               <tr
-                class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal"
+                class="text-sm leading-normal text-gray-600 uppercase bg-gray-200"
               >
                 <th data-priority="1">No</th>
                 <th data-priority="2">Name Department</th>
@@ -79,12 +79,12 @@
                 department.staffQA.forEach(function(staff) { %>
 
                 <td class="px-6 py-3 text-center">
-                  <div class="flex flex-col justify-center items-center gap-2">
+                  <div class="flex flex-col items-center justify-center gap-2">
                     <% if (staff.avatarImage) { %>
                     <img
                       src="<%= process.env.BASE_URL %>image/<%= staff.avatarImage%>"
                       alt=""
-                      class="w-8 h-8 border rounded-full block item-center"
+                      class="block w-8 h-8 border rounded-full item-center"
                     />
                     <%}else { %>
                     <img
@@ -96,14 +96,14 @@
 
                     <a
                       href="qas/edit-page/<%= staff._id%>"
-                      class="text-sm text-sky-900 font-normal hover:text-gray-400"
+                      class="text-sm font-normal text-sky-900 hover:text-gray-400"
                       ><%= staff.fullName %></a
                     >
                   </div>
                 </td>
                 <% }) %><%}else { %>
                 <td class="px-6 py-3 text-center">
-                  <div class="flex flex-col justify-center items-center gap-2">
+                  <div class="flex flex-col items-center justify-center gap-2">
                     <img
                       src="<%= process.env.BASE_URL %>image/avatar.png"
                       alt=""
@@ -111,7 +111,7 @@
                     />
                     <a
                       href="qas/create-page/<%= department._id%>"
-                      class="text-sm text-sky-900 font-normal hover:text-gray-400"
+                      class="text-sm font-normal text-sky-900 hover:text-gray-400"
                       >Choose QA</a
                     >
                   </div>
@@ -221,11 +221,11 @@
                       data-modal-toggle="popup-modal"
                       data-category-id="<%= department._id%>"
                       type="button"
-                      class="trashDepartment w-6 mr-2 transform hover:text-sky-900 hover:scale-110"
+                      class="w-6 mr-2 transform trashDepartment hover:text-sky-900 hover:scale-110"
                     >
                       <input
                         type="text"
-                        class="getIdDepartment hidden"
+                        class="hidden getIdDepartment"
                         value="<%= department._id%>"
                       />
                       <svg
@@ -345,4 +345,24 @@
       };
     });
   }
+</script>
+
+<script>
+  const dropMenu = document.getElementById("menu_icon");
+  const drop = document.getElementById("dropdown");
+  function dropdown() {
+    drop.classList.toggle("hidden");
+  }
+
+  function dropdownDismiss() {
+    drop.classList.add("hidden");
+  }
+
+  dropMenu.addEventListener("click", () => {
+    dropdown();
+  });
+
+  drop.addEventListener("mouseleave", () => {
+    dropdownDismiss();
+  });
 </script>

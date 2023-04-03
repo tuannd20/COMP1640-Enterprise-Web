@@ -120,6 +120,19 @@ const getPollNewest = async () => {
   }
 };
 
+const handleActionIdea = async (id) => {
+  try {
+    const resultAction = await PollModel.findOneAndUpdate(
+      { _id: id },
+      { isHandleActionIdea: false },
+    );
+
+    return resultAction;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   createPoll,
   getAllPoll,
@@ -133,4 +146,5 @@ module.exports = {
   getPollInactive,
   lastPoll,
   getPollNewest,
+  handleActionIdea,
 };
